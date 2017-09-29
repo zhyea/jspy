@@ -3,5 +3,5 @@
 /.project
 .classpath
 /logs/
-.idea/
+.idea
 *.iml
