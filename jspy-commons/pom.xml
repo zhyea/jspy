@@ -12,7 +12,7 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>jspy-core</artifactId>
+	<artifactId>jspy-commons</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
