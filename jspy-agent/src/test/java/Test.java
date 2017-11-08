@@ -6,7 +6,9 @@ public class Test {
 
 
     public static void main(String[] args) {
-        new Person("robin", 16).act();
+        Person robin = new Person("robin", 16);
+        robin.act();
+        robin.think();
     }
 
 
@@ -23,6 +25,10 @@ public class Test {
 
         public void act() {
             System.out.println(name + " is running.");
+        }
+
+        public void think() {
+            System.out.println(name + " is thinking");
         }
 
         public String getName() {

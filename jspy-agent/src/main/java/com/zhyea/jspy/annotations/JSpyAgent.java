@@ -12,6 +12,8 @@ public class JSpyAgent {
         System.out.println("-----options: " + options);
         ins.addTransformer(new PrintTransformer());
 
+        JSpyAgent.class.getDeclaringClass();
+
     }
 
 
