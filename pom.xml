@@ -38,6 +38,7 @@
         <module>jspy-core</module>
         <module>jspy-commons</module>
         <module>jspy-agent</module>
+        <module>jspy-annotations</module>
     </modules>
 
 </project>
