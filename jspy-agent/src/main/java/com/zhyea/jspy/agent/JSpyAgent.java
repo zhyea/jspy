@@ -1,6 +1,6 @@
-package com.zhyea.jspy.annotations;
+package com.zhyea.jspy.agent;
 
-import com.zhyea.jspy.annotations.transformer.PrintTransformer;
+import com.zhyea.jspy.agent.transformer.PrintTransformer;
 
 import java.lang.instrument.Instrumentation;
 
