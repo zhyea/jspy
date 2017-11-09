@@ -1,4 +1,4 @@
-package com.zhyea.jspy.sample;
+package com.zhyea.jspy.sample.instrument;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
