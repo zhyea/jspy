@@ -1,4 +1,4 @@
-package com.zhyea.jspy.annotations;
+package com.zhyea.jspy.agent;
 
 
 import org.objectweb.asm.ClassReader;
