@@ -14,6 +14,7 @@ public class PrintTransformer implements ClassFileTransformer {
                             ProtectionDomain protectionDomain,
                             byte[] classfileBuffer) throws IllegalClassFormatException {
 
+        System.out.println("----- loader: " + loader);
         System.out.println("----- name: " + className);
         System.out.println("----- redefine: " + classBeingRedefined);
         System.out.println("----- domain: " + protectionDomain);
