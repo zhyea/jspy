@@ -11,8 +11,6 @@ public class AddSecurityCheckMethodAdapter extends MethodAdapter {
     }
 
     public void visitCode() {
-        visitMethodInsn(Opcodes.INVOKESTATIC,
-                "SecurityChecker",
-                "checkSecurity", "()V");
+        visitMethodInsn(Opcodes.INVOKESTATIC, SecurityChecker.class.getName(), "checkSecurity", "()V");
     }
 }
