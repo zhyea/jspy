@@ -6,11 +6,6 @@ public class Test {
 
 
     public static void main(String[] args) {
-        Person robin = new Person("robin", 16);
-        System.out.println("########################################");
-        robin.act();
-        robin.think();
-        System.out.println("########################################");
     }
 
 

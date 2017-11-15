@@ -23,6 +23,16 @@ public class JSpyTransformer implements ClassFileTransformer {
                             Class<?> classBeingRedefined,
                             ProtectionDomain protectionDomain,
                             byte[] classfileBuffer) throws IllegalClassFormatException {
-        return new byte[0];
+        if (check(className)) {
+
+        }
+
+
+        return null;
+    }
+
+
+    private boolean check(String className) {
+        return false;
     }
 }
