@@ -11,7 +11,6 @@ import java.security.ProtectionDomain;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.zhyea.jspy.agent.constant.Config.MONITOR_PACKAGES;
-import static com.zhyea.jspy.agent.tools.MD5.md5;
 
 public class JSpyTransformer implements ClassFileTransformer {
 
@@ -28,14 +27,10 @@ public class JSpyTransformer implements ClassFileTransformer {
 
 
     @Override
-    public byte[] transform(ClassLoader loader,
-                            String className,
-                            Class<?> classBeingRedefined,
-                            ProtectionDomain protectionDomain,
-                            byte[] classfileBuffer) throws IllegalClassFormatException {
+    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 
         if (check(className)) {
-            String md5Name = md5(className);
+            String md5Name = "";//md5(className);
             if (map.containsKey(md5Name)) {
                 return map.get(md5Name);
             }
