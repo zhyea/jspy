@@ -1,5 +1,10 @@
 package com.zhyea.jspy.sample;
 
+
+import org.objectweb.asm.Type;
+
+import static org.objectweb.asm.Opcodes.IMUL;
+
 public class Test {
 
 
@@ -8,6 +13,8 @@ public class Test {
 
 
     public static void main(String[] args) throws Exception {
+
+        System.out.println(Type.BOOLEAN_TYPE.getOpcode(IMUL));
 
         System.out.println(Test.class.getName().matches("abc.*"));
 

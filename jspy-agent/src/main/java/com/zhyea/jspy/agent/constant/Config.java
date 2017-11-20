@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public final class Config {
 
-    private static final String[] MONITOR_PACKAGES;
+    public static final String[] MONITOR_PACKAGES;
 
     static {
         PropKit.load("/jspy.properties");
@@ -14,7 +14,7 @@ public final class Config {
     }
 
 
-    public static String[] getMonitorPackages() {
+    private static String[] getMonitorPackages() {
         String packages = PropKit.getProp("monitor.packages");
         if (null != packages) {
             String[] arr = packages.split(";");

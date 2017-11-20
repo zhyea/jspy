@@ -1,44 +1,43 @@
 package com.zhyea.jspy.agent.asm;
 
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.commons.AdviceAdapter;
 
-import static org.objectweb.asm.Opcodes.*;
-
-public class TimerMethodAdapter extends MethodVisitor {
+public class TimerMethodAdapter extends AdviceAdapter {
 
     private String owner;
 
     private boolean isInterface;
 
-    public TimerMethodAdapter(MethodVisitor methodVisitor, String owner, boolean isInterface) {
-        super(ASM6, methodVisitor);
-        this.owner = owner;
+
+    public TimerMethodAdapter(final MethodVisitor methodVisitor,
+                              final int access,
+                              final String name,
+                              final String desc,
+                              final boolean isInterface) {
+        super(ASM6, methodVisitor, access, name, desc);
+        this.owner = name;
         this.isInterface = isInterface;
     }
 
     @Override
-    public void visitCode() {
-        mv.visitCode();
+    protected void onMethodEnter() {
         mv.visitFieldInsn(GETSTATIC, owner, "timer", "J");
-        mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", isInterface);
+        mv.visitMethodInsn(INVOKESTATIC, owner, "currentTimeMillis", "()J", isInterface);
         mv.visitInsn(LSUB);
         mv.visitFieldInsn(PUTSTATIC, owner, "timer", "J");
     }
 
     @Override
-    public void visitInsn(int opcode) {
-        if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
-            mv.visitFieldInsn(GETSTATIC, owner, "timer", "J");
-            mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", isInterface);
-            mv.visitInsn(LADD);
-            mv.visitFieldInsn(PUTSTATIC, owner, "timer", "J");
-        }
-        mv.visitInsn(opcode);
+    protected void onMethodExit(int opcode) {
+        mv.visitFieldInsn(GETSTATIC, owner, "timer", "J");
+        mv.visitMethodInsn(INVOKESTATIC, owner, "currentTimeMillis", "()J", isInterface);
+        mv.visitInsn(LADD);
+        mv.visitFieldInsn(PUTSTATIC, owner, "timer", "J");
     }
 
     @Override
     public void visitMaxs(int maxStack, int maxLocals) {
-        mv.visitMaxs(maxStack + 4, maxLocals);
+        super.visitMaxs(maxStack + 4, maxLocals);
     }
-
 }
