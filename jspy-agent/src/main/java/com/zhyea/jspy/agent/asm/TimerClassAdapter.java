@@ -25,6 +25,9 @@ public class TimerClassAdapter extends ClassVisitor {
         isInterface = (access & ACC_INTERFACE) != 0;
     }
 
+
+
+
     @Override
     public MethodVisitor visitMethod(int access,
                                      String name,
@@ -32,7 +35,7 @@ public class TimerClassAdapter extends ClassVisitor {
                                      String signature,
                                      String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if (!isInterface && mv != null && !name.equals("<init>")) {
+        if (!isInterface && mv != null) {
             mv = new TimerMethodAdapter(mv, access, name, desc, isInterface);
         }
         return mv;

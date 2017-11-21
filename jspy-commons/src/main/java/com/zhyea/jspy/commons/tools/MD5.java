@@ -1,13 +1,15 @@
 package com.zhyea.jspy.commons.tools;
 
 import java.security.MessageDigest;
+import java.util.concurrent.RejectedExecutionException;
 
-public final class StringKit {
+public final class MD5 {
+
 
     public static String md5(String src) {
         try {
-            MessageDigest md5 = MessageDigest.getInstance("md5");
-            byte[] bytes = md5.digest(src.getBytes());
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            byte[] bytes = md5.digest(src.getBytes("UTF-8"));
             return toHex(bytes);
         } catch (Exception e) {
             e.printStackTrace();
@@ -15,11 +17,10 @@ public final class StringKit {
         }
     }
 
-    public static String toHex(byte[] bytes) {
+
+    private static String toHex(byte[] bytes) {
         StringBuffer md5str = new StringBuffer();
-        int digital;
-        for (int i = 0; i < bytes.length; i++) {
-            digital = bytes[i];
+        for (int digital : bytes) {
             if (digital < 0) {
                 digital += 256;
             }
@@ -29,5 +30,10 @@ public final class StringKit {
             md5str.append(Integer.toHexString(digital));
         }
         return md5str.toString().toUpperCase();
+    }
+
+
+    private MD5() {
+        throw new RejectedExecutionException("cannot use private constructor.");
     }
 }

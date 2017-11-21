@@ -1,4 +1,4 @@
-package com.zhyea.jspy.sample.asm;
+package com.zhyea.jspy.sample.model;
 
 public class AccountChecker {
 
