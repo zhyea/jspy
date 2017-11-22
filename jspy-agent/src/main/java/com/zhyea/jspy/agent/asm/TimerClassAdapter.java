@@ -9,6 +9,7 @@ import static org.objectweb.asm.Opcodes.ASM6;
 public class TimerClassAdapter extends ClassVisitor {
 
     private boolean isInterface;
+    private String owner;
 
     public TimerClassAdapter(ClassVisitor classVisitor) {
         super(ASM6, classVisitor);
@@ -23,9 +24,8 @@ public class TimerClassAdapter extends ClassVisitor {
                       String[] interfaces) {
         cv.visit(version, access, name, signature, superName, interfaces);
         isInterface = (access & ACC_INTERFACE) != 0;
+        owner = name;
     }
-
-
 
 
     @Override
@@ -36,7 +36,7 @@ public class TimerClassAdapter extends ClassVisitor {
                                      String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
         if (!isInterface && mv != null) {
-            mv = new TimerMethodAdapter(mv, access, name, desc, isInterface);
+            mv = new TimerMethodAdapter(mv, access, name, desc, owner, isInterface);
         }
         return mv;
     }

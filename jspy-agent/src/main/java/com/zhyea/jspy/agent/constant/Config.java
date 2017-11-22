@@ -21,7 +21,7 @@ public final class Config {
             Arrays.sort(arr);
             return arr;
         }
-        throw new RuntimeException("Monitor packages is blank, please set 'monitor.packages' in jspy.properties");
+        return new String[]{};
     }
 
 }

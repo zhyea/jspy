@@ -24,8 +24,9 @@ public class ClassTracer {
 
     /**
      * 类轨迹跟踪方法。
+     *
      * @param clazz 要跟踪分析的类
-     * @param out
+     * @param out   跟踪结果输出流
      */
     public static void trace(Class clazz, OutputStream out) {
         try {

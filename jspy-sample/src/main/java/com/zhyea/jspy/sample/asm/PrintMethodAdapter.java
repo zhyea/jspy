@@ -1,5 +1,6 @@
 package com.zhyea.jspy.sample.asm;
 
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.commons.AdviceAdapter;
 
@@ -13,6 +14,14 @@ public class PrintMethodAdapter extends AdviceAdapter {
                               final String desc) {
         super(ASM6, methodVisitor, access, name, desc);
         this.owner = name;
+    }
+
+
+    @Override
+    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+        super.visitAnnotation(desc, visible);
+        System.out.println("------method annotation : " + desc + " " + visible);
+        return null;
     }
 
     @Override

@@ -28,8 +28,11 @@ public class JSpyTransformer implements ClassFileTransformer {
 
 
     @Override
-    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-
+    public byte[] transform(ClassLoader loader,
+                            String className,
+                            Class<?> classBeingRedefined,
+                            ProtectionDomain protectionDomain,
+                            byte[] classfileBuffer) throws IllegalClassFormatException {
         if (check(className)) {
             String md5Name = md5(className);
             if (map.containsKey(md5Name)) {

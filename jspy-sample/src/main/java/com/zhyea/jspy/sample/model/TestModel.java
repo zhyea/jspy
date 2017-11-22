@@ -1,16 +1,15 @@
 package com.zhyea.jspy.sample.model;
 
-import com.zhyea.jspy.agent.tools.Watcher;
+import com.zhyea.jspy.annotations.JSpyTimer;
 
+@JSpyTimer
 public class TestModel {
 
     private int member = 0;
 
+    @JSpyTimer
     public void operation() {
-        long start = System.currentTimeMillis();
         System.out.println("operation...");
-        long time = System.currentTimeMillis() - start;
-        Watcher.add("methodName", time);
     }
 
 }

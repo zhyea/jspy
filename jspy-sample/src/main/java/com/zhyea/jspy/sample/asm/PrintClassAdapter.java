@@ -1,6 +1,7 @@
 package com.zhyea.jspy.sample.asm;
 
 
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -23,7 +24,15 @@ public class PrintClassAdapter extends ClassVisitor {
         System.out.println(name + " extends " + superName + " {");
     }
 
+    @Override
+    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+        super.visitAnnotation(desc, visible);
+        System.out.println("-------class annotation: " + desc + " " + visible);
+        return null;
+    }
 
+
+    @Override
     public FieldVisitor visitField(int access,
                                    String name,
                                    String desc,
