@@ -1,7 +1,8 @@
 package com.zhyea.jspy.commons.tools;
 
+import com.zhyea.jspy.commons.model.TimerRecord;
+
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static com.zhyea.jspy.commons.tools.MD5.md5;
 
@@ -10,14 +11,18 @@ import static com.zhyea.jspy.commons.tools.MD5.md5;
  */
 public class TimerClerk {
 
-    private static final ConcurrentHashMap<String, AtomicLong> counter = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, TimerRecord> counter = new ConcurrentHashMap<>();
 
 
     public static void add(String name, long executeMills) {
         String id = md5(name);
-
-
+        if (!counter.containsKey(id)) {
+            TimerRecord record = new TimerRecord(id, name);
+            counter.putIfAbsent(id, record);
+        }
     }
+
+
 
 
 }

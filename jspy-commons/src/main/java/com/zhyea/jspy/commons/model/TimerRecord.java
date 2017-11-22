@@ -9,13 +9,33 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class TimerRecord {
 
+    /**
+     * 记录ID，方法名的MD5值
+     */
     private String id;
 
+    /**
+     * 方法名
+     */
     private String methodName;
 
+    /**
+     * 方法执行次数
+     */
     private AtomicInteger count;
 
-    private AtomicLong usedTime;
+    /**
+     * 方法执行时间
+     */
+    private AtomicLong totalUsedTime;
+
+
+    public TimerRecord(String id, String methodName) {
+        this.id = id;
+        this.methodName = methodName;
+        this.count = new AtomicInteger(0);
+        this.totalUsedTime = new AtomicLong(0);
+    }
 
     public String getId() {
         return id;
@@ -41,11 +61,11 @@ public class TimerRecord {
         this.count = count;
     }
 
-    public AtomicLong getUsedTime() {
-        return usedTime;
+    public AtomicLong getTotalUsedTime() {
+        return totalUsedTime;
     }
 
-    public void setUsedTime(AtomicLong usedTime) {
-        this.usedTime = usedTime;
+    public void setTotalUsedTime(AtomicLong totalUsedTime) {
+        this.totalUsedTime = totalUsedTime;
     }
 }
