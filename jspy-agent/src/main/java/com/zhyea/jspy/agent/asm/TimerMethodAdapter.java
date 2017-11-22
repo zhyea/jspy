@@ -22,16 +22,17 @@ public class TimerMethodAdapter extends AdviceAdapter {
 
     @Override
     protected void onMethodEnter() {
-        mv.visitFieldInsn(GETSTATIC, owner, "timer", "J");
-        mv.visitMethodInsn(INVOKESTATIC, owner, "currentTimeMillis", "()J", isInterface);
-        mv.visitInsn(LSUB);
+        mv.visitMethodInsn(INVOKESTATIC, "java/lang/System",
+                "currentTimeMillis", "()J", isInterface);
+        mv.visitInsn(LSTORE);
         mv.visitFieldInsn(PUTSTATIC, owner, "timer", "J");
     }
 
     @Override
     protected void onMethodExit(int opcode) {
         mv.visitFieldInsn(GETSTATIC, owner, "timer", "J");
-        mv.visitMethodInsn(INVOKESTATIC, owner, "currentTimeMillis", "()J", isInterface);
+        mv.visitMethodInsn(INVOKESTATIC, owner,
+                "currentTimeMillis", "()J", isInterface);
         mv.visitInsn(LADD);
         mv.visitFieldInsn(PUTSTATIC, owner, "timer", "J");
     }

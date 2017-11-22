@@ -7,10 +7,10 @@ import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.ASM6;
 
-public class ClassPrinter extends ClassVisitor {
+public class PrintClassAdapter extends ClassVisitor {
 
-    public ClassPrinter() {
-        super(ASM6);
+    public PrintClassAdapter(ClassVisitor cv) {
+        super(ASM6, cv);
     }
 
     @Override
@@ -29,8 +29,11 @@ public class ClassPrinter extends ClassVisitor {
                                    String desc,
                                    String signature,
                                    Object value) {
+        System.out.println("--------filed access : " + access);
+        System.out.println("--------field signature : " + signature);
+        System.out.println("--------field value : " + value);
         System.out.println(" " + desc + " " + name);
-        return null;
+        return cv.visitField(access, name, desc, signature, value);
     }
 
 
@@ -39,7 +42,13 @@ public class ClassPrinter extends ClassVisitor {
                                      String desc,
                                      String signature,
                                      String[] exceptions) {
+        System.out.println("--------method access : " + access);
+        System.out.println("--------method signature : " + signature);
         System.out.println(" " + name + desc);
+        MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
+        if (mv != null) {
+            return new PrintMethodAdapter(mv, access, name, desc);
+        }
         return null;
     }
 

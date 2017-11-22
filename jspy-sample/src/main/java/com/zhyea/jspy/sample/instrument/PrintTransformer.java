@@ -1,4 +1,4 @@
-package com.zhyea.jspy.agent.transformer;
+package com.zhyea.jspy.sample.instrument;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;

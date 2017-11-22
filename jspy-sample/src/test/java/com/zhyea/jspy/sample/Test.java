@@ -1,9 +1,14 @@
 package com.zhyea.jspy.sample;
 
 
+import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.commons.Method;
 
-import static org.objectweb.asm.Opcodes.IMUL;
+import java.io.PrintStream;
+
+import static org.objectweb.asm.Opcodes.*;
 
 public class Test {
 
@@ -14,11 +19,26 @@ public class Test {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(Type.BOOLEAN_TYPE.getOpcode(IMUL));
+        ClassWriter cw = new ClassWriter(0);
+        cw.visit(V1_1, ACC_PUBLIC, "Example", null, "java/lang/Object", null);
 
-        System.out.println(Test.class.getName().matches("abc.*"));
+        Method m = Method.getMethod("void <init> ()");
+        GeneratorAdapter mg = new GeneratorAdapter(ACC_PUBLIC, m, null, null, cw);
+        mg.loadThis();
+        mg.invokeConstructor(Type.getType(Object.class), m);
+        mg.returnValue();
+        mg.endMethod();
 
-        //ASMifier.main(new String[]{Type.getInternalName(Account.class)});
+        m = Method.getMethod("void main (String[])");
+        mg = new GeneratorAdapter(ACC_PUBLIC + ACC_STATIC, m, null, null, cw);
+        mg.getStatic(Type.getType(System.class), "out", Type.getType(PrintStream.class));
+        mg.push("Hello world!");
+        mg.invokeVirtual(Type.getType(PrintStream.class),
+                Method.getMethod("void println (String)"));
+        mg.returnValue();
+        mg.endMethod();
+
+        cw.visitEnd();
     }
 
 

@@ -1,7 +1,5 @@
 package com.zhyea.jspy.agent;
 
-import com.zhyea.jspy.agent.transformer.JSpyTransformer;
-
 import java.lang.instrument.Instrumentation;
 
 public class JSpyAgent {
