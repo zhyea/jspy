@@ -56,6 +56,9 @@ public class JSpyTransformer implements ClassFileTransformer {
     }
 
 
+    /**
+     * 检查类是否需要转换
+     */
     private boolean check(String className) {
         for (String pkg : MONITOR_PACKAGES) {
             if (className.matches(pkg)) return true;

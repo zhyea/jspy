@@ -2,6 +2,9 @@ package com.zhyea.jspy.sample.model;
 
 import com.zhyea.jspy.annotations.JSpyTimer;
 
+/**
+ * 测试类
+ */
 @JSpyTimer
 public class TestModel {
 

@@ -8,6 +8,9 @@ import org.objectweb.asm.Type;
 
 import java.io.IOException;
 
+/**
+ * 测试类，用于验证方法参数信息
+ */
 public class AsmClient {
 
     public static void main(String[] args) throws IOException {

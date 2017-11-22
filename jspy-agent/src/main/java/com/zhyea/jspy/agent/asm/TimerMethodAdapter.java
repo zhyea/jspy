@@ -1,5 +1,6 @@
 package com.zhyea.jspy.agent.asm;
 
+import com.zhyea.jspy.commons.tools.TimerClerk;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
@@ -15,6 +16,12 @@ public class TimerMethodAdapter extends AdviceAdapter {
     private int end;
 
     private boolean isSkip = false;
+
+    private static final String systemOwner =
+            System.class.getName().replaceAll("\\.", "/");
+
+    private static final String watcherOwner =
+            TimerClerk.class.getName().replaceAll("\\.", "/");
 
     public TimerMethodAdapter(final MethodVisitor methodVisitor,
                               final int access,
@@ -32,7 +39,7 @@ public class TimerMethodAdapter extends AdviceAdapter {
     @Override
     protected void onMethodEnter() {
         if (!isSkip) {
-            mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", isInterface);
+            mv.visitMethodInsn(INVOKESTATIC, systemOwner, "currentTimeMillis", "()J", isInterface);
             start = newLocal(Type.LONG_TYPE);
             mv.visitVarInsn(LSTORE, start);
         }
@@ -42,7 +49,7 @@ public class TimerMethodAdapter extends AdviceAdapter {
     @Override
     protected void onMethodExit(int opcode) {
         if (!isSkip) {
-            mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", isInterface);
+            mv.visitMethodInsn(INVOKESTATIC, systemOwner, "currentTimeMillis", "()J", isInterface);
             end = newLocal(Type.LONG_TYPE);
             mv.visitVarInsn(LSTORE, end);
 
@@ -52,8 +59,7 @@ public class TimerMethodAdapter extends AdviceAdapter {
             mv.visitVarInsn(LLOAD, end);
             mv.visitInsn(LSUB);
 
-            mv.visitMethodInsn(INVOKESTATIC, "com/zhyea/jspy/agent/tools/Watcher",
-                    "add", "(Ljava/lang/String;J)V", isInterface);
+            mv.visitMethodInsn(INVOKESTATIC, watcherOwner,"add", "(Ljava/lang/String;J)V", isInterface);
         }
     }
 
