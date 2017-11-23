@@ -26,7 +26,7 @@ public class TimerClerk {
             entry = oldRecord;
         }
         entry.getCount().incrementAndGet();
-        entry.getTotalUsedTime().addAndGet(executeMills);
+        entry.getUsedTime().addAndGet(executeMills);
     }
 
 

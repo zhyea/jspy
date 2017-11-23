@@ -27,14 +27,14 @@ public class TimerEntry {
     /**
      * 方法执行时间
      */
-    private AtomicLong totalUsedTime;
+    private AtomicLong usedTime;
 
 
     public TimerEntry(String id, String methodName) {
         this.id = id;
         this.methodName = methodName;
         this.count = new AtomicInteger(0);
-        this.totalUsedTime = new AtomicLong(0);
+        this.usedTime = new AtomicLong(0);
     }
 
     public String getId() {
@@ -61,11 +61,22 @@ public class TimerEntry {
         this.count = count;
     }
 
-    public AtomicLong getTotalUsedTime() {
-        return totalUsedTime;
+    public AtomicLong getUsedTime() {
+        return usedTime;
     }
 
-    public void setTotalUsedTime(AtomicLong totalUsedTime) {
-        this.totalUsedTime = totalUsedTime;
+    public void setUsedTime(AtomicLong usedTime) {
+        this.usedTime = usedTime;
+    }
+
+
+    @Override
+    public String toString() {
+        return "TimerEntry{" +
+                "id='" + id + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", count=" + count +
+                ", usedTime=" + usedTime +
+                '}';
     }
 }
