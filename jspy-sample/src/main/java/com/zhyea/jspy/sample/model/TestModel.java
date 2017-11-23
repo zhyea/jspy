@@ -15,4 +15,19 @@ public class TestModel {
         System.out.println("operation...");
     }
 
+
+    public String op2() {
+        System.out.println("this is a test operation...");
+        return null;
+    }
+
+    public String op3() {
+        try {
+            System.out.println("this is a test operation...");
+            return null;
+        } finally {
+            System.out.println("the finally block");
+        }
+    }
+
 }
