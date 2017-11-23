@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * 计时记录
  */
-public class TimerRecord {
+public class TimerEntry {
 
     /**
      * 记录ID，方法名的MD5值
@@ -30,7 +30,7 @@ public class TimerRecord {
     private AtomicLong totalUsedTime;
 
 
-    public TimerRecord(String id, String methodName) {
+    public TimerEntry(String id, String methodName) {
         this.id = id;
         this.methodName = methodName;
         this.count = new AtomicInteger(0);
