@@ -31,4 +31,8 @@ public class TestModel {
         }
     }
 
+    public int getMember(){
+        return member;
+    }
+
 }
