@@ -1,5 +1,6 @@
 package com.zhyea.jspy.sample.model;
 
+import com.zhyea.jspy.annotations.JSpyMeasure;
 import com.zhyea.jspy.annotations.JSpyTimer;
 
 /**
@@ -9,6 +10,7 @@ import com.zhyea.jspy.annotations.JSpyTimer;
 public class TestModel {
 
 
+    @JSpyMeasure
     private int member = 0;
 
     @JSpyTimer
@@ -29,10 +31,6 @@ public class TestModel {
         } finally {
             System.out.println("the finally block");
         }
-    }
-
-    public int getMember(){
-        return member;
     }
 
 }

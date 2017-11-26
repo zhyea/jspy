@@ -42,7 +42,8 @@ public class PrintClassAdapter extends ClassVisitor {
         System.out.println("--------field signature : " + signature);
         System.out.println("--------field value : " + value);
         System.out.println(" " + desc + " " + name);
-        return cv.visitField(access, name, desc, signature, value);
+        FieldVisitor fv =  cv.visitField(access, name, desc, signature, value);
+        return new PrintFieldAdapter(fv);
     }
 
 
