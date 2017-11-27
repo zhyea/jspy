@@ -17,8 +17,8 @@ public class TimerClerk {
     /**
      * 累加记录
      */
-    public static void add(String name, String desc,  long executeMills) {
-        String id = md5(name);
+    public static void add(String name, String desc, long executeMills) {
+        String id = md5(name + desc);
         TimerEntry entry = timerBook.get(id);
         if (null == entry) {
             entry = new TimerEntry(id, name, desc);
@@ -28,9 +28,6 @@ public class TimerClerk {
         entry.getCount().incrementAndGet();
         entry.getUsedTime().addAndGet(executeMills);
     }
-
-
-
 
 
 }

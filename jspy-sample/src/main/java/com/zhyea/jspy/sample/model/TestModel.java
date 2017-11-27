@@ -3,7 +3,7 @@ package com.zhyea.jspy.sample.model;
 /**
  * 测试类
  */
-public class TestModel {
+public final class TestModel {
 
 
     public void operation() {
