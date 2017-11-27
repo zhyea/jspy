@@ -17,11 +17,11 @@ public class TimerClerk {
     /**
      * 累加记录
      */
-    public static void add(String name, long executeMills) {
+    public static void add(String name, String desc,  long executeMills) {
         String id = md5(name);
         TimerEntry entry = timerBook.get(id);
         if (null == entry) {
-            entry = new TimerEntry(id, name);
+            entry = new TimerEntry(id, name, desc);
             TimerEntry oldRecord = timerBook.putIfAbsent(id, entry);
             entry = oldRecord;
         }

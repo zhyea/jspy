@@ -20,6 +20,11 @@ public class TimerEntry {
     private String methodName;
 
     /**
+     * 方法描述,包括方法描述及参数信息
+     */
+    private String methodDesc;
+
+    /**
      * 方法执行次数
      */
     private AtomicInteger count;
@@ -30,9 +35,10 @@ public class TimerEntry {
     private AtomicLong usedTime;
 
 
-    public TimerEntry(String id, String methodName) {
+    public TimerEntry(String id, String methodName, String methodDesc) {
         this.id = id;
         this.methodName = methodName;
+        this.methodDesc = methodDesc;
         this.count = new AtomicInteger(0);
         this.usedTime = new AtomicLong(0);
     }
@@ -51,6 +57,14 @@ public class TimerEntry {
 
     public void setMethodName(String methodName) {
         this.methodName = methodName;
+    }
+
+    public String getMethodDesc() {
+        return methodDesc;
+    }
+
+    public void setMethodDesc(String methodDesc) {
+        this.methodDesc = methodDesc;
     }
 
     public AtomicInteger getCount() {

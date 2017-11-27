@@ -6,14 +6,14 @@ import org.objectweb.asm.commons.AdviceAdapter;
 
 public class PrintMethodAdapter extends AdviceAdapter {
 
-    private String owner;
+    private String name;
 
     public PrintMethodAdapter(final MethodVisitor methodVisitor,
                               final int access,
                               final String name,
                               final String desc) {
         super(ASM6, methodVisitor, access, name, desc);
-        this.owner = name;
+        this.name = name;
     }
 
 
@@ -26,13 +26,13 @@ public class PrintMethodAdapter extends AdviceAdapter {
 
     @Override
     protected void onMethodEnter() {
-        System.out.println("on method " + owner + " enter.");
+        System.out.println("on method " + name + " enter.");
     }
 
     @Override
     protected void onMethodExit(int opcode) {
-        System.out.println("on method " + owner + " exit.");
-        System.out.println(opcode);
+        System.out.println("on method " + name + " exit.");
+        System.out.println("------opcode : " + opcode);
     }
 
     @Override

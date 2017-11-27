@@ -9,6 +9,8 @@ public class TimerMethodAdapter extends AdviceAdapter {
 
     private String owner;
 
+    private String desc;
+
     private boolean isInterface;
 
     private int start;
@@ -31,6 +33,7 @@ public class TimerMethodAdapter extends AdviceAdapter {
                               final boolean isInterface) {
         super(ASM6, methodVisitor, access, name, desc);
         this.owner = owner + "." + name;
+        this.desc = desc;
         this.isInterface = isInterface;
         this.isSkip = name.equals("<init>");
     }
@@ -54,12 +57,13 @@ public class TimerMethodAdapter extends AdviceAdapter {
             mv.visitVarInsn(LSTORE, end);
 
             mv.visitLdcInsn(owner);
+            mv.visitLdcInsn(desc);
 
-            mv.visitVarInsn(LLOAD, start);
             mv.visitVarInsn(LLOAD, end);
+            mv.visitVarInsn(LLOAD, start);
             mv.visitInsn(LSUB);
 
-            mv.visitMethodInsn(INVOKESTATIC, watcherOwner,"add", "(Ljava/lang/String;J)V", isInterface);
+            mv.visitMethodInsn(INVOKESTATIC, watcherOwner, "add", "(Ljava/lang/String;Ljava/lang/String;J)V", isInterface);
         }
     }
 

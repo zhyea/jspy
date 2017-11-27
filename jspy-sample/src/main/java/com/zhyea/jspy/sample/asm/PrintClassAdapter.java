@@ -42,11 +42,12 @@ public class PrintClassAdapter extends ClassVisitor {
         System.out.println("--------field signature : " + signature);
         System.out.println("--------field value : " + value);
         System.out.println(" " + desc + " " + name);
-        FieldVisitor fv =  cv.visitField(access, name, desc, signature, value);
+        FieldVisitor fv = cv.visitField(access, name, desc, signature, value);
         return new PrintFieldAdapter(fv);
     }
 
 
+    @Override
     public MethodVisitor visitMethod(int access,
                                      String name,
                                      String desc,
@@ -54,12 +55,11 @@ public class PrintClassAdapter extends ClassVisitor {
                                      String[] exceptions) {
         System.out.println("--------method access : " + access);
         System.out.println("--------method signature : " + signature);
-        System.out.println(" " + name + desc);
+        System.out.println(" " + name + "-" + desc);
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if (mv != null) {
-            return new PrintMethodAdapter(mv, access, name, desc);
-        }
-        return null;
+
+        return new PrintMethodAdapter(mv, access, name, desc);
+
     }
 
 

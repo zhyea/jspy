@@ -1,36 +1,20 @@
 package com.zhyea.jspy.sample.model;
 
-import com.zhyea.jspy.annotations.JSpyMeasure;
-import com.zhyea.jspy.annotations.JSpyTimer;
-
 /**
  * 测试类
  */
-@JSpyTimer
 public class TestModel {
 
 
-    @JSpyMeasure
-    private int member = 0;
-
-    @JSpyTimer
     public void operation() {
         System.out.println("operation...");
     }
 
 
-    public String op2() {
-        System.out.println("this is a test operation...");
-        return null;
+    public String operation(int arg1, int arg2, String arg3) {
+        System.out.println("abc");
+        return arg1 + arg2 + arg3;
     }
 
-    public String op3() {
-        try {
-            System.out.println("this is a test operation...");
-            return null;
-        } finally {
-            System.out.println("the finally block");
-        }
-    }
 
 }
