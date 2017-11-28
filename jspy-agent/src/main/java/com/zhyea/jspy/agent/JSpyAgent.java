@@ -10,7 +10,6 @@ public class JSpyAgent {
 
     public static void premain(String options, Instrumentation ins) {
 
-        System.out.println("-----options: " + options);
         ins.addTransformer(new JSpyTransformer());
 
         if (null != instrumentation) {
