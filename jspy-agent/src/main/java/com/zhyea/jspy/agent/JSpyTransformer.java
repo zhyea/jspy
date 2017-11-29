@@ -15,10 +15,9 @@ import static com.zhyea.jspy.commons.tools.MD5.md5;
 public class JSpyTransformer implements ClassFileTransformer {
 
 
-    private ConcurrentHashMap<String, byte[]> map = new ConcurrentHashMap<>(128);
+    private static final String JSPY_PACKAGE = "com.zhyea.jspy.*";
 
-    public JSpyTransformer() {
-    }
+    private ConcurrentHashMap<String, byte[]> map = new ConcurrentHashMap<>(128);
 
 
     @Override
@@ -53,8 +52,14 @@ public class JSpyTransformer implements ClassFileTransformer {
 
     /**
      * 检查类是否需要转换
+     *
+     * @param className 指定类的全限定类名
+     * @return 指定的类是否需要转换
      */
     private boolean check(String className) {
+        // 不转换jspy相关的类
+        if (className.matches(JSPY_PACKAGE)) return false;
+        // 转换配置文件中设置的类
         for (String pkg : MONITOR_PACKAGES) {
             if (className.matches(pkg)) return true;
         }

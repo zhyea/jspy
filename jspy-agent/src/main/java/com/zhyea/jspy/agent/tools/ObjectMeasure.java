@@ -3,6 +3,8 @@ package com.zhyea.jspy.agent.tools;
 import com.zhyea.jspy.agent.JSpyAgent;
 import com.zhyea.jspy.commons.model.ObjectNode;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  * 对象测量工具类
  */
@@ -18,9 +20,9 @@ public class ObjectMeasure {
      */
     public static long measure(Object obj) throws IllegalAccessException {
         ObjectNode root = ObjectTree.build(obj);
-        long size = 0;
+        AtomicLong size = new AtomicLong(0);
         accumulate(root, size);
-        return size;
+        return size.get();
     }
 
 
@@ -30,8 +32,8 @@ public class ObjectMeasure {
      * @param node 对象树上的节点
      * @param size 记录对象size的变量
      */
-    private static void accumulate(ObjectNode node, long size) {
-        size += JSpyAgent.getInstrumentation().getObjectSize(node.getValue());
+    private static void accumulate(ObjectNode node, AtomicLong size) {
+        size.getAndAdd(JSpyAgent.getInstrumentation().getObjectSize(node.getValue()));
         for (ObjectNode on : node.getChilds()) {
             accumulate(on, size);
         }

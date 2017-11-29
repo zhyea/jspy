@@ -2,6 +2,7 @@ package com.zhyea.jspy.commons.tools;
 
 import com.zhyea.jspy.commons.model.TimerEntry;
 
+import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.zhyea.jspy.commons.tools.MD5.md5;
@@ -23,10 +24,17 @@ public class TimerClerk {
         if (null == entry) {
             entry = new TimerEntry(id, name, desc);
             TimerEntry oldRecord = timerBook.putIfAbsent(id, entry);
-            entry = oldRecord;
+            if (null != oldRecord) {
+                entry = oldRecord;
+            }
         }
         entry.getCount().incrementAndGet();
         entry.getUsedTime().addAndGet(executeMills);
+    }
+
+
+    public static Collection<TimerEntry> getAll() {
+        return timerBook.values();
     }
 
 
