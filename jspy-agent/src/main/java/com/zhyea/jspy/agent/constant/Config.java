@@ -1,9 +1,10 @@
 package com.zhyea.jspy.agent.constant;
 
-import com.zhyea.jspy.agent.tools.PropKit;
-
 import java.util.Arrays;
 
+/**
+ * 配置信息维护类
+ */
 public final class Config {
 
     public static final String[] MONITOR_PACKAGES;
