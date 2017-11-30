@@ -1,6 +1,6 @@
-package com.zhyea.jspy.sample;
+package com.zhyea.jspy.sample.asm;
 
-import com.zhyea.jspy.sample.asm.PrintClassAdapter;
+import com.zhyea.jspy.sample.asm.adapter.PrintClassAdapter;
 import com.zhyea.jspy.sample.model.TestModel;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;

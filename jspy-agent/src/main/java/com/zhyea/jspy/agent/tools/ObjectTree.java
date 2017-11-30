@@ -16,12 +16,28 @@ import java.util.concurrent.RejectedExecutionException;
  */
 public class ObjectTree {
 
+    /**
+     * 记录对象信息的集合，主要用来去重
+     */
     private Set<Object> set = new HashSet<>();
 
+    /**
+     * 构建对象树的根节点
+     */
     private Object rootObj;
 
+    /**
+     * 构建对象树时是否访问直接量
+     */
+    private boolean visitPrimitive;
+
     public ObjectTree(Object root) {
+        this(root, false);
+    }
+
+    public ObjectTree(Object root, boolean visitPrimitive) {
         this.rootObj = root;
+        this.visitPrimitive = visitPrimitive;
     }
 
     /**
@@ -58,13 +74,13 @@ public class ObjectTree {
 
         if (rootClass.isArray()) {
             Class<?> clazz = rootClass.getComponentType();
-            if (clazz.isPrimitive()) {
+            if (clazz.isPrimitive() && !visitPrimitive) {//
                 return;
             }
             int length = Array.getLength(rootObj);
             for (int i = 0; i < length; i++) {
                 Object ele = Array.get(rootObj, i);
-                if (!set.add(ele)) {
+                if (!set.add(ele)) {//已记录过的对象不需重复添加
                     continue;
                 }
                 ObjectNode node = new ObjectNode(ele, false);
@@ -74,26 +90,22 @@ public class ObjectTree {
         } else {
             Field[] fields = getAllFields(rootClass);
             for (Field f : fields) {
-                // 不需计算类成员
                 boolean isStatic = Modifier.isStatic(f.getModifiers());
-                if (isStatic)
+                if (isStatic)//不需计算类成员
                     continue;
-                // 判断对象是否是直接类型
                 boolean isPrimitive = f.getType().isPrimitive();
-                // 获取成员对象
-                Object o = f.get(rootObj);
-
-                if (!set.add(o)) {
+                if (isPrimitive && !visitPrimitive) {//如是不需要访问直接量，则直接跳过迭代
                     continue;
                 }
-                // 创建新节点
-                ObjectNode node = new ObjectNode(o, isPrimitive);
-                root.addChild(node);
-                // 如果成员对象为null，不需继续进行迭代
-                if (null == o)
+                Object o = f.get(rootObj);//获取成员对象
+                if (!set.add(o)) {//已记录过的对象不需重复添加
                     continue;
-                // 直接类型不需继续迭代
-                if (!isPrimitive) {
+                }
+                ObjectNode node = new ObjectNode(o, isPrimitive);//创建新节点
+                root.addChild(node);
+                if (null == o)//如果成员对象为null，不需继续进行迭代
+                    continue;
+                if (!isPrimitive) {//直接类型不需继续迭代
                     build(node, o.getClass());
                 }
             }

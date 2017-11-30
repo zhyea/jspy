@@ -1,7 +1,6 @@
-package com.zhyea.jspy.sample;
+package com.zhyea.jspy.sample.asm;
 
 
-import com.zhyea.jspy.sample.asm.ClassTracer;
 import com.zhyea.jspy.sample.model.TestModel;
 
 public class TracerClient {

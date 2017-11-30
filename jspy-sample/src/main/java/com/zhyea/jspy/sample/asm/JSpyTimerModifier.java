@@ -1,4 +1,4 @@
-package com.zhyea.jspy.sample;
+package com.zhyea.jspy.sample.asm;
 
 import com.zhyea.jspy.agent.asm.TimerClassAdapter;
 import com.zhyea.jspy.sample.model.TestModel;

@@ -1,17 +1,22 @@
 package com.zhyea.jspy.agent.tools.common;
 
-public class Pear implements Fruit {
+public class Box {
+
+    private static String material = "都是纸的";
 
     private String name;
 
-    public Pear(String name) {
+    private Fruit fruit;
+
+    public Box(String name, Fruit fruit) {
         this.name = name;
+        this.fruit = fruit;
     }
 
 
     @Override
     public String toString() {
-        return "Pear{" +
+        return "Box{" +
                 "name='" + name + '\'' +
                 '}';
     }

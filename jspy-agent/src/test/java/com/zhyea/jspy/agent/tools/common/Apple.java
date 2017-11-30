@@ -9,11 +9,6 @@ public class Apple implements Fruit {
     }
 
     @Override
-    public String name() {
-        return null == name ? "苹果" : name;
-    }
-
-    @Override
     public String toString() {
         return "Apple{" +
                 "name='" + name + '\'' +

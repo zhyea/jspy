@@ -1,4 +1,4 @@
-package com.zhyea.jspy.sample.asm;
+package com.zhyea.jspy.sample.asm.adapter;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
