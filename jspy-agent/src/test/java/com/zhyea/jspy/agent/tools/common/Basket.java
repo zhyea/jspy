@@ -4,6 +4,8 @@ public class Basket {
 
     private int id = 12;
 
+    private byte[] arr = new byte[1024];
+
     private static Apple apple0 = new Apple("留给自己吃的大苹果");
 
 
@@ -12,6 +14,8 @@ public class Basket {
     private static Apple[] apples = {
             new Apple("苹果1"), new Apple("苹果2"), new Apple("苹果3"), new Apple("苹果4")
     };
+
+    private Basket[] baskets = new Basket[12];
 
     private Apple apple = new Apple("大红苹果");
 

@@ -5,7 +5,10 @@ import com.zhyea.jspy.commons.model.ObjectNode;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.RejectedExecutionException;
 
 /**
@@ -13,17 +16,27 @@ import java.util.concurrent.RejectedExecutionException;
  */
 public class ObjectTree {
 
+    private Set<Object> set = new HashSet<>();
+
+    private Object rootObj;
+
+    public ObjectTree(Object root) {
+        this.rootObj = root;
+    }
 
     /**
      * 构建对象树
      *
-     * @param obj 要构建对象树的源对象
      * @return 构建的对象树的根节点
      * @throws IllegalAccessException
      */
-    public static ObjectNode build(Object obj) throws IllegalAccessException {
-        ObjectNode root = new ObjectNode(obj);
-        build(root, obj.getClass());
+    public ObjectNode build() throws IllegalAccessException {
+        if (null == rootObj) {
+            return new ObjectNode(rootObj, false);
+        }
+        Class<?> clazz = rootObj.getClass();
+        ObjectNode root = new ObjectNode(rootObj, clazz.isPrimitive());
+        build(root, clazz);
         return root;
     }
 
@@ -35,7 +48,7 @@ public class ObjectTree {
      * @param rootClass 根节点的值的Class
      * @throws IllegalAccessException
      */
-    private static void build(ObjectNode root, Class<?> rootClass) throws IllegalAccessException {
+    private void build(ObjectNode root, Class<?> rootClass) throws IllegalAccessException {
 
         Object rootObj;
 
@@ -45,24 +58,44 @@ public class ObjectTree {
 
         if (rootClass.isArray()) {
             Class<?> clazz = rootClass.getComponentType();
+            if (clazz.isPrimitive()) {
+                return;
+            }
             int length = Array.getLength(rootObj);
             for (int i = 0; i < length; i++) {
                 Object ele = Array.get(rootObj, i);
-                ObjectNode node = new ObjectNode(ele);
+                if (!set.add(ele)) {
+                    continue;
+                }
+                ObjectNode node = new ObjectNode(ele, false);
                 root.addChild(node);
                 build(node, clazz);
             }
         } else {
             Field[] fields = getAllFields(rootClass);
             for (Field f : fields) {
+                // 不需计算类成员
+                boolean isStatic = Modifier.isStatic(f.getModifiers());
+                if (isStatic)
+                    continue;
+                // 判断对象是否是直接类型
+                boolean isPrimitive = f.getType().isPrimitive();
+                // 获取成员对象
                 Object o = f.get(rootObj);
-                if (null == o) {
+
+                if (!set.add(o)) {
                     continue;
                 }
-                ObjectNode node = new ObjectNode(o);
+                // 创建新节点
+                ObjectNode node = new ObjectNode(o, isPrimitive);
                 root.addChild(node);
-                Class clazz = f.getType().isPrimitive() ? f.getType() : o.getClass();
-                build(node, clazz);
+                // 如果成员对象为null，不需继续进行迭代
+                if (null == o)
+                    continue;
+                // 直接类型不需继续迭代
+                if (!isPrimitive) {
+                    build(node, o.getClass());
+                }
             }
         }
     }
@@ -74,8 +107,8 @@ public class ObjectTree {
      * @param clazz 指定类
      * @return 指定类的所有字段
      */
-    private static Field[] getAllFields(Class<?> clazz) {
-        if (clazz.isPrimitive() || clazz.equals(String.class)) {
+    private Field[] getAllFields(Class<?> clazz) {
+        if (clazz.isPrimitive()) {
             return new Field[]{};
         }
         Field[] fields = clazz.getDeclaredFields();
@@ -89,7 +122,7 @@ public class ObjectTree {
      * @param root 对象树根节点
      * @param deep 对象树深度，根节点深度为0
      */
-    public static void dump(ObjectNode root, int deep) {
+    public void dump(ObjectNode root, int deep) {
         for (int i = 0; i < deep; i++) {
             System.out.print("\t ");
         }
@@ -105,14 +138,6 @@ public class ObjectTree {
         }
     }
 
-
-    public static boolean isWrapClass(Class clz) {
-        try {
-            return ((Class) clz.getField("TYPE").get(null)).isPrimitive();
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     private ObjectTree() {
         throw new RejectedExecutionException("private constructor, cannot be called.");

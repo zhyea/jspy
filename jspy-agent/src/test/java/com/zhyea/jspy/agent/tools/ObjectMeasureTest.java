@@ -10,7 +10,22 @@ public class ObjectMeasureTest extends TestCase {
 
 
     public void testMeasure() throws IllegalAccessException {
-        System.out.println(ObjectMeasure.measure(new Basket()));
+        /*String[] arr = {"1", "5", "6"};
+        String[] arr2 = {"2", "3", "4", "5", "6"};
+        System.out.println(ObjectMeasure.shallowSize(arr));
+        System.out.println(ObjectMeasure.shallowSize(arr2));*/
+        //System.out.println(ObjectMeasure.retainedSize(new Integer(16)));
+
+
+        System.out.println(ObjectMeasure.shallowSize(null));
+
+        System.out.println(ObjectMeasure.retainedSize("1234"));
+        System.out.println(ObjectMeasure.retainedSize("12341234"));
+        System.out.println(ObjectMeasure.retainedSize("123412341234"));
+        System.out.println(ObjectMeasure.retainedSize("1234123412341234"));
+        System.out.println(ObjectMeasure.retainedSize("12341234123412341234"));
+        System.out.println(ObjectMeasure.retainedSize("123412341234123412341234"));
+        System.out.println(ObjectMeasure.retainedSize("1234123412341234123412341234"));
     }
 
 

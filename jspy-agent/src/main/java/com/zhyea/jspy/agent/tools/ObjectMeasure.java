@@ -12,28 +12,45 @@ public class ObjectMeasure {
 
 
     /**
-     * 测量对象size
+     * 计算对象的shallow size, 即对象自身占用的内存空间的大小
      *
      * @param obj 要测量的对象
-     * @return 对象的size
+     * @return 要测量的对象的shallow size.
+     */
+    public static long shallowSize(Object obj) {
+        if (null == obj) {
+            return -1;
+        }
+        return JSpyAgent.getInstrumentation().getObjectSize(obj);
+    }
+
+
+    /**
+     * 测量对象的retained size，也就是对象自身及因对象obj保持存活的所有其他对象的shallow size之和
+     *
+     * @param obj 要测量的对象
+     * @return 要测量的对象的retained size
      * @throws IllegalAccessException
      */
-    public static long measure(Object obj) throws IllegalAccessException {
-        ObjectNode root = ObjectTree.build(obj);
+    public static long retainedSize(Object obj) throws IllegalAccessException {
+        ObjectNode root = new ObjectTree(obj).build();
         AtomicLong size = new AtomicLong(0);
         accumulate(root, size);
         return size.get();
     }
 
-
     /**
-     * 执行具体的测量累计工作
+     * 执行retained size测量的累计工作
      *
      * @param node 对象树上的节点
      * @param size 记录对象size的变量
      */
     private static void accumulate(ObjectNode node, AtomicLong size) {
-        size.getAndAdd(JSpyAgent.getInstrumentation().getObjectSize(node.getValue()));
+        Object obj;
+        if (null == node || null == (obj = node.getValue())) {
+            return;
+        }
+        size.getAndAdd(JSpyAgent.getInstrumentation().getObjectSize(obj));
         for (ObjectNode on : node.getChilds()) {
             accumulate(on, size);
         }
