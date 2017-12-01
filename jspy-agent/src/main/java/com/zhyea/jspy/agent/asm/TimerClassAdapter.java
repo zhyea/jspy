@@ -38,7 +38,7 @@ public class TimerClassAdapter extends ClassVisitor {
                                      String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
         if (!isInterface && mv != null) {
-            mv = new TimerMethodAdapter(mv, access, name, desc, owner, isInterface, isMonitor);
+            mv = new TimerMethodAdapter(mv, access, name, desc, owner, false, isMonitor);
         }
         return mv;
     }

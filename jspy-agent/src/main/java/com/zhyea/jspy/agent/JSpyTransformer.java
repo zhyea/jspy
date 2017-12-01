@@ -6,7 +6,6 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
 import java.lang.instrument.ClassFileTransformer;
-import java.lang.instrument.IllegalClassFormatException;
 import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +27,7 @@ public class JSpyTransformer implements ClassFileTransformer {
                             String className,
                             Class<?> classBeingRedefined,
                             ProtectionDomain protectionDomain,
-                            byte[] classfileBuffer) throws IllegalClassFormatException {
+                            byte[] classfileBuffer) {
 
         if (check(className)) {
             String md5Name = md5(className);
