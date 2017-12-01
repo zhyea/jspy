@@ -7,6 +7,9 @@ import java.util.Arrays;
  */
 public final class Config {
 
+    /**
+     * 要监控的包。多个包名以分号分割，支持正则表达式
+     */
     public static final String[] MONITOR_PACKAGES;
 
     static {
@@ -24,5 +27,12 @@ public final class Config {
         }
         return new String[]{};
     }
+
+
+    /**
+     * 是否监控所有的方法，即是否需要给所有的方法添加计时代码
+     */
+    public static final boolean MONITOR_ALL_METHODS =
+            PropKit.getBoolean("monitor.all.methods", false);
 
 }

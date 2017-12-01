@@ -1,14 +1,17 @@
 package com.zhyea.jspy.agent;
 
 import com.zhyea.jspy.agent.asm.TimerClassAdapter;
+import com.zhyea.jspy.annotations.JSpyTimer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
+import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.zhyea.jspy.agent.constant.Config.MONITOR_ALL_METHODS;
 import static com.zhyea.jspy.agent.constant.Config.MONITOR_PACKAGES;
 import static com.zhyea.jspy.commons.tools.MD5.md5;
 
@@ -61,7 +64,37 @@ public class JSpyTransformer implements ClassFileTransformer {
         if (className.matches(JSPY_PACKAGE)) return false;
         // 转换配置文件中设置的类
         for (String pkg : MONITOR_PACKAGES) {
-            if (className.matches(pkg)) return true;
+            if (className.matches(pkg)) {
+                if (!MONITOR_ALL_METHODS) {
+                    return checkJSpyTimerAnnotation(className);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * 检查JSpyTimer注解是否在类中存在
+     *
+     * @param className 要检查的类的名称
+     * @return 要检查的类是否存在JSpyTimer注解
+     */
+    private boolean checkJSpyTimerAnnotation(String className) {
+        try {
+            Class clazz = Class.forName(className);
+            if (null != clazz.getAnnotation(JSpyTimer.class)) {
+                return true;
+            }
+            Method[] methods = clazz.getDeclaredMethods();
+            for (Method m : methods) {
+                if (null != m.getAnnotation(JSpyTimer.class)) {
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
