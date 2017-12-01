@@ -79,7 +79,8 @@ public class TimerMethodAdapter extends AdviceAdapter {
             mv.visitVarInsn(LLOAD, start);
             mv.visitInsn(LSUB);
 
-            mv.visitMethodInsn(INVOKESTATIC, watcherOwner, "add", "(Ljava/lang/String;Ljava/lang/String;J)V", isInterface);
+            mv.visitMethodInsn(INVOKESTATIC, watcherOwner,
+                    "add", "(Ljava/lang/String;Ljava/lang/String;J)V", isInterface);
         }
     }
 
