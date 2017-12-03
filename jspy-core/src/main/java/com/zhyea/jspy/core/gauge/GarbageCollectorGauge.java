@@ -1,6 +1,6 @@
 package com.zhyea.jspy.core.gauge;
 
-import com.zhyea.jspy.core.model.GarbageCollector;
+import com.zhyea.jspy.core.model.GarbageCollection;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class GarbageCollectorGauge implements Gauge {
     }
 
     @Override
-    public List<GarbageCollector> value() {
+    public List<GarbageCollection> value() {
         return null;
     }
 

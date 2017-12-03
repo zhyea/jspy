@@ -1,19 +1,21 @@
 package com.zhyea.jspy.core.model;
 
-import com.zhyea.jspy.core.constants.GCType;
+import com.zhyea.jspy.core.constants.GarbageCollectType;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class GarbageCollector {
+public class GarbageCollection {
 
-    private GCType type;
+    private GarbageCollectType type;
+
+
 
     private AtomicInteger count = new AtomicInteger(0);
 
     private AtomicLong usedTime = new AtomicLong(0L);
 
-    public GarbageCollector(GCType type) {
+    public GarbageCollection(GarbageCollectType type) {
         this.type = type;
     }
 

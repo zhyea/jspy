@@ -137,7 +137,7 @@ public class ObjectTree {
      */
     public void dump(ObjectNode root, int deep) {
         for (int i = 0; i < deep; i++) {
-            System.out.print("\t ");
+            System.out.print("\t");
         }
         if (deep > 0) {
             System.out.print("|- ");

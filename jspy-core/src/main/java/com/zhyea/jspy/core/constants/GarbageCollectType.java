@@ -1,7 +1,8 @@
 package com.zhyea.jspy.core.constants;
 
-public enum GCType {
+public enum GarbageCollectType {
 
     young,
+
     full
 }

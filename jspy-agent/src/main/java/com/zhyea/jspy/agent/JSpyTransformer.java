@@ -31,6 +31,7 @@ public class JSpyTransformer implements ClassFileTransformer {
 
         if (check(className)) {
             String md5Name = md5(className);
+
             if (map.containsKey(md5Name)) {
                 return map.get(md5Name);
             }
@@ -59,6 +60,7 @@ public class JSpyTransformer implements ClassFileTransformer {
      * @return 指定的类是否需要转换
      */
     private boolean check(String className) {
+
         // 不转换jspy相关的类
         if (className.matches(JSPY_PACKAGE)) return false;
         // 转换配置文件中设置的类
