@@ -10,7 +10,6 @@ public class GarbageCollection {
     private GarbageCollectType type;
 
 
-
     private AtomicInteger count = new AtomicInteger(0);
 
     private AtomicLong usedTime = new AtomicLong(0L);
