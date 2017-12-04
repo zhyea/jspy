@@ -1,16 +1,13 @@
 package com.zhyea.jspy.sample.mxbean;
 
-import junit.framework.TestCase;
-
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.util.Arrays;
 import java.util.List;
 
-public class GarbageCollectorMxBeanTest extends TestCase {
+public class GarbageCollectorMxBeanTest {
 
-
-    public void testMxBean() {
+    public static void main(String[] args) {
         List<GarbageCollectorMXBean> mxBeans = ManagementFactory.getGarbageCollectorMXBeans();
         for (GarbageCollectorMXBean gcm : mxBeans) {
             System.out.println(gcm.getName());

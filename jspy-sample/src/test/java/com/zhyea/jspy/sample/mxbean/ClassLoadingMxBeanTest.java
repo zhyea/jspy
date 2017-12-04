@@ -1,16 +1,14 @@
 package com.zhyea.jspy.sample.mxbean;
 
 
-import junit.framework.TestCase;
-
 import java.lang.management.ClassLoadingMXBean;
 import java.lang.management.ManagementFactory;
 
-public class ClassLoadingMxBeanTest extends TestCase {
+public class ClassLoadingMxBeanTest {
 
-    ClassLoadingMXBean mxBean = ManagementFactory.getClassLoadingMXBean();
 
-    public void testInfo(){
+    public static void main(String[] args) {
+        ClassLoadingMXBean mxBean = ManagementFactory.getClassLoadingMXBean();
 
         System.out.println(mxBean.getObjectName());
         System.out.println(mxBean.getLoadedClassCount());

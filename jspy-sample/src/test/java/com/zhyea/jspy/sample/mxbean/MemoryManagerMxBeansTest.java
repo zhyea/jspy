@@ -1,17 +1,17 @@
 package com.zhyea.jspy.sample.mxbean;
 
-import junit.framework.TestCase;
-
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryManagerMXBean;
 import java.util.Arrays;
 import java.util.List;
 
-public class MemoryManagerMxBeansTest extends TestCase {
+public class MemoryManagerMxBeansTest {
 
-    private List<MemoryManagerMXBean> mxBeans = ManagementFactory.getMemoryManagerMXBeans();
 
-    public void testMxBeans() {
+    public static void main(String[] args) {
+
+        List<MemoryManagerMXBean> mxBeans = ManagementFactory.getMemoryManagerMXBeans();
+
         for (MemoryManagerMXBean mmm : mxBeans) {
             System.out.println(mmm.getName());
             System.out.println(mmm.getObjectName());
