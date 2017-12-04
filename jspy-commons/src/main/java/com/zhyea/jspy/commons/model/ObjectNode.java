@@ -53,7 +53,6 @@ public class ObjectNode {
         return result;
     }
 
-
     @Override
     public String toString() {
         return "ObjectNode{" +
