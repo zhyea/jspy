@@ -4,20 +4,39 @@ import java.util.List;
 
 public class Runtime {
 
+    /**
+     * Runtime名称
+     */
     private String name;
 
+    /**
+     * 当前进程ID
+     */
     private int processId;
 
+    /**
+     * 应用启动时间
+     */
     private long startTime;
 
+    /**
+     * 应用运行时长
+     */
     private long upTime;
 
     private String specName;
 
+
+    /**
+     * 虚拟机名称
+     */
     private String vmName;
 
     private String vmVendor;
 
+    /**
+     * 虚拟机版本号
+     */
     private String vmVersion;
 
     private List<String> inputArguments;

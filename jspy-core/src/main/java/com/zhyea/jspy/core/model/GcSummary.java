@@ -8,9 +8,14 @@ public class GcSummary {
 
     private GcType type;
 
-
+    /**
+     * GC次数
+     */
     private AtomicLong count = new AtomicLong(0);
 
+    /**
+     * GC执行时间
+     */
     private AtomicLong usedTime = new AtomicLong(0L);
 
     public GcSummary(GcType type) {
