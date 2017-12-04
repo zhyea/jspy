@@ -34,7 +34,7 @@ public class TimerClerk {
     }
 
 
-    public static Collection<TimerEntry> getAll() {
+    public static Collection<TimerEntry> all() {
         return timerBook.values();
     }
 
