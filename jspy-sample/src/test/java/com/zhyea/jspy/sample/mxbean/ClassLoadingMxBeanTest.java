@@ -1,4 +1,5 @@
-package com.zhyea.jspy.core.mxbean;
+package com.zhyea.jspy.sample.mxbean;
+
 
 import junit.framework.TestCase;
 

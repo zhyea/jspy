@@ -9,7 +9,7 @@ public class RuntimeGauge implements Gauge {
 
     @Override
     public String name() {
-        return "Process ID";
+        return "Runtime";
     }
 
     @Override

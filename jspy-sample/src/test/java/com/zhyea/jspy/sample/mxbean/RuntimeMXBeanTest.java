@@ -1,4 +1,4 @@
-package com.zhyea.jspy.core.mxbean;
+package com.zhyea.jspy.sample.mxbean;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;

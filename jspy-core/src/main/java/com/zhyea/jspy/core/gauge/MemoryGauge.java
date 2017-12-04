@@ -6,8 +6,6 @@ import java.lang.management.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.management.MemoryType.NON_HEAP;
-
 public class MemoryGauge implements Gauge {
 
 
@@ -37,11 +35,11 @@ public class MemoryGauge implements Gauge {
     }
 
 
-    protected List<MemoryPool> detail(MemoryType type) {
+    List<MemoryPool> detail(MemoryType type) {
         List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
         List<MemoryPool> list = new ArrayList<>(4);
         for (MemoryPoolMXBean p : pools) {
-            if (null != type && NON_HEAP != p.getType()) {
+            if (null != type && type != p.getType()) {
                 continue;
             }
             String name = p.getName();
