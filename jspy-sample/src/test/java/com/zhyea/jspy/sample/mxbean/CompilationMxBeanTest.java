@@ -1,15 +1,13 @@
-package com.zhyea.jspy.core.mxbean;
-
-import junit.framework.TestCase;
+package com.zhyea.jspy.sample.mxbean;
 
 import java.lang.management.CompilationMXBean;
 import java.lang.management.ManagementFactory;
 
-public class CompilationMxBeanTest extends TestCase {
+public class CompilationMxBeanTest {
 
-    CompilationMXBean mxBean = ManagementFactory.getCompilationMXBean();
 
-    public void testMxBean(){
+    public static void main(String[] args) {
+        CompilationMXBean mxBean = ManagementFactory.getCompilationMXBean();
         System.out.println(mxBean.getName());
         System.out.println(mxBean.getObjectName());
         System.out.println(mxBean.isCompilationTimeMonitoringSupported());

@@ -1,16 +1,14 @@
-package com.zhyea.jspy.core.mxbean;
-
-import junit.framework.TestCase;
+package com.zhyea.jspy.sample.mxbean;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryPoolMXBean;
 import java.util.Arrays;
 import java.util.List;
 
-public class MemoryPoolMXBeanTest extends TestCase {
+public class MemoryPoolMXBeanTest {
 
 
-    public void testMXBean() {
+    public static void main(String[] args) {
         List<MemoryPoolMXBean> beans = ManagementFactory.getMemoryPoolMXBeans();
         for (MemoryPoolMXBean bean : beans) {
             System.out.println(bean.isValid());
@@ -38,7 +36,6 @@ public class MemoryPoolMXBeanTest extends TestCase {
                 System.out.println("\t" + bean.getUsageThresholdCount());
                 System.out.println("\t" + bean.isUsageThresholdExceeded());
             }
-
 
             System.out.println("-----------------------------------------------------------------");
         }

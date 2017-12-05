@@ -1,16 +1,13 @@
-package com.zhyea.jspy.core.mxbean;
-
-import junit.framework.TestCase;
+package com.zhyea.jspy.sample.mxbean;
 
 import java.lang.management.BufferPoolMXBean;
 import java.lang.management.ManagementFactory;
 import java.util.List;
 
-public class BufferPoolMXBeanTest extends TestCase {
+public class BufferPoolMXBeanTest {
 
-    public void testMxBean() {
+    public static void main(String[] args) {
         List<BufferPoolMXBean> beans = ManagementFactory.getPlatformMXBeans(BufferPoolMXBean.class);
-
 
         for (BufferPoolMXBean bean : beans) {
             System.out.println(bean.getObjectName());
@@ -21,7 +18,6 @@ public class BufferPoolMXBeanTest extends TestCase {
 
             System.out.println("------------------------------------------");
         }
-
     }
 
 }

@@ -1,6 +1,6 @@
 package com.zhyea.jspy.core.constants;
 
-public enum GarbageCollectType {
+public enum GcType {
     YGC,
     FGC
 }

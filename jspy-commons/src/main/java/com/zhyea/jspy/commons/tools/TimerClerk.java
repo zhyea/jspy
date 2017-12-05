@@ -4,6 +4,7 @@ import com.zhyea.jspy.commons.model.TimerEntry;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.RejectedExecutionException;
 
 import static com.zhyea.jspy.commons.tools.MD5.md5;
 
@@ -33,9 +34,13 @@ public class TimerClerk {
     }
 
 
-    public static Collection<TimerEntry> getAll() {
+    public static Collection<TimerEntry> all() {
         return timerBook.values();
     }
 
 
+
+    private TimerClerk() {
+        throw new RejectedExecutionException("cannot use private constructor.");
+    }
 }

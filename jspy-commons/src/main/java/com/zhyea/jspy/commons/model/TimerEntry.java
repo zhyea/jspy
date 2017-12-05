@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class TimerEntry {
 
     /**
-     * 记录ID，方法名的MD5值
+     * 记录ID，方法名+描述的MD5值
      */
     private String id;
 
@@ -81,16 +81,5 @@ public class TimerEntry {
 
     public void setUsedTime(AtomicLong usedTime) {
         this.usedTime = usedTime;
-    }
-
-
-    @Override
-    public String toString() {
-        return "TimerEntry{" +
-                "id='" + id + '\'' +
-                ", methodName='" + methodName + '\'' +
-                ", count=" + count +
-                ", usedTime=" + usedTime +
-                '}';
     }
 }

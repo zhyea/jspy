@@ -39,10 +39,10 @@
     </build>
 
     <modules>
-        <module>jspy-core</module>
+        <module>jspy-annotations</module>
         <module>jspy-commons</module>
         <module>jspy-agent</module>
-        <module>jspy-annotations</module>
+        <module>jspy-core</module>
         <module>jspy-sample</module>
     </modules>
 
