@@ -8,8 +8,13 @@ JSpy是一个Java分析工具。它提供了如下的功能：
 
 
 # 使用  
-使用JSpy主要分成两部分：jspy-agent和jspy-core。  
+JSpy主要由两部分构成：jspy-agent和jspy-core。  
 具体使用方式可以参考wiki：https://github.com/zhyea/jspy/wiki
 
+
+# 计划  
+jspy后续开发计划如下：
+* 优化对象size计算方案  
+* 引入sigar，增强获取运行环境信息的能力
 
 
