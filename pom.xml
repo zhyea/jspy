@@ -5,7 +5,7 @@
 							 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zhyea.jspy</groupId>
+    <groupId>org.chobit.jspy</groupId>
     <artifactId>jspy</artifactId>
     <packaging>pom</packaging>
     <version>0.1-SNAPSHOT</version>

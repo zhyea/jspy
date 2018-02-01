@@ -7,7 +7,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.zhyea.jspy</groupId>
+		<groupId>org.chobit.jspy</groupId>
 		<artifactId>jspy</artifactId>
 		<version>0.1-SNAPSHOT</version>
 	</parent>
