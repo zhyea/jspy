@@ -1,5 +1,5 @@
-# 简介
-JSpy是一个Java分析工具。  它提供了如下的功能：  
+# 简介  
+JSpy是一个Java分析工具。它提供了如下的功能：  
 * 统计方法执行时间
 * 计算Java对象的size
 * 获取Java应用运行时信息（进程ID，启动时间，运行时长，虚拟机信息）
@@ -7,9 +7,9 @@ JSpy是一个Java分析工具。  它提供了如下的功能：
 * 获取操作系统概况
 
 
-# 使用
-使用JSpy主要分成两部分：jspy-agent和jspy-core。
-具体使用方式可以参考wiki：
+# 使用  
+使用JSpy主要分成两部分：jspy-agent和jspy-core。  
+具体使用方式可以参考wiki：https://github.com/zhyea/jspy/wiki
 
 
 
