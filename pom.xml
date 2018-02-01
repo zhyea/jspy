@@ -43,7 +43,6 @@
         <module>jspy-commons</module>
         <module>jspy-agent</module>
         <module>jspy-core</module>
-        <module>jspy-sample</module>
     </modules>
 
 </project>
