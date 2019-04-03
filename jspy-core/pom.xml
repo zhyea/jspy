@@ -28,5 +28,11 @@
         </dependency>
     </dependencies>
 
-
+    <repositories>
+        <repository>
+            <id>typeSafe</id>
+            <name>Sonatype OSS</name>
+            <url>http://repo.typesafe.com/typesafe/maven-releases/</url>
+        </repository>
+    </repositories>
 </project>

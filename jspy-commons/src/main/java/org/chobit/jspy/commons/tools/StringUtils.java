@@ -1,8 +1,6 @@
 package org.chobit.jspy.commons.tools;
 
-import java.util.concurrent.RejectedExecutionException;
-
-public class StringUtils {
+public abstract class StringUtils {
 
 
     public static boolean isNotBlank(String str) {
@@ -20,11 +18,6 @@ public class StringUtils {
             }
         }
         return true;
-    }
-
-
-    private StringUtils() {
-        throw new RejectedExecutionException("cannot use private constructor.");
     }
 
 }

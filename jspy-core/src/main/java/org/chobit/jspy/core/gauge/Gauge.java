@@ -1,8 +1,6 @@
 package org.chobit.jspy.core.gauge;
 
-public interface Gauge {
-
-    String name();
+interface Gauge {
 
     <T> T value();
 
