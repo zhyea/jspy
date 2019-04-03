@@ -12,7 +12,6 @@ import static org.chobit.jspy.core.constants.GcType.YGC;
 
 public class GarbageCollectGauge implements Gauge {
 
-    @Override
     public String name() {
         return "Garbage Collector";
     }

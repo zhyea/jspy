@@ -9,7 +9,6 @@ import java.util.List;
 public class MemoryGauge implements Gauge {
 
 
-    @Override
     public String name() {
         return "Memory";
     }
