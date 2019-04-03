@@ -5,7 +5,11 @@ import static org.chobit.jspy.core.gauge.OSGaugeManager.*;
 public enum OS implements Gauge {
 
 
-    ARCH("操作架构架构") {
+    /**
+     * 这里以单例模式获取操作系统信息
+     */
+
+    ARCH("操作系统架构") {
         @Override
         public String value() {
             return arch();

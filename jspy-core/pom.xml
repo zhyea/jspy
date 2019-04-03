@@ -21,18 +21,5 @@
             <artifactId>jspy-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.hyperic</groupId>
-            <artifactId>sigar</artifactId>
-            <version>1.6.4</version>
-        </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>typeSafe</id>
-            <name>Sonatype OSS</name>
-            <url>http://repo.typesafe.com/typesafe/maven-releases/</url>
-        </repository>
-    </repositories>
 </project>

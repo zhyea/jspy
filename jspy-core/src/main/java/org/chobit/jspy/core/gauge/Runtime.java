@@ -7,6 +7,10 @@ import static org.chobit.jspy.core.gauge.RuntimeGaugeManager.*;
 public enum Runtime implements Gauge {
 
 
+    /**
+     * 这里以单例模式获取JVM运行时信息
+     */
+
     IS_BOOTCLASS_PATH_SUPPORTED("是否支持引导类路径搜索") {
         @Override
         public Boolean value() {
