@@ -9,7 +9,6 @@ import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.RejectedExecutionException;
 
 /**
  * 对象树操作类
@@ -153,6 +152,6 @@ public class ObjectTree {
 
 
     private ObjectTree() {
-        throw new RejectedExecutionException("private constructor, cannot be called.");
+        throw new UnsupportedOperationException("private constructor, cannot be called.");
     }
 }

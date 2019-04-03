@@ -16,7 +16,7 @@ import static org.chobit.jspy.commons.tools.MD5.md5;
 public class JSpyTransformer implements ClassFileTransformer {
 
 
-    private static final String JSPY_PACKAGE = "com.zhyea.jspy.*";
+    private static final String JSPY_PACKAGE = "org.chobit.jspy.*";
 
     private ConcurrentHashMap<String, byte[]> map = new ConcurrentHashMap<>(128);
 
