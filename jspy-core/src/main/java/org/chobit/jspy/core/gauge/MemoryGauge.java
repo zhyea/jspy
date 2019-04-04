@@ -6,27 +6,10 @@ import java.lang.management.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemoryGauge implements Gauge {
+public abstract class MemoryGauge implements Gauge {
 
 
-    public String name() {
-        return "Memory";
-    }
 
-    @Override
-    public MemoryUsage value() {
-        MemoryMXBean mxBean = ManagementFactory.getMemoryMXBean();
-
-        MemoryUsage heapMemory = mxBean.getHeapMemoryUsage();
-        MemoryUsage nonHeapMemory = mxBean.getNonHeapMemoryUsage();
-
-        long init = heapMemory.getInit() + nonHeapMemory.getInit();
-        long used = heapMemory.getUsed() + nonHeapMemory.getUsed();
-        long committed = heapMemory.getCommitted() + nonHeapMemory.getCommitted();
-        long max = heapMemory.getMax() + nonHeapMemory.getMax();
-
-        return new MemoryUsage(init, used, committed, max);
-    }
 
 
     public List<MemoryPool> detail() {
