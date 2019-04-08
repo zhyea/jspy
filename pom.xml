@@ -39,9 +39,6 @@
     </build>
 
     <modules>
-        <module>jspy-annotations</module>
-        <module>jspy-commons</module>
-        <module>jspy-agent</module>
         <module>jspy-core</module>
     </modules>
 
