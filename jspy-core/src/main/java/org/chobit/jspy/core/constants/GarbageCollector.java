@@ -1,7 +1,6 @@
 package org.chobit.jspy.core.constants;
 
 
-import static org.chobit.jspy.commons.tools.StringUtils.isBlank;
 import static org.chobit.jspy.core.constants.GcType.FGC;
 import static org.chobit.jspy.core.constants.GcType.YGC;
 
@@ -55,7 +54,7 @@ public enum GarbageCollector {
      * @return GarbageCollector实例
      */
     public static GarbageCollector nameOf(String name) {
-        if (isBlank(name)) return null;
+        //if (isBlank(name)) return null;
 
         GarbageCollector collector = null;
         try {

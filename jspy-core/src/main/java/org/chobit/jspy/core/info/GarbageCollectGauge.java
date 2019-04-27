@@ -1,4 +1,4 @@
-package org.chobit.jspy.core.gauge;
+package org.chobit.jspy.core.info;
 
 import org.chobit.jspy.core.constants.GarbageCollector;
 import org.chobit.jspy.core.model.GcSummary;
@@ -10,7 +10,7 @@ import java.util.List;
 import static org.chobit.jspy.core.constants.GcType.FGC;
 import static org.chobit.jspy.core.constants.GcType.YGC;
 
-public class GarbageCollectGauge implements Gauge {
+public class GarbageCollectGauge implements Info {
 
     public String name() {
         return "Garbage Collector";

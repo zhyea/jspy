@@ -1,10 +1,10 @@
-package org.chobit.jspy.core.gauge;
+package org.chobit.jspy.core.info;
 
 import java.util.List;
 
-import static org.chobit.jspy.core.gauge.RuntimeGaugeManager.*;
+import static org.chobit.jspy.core.info.RuntimeInfoManager.*;
 
-public enum Runtime implements Gauge {
+public enum Runtime implements Info {
 
 
     /**

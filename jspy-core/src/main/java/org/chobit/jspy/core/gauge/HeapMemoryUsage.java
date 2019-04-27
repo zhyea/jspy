@@ -1,8 +1,9 @@
 package org.chobit.jspy.core.gauge;
 
+
 import static org.chobit.jspy.core.gauge.MemoryGaugeManager.heapMemoryUsage;
 
-public enum HeapMemoryUsage implements Gauge{
+public enum HeapMemoryUsage implements Gauge {
 
 
     INIT("初始内存") {

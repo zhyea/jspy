@@ -1,12 +1,12 @@
-package org.chobit.jspy.core.gauge;
+package org.chobit.jspy.core.info;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 
-abstract class OSGaugeManager {
+abstract class OSInfoManager {
 
 
-    private static OperatingSystemMXBean mxBean = ManagementFactory.getOperatingSystemMXBean();
+    private static final OperatingSystemMXBean mxBean = ManagementFactory.getOperatingSystemMXBean();
 
 
     static String arch() {

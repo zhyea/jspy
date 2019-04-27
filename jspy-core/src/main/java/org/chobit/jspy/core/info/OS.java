@@ -1,8 +1,8 @@
-package org.chobit.jspy.core.gauge;
+package org.chobit.jspy.core.info;
 
-import static org.chobit.jspy.core.gauge.OSGaugeManager.*;
+import static org.chobit.jspy.core.info.OSInfoManager.*;
 
-public enum OS implements Gauge {
+public enum OS implements Info {
 
 
     /**
