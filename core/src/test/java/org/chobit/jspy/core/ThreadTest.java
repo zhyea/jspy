@@ -5,7 +5,7 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadMXBean;
 import java.util.concurrent.TimeUnit;
 
-public class Test {
+public class ThreadTest {
 
     public static void main(String[] args) throws InterruptedException {
 
