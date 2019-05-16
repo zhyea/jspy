@@ -9,3 +9,7 @@ spring:
 server:
   port: 8190
 
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
