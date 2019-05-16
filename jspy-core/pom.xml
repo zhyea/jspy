@@ -13,7 +13,7 @@
     </parent>
 
 
-    <artifactId>core</artifactId>
+    <artifactId>jspy-core</artifactId>
 
     <packaging>jar</packaging>
 

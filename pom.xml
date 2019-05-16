@@ -42,9 +42,9 @@
     </build>
 
     <modules>
-        <module>core</module>
-        <module>server</module>
-        <module>client</module>
+        <module>jspy-core</module>
+        <module>jspy-server</module>
+        <module>jspy-client</module>
     </modules>
 
 </project>
