@@ -13,4 +13,9 @@ public class HelloController {
         return "hello";
     }
 
+    @GetMapping("/home")
+    public String home(ModelMap model) {
+        return "home";
+    }
+
 }

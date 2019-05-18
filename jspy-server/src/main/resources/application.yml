@@ -5,6 +5,8 @@ spring:
     name: jspy-server
   profiles:
     active: prod
+  thymeleaf:
+    cache: false
 
 server:
   port: 8190
