@@ -16,6 +16,7 @@ create table app
     id          int identity primary key,
 
     app_id      varchar(16) unique not null,
+    app_name    varchar(64) not null,
 
     deleted     tinyint                     default 0,
     insert_time datetime                    default current_date,
