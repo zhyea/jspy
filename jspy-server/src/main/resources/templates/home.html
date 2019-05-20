@@ -8,14 +8,14 @@
     <main>
         <div id="main" style="width: 100%; height:400px;"></div>
     </main>
+    <div th:replace="common/footer::footer"></div>
 </div>
 
 
-<div th:replace="common/footer::footer"></div>
 
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
+    var myChart = echarts.init(document.getElementById('main'), 'macarons');
 
     // 指定图表的配置项和数据
     option = {
@@ -40,20 +40,11 @@
         },
         dataZoom: [{                 // 内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系
             type: 'inside',
-            start: 0,
-            end: 10
-        }, {
-            start: 0,
-            end: 10,                  // handleIcon 手柄的 icon 形状，支持路径字符串
-            handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-            handleSize: '80%',        //  控制手柄的尺寸，可以是像素大小，也可以是相对于 dataZoom 组件宽度的百分比，默认跟 dataZoom 宽度相同。
-            handleStyle: {
-                color: 'pink',
-                shadowBlur: 3,      // shadowBlur图片阴影模糊值，shadowColor阴影的颜色
-                shadowColor: 'red',
-                shadowOffsetX: 2,
-                shadowOffsetY: 2
-            }
+            start: 80,
+            end: 100
+        },{
+            start: 80,
+            end: 100
         }],
         series: [{
             data: [820, 932, 901, 934, 1290, 1330, 1320],

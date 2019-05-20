@@ -9,7 +9,7 @@ public enum OS implements Info {
      * 这里以单例模式获取操作系统信息
      */
 
-    ARCH("操作系统架构") {
+    ARCH("操作系统体系结构") {
         @Override
         public String value() {
             return arch();

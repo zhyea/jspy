@@ -33,7 +33,7 @@ public enum Runtime implements Info {
     },
 
 
-    EXECUTE_FILE_PATH("执行文件路径") {
+    EXECUTE_FILE_PATH("库路径") {
         @Override
         public String value() {
             return libPath();
