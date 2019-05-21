@@ -4,18 +4,18 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 
-abstract class MemoryGaugeManager {
+public abstract class MemoryGaugeManager {
 
 
     private static final MemoryMXBean mxBean = ManagementFactory.getMemoryMXBean();
 
 
-    static MemoryUsage heapMemoryUsage() {
+    public static MemoryUsage heapMemoryUsage() {
         return mxBean.getHeapMemoryUsage();
     }
 
 
-    static MemoryUsage nonHeapMemoryUsage() {
+    public static MemoryUsage nonHeapMemoryUsage() {
         return mxBean.getNonHeapMemoryUsage();
     }
 

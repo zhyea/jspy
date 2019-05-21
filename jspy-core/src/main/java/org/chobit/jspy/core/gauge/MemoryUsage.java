@@ -13,14 +13,14 @@ public enum MemoryUsage implements Gauge {
         }
     },
 
-    USED("已使用内存") {
+    USED("已用内存") {
         @Override
         public Long value() {
             return heapMemoryUsage().getUsed() + nonHeapMemoryUsage().getUsed();
         }
     },
 
-    COMMITED("已提交内存") {
+    COMMITTED("已提交内存") {
         @Override
         public Long value() {
             return heapMemoryUsage().getCommitted() + nonHeapMemoryUsage().getCommitted();

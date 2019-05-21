@@ -1,3 +1,3 @@
 insert into user (username, password)
-values ('admin', 'admin'),
-       ('root', 'root');
+select 'admin', 'admin' from dual
+    where not exists (select 1 from user where username='admin');
