@@ -4,6 +4,7 @@ package org.chobit.jspy.jobs;
 import org.chobit.jspy.core.gauge.MemoryGaugeManager;
 import org.chobit.jspy.service.MemoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.lang.management.MemoryUsage;
@@ -15,9 +16,10 @@ public class ServerMetricCollectJob {
     private MemoryService memoryService;
 
 
-    public void collectMemoryData(){
+    @Scheduled(fixedRate = 60 * 1000)
+    public void collectMemoryData() {
         MemoryUsage useage = MemoryGaugeManager.heapMemoryUsage();
-
+        memoryService.insert(useage, "jspyServer", "堆内存");
     }
 
 

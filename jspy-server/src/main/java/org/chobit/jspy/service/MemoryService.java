@@ -1,7 +1,6 @@
 package org.chobit.jspy.service;
 
 import org.chobit.jspy.beans.Memory;
-import org.chobit.jspy.core.constants.MemoryType;
 import org.chobit.jspy.mapper.MemoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +21,15 @@ public class MemoryService {
         return mapper.insert(memory);
     }
 
-    public int insert(MemoryUsage usage, MemoryType type) {
+    public int insert(MemoryUsage usage, String appId, String type) {
         Memory m = new Memory();
-
-        return mapper.insert(memory);
+        m.setType(type);
+        m.setAppId(appId);
+        m.setInit(usage.getInit());
+        m.setUsed(usage.getUsed());
+        m.setCommitted(usage.getCommitted());
+        m.setMax(usage.getMax());
+        return mapper.insert(m);
     }
 
 
