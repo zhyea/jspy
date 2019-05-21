@@ -29,6 +29,7 @@ public class MemoryService {
         m.setUsed(usage.getUsed());
         m.setCommitted(usage.getCommitted());
         m.setMax(usage.getMax());
+        m.setEventTime(new Date());
         return mapper.insert(m);
     }
 

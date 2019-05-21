@@ -34,7 +34,7 @@ create table if not exists memory
     used        bigint,
     committed   bigint,
     max         bigint,
-    event_time  time,
+    event_time  time default current_date,
 
     deleted     tinyint            default 0,
     insert_time datetime           default current_date,

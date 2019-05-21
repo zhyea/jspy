@@ -18,8 +18,9 @@ public class ServerMetricCollectJob {
 
     @Scheduled(fixedRate = 60 * 1000)
     public void collectMemoryData() {
-        MemoryUsage useage = MemoryGaugeManager.heapMemoryUsage();
-        memoryService.insert(useage, "jspyServer", "堆内存");
+        MemoryUsage usage = MemoryGaugeManager.heapMemoryUsage();
+        memoryService.insert(usage, "jspyServer", "堆内存");
+        System.out.println();
     }
 
 
