@@ -2,6 +2,8 @@ package org.chobit.jspy.service;
 
 import org.chobit.jspy.beans.Memory;
 import org.chobit.jspy.mapper.MemoryMapper;
+import org.chobit.jspy.mapper.MetricQueryMapper;
+import org.chobit.jspy.model.QueryParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +16,12 @@ public class MemoryService {
 
 
     @Autowired
-    private MemoryMapper mapper;
-
+    private MemoryMapper memoryMapper;
+    @Autowired
+    private MetricQueryMapper metricMapper;
 
     public int insert(Memory memory) {
-        return mapper.insert(memory);
+        return memoryMapper.insert(memory);
     }
 
     public int insert(MemoryUsage usage, String appId, String type) {
@@ -30,12 +33,12 @@ public class MemoryService {
         m.setCommitted(usage.getCommitted());
         m.setMax(usage.getMax());
         m.setEventTime(new Date());
-        return mapper.insert(m);
+        return memoryMapper.insert(m);
     }
 
 
-    public List<Memory> findByEventTime(Date eventTime) {
-        return mapper.findByEventTime(eventTime);
+    public List findByParams(QueryParam params) {
+        return metricMapper.findByParams("memory", params, "init", "used", "committed", "max", "event_time");
     }
 
 

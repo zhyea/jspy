@@ -3,26 +3,31 @@ package org.chobit.jspy.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.chobit.jspy.beans.Memory;
 
-import java.util.Date;
 import java.util.List;
 
 @Mapper
 public interface MemoryMapper {
 
 
-    @Insert({"insert into memory (app_id, type, init, used, committed, max, event_time)",
+    @Insert({
+            "insert into memory (app_id, type, init, used, committed, max, event_time)",
             "values",
-            "(#{appId}, #{type}, #{init}, #{used}, #{committed}, #{max}, #{eventTime})"})
+            "(#{appId}, #{type}, #{init}, #{used}, #{committed}, #{max}, #{eventTime})"
+    })
     int insert(Memory memory);
 
 
-    @Select("select * from memory")
-    List<Memory> findAll();
+    @Insert({
+            "<script>",
+            "insert into memory (app_id, type, init, used, committed, max, event_time)",
+            "values",
+            "<foreach collection='memories' item='item' separator=','>",
+            "(#{item.appId}, #{item.type}, #{item.init}, #{item.used}, #{item.committed}, #{item.max}, #{item.eventTime})",
+            "</foreach>",
+            "</script>"
+    })
+    int batchInsert(@Param("memories") List<Memory> memories);
 
-
-    @Select("select * from memory where event_time>#{eventTime}")
-    List<Memory> findByEventTime(@Param("eventTime") Date eventTime);
 }

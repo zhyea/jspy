@@ -1,5 +1,7 @@
 package org.chobit.jspy.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -7,10 +9,13 @@ public class AbstractEntity implements Serializable {
 
     private int id;
 
+    @JsonIgnore
     private byte deleted;
 
+    @JsonIgnore
     private Date insertTime;
 
+    @JsonIgnore
     private Date opTime;
 
     public int getId() {

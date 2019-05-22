@@ -1,11 +1,15 @@
 package org.chobit.jspy.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 public class Memory extends AbstractEntity {
 
+    @JsonIgnore
     private String appId;
 
+    @JsonIgnore
     private String type;
 
     private long init;
