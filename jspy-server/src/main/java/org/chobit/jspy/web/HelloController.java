@@ -13,6 +13,12 @@ public class HelloController {
         return "hello";
     }
 
+    @GetMapping("/")
+    public String index(ModelMap model) {
+        model.put("message", "Hello Thymeleaf!");
+        return "index";
+    }
+
     @GetMapping("/home")
     public String home(ModelMap model) {
         return "home";
