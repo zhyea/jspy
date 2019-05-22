@@ -20,7 +20,7 @@ public class ServerMetricCollectJob {
     public void collectMemoryData() {
         MemoryUsage usage = MemoryGaugeManager.heapMemoryUsage();
         memoryService.insert(usage, "jspyServer", "堆内存");
-        System.out.println();
+        System.out.println("------------------------");
     }
 
 

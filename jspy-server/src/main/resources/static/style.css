@@ -1,0 +1,100 @@
+/* CSS Document */
+
+body {
+    background: #A8ABA8;
+    font-size: 13px;
+}
+
+.layui-field-title {
+    margin: 12px 0 9px;
+}
+
+.layui-field-title legend {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.wrapper {
+    background: #FFF;
+    padding: 0;
+    margin-top: 18px;
+    margin-bottom: 18px;
+    border-radius: 5px;
+    width: 936px;
+    height: 100%;
+}
+
+/* -------------- head -------------- */
+.header {
+    height: 90px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.navi {
+    padding: 0;
+}
+
+.navi ul {
+    padding: 0;
+}
+
+.breadcrumb {
+    height: 36px;
+    padding: 6px 0 0 9px;
+    line-height: 32px;
+    border-bottom: 1px solid #B8BCB8;
+}
+
+
+/* -------------- content -------------- */
+
+.main {
+    padding: 12px;
+}
+
+.content-wrapper {
+
+}
+
+/* -------------- foot -------------- */
+
+.footer {
+    height: 81px;
+    background: #393D49;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.footer .notice {
+    color: #8F989C;
+    font-size: 15px;
+    line-height: 2.0em;
+    width: 100%;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+/* ------------------------------------ multi device ------------------------------------ */
+@media screen and (min-width: 810px) {
+    .content-wrapper {
+        border-right: 1px solid #CCC;
+        padding-right: 6px;
+    }
+}
+
+@media screen and (max-width: 810px) {
+    .wrapper {
+        width: 100%;
+    }
+
+    .wrapper {
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .header {
+        display: none;
+    }
+}
