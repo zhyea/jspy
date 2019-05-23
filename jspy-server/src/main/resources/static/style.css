@@ -1,7 +1,7 @@
 /* CSS Document */
 
 body {
-    background: #A8ABA8;
+    background-color: #f2f2f2;
     font-size: 13px;
 }
 
@@ -20,22 +20,21 @@ body {
     margin-top: 18px;
     margin-bottom: 18px;
     border-radius: 5px;
-    width: 936px;
+    width: 810px;
     height: 100%;
+    box-shadow: 0 0 15px 15px rgba(200, 200, 200, .14);
 }
 
 /* -------------- head -------------- */
 .header {
     height: 90px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
 }
 
-.navi {
+.navigator {
     padding: 0;
 }
 
-.navi ul {
+.navigator ul {
     padding: 0;
 }
 
@@ -61,9 +60,7 @@ body {
 
 .footer {
     height: 81px;
-    background: #393D49;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    background: #2C353A;
 }
 
 .footer .notice {
