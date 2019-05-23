@@ -1,4 +1,4 @@
-package org.chobit.jspy.mapper;
+package org.chobit.jspy.service.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;

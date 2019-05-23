@@ -5,31 +5,31 @@ import org.springframework.lang.Nullable;
 import java.io.Serializable;
 import java.util.*;
 
-public class LinkedLowerCaseKeyMap<V> implements Map<String, V>, Serializable, Cloneable {
+public class LowerCaseKeyMap<V> implements Map<String, V>, Serializable, Cloneable {
 
     private final LinkedHashMap<String, V> targetMap;
 
     private final Locale locale;
 
-    public LinkedLowerCaseKeyMap() {
+    public LowerCaseKeyMap() {
         this(16, null);
     }
 
-    public LinkedLowerCaseKeyMap(int initialCapacity) {
+    public LowerCaseKeyMap(int initialCapacity) {
         this(initialCapacity, null);
     }
 
-    public LinkedLowerCaseKeyMap(Locale locale) {
+    public LowerCaseKeyMap(Locale locale) {
         this(16, locale);
     }
 
-    public LinkedLowerCaseKeyMap(int initialCapacity, Locale locale) {
+    public LowerCaseKeyMap(int initialCapacity, Locale locale) {
         this.targetMap = new LinkedHashMap<>(initialCapacity);
         this.locale = null == locale ? Locale.getDefault() : locale;
     }
 
 
-    private LinkedLowerCaseKeyMap(LinkedLowerCaseKeyMap<V> other) {
+    private LowerCaseKeyMap(LowerCaseKeyMap<V> other) {
         this.targetMap = (LinkedHashMap<String, V>) other.targetMap.clone();
         this.locale = other.locale;
     }
@@ -117,8 +117,8 @@ public class LinkedLowerCaseKeyMap<V> implements Map<String, V>, Serializable, C
     }
 
     @Override
-    public LinkedLowerCaseKeyMap<V> clone() {
-        return new LinkedLowerCaseKeyMap<>(this);
+    public LowerCaseKeyMap<V> clone() {
+        return new LowerCaseKeyMap<>(this);
     }
 
     @Override
@@ -142,5 +142,26 @@ public class LinkedLowerCaseKeyMap<V> implements Map<String, V>, Serializable, C
 
     protected String convertKey(String key) {
         return key.toLowerCase(getLocale());
+    }
+
+    public String getString(String key) {
+        if (get(key) instanceof String) {
+            return (String) get(key);
+        }
+        return get(key).toString();
+    }
+
+    public Long getLong(String key) {
+        if (get(key) instanceof Long) {
+            return (Long) get(key);
+        }
+        throw new NumberFormatException();
+    }
+
+    public Integer getInt(String key) {
+        if (get(key) instanceof Long) {
+            return (Integer) get(key);
+        }
+        throw new NumberFormatException();
     }
 }

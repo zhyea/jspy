@@ -1,4 +1,4 @@
-package org.chobit.jspy.beans;
+package org.chobit.jspy.service.beans;
 
 public class User extends AbstractEntity {
 

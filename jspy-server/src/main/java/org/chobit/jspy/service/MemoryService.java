@@ -1,9 +1,10 @@
 package org.chobit.jspy.service;
 
-import org.chobit.jspy.beans.Memory;
-import org.chobit.jspy.mapper.MemoryMapper;
-import org.chobit.jspy.mapper.MetricQueryMapper;
+import org.chobit.jspy.service.beans.Memory;
+import org.chobit.jspy.service.mapper.MemoryMapper;
+import org.chobit.jspy.service.mapper.MetricQueryMapper;
 import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class MemoryService {
     }
 
 
-    public List findByParams(QueryParam params) {
+    public List<LowerCaseKeyMap> findByParams(QueryParam params) {
         return metricMapper.findByParams("memory", params, "init", "used", "committed", "max", "event_time");
     }
 

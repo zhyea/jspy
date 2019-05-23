@@ -1,9 +1,9 @@
-package org.chobit.jspy.mapper;
+package org.chobit.jspy.service.mapper;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.chobit.jspy.beans.Memory;
+import org.chobit.jspy.service.beans.Memory;
 
 import java.util.List;
 
