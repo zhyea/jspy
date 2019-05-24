@@ -6,11 +6,73 @@
 <div class="wrap">
     <div th:replace="common/nav::nav"></div>
     <main>
-        <div id="main" style="width: 100%; height:400px;"></div>
+        <div id="memoryCharts" style="width: 100%; height:400px;"></div>
     </main>
     <div th:replace="common/footer::footer"></div>
 </div>
 
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('memoryCharts'), 'macarons');
+
+    // 指定图表的配置项和数据
+    option = {
+        tooltip: {
+            // 当trigger为’item’时只会显示该点的数据，为’axis’时显示该列下所有坐标轴所对应的数据。
+            trigger: 'axis',
+            // 提示框的位置
+            position: function (pt) {
+                return [pt[0], '10%'];
+            }
+        },
+        yAxis: {
+            type: 'value'
+        },
+        xAxis: {},
+        dataZoom: [{ // 内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系
+            type: 'inside',
+            start: 80,
+            end: 100
+        }, {
+            start: 80,
+            end: 100
+        }]
+    };
+
+
+    myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
+
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        url: "/memory/find-by-params",
+        data: JSON.stringify({
+            type: "堆内存",
+            startTime: new Date().getMilliseconds() - 12 * 60 * 60 * 1000
+        }),
+        async: true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            //请求成功时执行该函数内容，result即为服务器返回的json对象
+            if (result) {
+                myChart.hideLoading();    //隐藏加载动画
+                option.xAxis.data = result.xAxis;
+                option.series = result.series;
+                option.legends = result.legends;
+                //option.title.text = result.title;
+
+                myChart.setOption(option);
+            }
+
+        },
+        error: function (errorMsg) {
+            alert("图表请求数据失败!");
+            myChart.hideLoading();
+        }
+    })
+    // 使用刚指定的配置项和数据显示图表。
+</script>
 
 </body>
 </html>
