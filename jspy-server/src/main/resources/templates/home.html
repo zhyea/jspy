@@ -26,10 +26,28 @@
                 return [pt[0], '10%'];
             }
         },
+        title:{},
+        legend:{},
         yAxis: {
-            type: 'value'
+            type: 'value',
+            axisLabel: {
+                formatter: function (value) {
+                    return formatSize(value)
+                }
+            }
         },
-        xAxis: {},
+        xAxis: {
+            axisLabel: {
+                formatter: function(value){
+                    console.log(value)
+                    console.log(new Date(value).format("yyyy/MM/dd hh:mm"))
+                    return new Date(value).format("yyyy/MM/dd hh:mm")
+                }
+            }
+        },
+        grid:{
+            show: true
+        },
         dataZoom: [{ // 内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系
             type: 'inside',
             start: 80,
@@ -52,15 +70,15 @@
             startTime: new Date().getMilliseconds() - 12 * 60 * 60 * 1000
         }),
         async: true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-        dataType: "json",        //返回数据形式为json
+        dataType: "json", //返回数据形式为json
         success: function (result) {
             //请求成功时执行该函数内容，result即为服务器返回的json对象
             if (result) {
                 myChart.hideLoading();    //隐藏加载动画
+                option.title.text = result.title;
                 option.xAxis.data = result.xAxis;
                 option.series = result.series;
-                option.legends = result.legends;
-                //option.title.text = result.title;
+                option.legend.data = result.legends;
 
                 myChart.setOption(option);
             }
@@ -71,7 +89,6 @@
             myChart.hideLoading();
         }
     })
-    // 使用刚指定的配置项和数据显示图表。
 </script>
 
 </body>

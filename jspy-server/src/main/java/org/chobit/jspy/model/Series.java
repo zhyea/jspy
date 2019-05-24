@@ -8,7 +8,7 @@ public class Series<T> {
 
     private String name;
 
-    private ChartType type;
+    private ChartType type = ChartType.line;
 
     private final List<T> data = new LinkedList<>();
 
