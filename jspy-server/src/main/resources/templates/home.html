@@ -21,31 +21,38 @@
         tooltip: {
             // 当trigger为’item’时只会显示该点的数据，为’axis’时显示该列下所有坐标轴所对应的数据。
             trigger: 'axis',
-            // 提示框的位置
-            position: function (pt) {
-                return [pt[0], '10%'];
+            formatter: function (params) {
+                var res = '<p>时间：' + new Date(params[0].name * 1).format("yy-MM-dd HH:mm") + '</p>'
+                for (var i = 0; i < params.length; i++) {
+                    res += '<p>' + params[i].seriesName + ': ' + (params[i].data * 1).formatSize() + '</p>'
+                }
+                return res;
             }
         },
-        title:{},
-        legend:{},
+        title: {},
+        legend: {},
         yAxis: {
             type: 'value',
             axisLabel: {
                 formatter: function (value) {
-                    return formatSize(value)
+                    return (1 * value).formatSize()
                 }
             }
         },
         xAxis: {
             axisLabel: {
-                formatter: function(value){
-                    console.log(value)
-                    console.log(new Date(value).format("yyyy/MM/dd hh:mm"))
-                    return new Date(value).format("yyyy/MM/dd hh:mm")
-                }
+                formatter: function (value) {
+                    var v = 1 * value / 60 / 1000 * 60 * 1000 // 按分钟取整
+                    if (v / (24 * 60 * 60 * 1000) == 0) {
+                        return new Date(v).format("yy-MM-dd") + '<br>' + new Date(v).format("HH:mm")
+                    }
+                    return new Date(v).format("HH:mm")
+                },
+                interval: 3,
+                rotate: 0
             }
         },
-        grid:{
+        grid: {
             show: true
         },
         dataZoom: [{ // 内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系
@@ -78,7 +85,7 @@
                 option.title.text = result.title;
                 option.xAxis.data = result.xAxis;
                 option.series = result.series;
-                option.legend.data = result.legends;
+                option.legend.data = result.legend;
 
                 myChart.setOption(option);
             }
@@ -88,7 +95,9 @@
             alert("图表请求数据失败!");
             myChart.hideLoading();
         }
-    })
+    });
+
+    myChart.addData()
 </script>
 
 </body>

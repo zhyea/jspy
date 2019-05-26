@@ -21,6 +21,13 @@ Date.prototype.format = function (fmt) {
     return fmt;
 };
 
+Number.prototype.formatSize = function () {
+    var sizes = ['B','K','M','G','T'];
+    if(0==this) return 0;
+    var i = parseInt(Math.floor(Math.log(this) / Math.log(1024)));
+    return (this / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+};
+
 function formatSize(bytes){
     var sizes = ['B','K','M','G','T'];
     if (bytes == 0) return 0;

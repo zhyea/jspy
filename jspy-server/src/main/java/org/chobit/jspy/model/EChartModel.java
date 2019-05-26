@@ -8,7 +8,7 @@ public class EChartModel<T, X> {
 
     private String title;
 
-    private final List<String> legends = new LinkedList<>();
+    private final List<String> legend = new LinkedList<>();
 
     private final List<Series<T>> series = new LinkedList<>();
 
@@ -24,7 +24,7 @@ public class EChartModel<T, X> {
 
     public void addSeries(Series<T> s) {
         this.series.add(s);
-        this.legends.add(s.getName());
+        this.legend.add(s.getName());
     }
 
     public void addXAxis(X a) {
@@ -39,8 +39,8 @@ public class EChartModel<T, X> {
         this.title = title;
     }
 
-    public List<String> getLegends() {
-        return legends;
+    public List<String> getLegend() {
+        return legend;
     }
 
     public List<Series<T>> getSeries() {
