@@ -1,4 +1,4 @@
-package org.chobit.jspy.echarts.annotation;
+package org.chobit.jspy.charts.annotation;
 
 
 import java.lang.annotation.ElementType;

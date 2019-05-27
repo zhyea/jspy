@@ -1,28 +1,28 @@
-package org.chobit.jspy.echarts;
+package org.chobit.jspy.charts;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class EChartModel<T, X> {
+public class ChartModel<T, X> {
 
 
     private String title;
 
     private final List<String> legend = new LinkedList<>();
 
-    private final List<EChartSeries<T>> series = new LinkedList<>();
+    private final List<Series<T>> series = new LinkedList<>();
 
     private final List<X> xAxis = new LinkedList<>();
 
 
-    public EChartModel() {
+    public ChartModel() {
     }
 
-    public EChartModel(String title) {
+    public ChartModel(String title) {
         this.title = title;
     }
 
-    public void addSeries(EChartSeries<T> s) {
+    public void addSeries(Series<T> s) {
         this.series.add(s);
         this.legend.add(s.getName());
     }
@@ -43,7 +43,7 @@ public class EChartModel<T, X> {
         return legend;
     }
 
-    public List<EChartSeries<T>> getSeries() {
+    public List<Series<T>> getSeries() {
         return series;
     }
 

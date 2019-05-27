@@ -1,10 +1,10 @@
-package org.chobit.jspy.echarts;
+package org.chobit.jspy.charts;
 
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class EChartSeries<T> {
+public class Series<T> {
 
     private String name;
 
@@ -13,10 +13,10 @@ public class EChartSeries<T> {
     private final List<T> data = new LinkedList<>();
 
 
-    public EChartSeries() {
+    public Series() {
     }
 
-    public EChartSeries(String name) {
+    public Series(String name) {
         this.name = name;
     }
 

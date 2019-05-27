@@ -4,13 +4,20 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class StringUtils {
+public abstract class Strings {
 
 
-    private static final Pattern LINE_PATTERN = Pattern.compile("_(\\w)");
+    public static boolean isBlank(final String s) {
+        return s == null || s.trim().isEmpty();
+    }
+
+
+    public static boolean isNotBlank(final String s) {
+        return !isBlank(s);
+    }
+
 
     private static final Pattern HUMP_PATTERN = Pattern.compile("[A-Z]");
-
     public static String humpToLine(String str) {
         Matcher matcher = HUMP_PATTERN.matcher(str);
         StringBuffer sb = new StringBuffer();
@@ -25,6 +32,8 @@ public abstract class StringUtils {
         return src.replaceAll("[A-Z]", "_$0").toLowerCase();
     }
 
+
+    private static final Pattern LINE_PATTERN = Pattern.compile("_(\\w)");
     public static String lineToHump(String src) {
         Objects.requireNonNull(src);
 

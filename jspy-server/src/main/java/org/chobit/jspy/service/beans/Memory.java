@@ -1,6 +1,9 @@
 package org.chobit.jspy.service.beans;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.chobit.jspy.charts.AxisType;
+import org.chobit.jspy.charts.annotation.Axis;
+import org.chobit.jspy.charts.annotation.Series;
 
 import java.util.Date;
 
@@ -12,14 +15,19 @@ public class Memory extends AbstractEntity {
     @JsonIgnore
     private String type;
 
+    @Series("初始内存")
     private long init;
 
+    @Series("已使用")
     private long used;
 
+    @Series("已提交")
     private long committed;
 
+    @Series("最大可用")
     private long max;
 
+    @Axis(type = AxisType.MILLS_TIME)
     private Date eventTime;
 
 
