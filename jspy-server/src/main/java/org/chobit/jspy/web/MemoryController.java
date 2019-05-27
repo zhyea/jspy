@@ -1,7 +1,7 @@
 package org.chobit.jspy.web;
 
 
-import org.chobit.jspy.model.EChartModel;
+import org.chobit.jspy.echarts.annotation.EChartModel;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.MemoryService;
 import org.chobit.jspy.tools.EChartKit;

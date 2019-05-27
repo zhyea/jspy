@@ -1,7 +1,7 @@
 package org.chobit.jspy.tools;
 
-import org.chobit.jspy.model.EChartModel;
-import org.chobit.jspy.model.Series;
+import org.chobit.jspy.echarts.EChartModel;
+import org.chobit.jspy.echarts.EChartSeries;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +15,9 @@ public abstract class EChartKit {
 
     public static final EChartModel fill(String name, List<LowerCaseKeyMap> data, String axis, String... columns) {
         EChartModel model = new EChartModel<>(name);
-        Map<String, Series> map = new HashMap<>(columns.length);
+        Map<String, EChartSeries> map = new HashMap<>(columns.length);
         for (String c : columns) {
-            map.put(c, new Series(c));
+            map.put(c, new EChartSeries(c));
         }
         for (LowerCaseKeyMap m : data) {
             model.addXAxis(m.get(axis));
@@ -25,7 +25,7 @@ public abstract class EChartKit {
                 map.get(c).addData(m.get(c));
             }
         }
-        for (Series s : map.values()) {
+        for (EChartSeries s : map.values()) {
             model.addSeries(s);
         }
         return model;

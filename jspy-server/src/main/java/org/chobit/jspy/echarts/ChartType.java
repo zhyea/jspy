@@ -1,4 +1,4 @@
-package org.chobit.jspy.model;
+package org.chobit.jspy.echarts;
 
 public enum ChartType {
 

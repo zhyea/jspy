@@ -59,9 +59,6 @@
             type: 'inside',
             start: 80,
             end: 100
-        }, {
-            start: 80,
-            end: 100
         }]
     };
 
@@ -76,6 +73,7 @@
             type: "堆内存",
             startTime: new Date().getMilliseconds() - 12 * 60 * 60 * 1000
         }),
+        timeout: 20000,
         async: true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
         dataType: "json", //返回数据形式为json
         success: function (result) {
