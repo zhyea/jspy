@@ -30,14 +30,13 @@ public abstract class ChartKit {
      * 填充charts数据
      */
     public static final ChartModel fill(String name, List<LowerCaseKeyMap> data, Class chartModel) {
-        Map<String, Series> seriesNameMap = parseSeriesNameMap(chartModel);
+        Map<String, Series> seriesMap = parseSeriesNameMap(chartModel);
         AxisInfo axisInfo = parseAxisInfo(chartModel);
 
         ChartModel model = new ChartModel(name);
 
         model.setInterval(data.size() / NUM_OF_MARKS);
-        Map<String, Series> seriesMap = new HashMap<>(seriesNameMap.size());
-        for (Map.Entry<String, Series> e : seriesNameMap.entrySet()) {
+        for (Map.Entry<String, Series> e : seriesMap.entrySet()) {
             model.addSeries(e.getValue());
         }
         for (LowerCaseKeyMap m : data) {
