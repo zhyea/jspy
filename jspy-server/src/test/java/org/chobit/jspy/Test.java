@@ -1,18 +1,24 @@
 package org.chobit.jspy;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.util.LinkedCaseInsensitiveMap;
+import org.chobit.jspy.service.beans.Memory;
+
+import java.lang.reflect.Field;
 
 public class Test {
 
 
     private static ObjectMapper mapper = new ObjectMapper();
 
-    public static void main(String[] args) throws JsonProcessingException {
-        LinkedCaseInsensitiveMap map = new LinkedCaseInsensitiveMap();
-        map.put("AAA", 1);
-        System.out.println(map.get("aaa"));
-        System.out.println(map);
+    public static void main(String[] args) {
+        Field[] fields = Memory.class.getFields();
+        for(Field f : fields){
+            System.out.println(f.getName());
+        }
+        System.out.println("------------------");
+        Field[] fields2 = Memory.class.getDeclaredFields();
+        for(Field f : fields2){
+            System.out.println(f.getName());
+        }
     }
 }

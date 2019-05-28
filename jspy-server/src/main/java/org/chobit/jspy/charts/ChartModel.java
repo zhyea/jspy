@@ -14,6 +14,8 @@ public class ChartModel<T, X> {
 
     private final List<X> xAxis = new LinkedList<>();
 
+    private int interval;
+
 
     public ChartModel() {
     }
@@ -49,5 +51,13 @@ public class ChartModel<T, X> {
 
     public List<X> getxAxis() {
         return xAxis;
+    }
+
+    public int getInterval() {
+        return interval;
+    }
+
+    public void setInterval(int interval) {
+        this.interval = interval;
     }
 }

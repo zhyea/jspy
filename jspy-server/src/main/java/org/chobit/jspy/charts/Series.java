@@ -6,7 +6,11 @@ import java.util.List;
 
 public class Series<T> {
 
+    private String id;
+
     private String name;
+
+    private String symbol = "none";
 
     private ChartType type = ChartType.line;
 
@@ -20,12 +24,29 @@ public class Series<T> {
         this.name = name;
     }
 
+    public Series(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public void addData(T d) {
         data.add(d);
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public ChartType getType() {

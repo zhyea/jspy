@@ -20,24 +20,39 @@ import static org.chobit.jspy.utils.Strings.isNotBlank;
  */
 public abstract class ChartKit {
 
+
+    /**
+     * 坐标轴上刻度的数量
+     */
+    private static final int NUM_OF_MARKS = 12;
+
     /**
      * 填充charts数据
      */
     public static final ChartModel fill(String name, List<LowerCaseKeyMap> data, Class chartModel) {
-        Map<String, String> seriesNameMap = parseSeriesNameMap(chartModel);
+        Map<String, Series> seriesNameMap = parseSeriesNameMap(chartModel);
         AxisInfo axisInfo = parseAxisInfo(chartModel);
 
         ChartModel model = new ChartModel(name);
+
+        model.setInterval(data.size() / NUM_OF_MARKS);
         Map<String, Series> seriesMap = new HashMap<>(seriesNameMap.size());
-        for (Map.Entry<String, String> e : seriesNameMap.entrySet()) {
-            Series s = new Series(e.getValue());
-            seriesMap.put(e.getKey(), s);
-            model.addSeries(s);
+        for (Map.Entry<String, Series> e : seriesNameMap.entrySet()) {
+            model.addSeries(e.getValue());
         }
         for (LowerCaseKeyMap m : data) {
-            model.addXAxis(axisInfo.format(m.get(axisInfo.field)));
+            // 如xAxis type为 time，横轴数据在Series中设置
+            if (axisInfo.getType() != AxisType.time) {
+                model.addXAxis(axisInfo.format(axisInfo.getField()));
+            }
             for (Map.Entry<String, Series> e : seriesMap.entrySet()) {
-                e.getValue().addData(m.get(e.getKey()));
+                if (axisInfo.getType() == AxisType.time) {
+                    // 如xAxis type为 time，时间在Series中设置
+                    Object[] value = new Object[]{m.get(axisInfo.getField()), m.get(e.getKey())};
+                    e.getValue().addData(value);
+                } else {
+                    e.getValue().addData(m.get(e.getKey()));
+                }
             }
         }
 
@@ -45,14 +60,16 @@ public abstract class ChartKit {
     }
 
 
-    private static Map<String, String> parseSeriesNameMap(Class model) {
-        Map<String, String> seriesMap = new HashMap<>(4);
-        for (Field f : model.getDeclaredFields()) {
+    private static Map<String, Series> parseSeriesNameMap(Class model) {
+        Map<String, Series> seriesMap = new HashMap<>(4);
+        Field[] fields = model.getDeclaredFields();
+        for (Field f : fields) {
             if (f.isAnnotationPresent(org.chobit.jspy.charts.annotation.Series.class)) {
                 org.chobit.jspy.charts.annotation.Series series =
                         f.getAnnotation(org.chobit.jspy.charts.annotation.Series.class);
                 String name = isBlank(series.value()) ? f.getName() : series.value();
-                seriesMap.put(humpToLine(f.getName()), name);
+                String id = isBlank(series.id()) ? f.getName() : series.id();
+                seriesMap.put(humpToLine(f.getName()), new Series(id, name));
             }
         }
         return seriesMap;
@@ -60,65 +77,77 @@ public abstract class ChartKit {
 
 
     private static AxisInfo parseAxisInfo(Class model) {
-        for (Field f : model.getDeclaredFields()) {
+        Field[] fields = model.getDeclaredFields();
+        for (Field f : fields) {
             if (f.isAnnotationPresent(Axis.class)) {
                 Axis axis = f.getAnnotation(Axis.class);
                 String field = humpToLine(f.getName());
                 AxisType type = axis.type();
+                ValueType valueType = axis.valueType();
                 String format = axis.format();
-                return new AxisInfo(field, type, format);
+                return new AxisInfo(field, type, valueType, format);
             }
         }
         throw new IllegalArgumentException("Chart Model Class中没有提供坐标轴信息");
     }
 
 
-    private static class AxisInfo {
+}
 
-        private String field;
+class AxisInfo {
 
-        private AxisType type;
+    private String field;
 
-        private String format;
+    private AxisType type;
 
-        private Format fmt;
+    private ValueType valueType;
 
-        public AxisInfo(String name, AxisType type, String format) {
-            this.field = name;
-            this.type = type;
-            this.format = format;
-            if (isNotBlank(format)) {
-                switch (type) {
-                    case INT:
-                    case LONG:
-                        fmt = new DecimalFormat(format);
-                        break;
-                    case MILLS_TIME:
-                        fmt = new SimpleDateFormat(format);
-                        break;
-                }
+    private String format;
+
+    private Format fmt;
+
+    public AxisInfo(String field, AxisType type, ValueType valueType, String format) {
+        this.field = field;
+        this.type = type;
+        this.valueType = valueType;
+        this.format = format;
+        if (isNotBlank(format)) {
+            switch (valueType) {
+                case INT:
+                case LONG:
+                    fmt = new DecimalFormat(format);
+                    break;
+                case MILLS_TIME:
+                    fmt = new SimpleDateFormat(format);
+                    break;
             }
         }
-
-
-        public Object format(Object value) {
-            if (null != fmt) {
-                return fmt.format(value);
-            }
-            return value;
-        }
-
-        public String getField() {
-            return field;
-        }
-
-        public AxisType getType() {
-            return type;
-        }
-
-        public String getFormat() {
-            return format;
+        if (type == AxisType.time && valueType != ValueType.MILLS_TIME) {
+            throw new IllegalArgumentException("如Axis type 为time，其值的类型必须为MILLS_TIME");
         }
     }
 
+
+    public Object format(Object value) {
+        if (null != fmt) {
+            return fmt.format(value);
+        }
+        return value;
+    }
+
+    public AxisType getType() {
+        return type;
+    }
+
+    public String getField() {
+        return field;
+    }
+
+    public ValueType getValueType() {
+        return valueType;
+    }
+
+    public String getFormat() {
+        return format;
+    }
 }

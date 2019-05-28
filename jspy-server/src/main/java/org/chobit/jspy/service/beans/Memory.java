@@ -2,6 +2,7 @@ package org.chobit.jspy.service.beans;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.chobit.jspy.charts.AxisType;
+import org.chobit.jspy.charts.ValueType;
 import org.chobit.jspy.charts.annotation.Axis;
 import org.chobit.jspy.charts.annotation.Series;
 
@@ -27,7 +28,7 @@ public class Memory extends AbstractEntity {
     @Series("最大可用")
     private long max;
 
-    @Axis(type = AxisType.MILLS_TIME)
+    @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
 

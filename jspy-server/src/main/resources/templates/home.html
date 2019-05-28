@@ -14,7 +14,7 @@
 
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('memoryCharts'), 'macarons');
+    const myChart = echarts.init(document.getElementById('memoryCharts'), 'macarons');
 
     // 指定图表的配置项和数据
     option = {
@@ -22,9 +22,9 @@
             // 当trigger为’item’时只会显示该点的数据，为’axis’时显示该列下所有坐标轴所对应的数据。
             trigger: 'axis',
             formatter: function (params) {
-                var res = '<p>时间：' + new Date(params[0].name * 1).format("yy-MM-dd HH:mm") + '</p>'
+                var res = '<p>时间：' + new Date(params[0].axisValue * 1).format("yy-MM-dd HH:mm") + '</p>'
                 for (var i = 0; i < params.length; i++) {
-                    res += '<p>' + params[i].seriesName + ': ' + (params[i].data * 1).formatSize() + '</p>'
+                    res += '<p>' + params[i].seriesName + ': ' + (params[i].data[1] * 1).formatSize() + '</p>'
                 }
                 return res;
             }
@@ -40,24 +40,17 @@
             }
         },
         xAxis: {
+            type: 'time',
             axisLabel: {
-                formatter: function (value) {
-                    var v = 1 * value / 60 / 1000 * 60 * 1000 // 按分钟取整
-                    if (v / (24 * 60 * 60 * 1000) == 0) {
-                        return new Date(v).format("yy-MM-dd") + '<br>' + new Date(v).format("HH:mm")
-                    }
-                    return new Date(v).format("HH:mm")
-                },
-                interval: 3,
                 rotate: 0
             }
         },
         grid: {
-            show: true
+            show: true,
+            bottom: 72
         },
-        dataZoom: [{ // 内置于坐标系中，使用户可以在坐标系上通过鼠标拖拽、鼠标滚轮、手指滑动（触屏上）来缩放或漫游坐标系
-            type: 'inside',
-            start: 80,
+        dataZoom: [{
+            start: 0,
             end: 100
         }]
     };
@@ -65,13 +58,36 @@
 
     myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
 
+    let startTime = new Date().getMilliseconds() - 12 * 60 * 60 * 1000;
+
+    function obtainData(url, type, startTime) {
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: url,
+            data: JSON.stringify({
+                type: type,
+                startTime: startTime
+            }),
+            dataType: "json",
+            timeout: 2 * 60 * 1000,
+            success: function (result) {
+                refresh(result);
+                obtainData(url, startTime);
+            },
+            error: function (errorMsg) {
+                obtainData(url, startTime);
+            },
+        });
+    }
+
     $.ajax({
         type: "post",
         contentType: "application/json",
         url: "/memory/find-by-params",
         data: JSON.stringify({
             type: "堆内存",
-            startTime: new Date().getMilliseconds() - 12 * 60 * 60 * 1000
+            startTime: startTime
         }),
         timeout: 20000,
         async: true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
@@ -95,7 +111,9 @@
         }
     });
 
-    myChart.addData()
+    function refresh(data){
+
+    }
 </script>
 
 </body>
