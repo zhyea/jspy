@@ -13,6 +13,11 @@
 
 
 <script type="text/javascript">
+
+    const REQUEST_START_TIME = new Date().getTime() - 60 * 60 * 1000;
+
+    const REQUEST_INTERVAL = 6 * 1000;
+
     // 基于准备好的dom，初始化echarts实例
     const myChart = echarts.init(document.getElementById('memoryCharts'), 'macarons');
 
@@ -21,7 +26,6 @@
     function loadChart(chart, url, type) {
         chart.showLoading();
         obtainData(chart, url, type, 0);
-        chart.hideLoading();
     }
 
     function option() {
@@ -49,10 +53,7 @@
                 }
             },
             xAxis: {
-                type: 'time',
-                axisLabel: {
-                    rotate: 0
-                }
+                type: 'time'
             },
             grid: {
                 show: true,
@@ -70,7 +71,7 @@
      */
     function obtainData(chart, url, type, startTime) {
         if (startTime <= 0) {
-            startTime = new Date().getTime() - 6 * 60 * 1000;//12 * 60 * 60 * 1000;
+            startTime = REQUEST_START_TIME;//12 * 60 * 60 * 1000;
         }
         let endTime = new Date();
 
@@ -96,10 +97,10 @@
                 }
                 setTimeout(function () {
                     obtainData(chart, url, type, endTime);
-                }, 1.1 * 6 * 1000);
+                }, REQUEST_INTERVAL);
             },
             error: function (errorMsg) {
-                alert("图表请求数据失败!" + errorMsg);
+                console.log("图表请求数据失败:" + errorMsg.toString());
                 setTimeout(function () {
                     obtainData(chart, url, type, endTime);
                 }, 3 * 60 * 1000);
@@ -119,6 +120,8 @@
         opt.legend.data = result.legend;
 
         chart.setOption(opt);
+
+        chart.hideLoading();
     }
 
     /**

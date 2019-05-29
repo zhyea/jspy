@@ -15,7 +15,7 @@ create table if not exists app
 (
     id          identity primary key,
 
-    app_id      varchar(16) unique not null,
+    app_code    varchar(16) unique not null,
     app_name    varchar(64)        not null,
 
     deleted     tinyint                     default 0,
