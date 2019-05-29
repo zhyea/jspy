@@ -16,15 +16,23 @@
     // 基于准备好的dom，初始化echarts实例
     const myChart = echarts.init(document.getElementById('memoryCharts'), 'macarons');
 
+    loadChart(myChart, '/memory/find-by-params', '堆内存');
+
+    function loadChart(chart, url, type) {
+        chart.showLoading();
+        obtainData(chart, url, type, 0);
+        chart.hideLoading();
+    }
+
     function option() {
         // 指定图表的配置项和数据
-        let opt = {
+        return {
             tooltip: {
                 // 当trigger为’item’时只会显示该点的数据，为’axis’时显示该列下所有坐标轴所对应的数据。
                 trigger: 'axis',
                 formatter: function (params) {
-                    var res = '<p>时间：' + new Date(params[0].axisValue * 1).format("yy-MM-dd HH:mm") + '</p>'
-                    for (var i = 0; i < params.length; i++) {
+                    let res = '<p>时间：' + new Date(params[0].axisValue * 1).format("yy-MM-dd HH:mm") + '</p>';
+                    for (let i = 0; i < params.length; i++) {
                         res += '<p>' + params[i].seriesName + '：' + (params[i].data[1] * 1).formatSize() + '</p>'
                     }
                     return res;
@@ -55,16 +63,14 @@
                 end: 100
             }]
         };
-
-        return opt;
     }
 
-
-    myChart.showLoading();    //数据加载完之前先显示一段简单的loading动画
-
-    function obtainData(url, type, startTime) {
-        if ('undefined' === typeof startTime) {
-            startTime = new Date().getMilliseconds() - 12 * 60 * 60 * 1000;
+    /**
+     * 向后台请求数据
+     */
+    function obtainData(chart, url, type, startTime) {
+        if (startTime <= 0) {
+            startTime = new Date().getTime() - 6 * 60 * 1000;//12 * 60 * 60 * 1000;
         }
         let endTime = new Date();
 
@@ -81,57 +87,56 @@
             dataType: "json",
             timeout: 2 * 60 * 1000,
             success: function (result) {
-                refresh(result);
+                if (result) {
+                    if ('undefined' == typeof chart.getOption()) {
+                        init(chart, result)
+                    } else {
+                        refresh(chart, result);
+                    }
+                }
                 setTimeout(function () {
-                    obtainData(url, type, endTime);
-                }, 1 * 60 * 1000);
+                    obtainData(chart, url, type, endTime);
+                }, 1.1 * 6 * 1000);
             },
             error: function (errorMsg) {
+                alert("图表请求数据失败!" + errorMsg);
                 setTimeout(function () {
-                    obtainData(url, type, endTime);
+                    obtainData(chart, url, type, endTime);
                 }, 3 * 60 * 1000);
             }
         });
     }
 
-    function start() {
+    /**
+     * 初始化图表配置
+     */
+    function init(chart, result) {
+        let opt = option();
 
+        opt.title.text = result.title;
+        //opt.xAxis.data = result.xAxis;
+        opt.series = result.series;
+        opt.legend.data = result.legend;
+
+        chart.setOption(opt);
     }
 
-    $.ajax({
-        type: "post",
-        contentType: "application/json",
-        url: "/memory/find-by-params",
-        data: JSON.stringify({
-            type: "堆内存",
-            startTime: new Date().getMilliseconds() - 12 * 60 * 60 * 1000
-        }),
-        timeout: 20000,
-        async: true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-        dataType: "json", //返回数据形式为json
-        success: function (result) {
-            //请求成功时执行该函数内容，result即为服务器返回的json对象
-            if (result) {
-                myChart.hideLoading();    //隐藏加载动画
-                let opt = option();
+    /**
+     * 刷新报表数据
+     */
+    function refresh(chart, result) {
+        let series = chart.getOption().series;
 
-                opt.title.text = result.title;
-                opt.xAxis.data = result.xAxis;
-                opt.series = result.series;
-                opt.legend.data = result.legend;
-
-                myChart.setOption(opt);
+        for (let i = 0; i < series.length; i++) {
+            for (let j = 0; j < result.series[i].data.length; j++) {
+                series[i].data.shift();
+                series[i].data.push(result.series[i].data[j]);
             }
-
-        },
-        error: function (errorMsg) {
-            alert("图表请求数据失败!");
-            myChart.hideLoading();
         }
-    });
 
-    function refresh(data) {
-
+        chart.setOption({
+            series: series
+        })
     }
 </script>
 
