@@ -6,7 +6,28 @@
 <div class="wrap">
     <div th:replace="common/nav::nav"></div>
     <main>
-        <table id="appTable" style="width: 100%;"></table>
+
+
+        <div id="appTableToolbar">
+            <div class="btn-group">
+                <button id="btnAdd" class="btn btn-default" onclick=""><i class="icon-plus"></i>新增</button>
+                <button id="btnDelete" class="btn btn-default" disabled><i class="icon-minus"></i> 删除</button>
+            </div>
+        </div>
+        <table id="appTable"
+               data-toggle="table"
+               data-search="true"
+               data-url="/app/all">
+            <thead>
+            <tr>
+                <th data-checkbox=true data-valign="middle" data-field="id">ID</th>
+                <th data-sortable=true data-valign="left" data-field="name">应用名称</th>
+                <th data-sortable=true data-valign="middle" data-field="price">短码</th>
+                <th data-sortable=true data-valign="middle" data-field="id">操作</th>
+            </tr>
+            </thead>
+        </table>
+
     </main>
     <div th:replace="common/footer::footer"></div>
 </div>
@@ -15,6 +36,13 @@
 <script th:src="@{/js/script.js}"></script>
 <script th:src="@{/js/bootstrap-table.min.js}"></script>
 <script th:src="@{/js/bootstrap-table-zh-CN.min.js}"></script>
+
+
+<script type="text/javascript">
+
+
+</script>
+
 
 </body>
 </html>

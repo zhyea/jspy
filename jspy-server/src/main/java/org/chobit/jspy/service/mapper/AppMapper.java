@@ -6,6 +6,7 @@ import org.chobit.jspy.service.beans.App;
 
 import java.util.List;
 
+@Mapper
 public interface AppMapper {
 
     @Insert("insert into app (app_code, app_name) values (#{appCode}, #{appName})")
