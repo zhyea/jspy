@@ -15,7 +15,7 @@ public class AppController {
     private AppService appService;
 
 
-    @PostMapping("/all")
+    @GetMapping("/all")
     public List<App> findAll() {
         return appService.findAll();
     }
