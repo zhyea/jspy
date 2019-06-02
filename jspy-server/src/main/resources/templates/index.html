@@ -10,54 +10,68 @@
 
         <div id="appTableToolbar">
             <div class="btn-group">
-                <button id="btnAdd" class="btn btn-default" data-toggle="modal" data-target="#appAddModal"><i class="icon-plus"></i>新增</button>
+                <button id="btnAdd" class="btn btn-default" data-toggle="modal" data-target="#appAddModal"><i
+                        class="icon-plus"></i>新增
+                </button>
                 <button id="btnDelete" class="btn btn-default" disabled><i class="icon-minus"></i> 删除</button>
             </div>
         </div>
         <table id="appTable"
                data-toggle="table"
                data-search="true"
+               data-classes="table table-hover table-striped"
+               data-thead-classes="thead-light"
+               data-toolbar="#appTableToolbar"
                data-url="/app/all">
             <thead>
             <tr>
                 <th data-checkbox=true data-valign="middle" data-field="id">ID</th>
-                <th data-sortable=true data-valign="left" data-field="name">应用名称</th>
-                <th data-sortable=true data-valign="middle" data-field="price">短码</th>
-                <th data-sortable=true data-valign="middle" data-field="id">操作</th>
+                <th data-valign="left" data-field="appName">应用名称</th>
+                <th data-valign="middle" data-field="appCode">短码</th>
+                <th data-valign="middle" data-field="id">操作</th>
             </tr>
             </thead>
         </table>
+
+
+        <div class="modal fade"
+             id="appAddModal" tabindex="-1"
+             role="dialog"
+             aria-labelledby="appAddLabel"
+             aria-hidden="true">
+
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="appAddLabel">新增应用</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2 control-label">应用名称</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="name" placeholder="请输入应用名称">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-default">提交</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
 
     </main>
     <div th:replace="common/footer::footer"></div>
 </div>
 
-
-<div class="modal fade" id="appAddModal" tabindex="-1" role="dialog" aria-labelledby="appAddLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form  class="form-horizontal" role="form">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="appAddLabel">新增应用</h4>
-                </div>
-
-                <div class="form-group">
-                    <label for="name">应用名称</label>
-                    <input type="text" class="form-control" id="name" placeholder="请输入应用名称">
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-default">提交</button>
-                </div>
-            </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
-
-
-<script th:src="@{/js/script.js}"></script>
 <script th:src="@{/js/bootstrap-table.min.js}"></script>
 <script th:src="@{/js/bootstrap-table-zh-CN.min.js}"></script>
 
