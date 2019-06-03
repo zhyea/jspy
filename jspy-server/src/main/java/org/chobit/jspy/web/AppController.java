@@ -2,6 +2,7 @@ package org.chobit.jspy.web;
 
 import org.chobit.jspy.service.AppService;
 import org.chobit.jspy.service.beans.App;
+import org.chobit.jspy.utils.Args;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,14 +35,15 @@ public class AppController {
 
 
     @PutMapping("/")
-    public boolean update(int id, String appName) {
-        return appService.update(id, appName);
+    public boolean update(@RequestBody App app) {
+        return appService.update(app);
     }
 
 
     @PostMapping("/")
-    public int insert(String appName) {
-        return appService.insert(appName);
+    public int insert(@RequestBody App app) {
+        Args.checkNotBlank(app.getAppName(), "应用名称不能为空");
+        return appService.insert(app);
     }
 
 

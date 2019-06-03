@@ -18,18 +18,16 @@ public class AppService {
     @Autowired
     private AppMapper appMapper;
 
-    public int insert(String appName) {
+    public int insert(App app) {
         String appCode = genShortUrl();
-        App app = new App();
         app.setAppCode(appCode);
-        app.setAppName(appName);
         appMapper.insert(app);
         return app.getId();
     }
 
 
-    public boolean update(int appId, String appName) {
-        return appMapper.update(appName, appId);
+    public boolean update(App app) {
+        return appMapper.update(app.getAppName(), app.getId());
     }
 
 

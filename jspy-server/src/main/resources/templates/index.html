@@ -39,30 +39,30 @@
              aria-labelledby="appAddLabel"
              aria-hidden="true">
 
-            <form class="form-horizontal" role="form" method="post" action="/app/" id="appAddForm">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="appAddLabel">新增应用</h4>
-                        </div>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="appAddLabel">新增应用</h4>
+                    </div>
 
-                        <div class="modal-body">
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
                             <div class="form-group">
                                 <label for="appName" class="col-sm-2 control-label">应用名称</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="appName" name="appName" placeholder="请输入应用名称">
                                 </div>
                             </div>
-                        </div>
+                        </form>
+                    </div>
 
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-default">提交</button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-default" onclick="submitInsertApp()">提交</button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
 
     </main>
@@ -74,9 +74,32 @@
 
 
 <script type="text/javascript">
-function submitInsertApp(){
-    let appName = $("appName").val()
-}
+    var $appTable = $('#appTable');
+
+    function submitInsertApp() {
+        let appName = $("#appName").val();
+
+        $.ajax({
+            type: "post",
+            contentType: "application/json",
+            url: '/app/',
+            async: true,
+            data: JSON.stringify({
+                appName: appName
+            }),
+            dataType: "json",
+            timeout: 6 * 1000,
+            success: function (result) {
+                if (result) {
+                    $appTable.bootstrapTable('refresh')
+                    $('#appAddModal').modal('hide')
+                }
+            },
+            error: function (errorMsg) {
+                console.log("新增应用信息失败:" + errorMsg.toString());
+            }
+        });
+    }
 
 </script>
 
