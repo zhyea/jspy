@@ -22,23 +22,27 @@ public class AppController {
 
 
     @GetMapping("/{id}")
-    public App get(@PathVariable("id")int id){
+    public App get(@PathVariable("id") int id) {
         return appService.get(id);
     }
 
 
     @DeleteMapping("/{id}")
-    public boolean delete(@PathVariable("id")int id){
+    public boolean delete(@PathVariable("id") int id) {
         return appService.logicDelete(id);
     }
 
 
     @PutMapping("/")
-    public boolean update(@RequestBody App app){
-        return appService.update(app.getId(), app.getAppName());
+    public boolean update(int id, String appName) {
+        return appService.update(id, appName);
     }
 
 
+    @PostMapping("/")
+    public int insert(String appName) {
+        return appService.insert(appName);
+    }
 
 
 }
