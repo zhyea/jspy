@@ -1,7 +1,7 @@
 drop table if exists user;
 create table if not exists user
 (
-    id          int identity primary key,
+    id          int auto_increment primary key,
     username    varchar(64) unique not null,
     password    varchar(64)        not null,
 
@@ -13,7 +13,7 @@ create table if not exists user
 
 create table if not exists app
 (
-    id          identity primary key,
+    id          int auto_increment primary key,
 
     app_code    varchar(16) unique not null,
     app_name    varchar(64)        not null,
@@ -25,9 +25,9 @@ create table if not exists app
 
 create table if not exists memory
 (
-    id          identity primary key,
+    id          int auto_increment primary key,
 
-    app_id      varchar(16),
+    app_code    varchar(16),
     type        varchar(16),
 
     init        bigint,

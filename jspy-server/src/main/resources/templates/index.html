@@ -74,7 +74,7 @@
 
 
 <script type="text/javascript">
-    var $appTable = $('#appTable');
+    let $appTable = $('#appTable');
 
     function submitInsertApp() {
         let appName = $("#appName").val();
@@ -90,9 +90,11 @@
             dataType: "json",
             timeout: 6 * 1000,
             success: function (result) {
+                alert(result);
                 if (result) {
-                    $appTable.bootstrapTable('refresh')
-                    $('#appAddModal').modal('hide')
+                    alert(0);
+                    $appTable.bootstrapTable('refresh');
+                    $('#appAddModal').modal('hide');
                 }
             },
             error: function (errorMsg) {

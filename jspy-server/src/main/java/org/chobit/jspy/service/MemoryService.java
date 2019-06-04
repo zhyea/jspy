@@ -28,7 +28,7 @@ public class MemoryService {
     public int insert(MemoryUsage usage, String appId, String type) {
         Memory m = new Memory();
         m.setType(type);
-        m.setAppId(appId);
+        m.setAppCode(appId);
         m.setInit(usage.getInit());
         m.setUsed(usage.getUsed());
         m.setCommitted(usage.getCommitted());

@@ -11,7 +11,7 @@ import java.util.Date;
 public class Memory extends AbstractEntity {
 
     @JsonIgnore
-    private String appId;
+    private String appCode;
 
     @JsonIgnore
     private String type;
@@ -32,12 +32,12 @@ public class Memory extends AbstractEntity {
     private Date eventTime;
 
 
-    public String getAppId() {
-        return appId;
+    public String getAppCode() {
+        return appCode;
     }
 
-    public void setAppId(String appId) {
-        this.appId = appId;
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
     }
 
     public String getType() {

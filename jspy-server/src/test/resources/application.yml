@@ -1,11 +1,8 @@
-debug: true
-
+debug: false
 
 spring:
   application:
     name: jspy-server
   profiles:
-    active: default
+    active: dev
 
-server:
-  port: 8190

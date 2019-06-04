@@ -52,15 +52,18 @@ public class AppService {
 
 
     private static final AtomicInteger SEQ = new AtomicInteger(1);
-    private static final DecimalFormat FORMAT = new DecimalFormat("##");
+    private static final DecimalFormat FORMAT = new DecimalFormat("00");
 
     private synchronized String genShortUrl() {
-        String s = System.currentTimeMillis() + FORMAT.format(SEQ.getAndIncrement());
-
+        StringBuilder builder = new StringBuilder(System.currentTimeMillis() + "");
+        if (SEQ.incrementAndGet() % 10 == 0) {
+            SEQ.incrementAndGet();
+        }
+        builder.append(FORMAT.format(SEQ.get()));
         if (99 == SEQ.get()) {
             SEQ.set(1);
         }
-        long v = Long.parseLong(s);
+        long v = Long.parseLong(builder.reverse().toString());
         return Base62.encode(v);
     }
 

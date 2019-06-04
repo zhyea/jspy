@@ -10,7 +10,7 @@ import java.util.List;
 public interface AppMapper {
 
     @Insert("insert into app (app_code, app_name) values (#{appCode}, #{appName})")
-    @Options(useGeneratedKeys = true)
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(App app);
 
 
