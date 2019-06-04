@@ -51,7 +51,8 @@
                             <div class="form-group">
                                 <label for="appName" class="col-sm-2 control-label">应用名称</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="appName" name="appName" placeholder="请输入应用名称">
+                                    <input type="text" class="form-control" id="appName" name="appName"
+                                           placeholder="请输入应用名称">
                                 </div>
                             </div>
                         </form>
@@ -90,15 +91,13 @@
             dataType: "json",
             timeout: 6 * 1000,
             success: function (result) {
-                alert(result);
                 if (result) {
-                    alert(0);
                     $appTable.bootstrapTable('refresh');
                     $('#appAddModal').modal('hide');
                 }
             },
-            error: function (errorMsg) {
-                console.log("新增应用信息失败:" + errorMsg.toString());
+            error: function (xhr, state, errMsg) {
+                console.log("新增应用信息失败:" + errMsg);
             }
         });
     }

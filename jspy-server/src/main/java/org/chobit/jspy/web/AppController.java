@@ -43,6 +43,8 @@ public class AppController {
     @PostMapping("/")
     public int insert(@RequestBody App app) {
         Args.checkNotBlank(app.getAppName(), "应用名称不能为空");
+        App other = appService.getByName(app.getAppName());
+        Args.checkNull(other, "应用名称已存在");
         return appService.insert(app);
     }
 

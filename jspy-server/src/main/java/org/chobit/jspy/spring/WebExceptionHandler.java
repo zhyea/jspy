@@ -12,6 +12,7 @@ public class WebExceptionHandler {
 
     @ExceptionHandler(JSpyArgsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public void handleIllegalArgs() {
+    public String handleIllegalArgs(JSpyArgsException except) {
+        return except.getMessage();
     }
 }

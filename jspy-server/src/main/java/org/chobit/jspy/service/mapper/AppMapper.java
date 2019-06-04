@@ -22,12 +22,17 @@ public interface AppMapper {
     List<App> findAll();
 
 
-    @Select("select * from app where id=#{id}")
+    @Select("select * from app where deleted=0 and id=#{id}")
     App get(@Param("id") int id);
 
 
-    @Select("select * from app where app_code=#{appCode}")
+    @Select("select * from app where deleted=0 and app_code=#{appCode}")
     App getByAppCode(@Param("appCode") String appCode);
+
+
+    @Select("select * from app where deleted=0 and app_name=#{appName} order by id desc limit 1")
+    App getByAppName(@Param("appName") String appName);
+
 
     @Update("update app set deleted=1 where id=#{id}")
     boolean logicDelete(@Param("id") int id);

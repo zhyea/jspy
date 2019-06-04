@@ -16,6 +16,10 @@ public abstract class Args {
         check(null == src, errMsg);
     }
 
+    public static void checkNull(Object src, String errMsg) {
+        check(null != src, errMsg);
+    }
+
 
     public static void checkNotBlank(String src, String errMsg) {
         check(isBlank(src), errMsg);
