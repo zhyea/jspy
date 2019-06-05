@@ -3,6 +3,7 @@
 <div th:replace="common/head::head"></div>
 <body>
 
+
 <div class="wrap">
     <div th:replace="common/nav::nav"></div>
     <main>
@@ -26,9 +27,9 @@
                data-url="/app/all">
             <thead>
             <tr>
-                <th data-align="center" data-field="check" data-checkbox="true">ID/th>
+                <th data-align="center" data-field="check" data-checkbox="true">ID</th>
                 <th data-align="left" data-field="appName">应用名称</th>
-                <th data-align="left" data-field="appCode">短码</th>
+                <th data-align="left" data-field="appCode" data-formatter="appCodeFormatter">短码</th>
                 <th data-align="center" data-field="id">操作</th>
             </tr>
             </thead>
@@ -76,9 +77,9 @@
     <div th:replace="common/footer::footer"></div>
 </div>
 
+
 <script th:src="@{/js/bootstrap-table.min.js}"></script>
 <script th:src="@{/js/bootstrap-table-zh-CN.min.js}"></script>
-
 
 <script type="text/javascript">
 
@@ -116,6 +117,22 @@
     $('#appAddModal').on('hide.bs.modal', function () {
         $("#appNameAlert").html("");
     });
+
+
+    function appCodeFormatter(value) {
+        return value + '&nbsp;&nbsp;&nbsp;'
+            + '<button type="button" class="btn btn-default btn-sm" onclick="copyToClipboard(value)">复制</button>'
+    }
+
+
+    function copyToClipboard(text) {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", text);
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+    }
 
 
 </script>
