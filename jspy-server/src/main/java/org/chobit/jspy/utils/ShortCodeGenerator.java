@@ -6,8 +6,7 @@ import org.chobit.jspy.tools.Base62;
 import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class ShortCodeGener {
-
+public abstract class ShortCodeGenerator {
 
 
     private static final AtomicInteger SEQ = new AtomicInteger(1);
@@ -27,7 +26,7 @@ public abstract class ShortCodeGener {
     }
 
 
-    private ShortCodeGener() {
+    private ShortCodeGenerator() {
         throw new UnsupportedOperationException("Private constructor, cannot be accessed.");
     }
 }

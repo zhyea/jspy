@@ -20,14 +20,16 @@
                data-search="true"
                data-classes="table table-hover table-striped"
                data-thead-classes="thead-light"
+               data-checkbox-header="false"
+               data-click-to-select="true"
                data-toolbar="#appTableToolbar"
                data-url="/app/all">
             <thead>
             <tr>
-                <th data-checkbox=true data-valign="middle" data-field="id">ID</th>
-                <th data-valign="left" data-field="appName">应用名称</th>
-                <th data-valign="middle" data-field="appCode">短码</th>
-                <th data-valign="middle" data-field="id">操作</th>
+                <th data-align="center" data-field="check" data-checkbox="true">ID/th>
+                <th data-align="left" data-field="appName">应用名称</th>
+                <th data-align="left" data-field="appCode">短码</th>
+                <th data-align="center" data-field="id">操作</th>
             </tr>
             </thead>
         </table>
@@ -49,10 +51,14 @@
                     <div class="modal-body">
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
-                                <label for="appName" class="col-sm-2 control-label">应用名称</label>
+                                <label for="appNameInput" class="col-sm-2 control-label">应用名称</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="appName" name="appName"
+                                    <input type="text"
+                                           class="form-control"
+                                           id="appNameInput"
+                                           name="appName"
                                            placeholder="请输入应用名称">
+                                    <span class="alertHint" id="appNameAlert"></span>
                                 </div>
                             </div>
                         </form>
@@ -75,10 +81,12 @@
 
 
 <script type="text/javascript">
+
+
     let $appTable = $('#appTable');
 
     function submitInsertApp() {
-        let appName = $("#appName").val();
+        let appName = $("#appNameInput").val();
 
         $.ajax({
             type: "post",
@@ -94,13 +102,21 @@
                 if (result) {
                     $appTable.bootstrapTable('refresh');
                     $('#appAddModal').modal('hide');
+                    $("#appNameAlert").html("");
                 }
             },
             error: function (xhr, state, errMsg) {
+                $("#appNameAlert").html(xhr.responseText);
                 console.log("新增应用信息失败:" + xhr.responseText);
             }
         });
     }
+
+
+    $('#appAddModal').on('hide.bs.modal', function () {
+        $("#appNameAlert").html("");
+    });
+
 
 </script>
 
