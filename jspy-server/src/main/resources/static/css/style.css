@@ -122,6 +122,13 @@ main::after {
     display: block;
 }
 
+main form .alertHint {
+    margin-top: 16px;
+    color: #FF0000;
+    font-size: 12px;
+    line-height: 100%;
+}
+
 h1,
 h2,
 h3,
