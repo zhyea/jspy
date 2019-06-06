@@ -86,7 +86,7 @@ body {
     /* font-family: "Trebuchet MS", monospace, 'Microsoft YaHei', STHeiti; */
     font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif;
     color: #333;
-    font-size: 14px;
+    font-size: 13px;
     background-color: #f2f2f2;
 }
 
@@ -123,10 +123,9 @@ main::after {
 }
 
 main form .alertHint {
-    margin-top: 16px;
     color: #FF0000;
     font-size: 12px;
-    line-height: 100%;
+    line-height: 120%;
 }
 
 h1,
@@ -139,7 +138,7 @@ h6 {
 }
 
 p {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 22px;
 }
 
@@ -195,6 +194,19 @@ h1.prince-log a {
     color: #424243;
 }
 
+/*  3. TABLE
+/*-----------------------------------------------------------------------------------*/
+
+.thead-light thead th {
+    background-color: #f9f9f9;
+    border: #fefefe 2px solid;
+}
+
+main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+    line-height: 200%;
+}
+
+
 @media only screen and (min-width: 768px) {
     ul.main-nav-items {
         float: right;
@@ -210,7 +222,7 @@ h1.prince-log a {
 
     .main-nav-items li a {
         font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 400;
         letter-spacing: 1px;
         color: #808080;
@@ -223,6 +235,7 @@ h1.prince-log a {
         -webkit-transition: .3s;
     }
 }
+
 
 @media only screen and (max-width: 767px) {
     ul.main-nav-items {

@@ -10,16 +10,15 @@
 
         <div id="appTableToolbar">
             <div class="btn-group">
-                <button id="btnAdd" class="btn btn-default" data-toggle="modal" data-target="#appAddModal"><i
-                        class="icon-plus"></i>新增
+                <button id="btnAdd" class="btn btn-default" data-toggle="modal" data-target="#appAddModal">
+                    <i class="icon-plus"></i>新增
                 </button>
-                <button id="btnDelete" class="btn btn-default" disabled><i class="icon-minus"></i> 删除</button>
             </div>
         </div>
         <table id="appTable"
                data-toggle="table"
                data-search="true"
-               data-classes="table table-hover table-striped"
+               data-classes="table table-hover"
                data-thead-classes="thead-light"
                data-checkbox-header="false"
                data-click-to-select="true"
@@ -27,10 +26,12 @@
                data-url="/app/all">
             <thead>
             <tr>
-                <th data-align="center" data-field="check" data-checkbox="true">ID</th>
+                <th data-align="center" data-field="id" data-width="40px">ID</th>
                 <th data-align="left" data-field="appName">应用名称</th>
-                <th data-align="left" data-field="appCode" data-formatter="appCodeFormatter">短码</th>
-                <th data-align="center" data-field="id">操作</th>
+                <th data-align="left" data-halign="center" data-field="appCode" data-width="160px"
+                    data-formatter="appCodeFormatter">短码
+                </th>
+                <th data-align="center" data-field="id" data-formatter="operateFormatter">操作</th>
             </tr>
             </thead>
         </table>
@@ -103,7 +104,6 @@
                 if (result) {
                     $appTable.bootstrapTable('refresh');
                     $('#appAddModal').modal('hide');
-                    $("#appNameAlert").html("");
                 }
             },
             error: function (xhr, state, errMsg) {
@@ -120,17 +120,22 @@
 
 
     function appCodeFormatter(value) {
-        return value + '&nbsp;&nbsp;&nbsp;'
-            + '<button type="button" class="btn btn-default btn-sm" onclick="copyToClipboard(value)">复制</button>'
+        return value
+            + '<button type="button" style="float:right" class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + value + '\')">复制</button>'
+    }
+
+
+    function operateFormatter(row, value) {
+        return "编辑" + "&nbsp;&nbsp;" + "删除" + "&nbsp;&nbsp;" + "查看"
     }
 
 
     function copyToClipboard(text) {
-        var aux = document.createElement("input");
+        let aux = document.createElement("input");
         aux.setAttribute("value", text);
         document.body.appendChild(aux);
         aux.select();
-        document.execCommand("copy");
+        document.execCommand("Copy");
         document.body.removeChild(aux);
     }
 
