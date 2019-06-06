@@ -53,6 +53,7 @@
                     <div class="modal-body">
                         <form class="form-horizontal" role="form">
                             <div class="form-group">
+                                <input type="hidden" id="appIdInput" name="appId" value="">
                                 <label for="appNameInput" class="col-sm-2 control-label">应用名称</label>
                                 <div class="col-sm-9">
                                     <input type="text"
@@ -68,7 +69,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                        <button type="button" class="btn btn-default" onclick="submitInsertApp()">提交</button>
+                        <button type="button" class="btn btn-default" onclick="subAppRequest()">提交</button>
                     </div>
                 </div>
             </div>
@@ -84,26 +85,46 @@
 
 <script type="text/javascript">
 
+    /**
+     * 处理模态窗口关闭事件，执行部分清理操作
+     */
+    $('#appModal').on('hide.bs.modal', function () {
+        $("#appNameAlert").html("");
+        $("#appIdInput").val("");
+        $("#appNameInput").val("");
+    });
 
-    let $appTable = $('#appTable');
+    /**
+     * 提交app数据处理请求
+     */
+    function subAppRequest() {
+        let appId = $("#appIdInput").val();
+        let data = JSON.stringify({
+            id: appId,
+            appName: $("#appNameInput").val()
+        });
+        if (appId > 0) {
+            subAppRequest0('put', '/app/', data)
+        } else {
+            subAppRequest0('post', '/app/', data)
+        }
+    }
 
-    function submitInsertApp() {
-        let appName = $("#appNameInput").val();
-
+    /**
+     * 发送app相关请求
+     */
+    function subAppRequest0(method, url, data) {
         $.ajax({
-            type: "post",
+            type: method,
             contentType: "application/json",
-            url: '/app/',
+            url: url,
             async: true,
-            data: JSON.stringify({
-                appName: appName
-            }),
-            dataType: "json",
+            data: data,
             timeout: 6 * 1000,
             success: function (result) {
                 if (result) {
-                    $appTable.bootstrapTable('refresh');
-                    $('#appAddModal').modal('hide');
+                    $('#appTable').bootstrapTable('refresh');
+                    $('#appModal').modal('hide');
                 }
             },
             error: function (xhr, state, errMsg) {
@@ -114,11 +135,6 @@
     }
 
 
-    $('#appAddModal').on('hide.bs.modal', function () {
-        $("#appNameAlert").html("");
-    });
-
-
     function appCodeFormatter(value) {
         return value
             + '<button type="button" style="float:right" class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + value + '\')">复制</button>'
@@ -126,19 +142,33 @@
 
 
     function operateFormatter(row, value) {
+        let r = '<span class="tableOpt">'
+            + '<a onclick=""></a>'
+
+
+            + '</span>';
         return "编辑" + "&nbsp;&nbsp;" + "删除" + "&nbsp;&nbsp;" + "查看"
     }
 
 
-    function copyToClipboard(text) {
-        let aux = document.createElement("input");
-        aux.setAttribute("value", text);
-        document.body.appendChild(aux);
-        aux.select();
-        document.execCommand("Copy");
-        document.body.removeChild(aux);
+    function memoryOperateFormatter(value, row, index) {
+        return [
+            '<button class="update btn btn-success btn-xs" title="编辑记事信息">',
+            '<i class="glyphicon glyphicon-pencil"></i> 编辑',
+            '</button>'
+        ].join('');
     }
+    window.memoryOperateEvents = {
+        'click .update': function (e, value, row, index) {
+            load('${ctx}/memory/edit/'+row.id);
+        }
+    };
 
+    function openUpdateModal(id, name) {
+        $('#appModal').modal("show");
+        $("#appIdInput").val(id);
+        $("#appNameInput").val(name);
+    }
 
 </script>
 
