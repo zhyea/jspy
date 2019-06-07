@@ -201,6 +201,11 @@ main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > t
     line-height: 200%;
 }
 
+.tableOperate, .tableOperate a {
+    font-size: 12px;
+    color: #323233;
+}
+
 
 @media only screen and (min-width: 768px) {
     ul.main-nav-items {
@@ -230,7 +235,6 @@ main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > t
         -webkit-transition: .3s;
     }
 }
-
 
 @media only screen and (max-width: 767px) {
     ul.main-nav-items {

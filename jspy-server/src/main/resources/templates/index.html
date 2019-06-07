@@ -10,7 +10,7 @@
 
         <div id="appTableToolbar">
             <div class="btn-group">
-                <button id="btnAdd" class="btn btn-default" data-toggle="modal" data-target="#appAddModal">
+                <button id="btnAdd" class="btn btn-default" data-toggle="modal" data-target="#appModal">
                     <i class="icon-plus"></i>新增
                 </button>
             </div>
@@ -29,16 +29,20 @@
                 <th data-align="center" data-field="id" data-width="40px">ID</th>
                 <th data-align="left" data-field="appName">应用名称</th>
                 <th data-align="left" data-halign="center" data-field="appCode" data-width="160px"
-                    data-formatter="appCodeFormatter">短码
+                    data-formatter="appCodeFormatter">应用短码
                 </th>
-                <th data-align="center" data-field="id" data-formatter="operateFormatter">操作</th>
+                <th data-align="center" data-field="operate" data-formatter="operateFormatter"
+                    data-events="operateEvents">
+                    操作
+                </th>
             </tr>
             </thead>
         </table>
 
 
-        <div class="modal fade"
-             id="appAddModal" tabindex="-1"
+        <div id="appModal"
+             class="modal fade"
+             tabindex="-1"
              role="dialog"
              aria-labelledby="appAddLabel"
              aria-hidden="true">
@@ -136,31 +140,35 @@
 
 
     function appCodeFormatter(value) {
-        return value
-            + '<button type="button" style="float:right" class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + value + '\')">复制</button>'
+        return [value,
+            '<button type="button" style="float:right" ',
+            'class="btn btn-default btn-xs" ',
+            'onclick="copyToClipboard(\'' + value + '\')">复制</button>'
+        ].join('')
     }
 
-
-    function operateFormatter(row, value) {
-        let r = '<span class="tableOpt">'
-            + '<a onclick=""></a>'
-
-
-            + '</span>';
-        return "编辑" + "&nbsp;&nbsp;" + "删除" + "&nbsp;&nbsp;" + "查看"
+    function operateFormatter(value, row, index) {
+        return 0 === index ?
+            '<span class="tableOperate"><a class="report" href="/overview/' + row.id + '" title="查看报表">查看</a></span>'
+            :
+            [
+                '<span class="tableOperate">',
+                '<a class="update" href="javascript:void(0)" title="编辑">编辑</a>',
+                '<a class="delete" href="javascript:void(0)" title="删除">删除</a>',
+                '<a class="report" href="/overview/' + row.id + '" title="查看报表">查看</a>',
+                '</span>'
+            ].join('&nbsp;&nbsp;&nbsp;')
     }
 
-
-    function memoryOperateFormatter(value, row, index) {
-        return [
-            '<button class="update btn btn-success btn-xs" title="编辑记事信息">',
-            '<i class="glyphicon glyphicon-pencil"></i> 编辑',
-            '</button>'
-        ].join('');
-    }
-    window.memoryOperateEvents = {
+    window.operateEvents = {
         'click .update': function (e, value, row, index) {
-            load('${ctx}/memory/edit/'+row.id);
+            openUpdateModal(row.id, row.appName)
+        },
+        'click .delete': function (e, value, row, index) {
+            subAppRequest0('delete', "/app/" + row.id, "");
+        },
+        'click .report': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row))
         }
     };
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static org.chobit.jspy.utils.ShortCodeGenerator.genShortCode;
+import static org.chobit.jspy.utils.ShortCode.gen;
 
 @Service
 public class AppService {
@@ -18,7 +18,7 @@ public class AppService {
     private AppMapper appMapper;
 
     public int insert(App app) {
-        String appCode = genShortCode();
+        String appCode = gen();
         app.setAppCode(appCode);
         appMapper.insert(app);
         return app.getId();

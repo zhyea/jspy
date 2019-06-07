@@ -28,12 +28,14 @@ create table if not exists memory
     id          int auto_increment primary key,
 
     app_code    varchar(16),
-    type        varchar(16),
+    `type`        varchar(16),
+    pool_name   varchar(32),
+    manager_names varchar(64),
 
     init        bigint,
     used        bigint,
-    committed   bigint,
-    max         bigint,
+    `committed`   bigint,
+    `max`         bigint,
     event_time  datetime           default current_date,
 
     deleted     tinyint            default 0,

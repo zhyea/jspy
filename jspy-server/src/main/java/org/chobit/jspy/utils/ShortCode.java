@@ -6,14 +6,14 @@ import org.chobit.jspy.tools.Base62;
 import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public abstract class ShortCodeGenerator {
+public abstract class ShortCode {
 
 
     private static final AtomicInteger SEQ = new AtomicInteger(1);
     private static final DecimalFormat FORMAT = new DecimalFormat("00");
 
-    public static synchronized String genShortCode() {
-        StringBuilder builder = new StringBuilder(System.currentTimeMillis() + "");
+    public static synchronized String gen() {
+        StringBuilder builder = new StringBuilder(System.currentTimeMillis() / 10 + "");
         if (SEQ.incrementAndGet() % 10 == 0) {
             SEQ.incrementAndGet();
         }
@@ -26,7 +26,7 @@ public abstract class ShortCodeGenerator {
     }
 
 
-    private ShortCodeGenerator() {
+    private ShortCode() {
         throw new UnsupportedOperationException("Private constructor, cannot be accessed.");
     }
 }
