@@ -1,6 +1,7 @@
 package org.chobit.jspy.core.gauge;
 
 
+import org.chobit.jspy.core.info.Net;
 import org.chobit.jspy.core.model.MemoryPool;
 
 import java.lang.management.ManagementFactory;
@@ -24,7 +25,7 @@ public abstract class MemoryPoolManager {
             MemoryUsage usage = mxBean.getUsage();
             MemoryUsage peakUsage = mxBean.getPeakUsage();
 
-            MemoryPool pool = new MemoryPool(name, type, managers, usage, peakUsage);
+            MemoryPool pool = new MemoryPool(name, type, managers, Net.LOCAL_HOST_IP.value(), usage, peakUsage);
             result.add(pool);
         }
         return result;

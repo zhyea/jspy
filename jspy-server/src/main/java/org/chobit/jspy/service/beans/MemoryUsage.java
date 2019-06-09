@@ -8,13 +8,22 @@ import org.chobit.jspy.charts.annotation.Series;
 
 import java.util.Date;
 
-public class Memory extends AbstractEntity {
+public class MemoryUsage extends AbstractEntity {
 
     @JsonIgnore
     private String appCode;
 
     @JsonIgnore
     private String type;
+
+    @JsonIgnore
+    private String poolName;
+
+    @JsonIgnore
+    private String managerNames;
+
+    @JsonIgnore
+    private String host;
 
     @Series("初始内存")
     private long init;
@@ -46,6 +55,30 @@ public class Memory extends AbstractEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getPoolName() {
+        return poolName;
+    }
+
+    public void setPoolName(String poolName) {
+        this.poolName = poolName;
+    }
+
+    public String getManagerNames() {
+        return managerNames;
+    }
+
+    public void setManagerNames(String managerNames) {
+        this.managerNames = managerNames;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 
     public long getInit() {

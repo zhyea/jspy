@@ -11,14 +11,17 @@ public class MemoryPool {
 
     private String[] memoryManagerNames;
 
+    private String host;
+
     private MemoryUsage usage;
 
     private MemoryUsage peakUsage;
 
-    public MemoryPool(String name, MemoryType type, String[] memoryManagerNames, MemoryUsage memoryUsage, MemoryUsage peakUsage) {
+    public MemoryPool(String name, MemoryType type, String[] memoryManagerNames, String host, MemoryUsage memoryUsage, MemoryUsage peakUsage) {
         this.name = name;
         this.type = type;
         this.memoryManagerNames = memoryManagerNames;
+        this.host = host;
         this.usage = memoryUsage;
         this.peakUsage = peakUsage;
     }

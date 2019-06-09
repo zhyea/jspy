@@ -23,7 +23,7 @@ create table if not exists app
     op_time     timestamp          not null default current_timestamp on update current_timestamp
 );
 
-create table if not exists memory
+create table if not exists memory_usage
 (
     id          int auto_increment primary key,
 
@@ -31,6 +31,7 @@ create table if not exists memory
     `type`        varchar(16),
     pool_name   varchar(32),
     manager_names varchar(64),
+    host varchar(32),
 
     init        bigint,
     used        bigint,
