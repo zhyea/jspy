@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.chobit.jspy.utils.Strings.humpToLine;
-import static org.chobit.jspy.utils.Strings.isBlank;
-import static org.chobit.jspy.utils.Strings.isNotBlank;
+import static org.chobit.jspy.core.utils.Strings.humpToLine;
+import static org.chobit.jspy.core.utils.Strings.isBlank;
+import static org.chobit.jspy.core.utils.Strings.isNotBlank;
 
 /**
  * ECharts工具包

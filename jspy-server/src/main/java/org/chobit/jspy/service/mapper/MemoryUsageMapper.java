@@ -9,28 +9,36 @@ import java.util.List;
 public interface MemoryUsageMapper {
 
 
+    /**
+     * 写入数据
+     */
     @Insert({
-            "insert into memory_usage (app_code, pool_name, manager_names, type, init, used, committed, max, event_time)",
+            "insert into memory_usage (app_code, name, manager_names, type, host, init, used, committed, max, event_time)",
             "values",
-            "(#{appCode}, #{poolName}, #{managerNames}, #{type}, #{init}, #{used}, #{committed}, #{max}, #{eventTime})"
+            "(#{appCode}, #{name}, #{managerNames}, #{type}, #{host}, #{init}, #{used}, #{committed}, #{max}, #{eventTime})"
     })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(MemoryUsage memory);
 
 
+    /**
+     * 批量写入数据
+     */
     @Insert({
             "<script>",
-            "insert into memory_usage (app_code, pool_name, manager_names, type, init, used, committed, max, event_time)",
+            "insert into memory_usage (app_code, name, manager_names, type, host, init, used, committed, max, event_time)",
             "values",
             "<foreach collection='memories' item='item' separator=','>",
-            "(#{item.appCode}, #{item.poolName}, #{item.managerNames}, #{item.type}, #{item.init}, #{item.used}, #{item.committed}, #{item.max}, #{item.eventTime})",
+            "(#{item.appCode}, #{item.name}, #{item.managerNames}, #{item.type}, #{item.host}, #{item.init}, #{item.used}, #{item.committed}, #{item.max}, #{item.eventTime})",
             "</foreach>",
             "</script>"
     })
     int batchInsert(@Param("memories") List<MemoryUsage> memories);
 
 
-
-    @Select("select distinct pool_name from memory_usage")
-    List<String> findMemoryPoolNames();
+    /**
+     * 查询内存区域名称
+     */
+    @Select("select distinct name from memory_usage where app_code=#{appCode}")
+    List<String> findMemoryNames(@Param("appCode") String appCode);
 }

@@ -17,7 +17,7 @@ public class MemoryUsage extends AbstractEntity {
     private String type;
 
     @JsonIgnore
-    private String poolName;
+    private String name;
 
     @JsonIgnore
     private String managerNames;
@@ -57,12 +57,12 @@ public class MemoryUsage extends AbstractEntity {
         this.type = type;
     }
 
-    public String getPoolName() {
-        return poolName;
+    public String getName() {
+        return name;
     }
 
-    public void setPoolName(String poolName) {
-        this.poolName = poolName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getManagerNames() {

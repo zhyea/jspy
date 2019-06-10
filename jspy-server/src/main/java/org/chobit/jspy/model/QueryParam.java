@@ -5,19 +5,19 @@ import java.util.Date;
 public class QueryParam {
 
 
-    private String type;
+    private String name;
 
     private Date startTime;
 
     private Date endTime;
 
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getStartTime() {

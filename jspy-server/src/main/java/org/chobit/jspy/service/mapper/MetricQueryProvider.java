@@ -19,8 +19,8 @@ public class MetricQueryProvider {
                 }
                 FROM(tableName);
                 WHERE("deleted=0");
-                if (null != param.getType()) {
-                    WHERE("type=#{p.type}");
+                if (null != param.getName()) {
+                    WHERE("name=#{p.name}");
                 }
                 if (null != param.getStartTime()) {
                     WHERE("event_time>=#{p.startTime}");

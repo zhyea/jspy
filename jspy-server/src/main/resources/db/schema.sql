@@ -25,21 +25,42 @@ create table if not exists app
 
 create table if not exists memory_usage
 (
-    id          int auto_increment primary key,
+    id            int auto_increment primary key,
 
-    app_code    varchar(16),
-    `type`        varchar(16),
-    pool_name   varchar(32),
+    app_code      varchar(16),
+    `name`        varchar(16),
+    name          varchar(32),
     manager_names varchar(64),
-    host varchar(32),
+    host          varchar(32),
 
-    init        bigint,
-    used        bigint,
+    init          bigint,
+    used          bigint,
     `committed`   bigint,
     `max`         bigint,
-    event_time  datetime           default current_date,
+    event_time    datetime           default current_date,
 
-    deleted     tinyint            default 0,
-    insert_time datetime           default current_date,
-    op_time     timestamp not null default current_timestamp on update current_timestamp
+    deleted       tinyint            default 0,
+    insert_time   datetime           default current_date,
+    op_time       timestamp not null default current_timestamp on update current_timestamp
+);
+
+create table if not exists memory_peak_usage
+(
+    id            int auto_increment primary key,
+
+    app_code      varchar(16),
+    `name`        varchar(16),
+    name          varchar(32),
+    manager_names varchar(64),
+    host          varchar(32),
+
+    init          bigint,
+    used          bigint,
+    `committed`   bigint,
+    `max`         bigint,
+    event_time    datetime           default current_date,
+
+    deleted       tinyint            default 0,
+    insert_time   datetime           default current_date,
+    op_time       timestamp not null default current_timestamp on update current_timestamp
 );

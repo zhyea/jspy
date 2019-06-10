@@ -1,4 +1,4 @@
-package org.chobit.jspy.utils;
+package org.chobit.jspy.core.utils;
 
 import java.util.Objects;
 import java.util.regex.Matcher;

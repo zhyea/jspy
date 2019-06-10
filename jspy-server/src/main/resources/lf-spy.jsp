@@ -743,7 +743,7 @@ LfSpy spyLib = new LfSpy();
 <head>
 <title>lf-jsp探针 Ver 0.1.0</title>
 <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-<style type="text/css">
+<style name="text/css">
 <!--
 .stylebase {color: #FFFFFF; font-size:14px; font-weight:bold;}
 .table-header-text {  color: #FFFFFF;
@@ -961,7 +961,7 @@ td{white-space:normal; word-break:break-all;}
     <td class="InnerMain">&nbsp;<%=request.getRemotePort()%>&nbsp;</td>
   </tr>
   <tr>
-    <td width="29%" class="InnerMain">&nbsp;content-type</td>
+    <td width="29%" class="InnerMain">&nbsp;content-name</td>
     <td class="InnerMain">&nbsp;<%=request.getContentType()%>&nbsp;</td>
   </tr>
   <%
@@ -1216,7 +1216,7 @@ td{white-space:normal; word-break:break-all;}
     <td width="25%" height="22" class="InnerHead"><span class="table-header-text">浮点运算</span></td>
   </tr>
   <tr>
-    <td class="InnerMain" height="40">&nbsp;<input name="button" type="button" class=backc onclick="javascript:location.reload()" value="测试当前服务器"/></td>
+    <td class="InnerMain" height="40">&nbsp;<input name="button" name="button" class=backc onclick="javascript:location.reload()" value="测试当前服务器"/></td>
     <td class="InnerMain">&nbsp;<%=spyLib.getNumberOperation()+"(毫秒)"%></td>
     <td class="InnerMain">&nbsp;<%=spyLib.getDoubleOperation()+"(毫秒)"%></td>
   </tr>

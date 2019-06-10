@@ -1,7 +1,7 @@
-package org.chobit.jspy.exceptions;
+package org.chobit.jspy.core.exceptions;
 
 
-public abstract class JSpyException extends RuntimeException {
+public class JSpyException extends RuntimeException {
 
 
     public JSpyException() {

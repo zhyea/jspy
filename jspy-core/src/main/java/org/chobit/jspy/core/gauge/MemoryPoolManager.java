@@ -1,7 +1,6 @@
 package org.chobit.jspy.core.gauge;
 
 
-import org.chobit.jspy.core.info.Net;
 import org.chobit.jspy.core.model.MemoryPool;
 
 import java.lang.management.ManagementFactory;
@@ -19,13 +18,13 @@ public abstract class MemoryPoolManager {
     public static List<MemoryPool> memoryPools() {
         List<MemoryPool> result = new LinkedList<>();
         for (MemoryPoolMXBean mxBean : poolMXBeans) {
-            String name = mxBean.getName();
+            String name = "内存池-" + mxBean.getName();
             String[] managers = mxBean.getMemoryManagerNames();
             MemoryType type = mxBean.getType();
             MemoryUsage usage = mxBean.getUsage();
             MemoryUsage peakUsage = mxBean.getPeakUsage();
 
-            MemoryPool pool = new MemoryPool(name, type, managers, Net.LOCAL_HOST_IP.value(), usage, peakUsage);
+            MemoryPool pool = new MemoryPool(name, type, managers, usage, peakUsage);
             result.add(pool);
         }
         return result;
