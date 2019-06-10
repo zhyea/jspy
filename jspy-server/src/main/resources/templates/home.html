@@ -12,7 +12,7 @@
 </div>
 
 
-<script name="text/javascript">
+<script type="text/javascript">
 
     const REQUEST_START_TIME = new Date().getTime() - 60 * 60 * 1000;
 
@@ -23,9 +23,9 @@
 
     loadChart(myChart, '/memory/find-by-params', '堆内存');
 
-    function loadChart(chart, url, name) {
+    function loadChart(chart, url, type) {
         chart.showLoading();
-        obtainData(chart, url, name, 0);
+        obtainData(chart, url, type, 0);
     }
 
     function option() {
@@ -45,7 +45,7 @@
             title: {},
             legend: {},
             yAxis: {
-                name: 'value',
+                type: 'value',
                 axisLabel: {
                     formatter: function (value) {
                         return (1 * value).formatSize()
@@ -53,7 +53,7 @@
                 }
             },
             xAxis: {
-                name: 'time'
+                type: 'time'
             },
             grid: {
                 show: true,
@@ -69,19 +69,19 @@
     /**
      * 向后台请求数据
      */
-    function obtainData(chart, url, name, startTime) {
+    function obtainData(chart, url, type, startTime) {
         if (startTime <= 0) {
             startTime = REQUEST_START_TIME;//12 * 60 * 60 * 1000;
         }
         let endTime = new Date();
 
         $.ajax({
-            name: "post",
+            type: "post",
             contentType: "application/json",
             url: url,
             async: true,
             data: JSON.stringify({
-                name: name,
+                type: type,
                 startTime: startTime,
                 endTime: endTime
             }),
@@ -96,13 +96,13 @@
                     }
                 }
                 setTimeout(function () {
-                    obtainData(chart, url, name, endTime);
+                    obtainData(chart, url, type, endTime);
                 }, REQUEST_INTERVAL);
             },
             error: function (errorMsg) {
                 console.log("图表请求数据失败:" + errorMsg.toString());
                 setTimeout(function () {
-                    obtainData(chart, url, name, endTime);
+                    obtainData(chart, url, type, endTime);
                 }, 3 * 60 * 1000);
             }
         });
@@ -115,7 +115,6 @@
         let opt = option();
 
         opt.title.text = result.title;
-        //opt.xAxis.data = result.xAxis;
         opt.series = result.series;
         opt.legend.data = result.legend;
 

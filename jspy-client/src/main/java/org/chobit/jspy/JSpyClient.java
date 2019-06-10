@@ -18,6 +18,7 @@ public class JSpyClient {
 
     public void start() {
         try {
+            scheduler.start();
             Set<JobCapsule> jobs = jobs();
             for (JobCapsule j : jobs) {
                 scheduler.scheduleJob(j.job(), j.trigger());
@@ -28,7 +29,7 @@ public class JSpyClient {
     }
 
 
-    public void shutdown() {
+    public void shutdownNow() {
         shutdown(false);
     }
 

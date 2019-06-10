@@ -33,6 +33,6 @@ public class HelloJob implements Job {
 
         scheduler.scheduleJob(detail, trigger);
 
-        scheduler.shutdown();
+        System.out.println("end!!");
     }
 }

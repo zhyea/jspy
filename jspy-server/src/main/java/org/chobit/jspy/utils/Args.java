@@ -2,7 +2,8 @@ package org.chobit.jspy.utils;
 
 import org.chobit.jspy.exceptions.JSpyArgsException;
 
-import static org.chobit.jspy.utils.Strings.isBlank;
+import static org.chobit.jspy.core.utils.Strings.isBlank;
+
 
 public abstract class Args {
 
