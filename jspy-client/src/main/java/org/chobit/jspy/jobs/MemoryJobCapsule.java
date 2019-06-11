@@ -2,6 +2,8 @@ package org.chobit.jspy.jobs;
 
 import org.quartz.Job;
 
+import static org.chobit.jspy.Config.MEMORY_COLLECT_INTERVAL_SECONDS;
+
 public class MemoryJobCapsule extends JobCapsule {
 
     @Override
@@ -21,6 +23,6 @@ public class MemoryJobCapsule extends JobCapsule {
 
     @Override
     int intervalSeconds() {
-        return 1;
+        return MEMORY_COLLECT_INTERVAL_SECONDS;
     }
 }

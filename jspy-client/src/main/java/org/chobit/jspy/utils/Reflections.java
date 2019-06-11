@@ -16,11 +16,25 @@ import static org.chobit.jspy.core.utils.Strings.isNotBlank;
 public abstract class Reflections {
 
 
+    /**
+     * 在超类所在的包下获取超类的所有子类
+     *
+     * @param superClass 超类
+     * @param <T>        超类类型
+     * @return 超类的子类集合
+     */
     public static <T> Set<Class<? extends T>> subTypeOf(Class<T> superClass) {
         return subTypeOf(superClass, superClass.getPackage().getName());
     }
 
-
+    /**
+     * 获取超类的所有子类
+     *
+     * @param superClass  超类
+     * @param packageName 子类所在的包
+     * @param <T>         超类类型
+     * @return 超类的子类集合
+     */
     public static <T> Set<Class<? extends T>> subTypeOf(Class<T> superClass, String packageName) {
         Set<Class<? extends T>> set = new HashSet<>(8);
         try {
@@ -39,6 +53,9 @@ public abstract class Reflections {
     }
 
 
+    /**
+     * 获取指定包下的所有类
+     */
     public static Set<Class<?>> classesInPackage(String packageName) {
         Set<Class<?>> set = new HashSet<>(8);
         try {
@@ -63,6 +80,13 @@ public abstract class Reflections {
     }
 
 
+    /**
+     * 加载类
+     *
+     * @param className  类名称
+     * @param initialize 是否初始化类实例
+     * @return 类实例
+     */
     public static Class<?> loadClass(String className, boolean initialize) {
         Class<?> clazz;
         try {
@@ -119,6 +143,9 @@ public abstract class Reflections {
     }
 
 
+    /**
+     * 获取当前类加载器
+     */
     public static ClassLoader classLoader() {
         return Reflections.class.getClassLoader();
     }

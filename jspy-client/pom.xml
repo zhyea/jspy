@@ -17,7 +17,6 @@
         <dependency>
             <groupId>org.chobit.jspy</groupId>
             <artifactId>jspy-core</artifactId>
-            <version>0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
@@ -33,6 +32,25 @@
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>2.3.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>c3p0</artifactId>
+                    <groupId>com.mchange</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>mchange-commons-java</artifactId>
+                    <groupId>com.mchange</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>HikariCP-java7</artifactId>
+                    <groupId>com.zaxxer</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>4.1.0</version>
         </dependency>
     </dependencies>
 </project>
