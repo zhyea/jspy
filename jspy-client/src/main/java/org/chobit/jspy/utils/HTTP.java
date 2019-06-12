@@ -5,8 +5,6 @@ import okhttp3.*;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.chobit.jspy.Config.MAX_IDLE_CONNECTION;
-
 
 public abstract class HTTP {
 
@@ -17,7 +15,7 @@ public abstract class HTTP {
 
     static {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectionPool(new ConnectionPool(MAX_IDLE_CONNECTION, 5, TimeUnit.MINUTES));
+        builder.connectionPool(new ConnectionPool(16, 5, TimeUnit.MINUTES));
         client = builder.build();
     }
 

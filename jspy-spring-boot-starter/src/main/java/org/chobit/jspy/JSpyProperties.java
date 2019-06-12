@@ -13,8 +13,6 @@ public class JSpyProperties {
 
     private int serverPort;
 
-    private int maxIdleConnections = 16;
-
     private int memoryCollectIntervalSeconds = 6;
 
     public String getAppCode() {
@@ -39,14 +37,6 @@ public class JSpyProperties {
 
     public void setServerPort(int serverPort) {
         this.serverPort = serverPort;
-    }
-
-    public int getMaxIdleConnections() {
-        return maxIdleConnections;
-    }
-
-    public void setMaxIdleConnections(int maxIdleConnections) {
-        this.maxIdleConnections = maxIdleConnections;
     }
 
     public int getMemoryCollectIntervalSeconds() {

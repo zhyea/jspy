@@ -14,7 +14,6 @@ public class JSpyAutoConfiguration {
     private final JSpyProperties properties;
 
 
-
     public JSpyAutoConfiguration(JSpyProperties properties) {
         this.properties = properties;
     }
