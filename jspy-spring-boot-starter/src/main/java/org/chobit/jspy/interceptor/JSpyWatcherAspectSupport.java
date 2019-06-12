@@ -21,15 +21,18 @@ public abstract class JSpyWatcherAspectSupport implements BeanFactoryAware, Init
     }
 
 
-    protected Object invoke(Method method, Class<?> targetClass, final InvocationCallback invocation) {
+    protected Object invoke(Method method, Class<?> targetClass, final InvocationCallback invocation) throws Throwable {
         final JSpyWatcherAttribute attr = getAttrSource().getJSpyWatcherAttribute(method, targetClass);
-       Object r = null;
-       try{
-           r = invocation.proceedWithInvocation();
-       } catch (Throwable throwable) {
-           throwable.printStackTrace();
-       }
-       return r;
+        Object r = null;
+        try {
+            r = invocation.proceedWithInvocation();
+        } catch (Throwable t) {
+            // TODO
+            throw t;
+        } finally {
+            // TODO
+        }
+        return r;
     }
 
 
