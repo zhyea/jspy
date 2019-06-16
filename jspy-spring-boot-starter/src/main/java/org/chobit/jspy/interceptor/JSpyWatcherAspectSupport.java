@@ -31,6 +31,7 @@ public abstract class JSpyWatcherAspectSupport implements BeanFactoryAware, Init
             // TODO
             throw t;
         } finally {
+            System.out.println("---------------------" + methodId);
             // TODO
         }
         return r;
