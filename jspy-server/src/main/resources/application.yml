@@ -19,3 +19,7 @@ server:
 mybatis:
   configuration:
     mapUnderscoreToCamelCase: true
+
+
+jspy:
+  appCode: zzy

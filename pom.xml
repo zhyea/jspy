@@ -60,6 +60,11 @@
                 <artifactId>jspy-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.chobit.jspy</groupId>
+                <artifactId>jspy-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
