@@ -1,6 +1,6 @@
 package org.chobit.jspy.interceptor;
 
-public class JSpyWatcherAttribute {
+public class WatcherAttribute {
 
 
     private String name;
@@ -10,7 +10,7 @@ public class JSpyWatcherAttribute {
     private String descriptor;
 
 
-    public JSpyWatcherAttribute(String name) {
+    public WatcherAttribute(String name) {
         this.name = name;
     }
 

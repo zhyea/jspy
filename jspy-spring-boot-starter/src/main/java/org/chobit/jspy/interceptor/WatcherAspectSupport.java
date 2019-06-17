@@ -8,10 +8,10 @@ import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Method;
 
-public abstract class JSpyWatcherAspectSupport implements BeanFactoryAware, InitializingBean {
+public abstract class WatcherAspectSupport implements BeanFactoryAware, InitializingBean {
 
 
-    private JSpyWatcherAttributeSource attrSource;
+    private WatcherAttributeSource attrSource;
 
     @Nullable
     private BeanFactory beanFactory;
@@ -28,11 +28,11 @@ public abstract class JSpyWatcherAspectSupport implements BeanFactoryAware, Init
     }
 
 
-    public JSpyWatcherAttributeSource getAttrSource() {
+    public WatcherAttributeSource getAttrSource() {
         return attrSource;
     }
 
-    public void setAttrSource(JSpyWatcherAttributeSource attrSource) {
+    public void setAttrSource(WatcherAttributeSource attrSource) {
         this.attrSource = attrSource;
     }
 
@@ -54,7 +54,7 @@ public abstract class JSpyWatcherAspectSupport implements BeanFactoryAware, Init
 
 
     protected Object invoke(Method method, Class<?> targetClass, final InvocationCallback invocation) throws Throwable {
-        final JSpyWatcherAttribute attr = getAttrSource().getJSpyWatcherAttribute(method, targetClass);
+        final WatcherAttribute attr = getAttrSource().getWatcherAttribute(method, targetClass);
         final String methodId = methodIdentity(method, targetClass, attr);
         Object r = null;
         try {
@@ -63,14 +63,14 @@ public abstract class JSpyWatcherAspectSupport implements BeanFactoryAware, Init
             // TODO
             throw t;
         } finally {
-            System.out.println("---------------------" + methodId);
+            System.out.println("---------------------invoke>>>>>" + methodId);
             // TODO
         }
         return r;
     }
 
 
-    private String methodIdentity(Method method, Class<?> targetClass, JSpyWatcherAttribute attr) {
+    private String methodIdentity(Method method, Class<?> targetClass, WatcherAttribute attr) {
         String methodIdentity = attr.getDescriptor();
         if (null == methodIdentity) {
             methodIdentity = ClassUtils.getQualifiedMethodName(method, targetClass);

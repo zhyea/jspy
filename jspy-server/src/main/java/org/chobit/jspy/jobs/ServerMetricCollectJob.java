@@ -26,7 +26,6 @@ public class ServerMetricCollectJob {
     public void collectMemoryData() {
         MemoryUsage usage = MemoryGaugeManager.heapMemoryUsage();
         memoryService.insert(usage, JSPY_CONSOLE_SHORT_CODE, HEAP, MemoryNames.nameOf(HEAP), null, Net.LOCAL_HOST_IP.value(), new Date());
-        System.out.println("------------------------");
     }
 
 

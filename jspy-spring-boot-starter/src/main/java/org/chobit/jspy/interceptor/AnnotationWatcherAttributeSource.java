@@ -11,28 +11,28 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class AnnotationJSpyWatcherAttributeSource implements JSpyWatcherAttributeSource {
+public class AnnotationWatcherAttributeSource implements WatcherAttributeSource {
 
 
-    private final static JSpyWatcherAttribute NULL_ATTRIBUTE = new JSpyWatcherAttribute(null);
+    private final static WatcherAttribute NULL_ATTRIBUTE = new WatcherAttribute(null);
 
-    private final Map<Object, JSpyWatcherAttribute> attrCache =
+    private final Map<Object, WatcherAttribute> attrCache =
             new ConcurrentHashMap<>(1024);
 
     @Override
-    public JSpyWatcherAttribute getJSpyWatcherAttribute(Method method, Class<?> targetClass) {
+    public WatcherAttribute getWatcherAttribute(Method method, Class<?> targetClass) {
 
         if (method.getDeclaringClass() == Object.class) {
             return null;
         }
 
         Object cacheKey = getCacheKey(method, targetClass);
-        JSpyWatcherAttribute cached = this.attrCache.get(cacheKey);
+        WatcherAttribute cached = this.attrCache.get(cacheKey);
 
         if (null != cached) {
             return cached;
         } else {
-            JSpyWatcherAttribute attr = computeJSpyWatcherAttribute(method, targetClass);
+            WatcherAttribute attr = computeJSpyWatcherAttribute(method, targetClass);
             if (null == attr) {
                 this.attrCache.put(cacheKey, NULL_ATTRIBUTE);
             } else {
@@ -45,9 +45,9 @@ public class AnnotationJSpyWatcherAttributeSource implements JSpyWatcherAttribut
     }
 
 
-    private JSpyWatcherAttribute computeJSpyWatcherAttribute(Method method, Class<?> targetClass) {
+    private WatcherAttribute computeJSpyWatcherAttribute(Method method, Class<?> targetClass) {
 
-        JSpyWatcherAttribute attr = computeJSpyWatcherAttribute(method);
+        WatcherAttribute attr = computeJSpyWatcherAttribute(method);
         if (null != attr) {
             return attr;
         }
@@ -66,14 +66,14 @@ public class AnnotationJSpyWatcherAttributeSource implements JSpyWatcherAttribut
     }
 
 
-    private JSpyWatcherAttribute computeJSpyWatcherAttribute(Method method) {
+    private WatcherAttribute computeJSpyWatcherAttribute(Method method) {
         if (method.getAnnotations().length > 0) {
             return parseJSpyWatcherAttribute(method);
         }
         return null;
     }
 
-    private JSpyWatcherAttribute parseJSpyWatcherAttribute(Method method) {
+    private WatcherAttribute parseJSpyWatcherAttribute(Method method) {
         AnnotationAttributes attributes =
                 AnnotatedElementUtils.getMergedAnnotationAttributes(method, JSpyWatcher.class);
         if (null != attributes) {
@@ -83,10 +83,10 @@ public class AnnotationJSpyWatcherAttributeSource implements JSpyWatcherAttribut
         }
     }
 
-    private JSpyWatcherAttribute parseJSpyWatcherAttribute(AnnotationAttributes attributes) {
+    private WatcherAttribute parseJSpyWatcherAttribute(AnnotationAttributes attributes) {
         String name = attributes.getString("value");
 
-        JSpyWatcherAttribute attr = new JSpyWatcherAttribute(name);
+        WatcherAttribute attr = new WatcherAttribute(name);
         attr.setQualifier(attributes.getString("value"));
         return attr;
     }

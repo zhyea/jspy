@@ -1,6 +1,7 @@
 package org.chobit.jspy.service;
 
 import org.chobit.jspy.constants.MemoryNames;
+import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.core.model.MemoryOverview;
 import org.chobit.jspy.core.model.MemoryPool;
 import org.chobit.jspy.model.QueryParam;
@@ -11,6 +12,7 @@ import org.chobit.jspy.service.mapper.MetricQueryMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.management.MemoryType;
 import java.util.Arrays;
@@ -68,6 +70,8 @@ public class MemoryUsageService {
     /**
      * 写入内存数据
      */
+    @Transactional
+    @JSpyWatcher("memory-insert")
     public int insert(java.lang.management.MemoryUsage usage,
                       String appCode,
                       MemoryType type,
@@ -75,6 +79,7 @@ public class MemoryUsageService {
                       String[] managerNames,
                       String host,
                       Date eventTime) {
+        System.out.println("-----------insertMem>>>>");
         return insert(usage, appCode, type, name, managerNames, host, eventTime, false);
     }
 

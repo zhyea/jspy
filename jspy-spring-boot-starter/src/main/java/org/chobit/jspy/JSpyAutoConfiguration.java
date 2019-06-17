@@ -1,18 +1,17 @@
 package org.chobit.jspy;
 
 
-import org.chobit.jspy.interceptor.AnnotationJSpyWatcherAttributeSource;
-import org.chobit.jspy.interceptor.JSpyWatcherAttributeSource;
-import org.chobit.jspy.interceptor.JSpyWatcherInterceptor;
+import org.chobit.jspy.interceptor.AnnotationWatcherAttributeSource;
+import org.chobit.jspy.interceptor.WatcherAttributeSource;
+import org.chobit.jspy.interceptor.WatcherInterceptor;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Role;
+import org.springframework.context.annotation.*;
 
 @Configuration
 @ConditionalOnClass({JSpyClient.class})
+@Import({AutoProxyRegistrar.class})
 @EnableConfigurationProperties(JSpyProperties.class)
 public class JSpyAutoConfiguration {
 
@@ -27,15 +26,15 @@ public class JSpyAutoConfiguration {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public JSpyWatcherAttributeSource jSpyWatcherAttributeSource() {
-        return new AnnotationJSpyWatcherAttributeSource();
+    public WatcherAttributeSource jSpyWatcherAttributeSource() {
+        return new AnnotationWatcherAttributeSource();
     }
 
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public JSpyWatcherInterceptor jSpyWatcherInterceptor() {
-        JSpyWatcherInterceptor interceptor = new JSpyWatcherInterceptor();
+    public WatcherInterceptor jSpyWatcherInterceptor() {
+        WatcherInterceptor interceptor = new WatcherInterceptor();
         interceptor.setAttrSource(jSpyWatcherAttributeSource());
         return interceptor;
     }

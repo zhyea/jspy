@@ -6,15 +6,16 @@ import org.springframework.aop.support.AopUtils;
 
 import java.io.Serializable;
 
-public class JSpyWatcherInterceptor extends JSpyWatcherAspectSupport implements MethodInterceptor, Serializable {
+public class WatcherInterceptor extends WatcherAspectSupport implements MethodInterceptor, Serializable {
 
 
-    public JSpyWatcherInterceptor() {
+    public WatcherInterceptor() {
     }
 
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        System.out.println("-------------------------invoke>>>>");
         Class<?> targetClass = (invocation.getThis() != null ? AopUtils.getTargetClass(invocation.getThis()) : null);
         return super.invoke(invocation.getMethod(), targetClass, invocation::proceed);
     }

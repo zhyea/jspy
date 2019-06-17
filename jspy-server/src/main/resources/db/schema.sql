@@ -28,8 +28,8 @@ create table if not exists memory_usage
     id            int auto_increment primary key,
 
     app_code      varchar(16),
-    `name`        varchar(16),
-    name          varchar(32),
+    `type`        varchar(16),
+    `name`          varchar(32),
     manager_names varchar(64),
     host          varchar(32),
 
@@ -49,8 +49,8 @@ create table if not exists memory_peak_usage
     id            int auto_increment primary key,
 
     app_code      varchar(16),
-    `name`        varchar(16),
-    name          varchar(32),
+    `type`        varchar(16),
+    `name`          varchar(32),
     manager_names varchar(64),
     host          varchar(32),
 
