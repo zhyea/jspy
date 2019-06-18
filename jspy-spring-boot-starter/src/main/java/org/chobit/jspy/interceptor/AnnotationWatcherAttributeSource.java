@@ -9,12 +9,15 @@ import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.chobit.jspy.core.utils.Strings.isBlank;
 
 public class AnnotationWatcherAttributeSource implements WatcherAttributeSource {
 
 
-    private final Map<Object, WatcherAttribute> attrCache =
+    private final Map<Object, Optional<WatcherAttribute>> attrCache =
             new ConcurrentHashMap<>(1024);
 
     @Override
@@ -25,20 +28,22 @@ public class AnnotationWatcherAttributeSource implements WatcherAttributeSource 
         }
 
         Object cacheKey = getCacheKey(method, targetClass);
-        WatcherAttribute cached = this.attrCache.get(cacheKey);
+        Optional<WatcherAttribute> cached = attrCache.get(cacheKey);
 
-        if (null != cached) {
-            return cached;
-        } else {
+        if (null == cached) {
             WatcherAttribute attr = computeWatcherAttribute(method, targetClass);
             if (null == attr) {
+                attrCache.put(cacheKey, Optional.empty());
                 return null;
             }
-            String methodIdentification = ClassUtils.getQualifiedMethodName(method, targetClass);
-            attr.setDescriptor(methodIdentification);
-            this.attrCache.put(cacheKey, attr);
 
+            String methodId = ClassUtils.getQualifiedMethodName(method, targetClass);
+            attr.setMethodIdentity(methodId);
+
+            attrCache.put(cacheKey, Optional.of(attr));
             return attr;
+        } else {
+            return cached.get();
         }
     }
 
@@ -56,9 +61,7 @@ public class AnnotationWatcherAttributeSource implements WatcherAttributeSource 
 
         if (specificMethod != method) {
             attr = computeWatcherAttribute(method);
-            if (null != attr) {
-                return attr;
-            }
+            return attr;
         }
         return null;
     }
@@ -82,10 +85,13 @@ public class AnnotationWatcherAttributeSource implements WatcherAttributeSource 
     }
 
     private WatcherAttribute parseWatcherAttribute(AnnotationAttributes attributes) {
-        String name = attributes.getString("value");
+        String name = attributes.getString("name");
+        if (isBlank(name)) {
+            name = attributes.getString("value");
+        }
 
         WatcherAttribute attr = new WatcherAttribute(name);
-        attr.setQualifier(attributes.getString("value"));
+        attr.setMethodIdentity(attributes.getString("value"));
         return attr;
     }
 

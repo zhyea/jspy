@@ -9,6 +9,8 @@ import java.lang.annotation.*;
 @Inherited
 public @interface JSpyWatcher {
 
+    String name() default "";
+
     String value() default "";
 
 }

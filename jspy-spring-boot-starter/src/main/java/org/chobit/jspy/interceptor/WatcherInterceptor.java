@@ -16,6 +16,6 @@ public class WatcherInterceptor extends WatcherAspectSupport implements MethodIn
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Class<?> targetClass = (invocation.getThis() != null ? AopUtils.getTargetClass(invocation.getThis()) : null);
-        return super.invoke(invocation.getMethod(), targetClass, invocation::proceed);
+        return watcherInvoke(invocation.getMethod(), targetClass, invocation::proceed);
     }
 }

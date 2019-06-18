@@ -5,10 +5,7 @@ public class WatcherAttribute {
 
     private String name;
 
-    private String qualifier;
-
-    private String descriptor;
-
+    private String methodIdentity;
 
     public WatcherAttribute(String name) {
         this.name = name;
@@ -22,19 +19,11 @@ public class WatcherAttribute {
         this.name = name;
     }
 
-    public String getQualifier() {
-        return qualifier;
+    public String getMethodIdentity() {
+        return methodIdentity;
     }
 
-    public void setQualifier(String qualifier) {
-        this.qualifier = qualifier;
-    }
-
-    public String getDescriptor() {
-        return descriptor;
-    }
-
-    public void setDescriptor(String descriptor) {
-        this.descriptor = descriptor;
+    public void setMethodIdentity(String methodIdentity) {
+        this.methodIdentity = methodIdentity;
     }
 }
