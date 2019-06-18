@@ -42,9 +42,7 @@ public class AnnotationWatcherAttributeSource implements WatcherAttributeSource 
 
             attrCache.put(cacheKey, Optional.of(attr));
             return attr;
-        } else {
-            return cached.get();
-        }
+        } else return cached.orElse(null);
     }
 
 
