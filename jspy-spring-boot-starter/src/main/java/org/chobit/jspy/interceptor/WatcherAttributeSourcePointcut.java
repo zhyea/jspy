@@ -11,11 +11,10 @@ import java.lang.reflect.Method;
 abstract class WatcherAttributeSourcePointcut extends StaticMethodMatcherPointcut implements Serializable {
 
 
-
     @Override
     public boolean matches(Method method, @Nullable Class<?> targetClass) {
-        WatcherAttributeSource tas = getWatcherAttributeSource();
-        return (tas == null || tas.getWatcherAttribute(method, targetClass) != null);
+        WatcherAttributeSource was = getWatcherAttributeSource();
+        return (null == was || null != was.getWatcherAttribute(method, targetClass));
     }
 
     @Override
@@ -39,7 +38,6 @@ abstract class WatcherAttributeSourcePointcut extends StaticMethodMatcherPointcu
     public String toString() {
         return getClass().getName() + ": " + getWatcherAttributeSource();
     }
-
 
 
     @Nullable

@@ -14,8 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AnnotationWatcherAttributeSource implements WatcherAttributeSource {
 
 
-    private final static WatcherAttribute NULL_ATTRIBUTE = new WatcherAttribute(null);
-
     private final Map<Object, WatcherAttribute> attrCache =
             new ConcurrentHashMap<>(1024);
 
@@ -32,22 +30,22 @@ public class AnnotationWatcherAttributeSource implements WatcherAttributeSource 
         if (null != cached) {
             return cached;
         } else {
-            WatcherAttribute attr = computeJSpyWatcherAttribute(method, targetClass);
+            WatcherAttribute attr = computeWatcherAttribute(method, targetClass);
             if (null == attr) {
-                this.attrCache.put(cacheKey, NULL_ATTRIBUTE);
-            } else {
-                String methodIdentification = ClassUtils.getQualifiedMethodName(method, targetClass);
-                attr.setDescriptor(methodIdentification);
-                this.attrCache.put(cacheKey, attr);
+                return null;
             }
+            String methodIdentification = ClassUtils.getQualifiedMethodName(method, targetClass);
+            attr.setDescriptor(methodIdentification);
+            this.attrCache.put(cacheKey, attr);
+
             return attr;
         }
     }
 
 
-    private WatcherAttribute computeJSpyWatcherAttribute(Method method, Class<?> targetClass) {
+    private WatcherAttribute computeWatcherAttribute(Method method, Class<?> targetClass) {
 
-        WatcherAttribute attr = computeJSpyWatcherAttribute(method);
+        WatcherAttribute attr = computeWatcherAttribute(method);
         if (null != attr) {
             return attr;
         }
@@ -57,7 +55,7 @@ public class AnnotationWatcherAttributeSource implements WatcherAttributeSource 
         specificMethod = BridgeMethodResolver.findBridgedMethod(specificMethod);
 
         if (specificMethod != method) {
-            attr = computeJSpyWatcherAttribute(method);
+            attr = computeWatcherAttribute(method);
             if (null != attr) {
                 return attr;
             }
@@ -66,24 +64,24 @@ public class AnnotationWatcherAttributeSource implements WatcherAttributeSource 
     }
 
 
-    private WatcherAttribute computeJSpyWatcherAttribute(Method method) {
+    private WatcherAttribute computeWatcherAttribute(Method method) {
         if (method.getAnnotations().length > 0) {
-            return parseJSpyWatcherAttribute(method);
+            return parseWatcherAttribute(method);
         }
         return null;
     }
 
-    private WatcherAttribute parseJSpyWatcherAttribute(Method method) {
+    private WatcherAttribute parseWatcherAttribute(Method method) {
         AnnotationAttributes attributes =
                 AnnotatedElementUtils.getMergedAnnotationAttributes(method, JSpyWatcher.class);
         if (null != attributes) {
-            return parseJSpyWatcherAttribute(attributes);
+            return parseWatcherAttribute(attributes);
         } else {
             return null;
         }
     }
 
-    private WatcherAttribute parseJSpyWatcherAttribute(AnnotationAttributes attributes) {
+    private WatcherAttribute parseWatcherAttribute(AnnotationAttributes attributes) {
         String name = attributes.getString("value");
 
         WatcherAttribute attr = new WatcherAttribute(name);
