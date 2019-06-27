@@ -12,7 +12,7 @@ abstract class WatcherAttributeSourcePointcut extends StaticMethodMatcherPointcu
 
 
     @Override
-    public boolean matches(Method method, @Nullable Class<?> targetClass) {
+    public boolean matches(Method method, Class<?> targetClass) {
         WatcherAttributeSource was = getWatcherAttributeSource();
         return (null != was && null != was.getWatcherAttribute(method, targetClass));
     }
