@@ -5,6 +5,10 @@ import org.quartz.JobExecutionContext;
 
 public class MemoryJobCapsule extends JobCapsule {
 
+
+    public MemoryJobCapsule() {
+    }
+
     public MemoryJobCapsule(JSpyConfig config) {
         super(config);
     }

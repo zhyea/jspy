@@ -7,6 +7,12 @@ public class JSpyClientTest {
     @Test
     public void start() {
 
+
+    }
+
+
+    public static void main(String[] args) {
+
         JSpyClientBuilder builder = JSpyClientBuilder.builder();
 
         JSpyClient client =
@@ -20,7 +26,6 @@ public class JSpyClientTest {
 
 
         client.start();
-
     }
 
 }

@@ -13,6 +13,14 @@ public abstract class JobCapsule implements Job {
 
     protected final JSpyConfig config;
 
+
+    /**
+     * 子类需要提供无参构造方法，不然无法创建实例
+     */
+    public JobCapsule(){
+        this.config = null;
+    }
+
     public JobCapsule(JSpyConfig config) {
         this.config = config;
     }

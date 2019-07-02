@@ -5,6 +5,10 @@ import org.quartz.JobExecutionContext;
 
 public class ThreadsJobCapsule extends JobCapsule {
 
+    
+    public ThreadsJobCapsule() {
+    }
+
 
     public ThreadsJobCapsule(JSpyConfig config) {
         super(config);
