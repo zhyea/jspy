@@ -1,10 +1,13 @@
 package org.chobit.jspy.jobs;
 
-import org.quartz.Job;
-
-import static org.chobit.jspy.Config.MEMORY_COLLECT_INTERVAL_SECONDS;
+import org.chobit.jspy.JSpyConfig;
+import org.quartz.JobExecutionContext;
 
 public class MemoryJobCapsule extends JobCapsule {
+
+    public MemoryJobCapsule(JSpyConfig config) {
+        super(config);
+    }
 
     @Override
     String name() {
@@ -17,12 +20,13 @@ public class MemoryJobCapsule extends JobCapsule {
     }
 
     @Override
-    Class<? extends Job> jobClass() {
-        return MemoryJob.class;
+    int intervalSeconds() {
+        return config.getMemoryCollectIntervalSeconds();
     }
 
     @Override
-    int intervalSeconds() {
-        return MEMORY_COLLECT_INTERVAL_SECONDS;
+    public void execute(JobExecutionContext context) {
+        System.out.println(context.getJobDetail().getKey());
+        System.out.println("-------------------------------");
     }
 }

@@ -1,8 +1,14 @@
 package org.chobit.jspy.jobs;
 
-import org.quartz.Job;
+import org.chobit.jspy.JSpyConfig;
+import org.quartz.JobExecutionContext;
 
 public class ThreadsJobCapsule extends JobCapsule {
+
+
+    public ThreadsJobCapsule(JSpyConfig config) {
+        super(config);
+    }
 
     @Override
     String name() {
@@ -14,13 +20,15 @@ public class ThreadsJobCapsule extends JobCapsule {
         return "threads";
     }
 
-    @Override
-    Class<? extends Job> jobClass() {
-        return ThreadsJob.class;
-    }
 
     @Override
     int intervalSeconds() {
-        return 1;
+        return config.getThreadCollectIntervalSeconds();
+    }
+
+    @Override
+    public void execute(JobExecutionContext context) {
+        System.out.println(context.getJobDetail().getKey());
+        System.out.println("-------------------------------");
     }
 }

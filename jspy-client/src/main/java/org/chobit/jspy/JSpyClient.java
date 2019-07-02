@@ -6,12 +6,20 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.chobit.jspy.utils.Reflections.subTypeOf;
 
 public class JSpyClient {
+
+    private JSpyConfig config;
+
+    JSpyClient(JSpyConfig config) {
+        this.config = config;
+    }
+
 
     private Scheduler scheduler = newScheduler();
 
@@ -51,11 +59,11 @@ public class JSpyClient {
         }
     }
 
-    private Set<JobCapsule> jobs() throws IllegalAccessException, InstantiationException {
+    private Set<JobCapsule> jobs() throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         Set<Class<? extends JobCapsule>> jobClasses = subTypeOf(JobCapsule.class);
         Set<JobCapsule> jobs = new HashSet<>(jobClasses.size());
         for (Class<? extends JobCapsule> clazz : jobClasses) {
-            jobs.add(clazz.newInstance());
+            jobs.add(clazz.getDeclaredConstructor(JSpyConfig.class).newInstance(config));
         }
         return jobs;
     }
