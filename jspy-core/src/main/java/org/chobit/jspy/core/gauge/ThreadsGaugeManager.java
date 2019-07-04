@@ -9,16 +9,16 @@ abstract class ThreadsGaugeManager {
     private static final ThreadMXBean mxBean = ManagementFactory.getThreadMXBean();
 
     static long threadCount() {
-       return mxBean.getThreadCount();
+        return mxBean.getThreadCount();
     }
 
 
-    static long peakThreadCount(){
+    static long peakThreadCount() {
         return mxBean.getPeakThreadCount();
     }
 
 
-    static long totalStatedThreadCount(){
+    static long totalStartedThreadCount() {
         return mxBean.getTotalStartedThreadCount();
     }
 
@@ -27,5 +27,8 @@ abstract class ThreadsGaugeManager {
         return mxBean.getDaemonThreadCount();
     }
 
+    
+    private ThreadsGaugeManager() {
+    }
 
 }

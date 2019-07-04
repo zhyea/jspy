@@ -4,7 +4,7 @@ import org.chobit.jspy.exception.JSpyConfigException;
 
 import static org.chobit.jspy.core.utils.Strings.isBlank;
 
-public class JSpyClientBuilder {
+public final class JSpyClientBuilder {
 
     private JSpyClientBuilder() {
     }
@@ -27,6 +27,12 @@ public class JSpyClientBuilder {
 
     public JSpyClientBuilder serverPort(int serverPort) {
         this.config.setServerPort(serverPort);
+        return this;
+    }
+
+
+    public JSpyClientBuilder useSSL(boolean useSSL) {
+        this.config.setUseSSL(useSSL);
         return this;
     }
 

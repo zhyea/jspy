@@ -1,12 +1,16 @@
 package org.chobit.jspy.jobs;
 
 import org.chobit.jspy.JSpyConfig;
-import org.quartz.JobExecutionContext;
 
 public class GCJobCapsule extends JobCapsule {
 
     public GCJobCapsule(JSpyConfig config) {
         super(config);
+    }
+
+    @Override
+    String receivePath() {
+        return "/gc/receive";
     }
 
 
@@ -27,8 +31,7 @@ public class GCJobCapsule extends JobCapsule {
 
 
     @Override
-    public void execute(JobExecutionContext context) {
-        System.out.println(context.getJobDetail().getKey());
-        System.out.println("-------------------------------");
+    public Object collect() {
+        return null;
     }
 }

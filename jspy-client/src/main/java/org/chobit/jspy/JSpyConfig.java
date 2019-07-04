@@ -1,13 +1,15 @@
 package org.chobit.jspy;
 
 
-public class JSpyConfig {
+public final class JSpyConfig {
 
     private String appCode;
 
-    private String serverHost;
+    private String serverHost = "127.0.0.1";
 
-    private int serverPort;
+    private int serverPort = 8190;
+
+    private boolean useSSL = false;
 
     private int memoryCollectIntervalSeconds = 6;
 
@@ -38,6 +40,14 @@ public class JSpyConfig {
 
     public void setServerPort(int serverPort) {
         this.serverPort = serverPort;
+    }
+
+    public boolean isUseSSL() {
+        return useSSL;
+    }
+
+    public void setUseSSL(boolean useSSL) {
+        this.useSSL = useSSL;
     }
 
     public int getMemoryCollectIntervalSeconds() {

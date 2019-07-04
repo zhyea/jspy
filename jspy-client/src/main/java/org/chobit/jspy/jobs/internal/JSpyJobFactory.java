@@ -18,29 +18,27 @@ public class JSpyJobFactory implements JobFactory {
         this.jobRegistry = jobRegistry;
     }
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    protected Logger getLog() {
-        return log;
-    }
 
     @Override
     public Job newJob(TriggerFiredBundle bundle, Scheduler scheduler) throws SchedulerException {
         JobDetail jobDetail = bundle.getJobDetail();
         Class<? extends Job> jobClass = jobDetail.getJobClass();
         try {
-            if (log.isDebugEnabled()) {
-                log.debug(
+            if (logger.isDebugEnabled()) {
+                logger.debug(
                         "Producing instance of Job '{}', class={}", jobDetail.getKey(), jobClass.getName());
             }
 
             if (JobCapsule.class.isAssignableFrom(jobClass)) {
                 return jobRegistry.getInstance((Class<? extends JobCapsule>) jobClass);
             }
+            
             return jobClass.newInstance();
         } catch (Exception e) {
             SchedulerException se = new SchedulerException("Problem instantiating class '" + jobDetail.getJobClass().getName() + "'", e);
-            log.error("Problem instantiating class '{}'", jobDetail.getJobClass().getName(), e);
+            logger.error("Problem instantiating class '{}'", jobDetail.getJobClass().getName(), e);
             throw se;
         }
     }

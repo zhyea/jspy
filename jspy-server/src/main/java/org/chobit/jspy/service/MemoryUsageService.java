@@ -2,7 +2,7 @@ package org.chobit.jspy.service;
 
 import org.chobit.jspy.constants.MemoryNames;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
-import org.chobit.jspy.core.model.MemoryOverview;
+import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.core.model.MemoryPool;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.beans.MemoryUsage;
@@ -41,13 +41,13 @@ public class MemoryUsageService {
     /**
      * 写入内存数据
      */
-    private int insert(java.lang.management.MemoryUsage usage,
-                       String appCode,
+    private int insert(String appCode,
+                       java.lang.management.MemoryUsage usage,
                        MemoryType type,
                        String name,
                        String[] managerNames,
                        String host,
-                       Date eventTime,
+                       long eventTime,
                        boolean isPeak) {
         MemoryUsage m = new MemoryUsage();
         m.setType(type.name());
@@ -59,7 +59,7 @@ public class MemoryUsageService {
         m.setUsed(usage.getUsed());
         m.setCommitted(usage.getCommitted());
         m.setMax(usage.getMax());
-        m.setEventTime(eventTime);
+        m.setEventTime(new Date(eventTime));
         if (isPeak) {
             return peakUsageMapper.insert(m);
         } else {
@@ -72,60 +72,63 @@ public class MemoryUsageService {
      */
     @Transactional
     @JSpyWatcher("memory-insert")
-    public int insert(java.lang.management.MemoryUsage usage,
-                      String appCode,
+    public int insert(String appCode,
+                      java.lang.management.MemoryUsage usage,
                       MemoryType type,
                       String name,
                       String[] managerNames,
                       String host,
-                      Date eventTime) {
-        System.out.println("-----------insertMem>>>>");
-        return insert(usage, appCode, type, name, managerNames, host, eventTime, false);
+                      long eventTime) {
+        return insert(appCode, usage, type, name, managerNames, host, eventTime, false);
     }
 
     /**
      * 写入内存数据
      */
-    private int insert(java.lang.management.MemoryUsage usage,
+    private int insert(String appCode,
+                       java.lang.management.MemoryUsage usage,
                        MemoryOverview overview,
                        MemoryType type,
                        String name,
                        String[] managerNames,
                        boolean isPeak) {
-        return insert(usage, overview.getAppCode(), type, name, managerNames, overview.getHost(), overview.getTime(), isPeak);
+        return insert(appCode, usage, type, name, managerNames, overview.getHost(), overview.getTime(), isPeak);
     }
 
     /**
      * 写入内存数据
      */
-    private int insert(java.lang.management.MemoryUsage usage,
+    private int insert(String appCode,
+                       java.lang.management.MemoryUsage usage,
                        MemoryOverview overview,
                        MemoryType type,
                        String name,
                        String[] managerNames) {
-        return insert(usage, overview.getAppCode(), type, name, managerNames, overview.getHost(), overview.getTime(), false);
+        return insert(appCode, usage, type, name, managerNames, overview.getHost(), overview.getTime(), false);
     }
 
 
     /**
      * 写入内存数据
      */
-    public boolean insert(MemoryOverview overview) {
+    public boolean insert(String appCode, MemoryOverview overview) {
         if (null != overview.getHeapUsage()) {
-            insert(overview.getHeapUsage(), overview,
+            insert(appCode,
+                    overview.getHeapUsage(), overview,
                     HEAP,
                     MemoryNames.nameOf(HEAP),
                     null);
         }
         if (null != overview.getNonHeapUsage()) {
-            insert(overview.getNonHeapUsage(), overview,
+            insert(appCode,
+                    overview.getNonHeapUsage(), overview,
                     NON_HEAP,
                     MemoryNames.nameOf(NON_HEAP),
                     null);
         }
         if (null != overview.getMemoryPools()) {
             for (MemoryPool pool : overview.getMemoryPools()) {
-                insertMemoryPoolData(pool, overview);
+                insertMemoryPoolData(appCode, pool, overview);
             }
         }
         return true;
@@ -148,23 +151,25 @@ public class MemoryUsageService {
     }
 
 
-    private void insertMemoryPoolData(MemoryPool pool, MemoryOverview overview) {
-        insert(pool.getUsage(),
+    private void insertMemoryPoolData(String appCode, MemoryPool pool, MemoryOverview overview) {
+        insert(appCode,
+                pool.getUsage(),
                 overview,
                 pool.getType(),
                 pool.getName(),
                 pool.getMemoryManagerNames());
         if (null != pool.getPeakUsage()) {
-            insertMemoryPoolPeakData(pool, overview);
+            insertMemoryPoolPeakData(appCode, pool, overview);
         }
     }
 
 
-    private void insertMemoryPoolPeakData(MemoryPool pool, MemoryOverview overview) {
-        MemoryUsage usage = peakUsageMapper.getLatestByName(overview.getAppCode(), pool.getName());
+    private void insertMemoryPoolPeakData(String appCode, MemoryPool pool, MemoryOverview overview) {
+        MemoryUsage usage = peakUsageMapper.getLatestByName(appCode, pool.getName());
         if (null != pool.getPeakUsage()) {
             if (!isUsageClose(usage, pool.getPeakUsage())) {
-                insert(pool.getPeakUsage(),
+                insert(appCode,
+                        pool.getPeakUsage(),
                         overview,
                         pool.getType(),
                         pool.getName(),

@@ -22,7 +22,7 @@ public enum Threads implements Gauge {
     TOTAL_STARTED_THREAD_COUNT("启动过的线程总数"){
         @Override
         public Long value() {
-            return totalStatedThreadCount();
+            return totalStartedThreadCount();
         }
     },
 

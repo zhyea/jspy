@@ -19,7 +19,7 @@ public enum NonHeapMemoryUsage implements Gauge {
         }
     },
 
-    COMMITED("已提交内存") {
+    COMMITTED("已提交内存") {
         @Override
         public Long value() {
             return nonHeapMemoryUsage().getCommitted();

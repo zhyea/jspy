@@ -1,16 +1,15 @@
-package org.chobit.jspy.core.model;
+package org.chobit.jspy.model;
+
+import org.chobit.jspy.core.model.MemoryPool;
 
 import java.lang.management.MemoryUsage;
-import java.util.Date;
 import java.util.List;
 
 public class MemoryOverview {
 
-    private String appCode;
+    private long time;
 
     private String host;
-
-    private Date time;
 
     private MemoryUsage heapUsage;
 
@@ -19,13 +18,11 @@ public class MemoryOverview {
     private List<MemoryPool> memoryPools;
 
 
-    public MemoryOverview(String appCode,
+    public MemoryOverview(long time,
                           String host,
-                          Date time,
                           MemoryUsage heapUsage,
                           MemoryUsage nonHeapUsage,
                           List<MemoryPool> memoryPools) {
-        this.appCode = appCode;
         this.host = host;
         this.time = time;
         this.heapUsage = heapUsage;
@@ -33,15 +30,11 @@ public class MemoryOverview {
         this.memoryPools = memoryPools;
     }
 
-    public String getAppCode() {
-        return appCode;
-    }
-
     public String getHost() {
         return host;
     }
 
-    public Date getTime() {
+    public long getTime() {
         return time;
     }
 

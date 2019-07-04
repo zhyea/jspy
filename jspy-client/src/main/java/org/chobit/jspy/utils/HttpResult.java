@@ -12,16 +12,14 @@ public class HttpResult {
     public HttpResult() {
     }
 
-    public HttpResult(int status, String content) {
-        this.status = status;
-        this.content = content;
-    }
-
-
     public boolean isSuccessful() {
         return null == throwable && status == 200;
     }
 
+
+    public boolean isFailed() {
+        return !isSuccessful();
+    }
 
     public int getStatus() {
         return status;

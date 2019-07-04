@@ -2,12 +2,17 @@ package org.chobit.jspy.utils;
 
 
 import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
+
+import static org.chobit.jspy.utils.JSON.toJson;
 
 
 public abstract class HTTP {
 
+    private static Logger logger = LoggerFactory.getLogger(HTTP.class);
 
     private static final MediaType MEDIA_TYPE_JSON = MediaType.get("application/json; charset=utf-8");
 
@@ -20,7 +25,12 @@ public abstract class HTTP {
     }
 
 
-    public static HttpResult post(String url, String json) {
+    public static <T> HttpResult post(HttpUrl url, T target) {
+        return post0(url, toJson(target));
+    }
+
+
+    private static HttpResult post0(HttpUrl url, String json) {
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
         Request request = new Request.Builder()
                 .url(url)
@@ -32,6 +42,7 @@ public abstract class HTTP {
             result.setStatus(response.code());
             result.setContent(response.body().string());
         } catch (Exception e) {
+            logger.error("Send message to {} error. msg: {}", url, json);
             result.setThrowable(e);
         }
 
