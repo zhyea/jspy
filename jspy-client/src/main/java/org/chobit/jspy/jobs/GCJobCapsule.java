@@ -5,9 +5,6 @@ import org.quartz.JobExecutionContext;
 
 public class GCJobCapsule extends JobCapsule {
 
-    public GCJobCapsule() {
-    }
-
     public GCJobCapsule(JSpyConfig config) {
         super(config);
     }

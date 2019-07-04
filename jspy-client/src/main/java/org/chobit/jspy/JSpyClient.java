@@ -2,32 +2,28 @@ package org.chobit.jspy;
 
 import org.chobit.jspy.core.exceptions.JSpyException;
 import org.chobit.jspy.jobs.JobCapsule;
+import org.chobit.jspy.jobs.internal.JSpyJobFactory;
+import org.chobit.jspy.jobs.internal.JSpyJobProxy;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
-import java.util.Set;
-
-import static org.chobit.jspy.utils.Reflections.subTypeOf;
-
 public class JSpyClient {
 
-    private JSpyConfig config;
+    private final JSpyJobProxy jobProxy;
+
+    private final Scheduler scheduler;
 
     JSpyClient(JSpyConfig config) {
-        this.config = config;
+        this.jobProxy = new JSpyJobProxy(config);
+        this.scheduler = newScheduler();
     }
-
-
-    private Scheduler scheduler = newScheduler();
 
 
     public void start() {
         try {
             scheduler.start();
-            Set<JobCapsule> jobs = jobs();
+            Iterable<JobCapsule> jobs = jobProxy.jobs();
             for (JobCapsule j : jobs) {
                 scheduler.scheduleJob(j.job(), j.trigger());
             }
@@ -53,19 +49,12 @@ public class JSpyClient {
 
     private Scheduler newScheduler() {
         try {
-            return new StdSchedulerFactory().getScheduler();
+            Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+            scheduler.setJobFactory(new JSpyJobFactory(jobProxy));
+            return scheduler;
         } catch (SchedulerException e) {
             throw new JSpyException(e);
         }
-    }
-
-    private Set<JobCapsule> jobs() throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        Set<Class<? extends JobCapsule>> jobClasses = subTypeOf(JobCapsule.class);
-        Set<JobCapsule> jobs = new HashSet<>(jobClasses.size());
-        for (Class<? extends JobCapsule> clazz : jobClasses) {
-            jobs.add(clazz.getDeclaredConstructor(JSpyConfig.class).newInstance(config));
-        }
-        return jobs;
     }
 
 }
