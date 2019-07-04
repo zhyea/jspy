@@ -11,14 +11,14 @@ import java.util.Set;
 
 import static org.chobit.jspy.utils.Reflections.subTypeOf;
 
-public class JSpyJobProxy {
+public class JSpyJobRegistry {
 
 
     private final JSpyConfig config;
 
     private final Map<Class<? extends JobCapsule>, JobCapsule> jobCapsuleMap;
 
-    public JSpyJobProxy(JSpyConfig config) {
+    public JSpyJobRegistry(JSpyConfig config) {
         this.config = config;
         try {
             jobCapsuleMap = jobCapsuleMap();

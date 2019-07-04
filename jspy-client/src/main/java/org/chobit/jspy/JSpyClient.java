@@ -3,19 +3,19 @@ package org.chobit.jspy;
 import org.chobit.jspy.core.exceptions.JSpyException;
 import org.chobit.jspy.jobs.JobCapsule;
 import org.chobit.jspy.jobs.internal.JSpyJobFactory;
-import org.chobit.jspy.jobs.internal.JSpyJobProxy;
+import org.chobit.jspy.jobs.internal.JSpyJobRegistry;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 
 public class JSpyClient {
 
-    private final JSpyJobProxy jobProxy;
+    private final JSpyJobRegistry jobRegistry;
 
     private final Scheduler scheduler;
 
     JSpyClient(JSpyConfig config) {
-        this.jobProxy = new JSpyJobProxy(config);
+        this.jobRegistry = new JSpyJobRegistry(config);
         this.scheduler = newScheduler();
     }
 
@@ -23,7 +23,7 @@ public class JSpyClient {
     public void start() {
         try {
             scheduler.start();
-            Iterable<JobCapsule> jobs = jobProxy.jobs();
+            Iterable<JobCapsule> jobs = jobRegistry.jobs();
             for (JobCapsule j : jobs) {
                 scheduler.scheduleJob(j.job(), j.trigger());
             }
@@ -50,7 +50,7 @@ public class JSpyClient {
     private Scheduler newScheduler() {
         try {
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-            scheduler.setJobFactory(new JSpyJobFactory(jobProxy));
+            scheduler.setJobFactory(new JSpyJobFactory(jobRegistry));
             return scheduler;
         } catch (SchedulerException e) {
             throw new JSpyException(e);

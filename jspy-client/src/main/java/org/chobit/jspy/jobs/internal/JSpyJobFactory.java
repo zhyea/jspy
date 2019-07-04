@@ -12,10 +12,10 @@ import org.slf4j.LoggerFactory;
 
 public class JSpyJobFactory implements JobFactory {
 
-    private JSpyJobProxy jobProxy;
+    private JSpyJobRegistry jobRegistry;
 
-    public JSpyJobFactory(JSpyJobProxy jobProxy) {
-        this.jobProxy = jobProxy;
+    public JSpyJobFactory(JSpyJobRegistry jobRegistry) {
+        this.jobRegistry = jobRegistry;
     }
 
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -35,10 +35,9 @@ public class JSpyJobFactory implements JobFactory {
             }
 
             if (JobCapsule.class.isAssignableFrom(jobClass)) {
-                return jobProxy.getInstance((Class<? extends JobCapsule>) jobClass);
-            } else {
-                return jobClass.newInstance();
+                return jobRegistry.getInstance((Class<? extends JobCapsule>) jobClass);
             }
+            return jobClass.newInstance();
         } catch (Exception e) {
             SchedulerException se = new SchedulerException("Problem instantiating class '" + jobDetail.getJobClass().getName() + "'", e);
             log.error("Problem instantiating class '{}'", jobDetail.getJobClass().getName(), e);
