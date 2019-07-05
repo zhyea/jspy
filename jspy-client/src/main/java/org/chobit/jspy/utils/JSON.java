@@ -22,4 +22,6 @@ public abstract class JSON {
     }
 
 
+    private JSON() {
+    }
 }

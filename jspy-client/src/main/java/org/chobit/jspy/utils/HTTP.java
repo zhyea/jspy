@@ -59,4 +59,7 @@ public abstract class HTTP {
         return client.connectionPool().idleConnectionCount();
     }
 
+
+    private HTTP() {
+    }
 }

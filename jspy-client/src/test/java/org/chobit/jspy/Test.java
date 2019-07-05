@@ -1,22 +1,19 @@
 package org.chobit.jspy;
 
 
-import okhttp3.HttpUrl;
+import org.chobit.jspy.core.gauge.HeapMemoryUsage;
+import org.chobit.jspy.core.support.GcCollector;
+import org.chobit.jspy.core.support.GcNotificationListener;
+
+import javax.management.InstanceNotFoundException;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.chobit.jspy.core.constants.StorageUnit.B;
 
 public class Test {
 
 
-    public static void main(String[] args) {
-        HttpUrl url = new HttpUrl.Builder()
-                .scheme("https" )
-                .host("127.0.0.1")
-                .port(8190)
-                .addPathSegments("m/z")
-                .addPathSegment("bbc")
-                .build();
-
-        System.out.println(url.toString());
-    }
 
 
 }

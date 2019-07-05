@@ -5,7 +5,7 @@ import static org.chobit.jspy.core.gauge.ClassLoadingGaugeManager.*;
 public enum ClassLoading implements Gauge {
 
 
-    TOTAL_LOADED("JVM已经加载的类的数量") {
+    TOTAL_LOADED("JVM已加载的类总数") {
         @Override
         public Long value() {
             return totalLoadedClassCount();
@@ -13,7 +13,7 @@ public enum ClassLoading implements Gauge {
     },
 
 
-    CURRENT_LOADED("JVM当前加载的类的数量") {
+    CURRENT_LOADED("JVM当前加载的类总数") {
         @Override
         public Long value() {
             return currentLoadedClassCount();
@@ -21,8 +21,7 @@ public enum ClassLoading implements Gauge {
     },
 
 
-
-    UNLOAD("JVM已经卸载的类的数量") {
+    UNLOAD("JVM已卸载的类总数") {
         @Override
         public Long value() {
             return unloadedClassCount();
