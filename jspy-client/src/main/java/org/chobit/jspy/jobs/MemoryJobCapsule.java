@@ -9,6 +9,7 @@ import java.lang.management.MemoryUsage;
 import java.util.List;
 
 import static org.chobit.jspy.core.info.Net.LOCAL_HOST_IP;
+import static org.chobit.jspy.utils.SysTime.millis;
 
 public class MemoryJobCapsule extends JobCapsule {
 
@@ -43,6 +44,6 @@ public class MemoryJobCapsule extends JobCapsule {
         List<MemoryPool> memoryPools = MemoryGaugeManager.memoryPools();
         String ip = LOCAL_HOST_IP.value();
 
-        return new MemoryOverview(System.currentTimeMillis(), ip, heapUsage, nonHeapUsage, memoryPools);
+        return new MemoryOverview(millis(), ip, heapUsage, nonHeapUsage, memoryPools);
     }
 }

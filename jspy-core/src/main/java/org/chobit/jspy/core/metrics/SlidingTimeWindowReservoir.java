@@ -14,7 +14,7 @@ public class SlidingTimeWindowReservoir implements Reservoir {
     private static final int COLLISION_BUFFER = 256;
     // 执行trim的周期，即数据每达到TRIM_THRESHOLD的整数倍即执行trim操作
     private static final int TRIM_THRESHOLD = 256;
-    // offsets the front of the time window for the purposes of clearing the buffer in trim
+    // 数据窗滞后缓存
     private static final long CLEAR_BUFFER = TimeUnit.HOURS.toNanos(1) * COLLISION_BUFFER;
 
     private final ConcurrentSkipListMap<Long, Long> measurements;

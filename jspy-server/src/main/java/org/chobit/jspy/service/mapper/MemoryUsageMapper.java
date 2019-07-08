@@ -41,4 +41,11 @@ public interface MemoryUsageMapper {
      */
     @Select("select distinct name from memory_usage where app_code=#{appCode}")
     List<String> findMemoryNames(@Param("appCode") String appCode);
+
+
+
+
+
+    @Select("select * from memory_usage where app_code=#{appCode} and name=#{name} and is_peak=1 order by id desc limit 1")
+    MemoryUsage getLatestPeakByName(@Param("appCode") String appCode, @Param("name") String name);
 }

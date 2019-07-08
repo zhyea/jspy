@@ -6,7 +6,6 @@ import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.core.model.MemoryPool;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.beans.MemoryUsage;
-import org.chobit.jspy.service.mapper.MemoryPeakUsageMapper;
 import org.chobit.jspy.service.mapper.MemoryUsageMapper;
 import org.chobit.jspy.service.mapper.MetricQueryMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
@@ -25,15 +24,8 @@ import static java.lang.management.MemoryType.NON_HEAP;
 @Service
 public class MemoryUsageService {
 
-    /**
-     * 内存用量浮动区间
-     */
-    private static final long USAGE_FLOATING_RANGE = 1024;
-
     @Autowired
-    private MemoryUsageMapper usageMapper;
-    @Autowired
-    private MemoryPeakUsageMapper peakUsageMapper;
+    private MemoryUsageMapper memMapper;
     @Autowired
     private MetricQueryMapper metricMapper;
 
@@ -60,11 +52,9 @@ public class MemoryUsageService {
         m.setCommitted(usage.getCommitted());
         m.setMax(usage.getMax());
         m.setEventTime(new Date(eventTime));
-        if (isPeak) {
-            return peakUsageMapper.insert(m);
-        } else {
-            return usageMapper.insert(m);
-        }
+        m.setIsPeak(isPeak ? 1 : 0);
+
+        return memMapper.insert(m);
     }
 
     /**
@@ -147,7 +137,7 @@ public class MemoryUsageService {
      * 查询内存区域名称
      */
     public List<String> findMemoryNames(String appCode) {
-        return usageMapper.findMemoryNames(appCode);
+        return memMapper.findMemoryNames(appCode);
     }
 
 
@@ -165,7 +155,7 @@ public class MemoryUsageService {
 
 
     private void insertMemoryPoolPeakData(String appCode, MemoryPool pool, MemoryOverview overview) {
-        MemoryUsage usage = peakUsageMapper.getLatestByName(appCode, pool.getName());
+        MemoryUsage usage = memMapper.getLatestPeakByName(appCode, pool.getName());
         if (null != pool.getPeakUsage()) {
             if (!isUsageClose(usage, pool.getPeakUsage())) {
                 insert(appCode,
@@ -181,7 +171,12 @@ public class MemoryUsageService {
 
 
     /**
-     * 判断最近的两次内存用量是否近似
+     * 内存用量浮动区间
+     */
+    private static final long USAGE_FLOATING_RANGE = 1024;
+
+    /**
+     * 判断最近的两次内存用量是否近似，如差值在浮动区间内则认为是内存近似
      */
     private boolean isUsageClose(MemoryUsage usage, java.lang.management.MemoryUsage u) {
         if (Math.abs(usage.getInit() - u.getInit()) > USAGE_FLOATING_RANGE) {
