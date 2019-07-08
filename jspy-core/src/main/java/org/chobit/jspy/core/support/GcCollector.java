@@ -53,13 +53,9 @@ public final class GcCollector {
 
     public void add(GarbageCollectionNotificationInfo gcNotificationInfo) {
         String action = gcNotificationInfo.getGcAction();
-        String cause = gcNotificationInfo.getGcCause();
-        String name = gcNotificationInfo.getGcName();
 
         GcInfo gcInfo = gcNotificationInfo.getGcInfo();
-        long gcId = gcInfo.getId();
-        long startTime = gcInfo.getStartTime();
-        long duration = gcInfo.getDuration();
+
         long usageBefore = sumOfUsage(gcInfo.getMemoryUsageBeforeGc().values());
         long usageAfter = sumOfUsage(gcInfo.getMemoryUsageAfterGc().values());
 
@@ -72,13 +68,13 @@ public final class GcCollector {
         }
 
         GcRecord record = new GcRecord();
-        record.setGcId(gcId);
+        record.setGcId( gcInfo.getId());
         record.setType(gcType);
         record.setAction(action);
-        record.setCause(cause);
-        record.setName(name);
-        record.setStartTime(startTime);
-        record.setDuration(duration);
+        record.setCause(gcNotificationInfo.getGcCause());
+        record.setName(gcNotificationInfo.getGcName());
+        record.setStartTime(gcInfo.getStartTime());
+        record.setDuration( gcInfo.getDuration());
         record.setUsageBefore(usageBefore);
         record.setUsageAfter(usageAfter);
         record.setMajorGcCount(majorGcCount.sum());

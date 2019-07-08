@@ -25,14 +25,15 @@ public abstract class HTTP {
     }
 
 
-    public static <T> HttpResult post(HttpUrl url, T target) {
-        return post0(url, toJson(target));
+    public static <T> HttpResult post(HttpUrl url, Headers headers, T target) {
+        return post0(url, headers, toJson(target));
     }
 
 
-    private static HttpResult post0(HttpUrl url, String json) {
+    private static HttpResult post0(HttpUrl url, Headers headers, String json) {
         RequestBody body = RequestBody.create(MEDIA_TYPE_JSON, json);
         Request request = new Request.Builder()
+                .headers(headers)
                 .url(url)
                 .post(body)
                 .build();

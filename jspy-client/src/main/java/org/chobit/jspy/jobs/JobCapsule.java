@@ -1,5 +1,6 @@
 package org.chobit.jspy.jobs;
 
+import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import org.chobit.jspy.JSpyConfig;
 import org.chobit.jspy.utils.HttpResult;
@@ -7,14 +8,15 @@ import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.chobit.jspy.core.info.Net.LOCAL_HOST_IP;
 import static org.chobit.jspy.utils.HTTP.post;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-public abstract class JobCapsule implements Job {
+public abstract class JobCapsule<T> implements Job {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     protected final JSpyConfig config;
 
@@ -30,7 +32,7 @@ public abstract class JobCapsule implements Job {
 
     abstract int intervalSeconds();
 
-    abstract <T> T collect();
+    abstract T collect();
 
     public final JobDetail job() {
         return newJob(this.getClass())
@@ -54,9 +56,15 @@ public abstract class JobCapsule implements Job {
         System.out.println(context.getJobDetail().getKey());
         System.out.println("-------------------------------");
 
-        Object obj = collect();
+        Headers headers =
+                new Headers.Builder()
+                        .add("appCode", config.getAppCode())
+                        .add("host", LOCAL_HOST_IP.value().toString())
+                        .build();
+
+        T data = collect();
         HttpUrl url = receiveUrl();
-        HttpResult result = post(url, obj);
+        HttpResult result = post(url, headers, data);
         if (result.isFailed()) {
             logger.error("send message to {} failed.", url, result.getThrowable());
         }
