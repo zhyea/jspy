@@ -12,6 +12,11 @@ public abstract class ShortCode {
     private static final AtomicInteger SEQ = new AtomicInteger(1);
     private static final DecimalFormat FORMAT = new DecimalFormat("00");
 
+    /**
+     * 基于时间生成八位短码
+     * <p>
+     * 该方法并不安全，如果调用间隔在十分之一毫秒内会出现重复值
+     */
     public static synchronized String gen() {
         StringBuilder builder = new StringBuilder(System.currentTimeMillis() / 10 + "");
         if (SEQ.incrementAndGet() % 10 == 0) {

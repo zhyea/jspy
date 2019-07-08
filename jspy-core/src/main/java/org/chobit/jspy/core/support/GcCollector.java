@@ -10,13 +10,19 @@ import java.lang.management.MemoryUsage;
 import java.util.Collection;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.LongAdder;
 
 public final class GcCollector {
 
 
-    private LinkedBlockingDeque<GcRecord> records;
+    private final LinkedBlockingDeque<GcRecord> records;
 
-    private int waitSeconds;
+    private final int waitSeconds;
+
+    private final LongAdder majorGcCount;
+
+    private final LongAdder minorGcCount;
+
 
     /**
      * GcCollector 构造器
@@ -27,6 +33,8 @@ public final class GcCollector {
     public GcCollector(int capacity, int waitSeconds) {
         this.waitSeconds = waitSeconds;
         this.records = new LinkedBlockingDeque<>(capacity);
+        this.majorGcCount = new LongAdder();
+        this.minorGcCount = new LongAdder();
     }
 
 
@@ -55,9 +63,17 @@ public final class GcCollector {
         long usageBefore = sumOfUsage(gcInfo.getMemoryUsageBeforeGc().values());
         long usageAfter = sumOfUsage(gcInfo.getMemoryUsageAfterGc().values());
 
+        GcType gcType = typeOf(action);
+        switch (gcType) {
+            case MAJOR:
+                majorGcCount.increment();
+            case MINOR:
+                minorGcCount.increment();
+        }
+
         GcRecord record = new GcRecord();
         record.setGcId(gcId);
-        record.setType(typeOf(action));
+        record.setType(gcType);
         record.setAction(action);
         record.setCause(cause);
         record.setName(name);
@@ -65,6 +81,8 @@ public final class GcCollector {
         record.setDuration(duration);
         record.setUsageBefore(usageBefore);
         record.setUsageAfter(usageAfter);
+        record.setMajorGcCount(majorGcCount.sum());
+        record.setMinorGcCount(minorGcCount.sum());
 
         try {
             this.records.offer(record, waitSeconds, TimeUnit.SECONDS);

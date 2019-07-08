@@ -24,6 +24,11 @@ public class GcRecord {
 
     private long recordTime = System.currentTimeMillis();
 
+    private long minorGcCount;
+
+    private long majorGcCount;
+
+
     public long getGcId() {
         return gcId;
     }
@@ -104,6 +109,22 @@ public class GcRecord {
         return recordTime;
     }
 
+    public long getMinorGcCount() {
+        return minorGcCount;
+    }
+
+    public void setMinorGcCount(long minorGcCount) {
+        this.minorGcCount = minorGcCount;
+    }
+
+    public long getMajorGcCount() {
+        return majorGcCount;
+    }
+
+    public void setMajorGcCount(long majorGcCount) {
+        this.majorGcCount = majorGcCount;
+    }
+
     @Override
     public String toString() {
         return "GcRecord{" +
@@ -117,6 +138,8 @@ public class GcRecord {
                 ", usageBefore=" + usageBefore +
                 ", usageAfter=" + usageAfter +
                 ", recordTime=" + recordTime +
+                ", minorGcCount=" + minorGcCount +
+                ", majorGcCount=" + majorGcCount +
                 '}';
     }
 }
