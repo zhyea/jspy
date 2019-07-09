@@ -37,8 +37,8 @@ public enum OS implements Info {
      */
     AVAILABLE_PROCESSORS("JVM可用处理器数目") {
         @Override
-        public Integer value() {
-            return availableProcessors();
+        public String value() {
+            return availableProcessors() + "";
         }
     },
 
@@ -48,8 +48,8 @@ public enum OS implements Info {
      */
     LOAD_AVERAGE("近一分钟内负载平均值") {
         @Override
-        public Double value() {
-            return loadAverage();
+        public String value() {
+            return loadAverage() + "";
         }
     },
 

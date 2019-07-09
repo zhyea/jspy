@@ -59,10 +59,13 @@ public abstract class JobCapsule<T> implements Job {
         Headers headers =
                 new Headers.Builder()
                         .add("appCode", config.getAppCode())
-                        .add("host", LOCAL_HOST_IP.value().toString())
+                        .add("ip", LOCAL_HOST_IP.value())
                         .build();
 
         T data = collect();
+        if (null == data) {
+            return;
+        }
         HttpUrl url = receiveUrl();
         HttpResult result = post(url, headers, data);
         if (result.isFailed()) {

@@ -13,27 +13,13 @@ public interface MemoryUsageMapper {
      * 写入数据
      */
     @Insert({
-            "insert into memory_usage (app_code, host, name, manager_names, type, init, used, committed, max, event_time)",
+            "insert into memory_usage (app_code, ip, name, manager_names, type, init, used, committed, max, event_time)",
             "values",
             "(#{appCode}, #{ip}, #{name}, #{managerNames}, #{type}, #{init}, #{used}, #{committed}, #{max}, #{eventTime})"
     })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(MemoryUsage memory);
 
-
-    /**
-     * 批量写入数据
-     */
-    @Insert({
-            "<script>",
-            "insert into memory_usage (app_code, ip, name, manager_names, type, init, used, committed, max, event_time)",
-            "values",
-            "<foreach collection='memories' item='item' separator=','>",
-            "(#{item.appCode}, #{item.ip}, #{item.name}, #{item.managerNames}, #{item.type}, #{item.init}, #{item.used}, #{item.committed}, #{item.max}, #{item.eventTime})",
-            "</foreach>",
-            "</script>"
-    })
-    int batchInsert(@Param("memories") List<MemoryUsage> memories);
 
 
     /**

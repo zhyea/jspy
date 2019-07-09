@@ -15,8 +15,8 @@ public enum Compilation implements Info {
 
     COMPILATION_TIME("总编译时间") {
         @Override
-        public Long value() {
-            return CompilationInfoManager.totalCompilationTime();
+        public String value() {
+            return CompilationInfoManager.totalCompilationTime() + "";
         }
     },
 

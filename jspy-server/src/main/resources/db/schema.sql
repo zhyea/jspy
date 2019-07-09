@@ -68,8 +68,8 @@ create table if not exists gc_stat
     usage_after    bigint,
     event_time     bigint,
 
-    minor_gc_count bigint,
     major_gc_count bigint,
+    minor_gc_count bigint,
 
     deleted        tinyint            default 0,
     insert_time    datetime           default current_date,

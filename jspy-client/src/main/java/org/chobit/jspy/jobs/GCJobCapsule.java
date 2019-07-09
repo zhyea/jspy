@@ -51,6 +51,9 @@ public final class GCJobCapsule extends JobCapsule<List<GcRecord>> {
     public List<GcRecord> collect() {
         List<GcRecord> list = new ArrayList<>(gcCollector.size() + 6);
         gcCollector.drainTo(list);
-        return list;
+        if (!list.isEmpty()) {
+            return list;
+        }
+        return null;
     }
 }
