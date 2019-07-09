@@ -17,6 +17,8 @@ public final class JSpyConfig {
 
     private int gcCollectIntervalSeconds = 6;
 
+    private int classLoadingCollectIntervalSeconds = 6;
+
 
     public String getAppCode() {
         return appCode;
@@ -72,5 +74,14 @@ public final class JSpyConfig {
 
     public void setGcCollectIntervalSeconds(int gcCollectIntervalSeconds) {
         this.gcCollectIntervalSeconds = gcCollectIntervalSeconds;
+    }
+
+
+    public int getClassLoadingCollectIntervalSeconds() {
+        return classLoadingCollectIntervalSeconds;
+    }
+
+    public void setClassLoadingCollectIntervalSeconds(int classLoadingCollectIntervalSeconds) {
+        this.classLoadingCollectIntervalSeconds = classLoadingCollectIntervalSeconds;
     }
 }

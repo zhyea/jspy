@@ -1,10 +1,6 @@
 package org.chobit.jspy.service.beans;
 
-public class GcStat extends AbstractEntity {
-
-    private String appCode;
-
-    private String ip;
+public class GcStat extends AbstractStatEntity {
 
     private long gcId;
 
@@ -30,22 +26,6 @@ public class GcStat extends AbstractEntity {
 
     private long minorGcCount;
 
-
-    public String getAppCode() {
-        return appCode;
-    }
-
-    public void setAppCode(String appCode) {
-        this.appCode = appCode;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
 
     public long getGcId() {
         return gcId;

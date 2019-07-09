@@ -28,11 +28,14 @@ public abstract class JobCapsule<T> implements Job {
 
     abstract String name();
 
-    abstract String group();
-
     abstract int intervalSeconds();
 
     abstract T collect();
+
+
+    String group() {
+        return config.getAppCode();
+    }
 
     public final JobDetail job() {
         return newJob(this.getClass())

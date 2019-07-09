@@ -21,7 +21,7 @@ public enum ClassLoading implements Gauge {
     },
 
 
-    UNLOAD("JVM已卸载的类总数") {
+    UNLOADED("JVM已卸载的类总数") {
         @Override
         public Long value() {
             return unloadedClassCount();

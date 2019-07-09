@@ -74,4 +74,39 @@ create table if not exists gc_stat
     deleted        tinyint            default 0,
     insert_time    datetime           default current_date,
     op_time        timestamp not null default current_timestamp on update current_timestamp
-)
+);
+
+
+create table if not exists thread_stat
+(
+    id            int auto_increment primary key,
+
+    app_code      varchar(32),
+    ip            varchar(32),
+
+    current       bigint,
+    peak          bigint,
+    total_started bigint,
+    daemon        bigint,
+
+    deleted       tinyint            default 0,
+    insert_time   datetime           default current_date,
+    op_time       timestamp not null default current_timestamp on update current_timestamp
+);
+
+
+create table if not exists class_loading_stat
+(
+    id             int auto_increment primary key,
+
+    app_code       varchar(32),
+    ip             varchar(32),
+
+    total_loaded   bigint,
+    current_loaded bigint,
+    unloaded       bigint,
+
+    deleted        tinyint            default 0,
+    insert_time    datetime           default current_date,
+    op_time        timestamp not null default current_timestamp on update current_timestamp
+);

@@ -53,6 +53,11 @@ public final class JSpyClientBuilder {
         return this;
     }
 
+    public JSpyClientBuilder classLoadingCollectIntervalSeconds(int classLoadingCollectIntervalSeconds) {
+        this.config.setClassLoadingCollectIntervalSeconds(classLoadingCollectIntervalSeconds);
+        return this;
+    }
+
     public static JSpyClientBuilder builder() {
         return BuilderHolder.builder;
     }

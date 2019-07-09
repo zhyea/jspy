@@ -37,11 +37,6 @@ public final class GCJobCapsule extends JobCapsule<List<GcRecord>> {
     }
 
     @Override
-    public String group() {
-        return "gc";
-    }
-
-    @Override
     int intervalSeconds() {
         return config.getGcCollectIntervalSeconds();
     }

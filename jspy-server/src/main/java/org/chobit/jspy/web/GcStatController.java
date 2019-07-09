@@ -4,7 +4,6 @@ import org.chobit.jspy.core.model.GcRecord;
 import org.chobit.jspy.service.GcService;
 import org.chobit.jspy.utils.Args;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +24,5 @@ public class GcStatController {
         return gcService.insert(appCode, ip, gcRecords);
     }
 
-    @GetMapping("/home")
-    public String home(ModelMap model) {
-        return "home";
-    }
 
 }

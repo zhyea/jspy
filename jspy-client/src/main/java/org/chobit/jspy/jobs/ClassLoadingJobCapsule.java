@@ -1,8 +1,11 @@
 package org.chobit.jspy.jobs;
 
 import org.chobit.jspy.JSpyConfig;
+import org.chobit.jspy.model.ClassLoadingGauge;
 
-public class ClassLoadingJobCapsule extends JobCapsule<Object> {
+import static org.chobit.jspy.core.gauge.ClassLoading.*;
+
+public final class ClassLoadingJobCapsule extends JobCapsule<ClassLoadingGauge> {
 
 
     public ClassLoadingJobCapsule(JSpyConfig config) {
@@ -11,26 +14,25 @@ public class ClassLoadingJobCapsule extends JobCapsule<Object> {
 
     @Override
     String receivePath() {
-        return null;
+        return "/class-load/receive";
     }
 
     @Override
     String name() {
-        return null;
-    }
-
-    @Override
-    String group() {
-        return null;
+        return "classLoading";
     }
 
     @Override
     int intervalSeconds() {
-        return 0;
+        return config.getClassLoadingCollectIntervalSeconds();
     }
 
     @Override
-    Object collect() {
-        return null;
+    ClassLoadingGauge collect() {
+        ClassLoadingGauge gauge = new ClassLoadingGauge();
+        gauge.setTotalLoaded(TOTAL_LOADED.value());
+        gauge.setCurrentLoaded(CURRENT_LOADED.value());
+        gauge.setUnloaded(UNLOADED.value());
+        return gauge;
     }
 }

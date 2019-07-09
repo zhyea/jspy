@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.chobit.jspy.utils.SysTime.millis;
 
-public class MemoryJobCapsule extends JobCapsule<MemoryOverview> {
+public final class MemoryJobCapsule extends JobCapsule<MemoryOverview> {
 
     public MemoryJobCapsule(JSpyConfig config) {
         super(config);
@@ -23,11 +23,6 @@ public class MemoryJobCapsule extends JobCapsule<MemoryOverview> {
 
     @Override
     String name() {
-        return "memory";
-    }
-
-    @Override
-    String group() {
         return "memory";
     }
 
