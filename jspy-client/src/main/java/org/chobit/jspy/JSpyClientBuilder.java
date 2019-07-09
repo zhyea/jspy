@@ -58,6 +58,11 @@ public final class JSpyClientBuilder {
         return this;
     }
 
+    public JSpyClientBuilder methodHistogramPeriodSeconds(int methodHistogramPeriodSeconds) {
+        this.config.setMethodHistogramPeriodSeconds(methodHistogramPeriodSeconds);
+        return this;
+    }
+
     public static JSpyClientBuilder builder() {
         return BuilderHolder.builder;
     }
@@ -75,6 +80,22 @@ public final class JSpyClientBuilder {
         if (config.getServerPort() <= 0) {
             throw new JSpyConfigException("JSpy server port should be greater than zero.");
         }
+        if (config.getMemoryCollectIntervalSeconds() <= 0) {
+            throw new JSpyConfigException("Memory stat collect interval seconds should be greater than zero.");
+        }
+        if (config.getThreadCollectIntervalSeconds() <= 0) {
+            throw new JSpyConfigException("Thread stat collect interval seconds should be greater than zero.");
+        }
+        if (config.getGcCollectIntervalSeconds() <= 0) {
+            throw new JSpyConfigException("GC stat collect interval seconds should be greater than zero.");
+        }
+        if (config.getClassLoadingCollectIntervalSeconds() <= 0) {
+            throw new JSpyConfigException("Class loading stat collect interval seconds should be greater than zero.");
+        }
+        if (config.getMethodHistogramPeriodSeconds() <= 0) {
+            throw new JSpyConfigException("Method histogram period seconds should be greater than zero.");
+        }
+
         return new JSpyClient(config);
     }
 

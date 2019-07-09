@@ -15,9 +15,11 @@ public final class JSpyConfig {
 
     private int threadCollectIntervalSeconds = 6;
 
-    private int gcCollectIntervalSeconds = 6;
+    private int gcCollectIntervalSeconds = 60 * 5;
 
     private int classLoadingCollectIntervalSeconds = 6;
+
+    private int methodHistogramPeriodSeconds = 60 * 5;
 
 
     public String getAppCode() {
@@ -83,5 +85,14 @@ public final class JSpyConfig {
 
     public void setClassLoadingCollectIntervalSeconds(int classLoadingCollectIntervalSeconds) {
         this.classLoadingCollectIntervalSeconds = classLoadingCollectIntervalSeconds;
+    }
+
+
+    public int getMethodHistogramPeriodSeconds() {
+        return methodHistogramPeriodSeconds;
+    }
+
+    public void setMethodHistogramPeriodSeconds(int methodHistogramPeriodSeconds) {
+        this.methodHistogramPeriodSeconds = methodHistogramPeriodSeconds;
     }
 }

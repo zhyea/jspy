@@ -10,27 +10,56 @@
   "properties": [
     {
       "sourceType": "org.chobit.jspy.JSpyProperties",
-      "defaultValue": 6,
-      "name": "jspy.memory_collect_interval_seconds",
-      "description": "JSpy memory collect interval seconds",
-      "type": "java.lang.Integer"
-    },
-    {
-      "sourceType": "org.chobit.jspy.JSpyProperties",
       "name": "jspy.appCode",
       "description": "JSpy app code",
       "type": "java.lang.String"
     },
     {
       "sourceType": "org.chobit.jspy.JSpyProperties",
-      "name": "jspy.server_host",
+      "name": "jspy.serverHost",
       "description": "JSpy server host",
       "type": "java.lang.String"
     },
     {
       "sourceType": "org.chobit.jspy.JSpyProperties",
-      "name": "jspy.server_port",
+      "name": "jspy.serverPort",
       "description": "JSpy server port",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.useSSL",
+      "description": "JSpy server use ssl",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.memoryCollectIntervalSeconds",
+      "description": "JSpy memoryCollectIntervalSeconds",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.threadCollectIntervalSeconds",
+      "description": "JSpy threadCollectIntervalSeconds",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.gcCollectIntervalSeconds",
+      "description": "JSpy gcCollectIntervalSeconds",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.classLoadingCollectIntervalSeconds",
+      "description": "JSpy classLoadingCollectIntervalSeconds",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.methodHistogramPeriodSeconds",
+      "description": "JSpy methodHistogramPeriodSeconds",
       "type": "java.lang.Integer"
     }
   ]
