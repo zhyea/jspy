@@ -23,7 +23,7 @@ public class MemoryUsage extends AbstractEntity {
     private String managerNames;
 
     @JsonIgnore
-    private String host;
+    private String ip;
 
     @Series("初始内存")
     private long init;
@@ -75,12 +75,12 @@ public class MemoryUsage extends AbstractEntity {
         this.managerNames = managerNames;
     }
 
-    public String getHost() {
-        return host;
+    public String getIp() {
+        return ip;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
     public long getInit() {

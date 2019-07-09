@@ -29,11 +29,12 @@ public class MemoryUsageController {
     }
 
 
-    @PostMapping("/receive/{appCode}")
-    public boolean receive(@PathVariable("appCode") String appCode,
+    @PostMapping("/receive")
+    public boolean receive(@RequestHeader("appCode") String appCode,
+                           @RequestHeader("ip") String ip,
                            @RequestBody MemoryOverview overview) {
         Args.checkNotBlank(appCode, "appCode(应用码)不能为空");
-        return memoryService.insert(appCode, overview);
+        return memoryService.insert(appCode, ip, overview);
     }
 
 

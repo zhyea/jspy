@@ -28,10 +28,11 @@ create table if not exists memory_usage
     id            int auto_increment primary key,
 
     app_code      varchar(16),
+    ip            varchar(32),
+
     `type`        varchar(16),
     `name`        varchar(32),
     manager_names varchar(64),
-    host          varchar(32),
 
     init          bigint,
     used          bigint,
@@ -50,6 +51,9 @@ create table if not exists memory_usage
 create table if not exists gc_stat
 (
     id             int auto_increment primary key,
+
+    app_code       varchar(32),
+    ip             varchar(32),
 
     gc_id          int,
     `type`         varchar(16),

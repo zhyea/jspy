@@ -1,9 +1,8 @@
 package org.chobit.jspy.service;
 
 import org.chobit.jspy.constants.MemoryNames;
-import org.chobit.jspy.core.annotation.JSpyWatcher;
-import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.core.model.MemoryPool;
+import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.beans.MemoryUsage;
 import org.chobit.jspy.service.mapper.MemoryUsageMapper;
@@ -11,7 +10,6 @@ import org.chobit.jspy.service.mapper.MetricQueryMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.management.MemoryType;
 import java.util.Arrays;
@@ -31,21 +29,21 @@ public class MemoryUsageService {
 
 
     /**
-     * 写入内存数据
+     * 写入内存数据，处理 java.lang.management.MemoryUsage
      */
     private int insert(String appCode,
+                       String ip,
                        java.lang.management.MemoryUsage usage,
                        MemoryType type,
                        String name,
                        String[] managerNames,
-                       String host,
                        long eventTime,
                        boolean isPeak) {
         MemoryUsage m = new MemoryUsage();
         m.setType(type.name());
         m.setName(name);
         m.setManagerNames(Arrays.toString(managerNames));
-        m.setHost(host);
+        m.setIp(ip);
         m.setAppCode(appCode);
         m.setInit(usage.getInit());
         m.setUsed(usage.getUsed());
@@ -57,68 +55,34 @@ public class MemoryUsageService {
         return memMapper.insert(m);
     }
 
-    /**
-     * 写入内存数据
-     */
-    @Transactional
-    @JSpyWatcher("memory-insert")
-    public int insert(String appCode,
-                      java.lang.management.MemoryUsage usage,
-                      MemoryType type,
-                      String name,
-                      String[] managerNames,
-                      String host,
-                      long eventTime) {
-        return insert(appCode, usage, type, name, managerNames, host, eventTime, false);
-    }
 
     /**
-     * 写入内存数据
+     * 写入内存数据，处理MemoryOverview
      */
-    private int insert(String appCode,
-                       java.lang.management.MemoryUsage usage,
-                       MemoryOverview overview,
-                       MemoryType type,
-                       String name,
-                       String[] managerNames,
-                       boolean isPeak) {
-        return insert(appCode, usage, type, name, managerNames, overview.getHost(), overview.getTime(), isPeak);
-    }
-
-    /**
-     * 写入内存数据
-     */
-    private int insert(String appCode,
-                       java.lang.management.MemoryUsage usage,
-                       MemoryOverview overview,
-                       MemoryType type,
-                       String name,
-                       String[] managerNames) {
-        return insert(appCode, usage, type, name, managerNames, overview.getHost(), overview.getTime(), false);
-    }
-
-
-    /**
-     * 写入内存数据
-     */
-    public boolean insert(String appCode, MemoryOverview overview) {
+    public boolean insert(String appCode, String ip, MemoryOverview overview) {
         if (null != overview.getHeapUsage()) {
             insert(appCode,
-                    overview.getHeapUsage(), overview,
+                    ip,
+                    overview.getHeapUsage(),
                     HEAP,
                     MemoryNames.nameOf(HEAP),
-                    null);
+                    null,
+                    overview.getTime(),
+                    false);
         }
         if (null != overview.getNonHeapUsage()) {
             insert(appCode,
-                    overview.getNonHeapUsage(), overview,
+                    ip,
+                    overview.getNonHeapUsage(),
                     NON_HEAP,
                     MemoryNames.nameOf(NON_HEAP),
-                    null);
+                    null,
+                    overview.getTime(),
+                    false);
         }
         if (null != overview.getMemoryPools()) {
             for (MemoryPool pool : overview.getMemoryPools()) {
-                insertMemoryPoolData(appCode, pool, overview);
+                insertMemoryPoolData(appCode, ip, pool, overview);
             }
         }
         return true;
@@ -141,29 +105,38 @@ public class MemoryUsageService {
     }
 
 
-    private void insertMemoryPoolData(String appCode, MemoryPool pool, MemoryOverview overview) {
+    /**
+     * 写入内存池数据
+     */
+    private void insertMemoryPoolData(String appCode, String ip, MemoryPool pool, MemoryOverview overview) {
         insert(appCode,
+                ip,
                 pool.getUsage(),
-                overview,
                 pool.getType(),
                 pool.getName(),
-                pool.getMemoryManagerNames());
+                pool.getMemoryManagerNames(),
+                overview.getTime(),
+                false);
         if (null != pool.getPeakUsage()) {
-            insertMemoryPoolPeakData(appCode, pool, overview);
+            insertMemoryPoolPeakData(appCode, ip, pool, overview);
         }
     }
 
 
-    private void insertMemoryPoolPeakData(String appCode, MemoryPool pool, MemoryOverview overview) {
+    /**
+     * 写入内存池峰值数据
+     */
+    private void insertMemoryPoolPeakData(String appCode, String ip, MemoryPool pool, MemoryOverview overview) {
         MemoryUsage usage = memMapper.getLatestPeakByName(appCode, pool.getName());
         if (null != pool.getPeakUsage()) {
             if (!isUsageClose(usage, pool.getPeakUsage())) {
                 insert(appCode,
+                        ip,
                         pool.getPeakUsage(),
-                        overview,
                         pool.getType(),
                         pool.getName(),
                         pool.getMemoryManagerNames(),
+                        overview.getTime(),
                         true);
             }
         }
