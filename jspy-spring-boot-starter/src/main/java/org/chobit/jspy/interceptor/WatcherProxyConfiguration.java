@@ -1,18 +1,13 @@
 package org.chobit.jspy.interceptor;
 
-import org.chobit.jspy.JSpyAutoConfiguration;
 import org.chobit.jspy.WatcherConfig;
 import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
 
 
-@AutoConfigureAfter(JSpyAutoConfiguration.class)
-@ConditionalOnBean(WatcherConfig.class)
 public class WatcherProxyConfiguration {
-
 
 
     @Bean
