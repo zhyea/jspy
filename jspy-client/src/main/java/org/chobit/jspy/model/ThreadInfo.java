@@ -1,6 +1,6 @@
 package org.chobit.jspy.model;
 
-public class ThreadGauge {
+public class ThreadInfo {
 
 
     private long current;

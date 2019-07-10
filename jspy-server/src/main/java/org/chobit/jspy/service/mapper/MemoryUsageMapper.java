@@ -1,6 +1,7 @@
 package org.chobit.jspy.service.mapper;
 
 import org.apache.ibatis.annotations.*;
+import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.service.beans.MemoryUsage;
 
 import java.util.List;
@@ -12,6 +13,7 @@ public interface MemoryUsageMapper {
     /**
      * 写入数据
      */
+    @JSpyWatcher("内存信息-Mapper.insert")
     @Insert({
             "insert into memory_usage (app_code, ip, name, manager_names, type, init, used, committed, max, event_time)",
             "values",
@@ -19,7 +21,6 @@ public interface MemoryUsageMapper {
     })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(MemoryUsage memory);
-
 
 
     /**

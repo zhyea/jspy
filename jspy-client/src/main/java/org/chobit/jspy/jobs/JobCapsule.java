@@ -56,9 +56,6 @@ public abstract class JobCapsule<T> implements Job {
     @Override
     public void execute(JobExecutionContext context) {
 
-        System.out.println(context.getJobDetail().getKey());
-        System.out.println("-------------------------------");
-
         Headers headers =
                 new Headers.Builder()
                         .add("appCode", config.getAppCode())
@@ -83,7 +80,6 @@ public abstract class JobCapsule<T> implements Job {
                 .host(config.getServerHost())
                 .port(config.getServerPort())
                 .addPathSegments(receivePath())
-                .addPathSegment(config.getAppCode())
                 .build();
 
     }

@@ -1,7 +1,9 @@
 package org.chobit.jspy.service;
 
 import org.chobit.jspy.constants.MemoryNames;
+import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.core.model.MemoryPool;
+import org.chobit.jspy.core.model.MemoryInfo;
 import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.beans.MemoryUsage;
@@ -29,11 +31,12 @@ public class MemoryUsageService {
 
 
     /**
-     * 写入内存数据，处理 java.lang.management.MemoryUsage
+     * 写入内存数据，处理 java.lang.management.Memory
      */
+    @JSpyWatcher
     private int insert(String appCode,
                        String ip,
-                       java.lang.management.MemoryUsage usage,
+                       MemoryInfo usage,
                        MemoryType type,
                        String name,
                        String[] managerNames,
@@ -129,7 +132,7 @@ public class MemoryUsageService {
     private void insertMemoryPoolPeakData(String appCode, String ip, MemoryPool pool, MemoryOverview overview) {
         MemoryUsage usage = memMapper.getLatestPeakByName(appCode, pool.getName());
         if (null != pool.getPeakUsage()) {
-            if (!isUsageClose(usage, pool.getPeakUsage())) {
+            if (null==usage || !isUsageClose(usage, pool.getPeakUsage())) {
                 insert(appCode,
                         ip,
                         pool.getPeakUsage(),
@@ -151,7 +154,7 @@ public class MemoryUsageService {
     /**
      * 判断最近的两次内存用量是否近似，如差值在浮动区间内则认为是内存近似
      */
-    private boolean isUsageClose(MemoryUsage usage, java.lang.management.MemoryUsage u) {
+    private boolean isUsageClose(MemoryUsage usage, MemoryInfo u) {
         if (Math.abs(usage.getInit() - u.getInit()) > USAGE_FLOATING_RANGE) {
             return false;
         }

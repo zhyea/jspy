@@ -2,11 +2,13 @@ package org.chobit.jspy.service.mapper;
 
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.chobit.jspy.service.beans.GcStat;
 
 import java.util.List;
 
+@Mapper
 public interface GcStatMapper {
 
 

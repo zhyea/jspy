@@ -1,11 +1,11 @@
 package org.chobit.jspy.jobs;
 
 import org.chobit.jspy.JSpyConfig;
-import org.chobit.jspy.model.ThreadGauge;
+import org.chobit.jspy.model.ThreadInfo;
 
 import static org.chobit.jspy.core.gauge.Threads.*;
 
-public final class ThreadsJobCapsule extends JobCapsule<ThreadGauge> {
+public final class ThreadsJobCapsule extends JobCapsule<ThreadInfo> {
 
 
     public ThreadsJobCapsule(JSpyConfig config) {
@@ -29,8 +29,8 @@ public final class ThreadsJobCapsule extends JobCapsule<ThreadGauge> {
     }
 
     @Override
-    public ThreadGauge collect() {
-        ThreadGauge gauge = new ThreadGauge();
+    public ThreadInfo collect() {
+        ThreadInfo gauge = new ThreadInfo();
 
         gauge.setCurrent(THREAD_COUNT.value());
         gauge.setPeak(PEAK_THREAD_COUNT.value());

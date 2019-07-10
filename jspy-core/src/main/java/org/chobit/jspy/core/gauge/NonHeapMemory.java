@@ -2,7 +2,7 @@ package org.chobit.jspy.core.gauge;
 
 import static org.chobit.jspy.core.gauge.MemoryGaugeManager.nonHeapMemoryUsage;
 
-public enum NonHeapMemoryUsage implements Gauge {
+public enum NonHeapMemory implements Gauge {
 
 
     INIT("初始内存") {
@@ -37,7 +37,7 @@ public enum NonHeapMemoryUsage implements Gauge {
 
     public final String alias;
 
-    NonHeapMemoryUsage(String alias) {
+    NonHeapMemory(String alias) {
         this.alias = alias;
     }
 

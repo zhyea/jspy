@@ -1,5 +1,6 @@
 package org.chobit.jspy.model;
 
+import org.chobit.jspy.core.model.MemoryInfo;
 import org.chobit.jspy.core.model.MemoryPool;
 
 import java.lang.management.MemoryUsage;
@@ -9,20 +10,23 @@ public class MemoryOverview {
 
     private long time;
 
-    private MemoryUsage heapUsage;
+    private MemoryInfo heapUsage;
 
-    private MemoryUsage nonHeapUsage;
+    private MemoryInfo nonHeapUsage;
 
     private List<MemoryPool> memoryPools;
 
+
+    public MemoryOverview() {
+    }
 
     public MemoryOverview(long time,
                           MemoryUsage heapUsage,
                           MemoryUsage nonHeapUsage,
                           List<MemoryPool> memoryPools) {
         this.time = time;
-        this.heapUsage = heapUsage;
-        this.nonHeapUsage = nonHeapUsage;
+        this.heapUsage = new MemoryInfo(heapUsage);
+        this.nonHeapUsage = new MemoryInfo(nonHeapUsage);
         this.memoryPools = memoryPools;
     }
 
@@ -31,11 +35,11 @@ public class MemoryOverview {
         return time;
     }
 
-    public MemoryUsage getHeapUsage() {
+    public MemoryInfo getHeapUsage() {
         return heapUsage;
     }
 
-    public MemoryUsage getNonHeapUsage() {
+    public MemoryInfo getNonHeapUsage() {
         return nonHeapUsage;
     }
 

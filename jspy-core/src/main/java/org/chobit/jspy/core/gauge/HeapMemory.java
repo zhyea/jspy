@@ -2,35 +2,35 @@ package org.chobit.jspy.core.gauge;
 
 
 import static org.chobit.jspy.core.gauge.MemoryGaugeManager.heapMemoryUsage;
-import static org.chobit.jspy.core.gauge.MemoryGaugeManager.nonHeapMemoryUsage;
 
-public enum MemoryUsage implements Gauge {
+public enum HeapMemory implements Gauge {
+
 
     INIT("初始内存") {
         @Override
         public Long value() {
-            return heapMemoryUsage().getInit() + nonHeapMemoryUsage().getInit();
+            return heapMemoryUsage().getInit();
         }
     },
 
-    USED("已用内存") {
+    USED("已使用内存") {
         @Override
         public Long value() {
-            return heapMemoryUsage().getUsed() + nonHeapMemoryUsage().getUsed();
+            return heapMemoryUsage().getUsed();
         }
     },
 
     COMMITTED("已提交内存") {
         @Override
         public Long value() {
-            return heapMemoryUsage().getCommitted() + nonHeapMemoryUsage().getCommitted();
+            return heapMemoryUsage().getCommitted();
         }
     },
 
     MAX("最大可用内存") {
         @Override
         public Long value() {
-            return heapMemoryUsage().getMax() + nonHeapMemoryUsage().getMax();
+            return heapMemoryUsage().getMax();
         }
     },
 
@@ -38,7 +38,8 @@ public enum MemoryUsage implements Gauge {
 
     public final String alias;
 
-    MemoryUsage(String alias) {
+    HeapMemory(String alias) {
         this.alias = alias;
     }
+
 }

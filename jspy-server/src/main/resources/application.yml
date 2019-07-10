@@ -22,4 +22,7 @@ mybatis:
 
 
 jspy:
-  appCode: zzy
+  appCode: jSpyCons
+  serverHost: 127.0.0.1
+  serverPort: 8190
+  gcCollectIntervalSeconds: 360

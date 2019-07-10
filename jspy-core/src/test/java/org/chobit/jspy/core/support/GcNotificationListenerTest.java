@@ -1,6 +1,6 @@
 package org.chobit.jspy.core.support;
 
-import org.chobit.jspy.core.gauge.HeapMemoryUsage;
+import org.chobit.jspy.core.gauge.HeapMemory;
 
 import javax.management.InstanceNotFoundException;
 import java.util.LinkedList;
@@ -21,7 +21,7 @@ public class GcNotificationListenerTest {
         int count = 0;
         for (int i = 0; i < 1024 * 400; i++) {
             if (++count % 100 == 0) {
-                System.out.println(B.toMB(HeapMemoryUsage.USED.value()) + "MB");
+                System.out.println(B.toMB(HeapMemory.USED.value()) + "MB");
             }
 
             list.add(new byte[1024]);
