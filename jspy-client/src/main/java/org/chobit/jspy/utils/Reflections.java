@@ -151,4 +151,7 @@ public abstract class Reflections {
     }
 
 
+    private Reflections() {
+    }
+
 }

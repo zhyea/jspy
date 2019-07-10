@@ -6,4 +6,4 @@
 .idea
 *.iml
 */target/
-*.mv.db
+*.db

@@ -1,8 +1,7 @@
 package org.chobit.jspy.core.info;
 
-import java.util.List;
-
 import static org.chobit.jspy.core.info.RuntimeInfoManager.*;
+import static org.chobit.jspy.core.utils.Strings.mkString;
 
 public enum Runtime implements Info {
 
@@ -13,8 +12,8 @@ public enum Runtime implements Info {
 
     IS_BOOTCLASS_PATH_SUPPORTED("是否支持引导类路径搜索") {
         @Override
-        public Boolean value() {
-            return isBootClassPathSupported();
+        public String value() {
+            return isBootClassPathSupported() + "";
         }
     },
 
@@ -75,16 +74,16 @@ public enum Runtime implements Info {
 
     START_TIME("进程启动时间") {
         @Override
-        public Long value() {
-            return startTime();
+        public String value() {
+            return startTime() + "";
         }
     },
 
 
     UP_TIME("进程运行时间") {
         @Override
-        public Long value() {
-            return uptime();
+        public String value() {
+            return uptime() + "";
         }
     },
 
@@ -123,8 +122,8 @@ public enum Runtime implements Info {
 
     JVM_OPTIONS("JVM参数") {
         @Override
-        public List<String> value() {
-            return inputArgs();
+        public String value() {
+            return mkString(inputArgs(), ";");
         }
     },
 

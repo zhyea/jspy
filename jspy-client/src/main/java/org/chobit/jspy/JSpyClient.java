@@ -2,24 +2,28 @@ package org.chobit.jspy;
 
 import org.chobit.jspy.core.exceptions.JSpyException;
 import org.chobit.jspy.jobs.JobCapsule;
+import org.chobit.jspy.jobs.internal.JSpyJobFactory;
+import org.chobit.jspy.jobs.internal.JSpyJobRegistry;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 
-import java.util.HashSet;
-import java.util.Set;
+public final class JSpyClient {
 
-import static org.chobit.jspy.utils.Reflections.subTypeOf;
+    private final JSpyJobRegistry jobRegistry;
 
-public class JSpyClient {
+    private final Scheduler scheduler;
 
-    private Scheduler scheduler = newScheduler();
+    JSpyClient(JSpyConfig config) {
+        this.jobRegistry = new JSpyJobRegistry(config);
+        this.scheduler = newScheduler();
+    }
 
 
     public void start() {
         try {
             scheduler.start();
-            Set<JobCapsule> jobs = jobs();
+            Iterable<JobCapsule> jobs = jobRegistry.jobs();
             for (JobCapsule j : jobs) {
                 scheduler.scheduleJob(j.job(), j.trigger());
             }
@@ -45,19 +49,12 @@ public class JSpyClient {
 
     private Scheduler newScheduler() {
         try {
-            return new StdSchedulerFactory().getScheduler();
+            Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+            scheduler.setJobFactory(new JSpyJobFactory(jobRegistry));
+            return scheduler;
         } catch (SchedulerException e) {
             throw new JSpyException(e);
         }
-    }
-
-    private Set<JobCapsule> jobs() throws IllegalAccessException, InstantiationException {
-        Set<Class<? extends JobCapsule>> jobClasses = subTypeOf(JobCapsule.class);
-        Set<JobCapsule> jobs = new HashSet<>(jobClasses.size());
-        for (Class<? extends JobCapsule> clazz : jobClasses) {
-            jobs.add(clazz.newInstance());
-        }
-        return jobs;
     }
 
 }

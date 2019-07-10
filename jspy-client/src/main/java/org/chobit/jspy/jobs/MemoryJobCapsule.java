@@ -1,10 +1,25 @@
 package org.chobit.jspy.jobs;
 
-import org.quartz.Job;
+import org.chobit.jspy.JSpyConfig;
+import org.chobit.jspy.core.gauge.MemoryGaugeManager;
+import org.chobit.jspy.core.model.MemoryPool;
+import org.chobit.jspy.model.MemoryOverview;
 
-import static org.chobit.jspy.Config.MEMORY_COLLECT_INTERVAL_SECONDS;
+import java.lang.management.MemoryUsage;
+import java.util.List;
 
-public class MemoryJobCapsule extends JobCapsule {
+import static org.chobit.jspy.utils.SysTime.millis;
+
+public final class MemoryJobCapsule extends JobCapsule<MemoryOverview> {
+
+    public MemoryJobCapsule(JSpyConfig config) {
+        super(config);
+    }
+
+    @Override
+    String receivePath() {
+        return "/memory/receive";
+    }
 
     @Override
     String name() {
@@ -12,17 +27,16 @@ public class MemoryJobCapsule extends JobCapsule {
     }
 
     @Override
-    String group() {
-        return "memory";
-    }
-
-    @Override
-    Class<? extends Job> jobClass() {
-        return MemoryJob.class;
-    }
-
-    @Override
     int intervalSeconds() {
-        return MEMORY_COLLECT_INTERVAL_SECONDS;
+        return config.getMemoryCollectIntervalSeconds();
+    }
+
+    @Override
+    public MemoryOverview collect() {
+        MemoryUsage heapUsage = MemoryGaugeManager.heapMemoryUsage();
+        MemoryUsage nonHeapUsage = MemoryGaugeManager.nonHeapMemoryUsage();
+        List<MemoryPool> memoryPools = MemoryGaugeManager.memoryPools();
+
+        return new MemoryOverview(millis(), heapUsage, nonHeapUsage, memoryPools);
     }
 }

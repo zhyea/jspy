@@ -3,7 +3,7 @@ package org.chobit.jspy.web;
 
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
-import org.chobit.jspy.core.model.MemoryOverview;
+import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.MemoryUsageService;
 import org.chobit.jspy.service.beans.MemoryUsage;
@@ -30,9 +30,11 @@ public class MemoryUsageController {
 
 
     @PostMapping("/receive")
-    public boolean receive(@RequestBody MemoryOverview overview) {
-        Args.checkNotBlank(overview.getAppCode(), "appCode(应用码)不能为空");
-        return memoryService.insert(overview);
+    public boolean receive(@RequestHeader("appCode") String appCode,
+                           @RequestHeader("ip") String ip,
+                           @RequestBody MemoryOverview overview) {
+        Args.checkNotBlank(appCode, "appCode(应用码)不能为空");
+        return memoryService.insert(appCode, ip, overview);
     }
 
 

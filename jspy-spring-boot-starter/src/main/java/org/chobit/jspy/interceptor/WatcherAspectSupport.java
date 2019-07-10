@@ -1,5 +1,8 @@
 package org.chobit.jspy.interceptor;
 
+import org.chobit.jspy.WatcherConfig;
+import org.chobit.jspy.core.support.JSpyWatcherCollector;
+import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.InitializingBean;
@@ -7,6 +10,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Method;
+
+import static org.chobit.jspy.core.support.JSpyWatcherCollector.createIfNon;
 
 public abstract class WatcherAspectSupport implements BeanFactoryAware, InitializingBean {
 
@@ -16,6 +21,11 @@ public abstract class WatcherAspectSupport implements BeanFactoryAware, Initiali
     @Nullable
     private BeanFactory beanFactory;
 
+    private JSpyWatcherCollector collector;
+
+    public WatcherAspectSupport(WatcherConfig config) {
+        collector = createIfNon(config.getHistogramPeriod(), config.getExpectNumMethods());
+    }
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) {
@@ -53,11 +63,12 @@ public abstract class WatcherAspectSupport implements BeanFactoryAware, Initiali
         final WatcherAttribute attr = getAttrSource().getWatcherAttribute(method, targetClass);
         final String methodId = methodIdentity(method, targetClass, attr);
         Object r = null;
+        long start = SysTime.millis();
         try {
             r = invocation.proceedWithInvocation();
         } finally {
-            System.out.println("---------------------invoke>>>>>" + methodId);
-            // TODO
+            System.out.println("----------------------------------->>>>" + methodId);
+            collector.update(methodId, SysTime.millis() - start);
         }
         return r;
     }

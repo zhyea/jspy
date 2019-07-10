@@ -12,21 +12,21 @@ public enum Threads implements Gauge {
         }
     },
 
-    PEAK_THREAD_COUNT("最大活跃线程数"){
+    PEAK_THREAD_COUNT("活跃线程峰值"){
         @Override
         public Long value() {
             return peakThreadCount();
         }
     },
 
-    TOTAL_STARTED_THREAD_COUNT("启动过的线程总数"){
+    TOTAL_STARTED_THREAD_COUNT("启动的线程总数"){
         @Override
         public Long value() {
-            return totalStatedThreadCount();
+            return totalStartedThreadCount();
         }
     },
 
-    DAEMON_THREAD_COUNT("活跃后台线程数"){
+    DAEMON_THREAD_COUNT("后台活跃线程数"){
         @Override
         public Long value() {
             return daemonThreadCount();

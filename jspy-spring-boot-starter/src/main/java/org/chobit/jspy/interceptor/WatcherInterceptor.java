@@ -2,6 +2,7 @@ package org.chobit.jspy.interceptor;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.chobit.jspy.WatcherConfig;
 import org.springframework.aop.support.AopUtils;
 
 import java.io.Serializable;
@@ -9,7 +10,8 @@ import java.io.Serializable;
 public class WatcherInterceptor extends WatcherAspectSupport implements MethodInterceptor, Serializable {
 
 
-    public WatcherInterceptor() {
+    public WatcherInterceptor(WatcherConfig config) {
+        super(config);
     }
 
 

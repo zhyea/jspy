@@ -22,4 +22,10 @@ mybatis:
 
 
 jspy:
-  appCode: zzy
+  app-code: jSpyCons
+  server-host: 127.0.0.1
+  serverPort: 8190
+  use-ssl: false
+  watcher:
+    expect-method-nums: 32
+    histogram-period: 300

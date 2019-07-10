@@ -11,16 +11,19 @@ public class MemoryPool {
 
     private String[] memoryManagerNames;
 
-    private MemoryUsage usage;
+    private MemoryInfo usage;
 
-    private MemoryUsage peakUsage;
+    private MemoryInfo peakUsage;
+
+    public MemoryPool() {
+    }
 
     public MemoryPool(String name, MemoryType type, String[] memoryManagerNames, MemoryUsage memoryUsage, MemoryUsage peakUsage) {
         this.name = name;
         this.type = type;
         this.memoryManagerNames = memoryManagerNames;
-        this.usage = memoryUsage;
-        this.peakUsage = peakUsage;
+        this.usage = new MemoryInfo(memoryUsage);
+        this.peakUsage = new MemoryInfo(peakUsage);
     }
 
     public String getName() {
@@ -35,11 +38,11 @@ public class MemoryPool {
         return memoryManagerNames;
     }
 
-    public MemoryUsage getUsage() {
+    public MemoryInfo getUsage() {
         return usage;
     }
 
-    public MemoryUsage getPeakUsage() {
+    public MemoryInfo getPeakUsage() {
         return peakUsage;
     }
 }

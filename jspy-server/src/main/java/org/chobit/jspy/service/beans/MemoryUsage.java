@@ -8,10 +8,8 @@ import org.chobit.jspy.charts.annotation.Series;
 
 import java.util.Date;
 
-public class MemoryUsage extends AbstractEntity {
+public class MemoryUsage extends AbstractStatEntity {
 
-    @JsonIgnore
-    private String appCode;
 
     @JsonIgnore
     private String type;
@@ -22,8 +20,6 @@ public class MemoryUsage extends AbstractEntity {
     @JsonIgnore
     private String managerNames;
 
-    @JsonIgnore
-    private String host;
 
     @Series("初始内存")
     private long init;
@@ -40,14 +36,8 @@ public class MemoryUsage extends AbstractEntity {
     @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
+    private int isPeak = 0;
 
-    public String getAppCode() {
-        return appCode;
-    }
-
-    public void setAppCode(String appCode) {
-        this.appCode = appCode;
-    }
 
     public String getType() {
         return type;
@@ -71,14 +61,6 @@ public class MemoryUsage extends AbstractEntity {
 
     public void setManagerNames(String managerNames) {
         this.managerNames = managerNames;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
     }
 
     public long getInit() {
@@ -119,5 +101,13 @@ public class MemoryUsage extends AbstractEntity {
 
     public void setEventTime(Date eventTime) {
         this.eventTime = eventTime;
+    }
+
+    public int getIsPeak() {
+        return isPeak;
+    }
+
+    public void setIsPeak(int isPeak) {
+        this.isPeak = isPeak;
     }
 }

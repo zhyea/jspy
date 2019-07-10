@@ -1,8 +1,22 @@
 package org.chobit.jspy.jobs;
 
-import org.quartz.Job;
+import org.chobit.jspy.JSpyConfig;
+import org.chobit.jspy.model.ThreadInfo;
 
-public class ThreadsJobCapsule extends JobCapsule {
+import static org.chobit.jspy.core.gauge.Threads.*;
+
+public final class ThreadsJobCapsule extends JobCapsule<ThreadInfo> {
+
+
+    public ThreadsJobCapsule(JSpyConfig config) {
+        super(config);
+    }
+
+    @Override
+    String receivePath() {
+        return "/thread/receive";
+    }
+
 
     @Override
     String name() {
@@ -10,17 +24,19 @@ public class ThreadsJobCapsule extends JobCapsule {
     }
 
     @Override
-    String group() {
-        return "threads";
-    }
-
-    @Override
-    Class<? extends Job> jobClass() {
-        return ThreadsJob.class;
-    }
-
-    @Override
     int intervalSeconds() {
-        return 1;
+        return config.getThreadCollectIntervalSeconds();
+    }
+
+    @Override
+    public ThreadInfo collect() {
+        ThreadInfo gauge = new ThreadInfo();
+
+        gauge.setCurrent(THREAD_COUNT.value());
+        gauge.setPeak(PEAK_THREAD_COUNT.value());
+        gauge.setTotalStarted(TOTAL_STARTED_THREAD_COUNT.value());
+        gauge.setDaemon(DAEMON_THREAD_COUNT.value());
+
+        return gauge;
     }
 }
