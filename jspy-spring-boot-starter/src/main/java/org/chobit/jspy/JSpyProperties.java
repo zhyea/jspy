@@ -6,14 +6,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "jspy")
 public class JSpyProperties {
 
-
     private String appCode;
 
     private String serverHost = "127.0.0.1";
 
     private int serverPort = 8190;
 
-    private boolean useSSL = false;
+    private boolean useSsl = false;
 
     private int memoryCollectIntervalSeconds = 6;
 
@@ -50,12 +49,12 @@ public class JSpyProperties {
         this.serverPort = serverPort;
     }
 
-    public boolean isUseSSL() {
-        return useSSL;
+    public boolean isUseSsl() {
+        return useSsl;
     }
 
-    public void setUseSSL(boolean useSSL) {
-        this.useSSL = useSSL;
+    public void setUseSsl(boolean useSsl) {
+        this.useSsl = useSsl;
     }
 
     public int getMemoryCollectIntervalSeconds() {

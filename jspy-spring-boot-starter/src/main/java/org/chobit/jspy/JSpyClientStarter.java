@@ -16,7 +16,7 @@ public class JSpyClientStarter implements DisposableBean {
         builder.appCode(properties.getAppCode())
                 .serverHost(properties.getServerHost())
                 .serverPort(properties.getServerPort())
-                .useSSL(properties.isUseSSL())
+                .useSSL(properties.isUseSsl())
                 .memoryCollectIntervalSeconds(properties.getMemoryCollectIntervalSeconds())
                 .threadCollectIntervalSeconds(properties.getThreadCollectIntervalSeconds())
                 .gcCollectIntervalSeconds(properties.getGcCollectIntervalSeconds())
