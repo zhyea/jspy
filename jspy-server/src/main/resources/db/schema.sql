@@ -110,3 +110,30 @@ create table if not exists class_loading_stat
     insert_time    datetime           default current_date,
     op_time        timestamp not null default current_timestamp on update current_timestamp
 );
+
+
+create table if not exists method_stats
+(
+    id          int auto_increment primary key,
+
+    app_code    varchar(32),
+    ip          varchar(32),
+
+    method_id   varchar(64),
+
+    std_dev     bigint,
+    min         bigint,
+    max         bigint,
+    mean        bigint,
+
+    percent999  bigint,
+    percent98   bigint,
+    percent95   bigint,
+    percent90   bigint,
+    percent75   bigint,
+    median      bigint,
+
+    deleted     tinyint            default 0,
+    insert_time datetime           default current_date,
+    op_time     timestamp not null default current_timestamp on update current_timestamp
+);

@@ -35,6 +35,13 @@ public abstract class Snapshot {
     }
 
     /**
+     * 返回%99线，意味着集合中99%的值都小于改值
+     */
+    public double get90thPercentile() {
+        return getValue(0.90);
+    }
+
+    /**
      * 返回%95线，意味着集合中95%的值都小于改值
      */
     public double get95thPercentile() {
@@ -46,13 +53,6 @@ public abstract class Snapshot {
      */
     public double get98thPercentile() {
         return getValue(0.98);
-    }
-
-    /**
-     * 返回%99线，意味着集合中99%的值都小于改值
-     */
-    public double get99thPercentile() {
-        return getValue(0.99);
     }
 
     /**

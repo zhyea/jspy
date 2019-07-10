@@ -1,13 +1,19 @@
 package org.chobit.jspy.interceptor;
 
+import org.chobit.jspy.WatcherConfig;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Role;
 
-@Configuration
+
 public class WatcherProxyConfiguration {
 
+
+    private WatcherConfig config;
+
+    public WatcherProxyConfiguration(WatcherConfig config) {
+        this.config = config;
+    }
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
@@ -19,7 +25,7 @@ public class WatcherProxyConfiguration {
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public WatcherInterceptor watcherInterceptor() {
-        WatcherInterceptor interceptor = new WatcherInterceptor();
+        WatcherInterceptor interceptor = new WatcherInterceptor(config);
         interceptor.setAttrSource(watcherAttributeSource());
         return interceptor;
     }

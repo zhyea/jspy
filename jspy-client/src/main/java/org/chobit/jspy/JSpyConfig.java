@@ -19,7 +19,9 @@ public final class JSpyConfig {
 
     private int classLoadingCollectIntervalSeconds = 6;
 
-    private int methodHistogramPeriodSeconds = 60 * 5;
+    private int watcherHistogramPeriodSeconds = 60 * 5;
+
+    private int expectNumOfWatchedMethods = 32;
 
 
     public String getAppCode() {
@@ -88,11 +90,19 @@ public final class JSpyConfig {
     }
 
 
-    public int getMethodHistogramPeriodSeconds() {
-        return methodHistogramPeriodSeconds;
+    public int getWatcherHistogramPeriodSeconds() {
+        return watcherHistogramPeriodSeconds;
     }
 
-    public void setMethodHistogramPeriodSeconds(int methodHistogramPeriodSeconds) {
-        this.methodHistogramPeriodSeconds = methodHistogramPeriodSeconds;
+    public void setWatcherHistogramPeriodSeconds(int watcherHistogramPeriodSeconds) {
+        this.watcherHistogramPeriodSeconds = watcherHistogramPeriodSeconds;
+    }
+
+    public int getExpectNumOfWatchedMethods() {
+        return expectNumOfWatchedMethods;
+    }
+
+    public void setExpectNumOfWatchedMethods(int expectNumOfWatchedMethods) {
+        this.expectNumOfWatchedMethods = expectNumOfWatchedMethods;
     }
 }

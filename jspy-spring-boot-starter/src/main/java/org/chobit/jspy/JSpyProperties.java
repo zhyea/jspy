@@ -9,9 +9,9 @@ public class JSpyProperties {
 
     private String appCode;
 
-    private String serverHost;
+    private String serverHost = "127.0.0.1";
 
-    private int serverPort;
+    private int serverPort = 8190;
 
     private boolean useSSL = false;
 
@@ -23,7 +23,7 @@ public class JSpyProperties {
 
     private int classLoadingCollectIntervalSeconds = 6;
 
-    private int methodHistogramPeriodSeconds = 60 * 5;
+    private WatcherConfig watcher;
 
 
     public String getAppCode() {
@@ -90,11 +90,11 @@ public class JSpyProperties {
         this.classLoadingCollectIntervalSeconds = classLoadingCollectIntervalSeconds;
     }
 
-    public int getMethodHistogramPeriodSeconds() {
-        return methodHistogramPeriodSeconds;
+    public WatcherConfig getWatcher() {
+        return watcher;
     }
 
-    public void setMethodHistogramPeriodSeconds(int methodHistogramPeriodSeconds) {
-        this.methodHistogramPeriodSeconds = methodHistogramPeriodSeconds;
+    public void setWatcher(WatcherConfig watcher) {
+        this.watcher = watcher;
     }
 }

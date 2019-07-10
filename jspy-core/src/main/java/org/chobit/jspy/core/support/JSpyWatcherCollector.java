@@ -16,14 +16,13 @@ public final class JSpyWatcherCollector {
 
     private final ConcurrentHashMap<String, Histogram> methodHistogramMap;
 
-    public JSpyWatcherCollector(long collectPeriodSeconds,
-                                ConcurrentHashMap<String, Histogram> methodHistogram) {
+    private JSpyWatcherCollector(long collectPeriodSeconds, int initialCapacity) {
         this.collectPeriodSeconds = collectPeriodSeconds;
-        this.methodHistogramMap = methodHistogram;
+        this.methodHistogramMap = new ConcurrentHashMap<>(initialCapacity);
     }
 
 
-    public void updateHistogram(String methodId, long duration) {
+    public void update(String methodId, long duration) {
         Histogram histogram = methodHistogramMap.get(methodId);
         if (null == histogram) {
             histogram = newHistogram();
@@ -53,5 +52,54 @@ public final class JSpyWatcherCollector {
         SlidingTimeWindowReservoir reservoir =
                 new SlidingTimeWindowReservoir(collectPeriodSeconds, TimeUnit.SECONDS);
         return new Histogram(reservoir);
+    }
+
+
+    private static Builder builder = new Builder();
+
+
+    /**
+     * 如果JVM中不存在JSpyWatcherCollector实例，则创建一个；如已存在，则直接返回
+     */
+    public static JSpyWatcherCollector createIfNon(int histogramPeriod, int expectNumOfMethods) {
+        return builder.histogramPeriod(histogramPeriod)
+                .expectMethods(expectNumOfMethods)
+                .build();
+    }
+
+
+    /**
+     * 尝试获取JVM中的Collector实例
+     */
+    public static JSpyWatcherCollector getIfExists() {
+        return builder.collector;
+    }
+
+
+    private static final class Builder {
+
+        private JSpyWatcherCollector collector = null;
+
+        private int period = 60 * 5;
+
+        private int expectMethods = 32;
+
+        public Builder histogramPeriod(int periodInSeconds) {
+            this.period = periodInSeconds;
+            return this;
+        }
+
+        public Builder expectMethods(int expectMethods) {
+            this.expectMethods = expectMethods;
+            return this;
+        }
+
+
+        public JSpyWatcherCollector build() {
+            if (null != collector) {
+                return collector;
+            }
+            return new JSpyWatcherCollector(period, expectMethods);
+        }
     }
 }
