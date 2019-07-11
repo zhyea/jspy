@@ -12,15 +12,15 @@ public class MethodStat extends AbstractStatEntity {
 
     private long mean;
 
-    private long percent999;
+    private long percentile999;
 
-    private long percent98;
+    private long percentile98;
 
-    private long percent95;
+    private long percentile95;
 
-    private long percent90;
+    private long percentile90;
 
-    private long percent75;
+    private long percentile75;
 
     private long median;
 
@@ -64,44 +64,44 @@ public class MethodStat extends AbstractStatEntity {
         this.mean = mean;
     }
 
-    public long getPercent999() {
-        return percent999;
+    public long getPercentile999() {
+        return percentile999;
     }
 
-    public void setPercent999(long percent999) {
-        this.percent999 = percent999;
+    public void setPercentile999(long percentile999) {
+        this.percentile999 = percentile999;
     }
 
-    public long getPercent98() {
-        return percent98;
+    public long getPercentile98() {
+        return percentile98;
     }
 
-    public void setPercent98(long percent98) {
-        this.percent98 = percent98;
+    public void setPercentile98(long percentile98) {
+        this.percentile98 = percentile98;
     }
 
-    public long getPercent95() {
-        return percent95;
+    public long getPercentile95() {
+        return percentile95;
     }
 
-    public void setPercent95(long percent95) {
-        this.percent95 = percent95;
+    public void setPercentile95(long percentile95) {
+        this.percentile95 = percentile95;
     }
 
-    public long getPercent90() {
-        return percent90;
+    public long getPercentile90() {
+        return percentile90;
     }
 
-    public void setPercent90(long percent90) {
-        this.percent90 = percent90;
+    public void setPercentile90(long percentile90) {
+        this.percentile90 = percentile90;
     }
 
-    public long getPercent75() {
-        return percent75;
+    public long getPercentile75() {
+        return percentile75;
     }
 
-    public void setPercent75(long percent75) {
-        this.percent75 = percent75;
+    public void setPercentile75(long percentile75) {
+        this.percentile75 = percentile75;
     }
 
     public long getMedian() {

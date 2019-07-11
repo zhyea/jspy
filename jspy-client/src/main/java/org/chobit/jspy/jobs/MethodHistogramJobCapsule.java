@@ -51,11 +51,11 @@ public final class MethodHistogramJobCapsule extends JobCapsule<List<MethodHisto
             histogram.setMin(s.getMin());
             histogram.setMax(s.getMax());
             histogram.setMean((long) s.getMean());
-            histogram.setPercent999((long) s.get999thPercentile());
-            histogram.setPercent98((long) s.get98thPercentile());
-            histogram.setPercent95((long) s.get95thPercentile());
-            histogram.setPercent90((long) s.get90thPercentile());
-            histogram.setPercent75((long) s.get75thPercentile());
+            histogram.setPercentile999((long) s.get999thPercentile());
+            histogram.setPercentile98((long) s.get98thPercentile());
+            histogram.setPercentile95((long) s.get95thPercentile());
+            histogram.setPercentile90((long) s.get90thPercentile());
+            histogram.setPercentile75((long) s.get75thPercentile());
             histogram.setMedian((long) s.getMedian());
 
             list.add(histogram);

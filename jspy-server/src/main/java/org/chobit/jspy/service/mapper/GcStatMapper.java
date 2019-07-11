@@ -12,13 +12,6 @@ import java.util.List;
 public interface GcStatMapper {
 
 
-    @Insert({"insert into gc_stat(app_code, ip, gc_id, type, action, name, cause, start_time, duration,",
-            "usage_before, usage_after, event_time, major_gc_count, minor_gc_count)",
-            "values",
-            "(#{appCode}, #{ip}, #{gcId}, #{type}, #{action}, #{name}, #{cause}, #{startTime}, #{duration},",
-            " #{usageBefore}, #{usageAfter}, #{eventTime}, #{majorGcCount}, #{minorGcCount})"})
-    int insert(GcStat gcStat);
-
 
     /**
      * 批量写入数据

@@ -12,6 +12,8 @@ import org.springframework.util.ClassUtils;
 import java.lang.reflect.Method;
 
 import static org.chobit.jspy.core.support.JSpyWatcherCollector.createIfNon;
+import static org.chobit.jspy.core.utils.Strings.isBlank;
+import static org.chobit.jspy.core.utils.Strings.isNotBlank;
 
 public abstract class WatcherAspectSupport implements BeanFactoryAware, InitializingBean {
 
@@ -75,8 +77,11 @@ public abstract class WatcherAspectSupport implements BeanFactoryAware, Initiali
 
 
     private String methodIdentity(Method method, Class<?> targetClass, WatcherAttribute attr) {
+        if (isNotBlank(attr.getName())) {
+            return attr.getName();
+        }
         String methodIdentity = attr.getMethodIdentity();
-        if (null == methodIdentity) {
+        if (isBlank(methodIdentity)) {
             methodIdentity = ClassUtils.getQualifiedMethodName(method, targetClass);
         }
         return methodIdentity;

@@ -14,11 +14,11 @@ public interface MethodStatMapper {
     @JSpyWatcher("JSpyWatcher注解方法信息-Mapper.insert")
     @Insert({
             "<script>",
-            "insert into gc_stat(app_code, ip, method_id, std_dev, min, max, mean, percent999, percent98, percent95, percent90, percent75, median)",
+            "insert into gc_stat(app_code, ip, method_id, std_dev, min, max, mean, percentile999, percentile98, percentile95, percentile90, percentile75, median)",
             "values",
             "<foreach collection='gcStats' item='item' separator=','>",
             "(#{appCode}, #{ip}, #{methodId}, #{stdDev}, #{min}, #{max}, #{mean},",
-            " #{percent999}, #{percent98}, #{percent95}, #{percent90}, #{percent75}, #{median})",
+            " #{percentile999}, #{percentile98}, #{percentile95}, #{percentile90}, #{percentile75}, #{median})",
             "</foreach>",
             "</script>"
     })

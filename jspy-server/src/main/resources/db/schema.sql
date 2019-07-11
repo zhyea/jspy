@@ -126,11 +126,11 @@ create table if not exists method_stats
     max         bigint,
     mean        bigint,
 
-    percent999  bigint,
-    percent98   bigint,
-    percent95   bigint,
-    percent90   bigint,
-    percent75   bigint,
+    percentile999  bigint,
+    percentile98   bigint,
+    percentile95   bigint,
+    percentile90   bigint,
+    percentile75   bigint,
     median      bigint,
 
     deleted     tinyint            default 0,

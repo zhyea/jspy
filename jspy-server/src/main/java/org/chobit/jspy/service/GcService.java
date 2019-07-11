@@ -21,6 +21,10 @@ public class GcService {
      * 写入GC记录
      */
     public boolean insert(String appCode, String ip, List<GcRecord> gcRecords) {
+        if (gcRecords.isEmpty()) {
+            return true;
+        }
+
         List<GcStat> gcStats = new ArrayList<>(gcRecords.size());
         for (GcRecord record : gcRecords) {
             GcStat stat = new GcStat();

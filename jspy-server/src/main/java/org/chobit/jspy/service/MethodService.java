@@ -18,7 +18,13 @@ public class MethodService {
 
 
     public boolean insert(String appCode, String ip, List<MethodHistogram> histograms) {
+
+        if (histograms.isEmpty()) {
+            return true;
+        }
+
         List<MethodStat> list = new LinkedList<>();
+
         for (MethodHistogram h : histograms) {
             MethodStat stat = new MethodStat();
             stat.setAppCode(appCode);
@@ -31,16 +37,15 @@ public class MethodService {
             stat.setMax(h.getMax());
             stat.setMean(h.getMean());
 
-            stat.setPercent999(h.getPercent999());
-            stat.setPercent98(h.getPercent98());
-            stat.setPercent95(h.getPercent95());
-            stat.setPercent90(h.getPercent90());
-            stat.setPercent75(h.getPercent75());
+            stat.setPercentile999(h.getPercentile999());
+            stat.setPercentile98(h.getPercentile98());
+            stat.setPercentile95(h.getPercentile95());
+            stat.setPercentile90(h.getPercentile90());
+            stat.setPercentile75(h.getPercentile75());
             stat.setMedian(h.getMedian());
 
             list.add(stat);
         }
-
         return histograms.size() == methodMapper.batchInsert(list);
     }
 
