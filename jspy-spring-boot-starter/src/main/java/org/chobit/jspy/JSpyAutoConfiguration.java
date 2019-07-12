@@ -33,7 +33,7 @@ public class JSpyAutoConfiguration {
 
 
     @Bean
-    @ConditionalOnProperty(prefix = "jspy.watcher", name = {"expect-method-nums", "histogram-period"})
+    @ConditionalOnProperty(prefix = "jspy.watcher", name = "enable", havingValue = "true")
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public WatcherInterceptor watcherInterceptor(JSpyProperties properties) {
         WatcherInterceptor interceptor = new WatcherInterceptor(properties.getWatcher());
@@ -43,7 +43,7 @@ public class JSpyAutoConfiguration {
 
 
     @Bean
-    @ConditionalOnProperty(prefix = "jspy.watcher", name = {"expect-method-nums", "histogram-period"})
+    @ConditionalOnProperty(prefix = "jspy.watcher", name = "enable", havingValue = "true")
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public BeanFactoryWatcherAttributeSourceAdvisor watcherAdvisor(JSpyProperties properties) {
         BeanFactoryWatcherAttributeSourceAdvisor advisor = new BeanFactoryWatcherAttributeSourceAdvisor();

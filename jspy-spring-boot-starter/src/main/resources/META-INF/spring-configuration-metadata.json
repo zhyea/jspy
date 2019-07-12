@@ -65,6 +65,13 @@
     },
     {
       "sourceType": "org.chobit.jspy.WatcherConfig",
+      "name": "jspy.watcher.enable",
+      "description": "enable using of @JSpyWatcher annotation",
+      "type": "java.lang.Boolean",
+      "defaultValue": true
+    },
+    {
+      "sourceType": "org.chobit.jspy.WatcherConfig",
       "name": "jspy.watcher.expect-method-nums",
       "description": "expect num of methods using @JSpyWatcher annotation",
       "type": "java.lang.Integer",
