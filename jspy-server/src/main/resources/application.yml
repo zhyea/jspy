@@ -27,5 +27,4 @@ jspy:
   serverPort: 8190
   use-ssl: false
   watcher:
-    expect-method-nums: 32
-    histogram-period: 300
+    enable: false

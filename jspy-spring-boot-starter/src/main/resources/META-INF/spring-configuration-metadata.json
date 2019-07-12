@@ -68,7 +68,7 @@
       "name": "jspy.watcher.enable",
       "description": "enable using of @JSpyWatcher annotation",
       "type": "java.lang.Boolean",
-      "defaultValue": true
+      "defaultValue": false
     },
     {
       "sourceType": "org.chobit.jspy.WatcherConfig",
