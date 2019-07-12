@@ -27,4 +27,4 @@ jspy:
   serverPort: 8190
   use-ssl: false
   watcher:
-    enable: false
+    enable: true
