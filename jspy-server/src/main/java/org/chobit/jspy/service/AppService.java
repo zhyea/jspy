@@ -20,7 +20,6 @@ public class AppService {
 
     @JSpyWatcher("insert")
     public int insert(App app) {
-        System.out.println("--------------insert>>>>>");
         String appCode = gen();
         app.setAppCode(appCode);
         appMapper.insert(app);

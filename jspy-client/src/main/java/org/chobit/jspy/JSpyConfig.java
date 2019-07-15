@@ -11,13 +11,13 @@ public final class JSpyConfig {
 
     private boolean useSSL = false;
 
-    private int memoryCollectIntervalSeconds = 6;
+    private int memoryCollectIntervalSeconds = 12;
 
-    private int threadCollectIntervalSeconds = 6;
+    private int threadCollectIntervalSeconds = 12;
 
     private int gcCollectIntervalSeconds = 60 * 5;
 
-    private int classLoadingCollectIntervalSeconds = 6;
+    private int classLoadingCollectIntervalSeconds = 12;
 
     private int watcherHistogramPeriodSeconds = 60 * 5;
 

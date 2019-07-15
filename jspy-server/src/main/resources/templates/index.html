@@ -148,16 +148,19 @@
     }
 
     function operateFormatter(value, row, index) {
-        return 0 === index ?
-            '<span class="tableOperate"><a class="report" href="/overview/' + row.id + '" title="查看报表">查看</a></span>'
-            :
-            [
-                '<span class="tableOperate">',
+        let arr = ['<span class="tableOperate">'];
+        if (1 <= index * 1) {
+            arr.push(
                 '<a class="update" href="javascript:void(0)" title="编辑">编辑</a>',
-                '<a class="delete" href="javascript:void(0)" title="删除">删除</a>',
-                '<a class="report" href="/overview/' + row.id + '" title="查看报表">查看</a>',
-                '</span>'
-            ].join('&nbsp;&nbsp;&nbsp;')
+                '<a class="delete" href="javascript:void(0)" title="删除">删除</a>'
+            )
+        }
+        arr.push(
+            '<a class="report" href="/app-home/' + row.appCode + '" title="查看报表">查看</a>',
+            '</span>'
+        );
+
+        return arr.join('&nbsp;&nbsp;&nbsp;')
     }
 
     window.operateEvents = {
@@ -168,7 +171,6 @@
             subAppRequest0('delete', "/app/" + row.id, "");
         },
         'click .report': function (e, value, row, index) {
-            alert('You click like action, row: ' + JSON.stringify(row))
         }
     };
 

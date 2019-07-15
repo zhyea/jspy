@@ -4,7 +4,7 @@
 <nav class="page-navigation" th:fragment="nav">
     <div class="nav-container">
         <div class="page-header-logo">
-            <h1 class="prince-log"><a href="#" class="home-link">JSPY</a></h1>
+            <h1 class="prince-log"><a href="/" class="home-link">JSPY</a></h1>
         </div>
         <button type="button"
                 data-toggle="collapse"
@@ -15,12 +15,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <ul class="collapse navbar-collapse main-nav-items">
-            <li class="menu-item"><a href="/home" target="_self">首页</a></li>
-            <li class="menu-item"><a href="/memory" target="_self">内存</a></li>
-            <li class="menu-item"><a href="/threads" target="_self">线程</a></li>
-            <li class="menu-item"><a href="/classes" target="_self">类</a></li>
-            <li class="menu-item"><a href="/setting" target="_self">设置</a></li>
+        <ul th:if="${app}" class="collapse navbar-collapse main-nav-items">
+            <li class="menu-item" th:if="${app.appName}"><a href="#" target="_self" th:text="${app.appName}"></a></li>
+            <li class="menu-item"><a href="/memory/" target="_self">内存</a></li>
+            <li class="menu-item"><a href="/threads/" target="_self">线程</a></li>
+            <li class="menu-item"><a href="/classes/" target="_self">类</a></li>
+            <li class="menu-item"><a href="/setting/" target="_self">设置</a></li>
         </ul>
     </div>
 </nav>

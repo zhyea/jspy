@@ -64,12 +64,11 @@ public abstract class WatcherAspectSupport implements BeanFactoryAware, Initiali
     protected Object watcherInvoke(Method method, Class<?> targetClass, final InvocationCallback invocation) throws Throwable {
         final WatcherAttribute attr = getAttrSource().getWatcherAttribute(method, targetClass);
         final String methodId = methodIdentity(method, targetClass, attr);
-        Object r = null;
+        Object r;
         long start = SysTime.millis();
         try {
             r = invocation.proceedWithInvocation();
         } finally {
-            System.out.println("----------------------------------->>>>" + methodId);
             collector.update(methodId, SysTime.millis() - start);
         }
         return r;
