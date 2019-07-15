@@ -57,8 +57,8 @@ create table if not exists gc_stat
 
     gc_id          int,
     `type`         varchar(16),
+    `condition`         varchar(32),
     action         varchar(32),
-    `name`         varchar(32),
     cause          varchar(32),
 
     start_time     bigint,

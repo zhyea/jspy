@@ -15,8 +15,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <ul th:if="${app}" class="collapse navbar-collapse main-nav-items">
-            <li class="menu-item" th:if="${app.appName}"><a href="#" target="_self" th:text="${app.appName}"></a></li>
+        <ul th:if="${session.appName}" class="collapse navbar-collapse main-nav-items">
+            <li class="menu-item"><a href="#" target="_self" th:text="${session.appName}"></a></li>
             <li class="menu-item"><a href="/memory/" target="_self">内存</a></li>
             <li class="menu-item"><a href="/threads/" target="_self">线程</a></li>
             <li class="menu-item"><a href="/classes/" target="_self">类</a></li>

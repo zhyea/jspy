@@ -15,6 +15,7 @@ public interface MetricQueryMapper {
     @SelectProvider(type = MetricQueryProvider.class, method = "queryWithQueryParam")
     List<LowerCaseKeyMap> findByParams(@Param("table") String tableName,
                                        @Param("p") QueryParam param,
+                                       @Param("conditionColumn") String conditionColumn,
                                        @Param("columns") String... columns);
 
 }

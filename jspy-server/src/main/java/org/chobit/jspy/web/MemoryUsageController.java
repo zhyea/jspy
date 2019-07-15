@@ -25,7 +25,7 @@ public class MemoryUsageController {
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@RequestBody QueryParam param) {
         List<LowerCaseKeyMap> m = memoryService.findByParams(param);
-        return ChartKit.fill(param.getName(), m, MemoryUsage.class);
+        return ChartKit.fill(param.getCondition(), m, MemoryUsage.class);
     }
 
 

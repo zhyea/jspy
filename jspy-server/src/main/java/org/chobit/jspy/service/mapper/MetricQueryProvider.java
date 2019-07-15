@@ -9,18 +9,19 @@ public class MetricQueryProvider {
 
     public String queryWithQueryParam(@Param("table") String tableName,
                                       @Param("p") QueryParam param,
-                                      @Param("columns") String... columns) {
+                                      @Param("conditionColumn") String conditionColumn,
+                                      @Param("columns") String... resultColumns) {
         return new SQL() {
             {
-                if (null == columns || columns.length == 0) {
+                if (null == resultColumns || resultColumns.length == 0) {
                     SELECT("*");
                 } else {
-                    SELECT(columns);
+                    SELECT(resultColumns);
                 }
                 FROM(tableName);
                 WHERE("deleted=0");
-                if (null != param.getName()) {
-                    WHERE("name=#{p.name}");
+                if (null != param.getCondition()) {
+                    WHERE(conditionColumn + "=#{p.name}");
                 }
                 if (null != param.getStartTime()) {
                     WHERE("event_time>=#{p.startTime}");

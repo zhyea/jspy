@@ -96,7 +96,7 @@ public class MemoryUsageService {
      * 查询内存数据
      */
     public List<LowerCaseKeyMap> findByParams(QueryParam params) {
-        return metricMapper.findByParams("memory_usage", params, "init", "used", "committed", "max", "event_time");
+        return metricMapper.findByParams("memory_usage", params, "`name`", "init", "used", "committed", "max", "event_time");
     }
 
 
@@ -132,7 +132,7 @@ public class MemoryUsageService {
     private void insertMemoryPoolPeakData(String appCode, String ip, MemoryPool pool, MemoryOverview overview) {
         MemoryUsage usage = memMapper.getLatestPeakByName(appCode, pool.getName());
         if (null != pool.getPeakUsage()) {
-            if (null==usage || !isUsageClose(usage, pool.getPeakUsage())) {
+            if (null == usage || !isUsageClose(usage, pool.getPeakUsage())) {
                 insert(appCode,
                         ip,
                         pool.getPeakUsage(),

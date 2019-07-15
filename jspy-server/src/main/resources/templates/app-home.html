@@ -21,7 +21,7 @@
     // 基于准备好的dom，初始化echarts实例
     const myChart = echarts.init(document.getElementById('memoryCharts'), 'macarons');
 
-    loadChart(myChart, '/memory/find-by-params', '堆内存');
+    loadChart(myChart, '/memory/find-by-params', '堆内存使用量');
 
     function loadChart(chart, url, type) {
         chart.showLoading();
@@ -69,7 +69,7 @@
     /**
      * 向后台请求数据
      */
-    function obtainData(chart, url, type, startTime) {
+    function obtainData(chart, url, condition, startTime) {
         if (startTime <= 0) {
             startTime = REQUEST_START_TIME;//12 * 60 * 60 * 1000;
         }
@@ -81,7 +81,7 @@
             url: url,
             async: true,
             data: JSON.stringify({
-                type: type,
+                condition: condition,
                 startTime: startTime,
                 endTime: endTime
             }),
@@ -96,13 +96,13 @@
                     }
                 }
                 setTimeout(function () {
-                    obtainData(chart, url, type, endTime);
+                    obtainData(chart, url, condition, endTime);
                 }, REQUEST_INTERVAL);
             },
             error: function (errorMsg) {
                 console.log("图表请求数据失败:" + errorMsg.toString());
                 setTimeout(function () {
-                    obtainData(chart, url, type, endTime);
+                    obtainData(chart, url, condition, endTime);
                 }, 3 * 60 * 1000);
             }
         });
