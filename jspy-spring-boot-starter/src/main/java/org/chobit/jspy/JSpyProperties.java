@@ -14,6 +14,8 @@ public class JSpyProperties {
 
     private boolean useSsl = false;
 
+    private int startDelayedSeconds = 60;
+
     private int memoryCollectIntervalSeconds = 6;
 
     private int threadCollectIntervalSeconds = 6;
@@ -55,6 +57,14 @@ public class JSpyProperties {
 
     public void setUseSsl(boolean useSsl) {
         this.useSsl = useSsl;
+    }
+
+    public int getStartDelayedSeconds() {
+        return startDelayedSeconds;
+    }
+
+    public void setStartDelayedSeconds(int startDelayedSeconds) {
+        this.startDelayedSeconds = startDelayedSeconds;
     }
 
     public int getMemoryCollectIntervalSeconds() {

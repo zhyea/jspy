@@ -18,12 +18,12 @@ public interface GcStatMapper {
      */
     @Insert({
             "<script>",
-            "insert into gc_stat(app_code, ip, gc_id, type, action, name, cause, start_time, duration,",
+            "insert into gc_stat(app_code, ip, gc_id, `type`, action, `name`, cause, start_time, duration,",
             "usage_before, usage_after, event_time, major_gc_count, minor_gc_count)",
             "values",
             "<foreach collection='gcStats' item='item' separator=','>",
-            "(#{appCode}, #{ip}, #{gcId}, #{type}, #{action}, #{name}, #{cause}, #{startTime}, #{duration},",
-            " #{usageBefore}, #{usageAfter}, #{eventTime}, #{majorGcCount}, #{minorGcCount})",
+            "(#{item.appCode}, #{item.ip}, #{item.gcId}, #{item.type}, #{item.action}, #{item.name}, #{item.cause}, #{item.startTime}, #{item.duration},",
+            " #{item.usageBefore}, #{item.usageAfter}, #{item.eventTime}, #{item.majorGcCount}, #{item.minorGcCount})",
             "</foreach>",
             "</script>"
     })

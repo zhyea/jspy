@@ -57,7 +57,7 @@ create table if not exists gc_stat
 
     gc_id          int,
     `type`         varchar(16),
-    `condition`         varchar(32),
+    `name`         varchar(32),
     action         varchar(32),
     cause          varchar(32),
 
@@ -112,7 +112,7 @@ create table if not exists class_loading_stat
 );
 
 
-create table if not exists method_stats
+create table if not exists method_stat
 (
     id          int auto_increment primary key,
 

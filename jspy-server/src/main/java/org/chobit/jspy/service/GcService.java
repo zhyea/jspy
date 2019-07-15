@@ -47,6 +47,8 @@ public class GcService {
 
             stat.setMajorGcCount(record.getMajorGcCount());
             stat.setMinorGcCount(record.getMinorGcCount());
+
+            gcStats.add(stat);
         }
         return gcMapper.batchInsert(gcStats) == gcStats.size();
     }

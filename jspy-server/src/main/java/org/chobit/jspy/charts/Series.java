@@ -14,6 +14,8 @@ public class Series<T> {
 
     private ChartType type = ChartType.line;
 
+    private boolean selected;
+
     private final List<T> data = new LinkedList<>();
 
 
@@ -24,9 +26,10 @@ public class Series<T> {
         this.name = name;
     }
 
-    public Series(String id, String name) {
+    public Series(String id, String name, boolean selected) {
         this.id = id;
         this.name = name;
+        this.selected = selected;
     }
 
     public void addData(T d) {
@@ -55,6 +58,14 @@ public class Series<T> {
 
     public void setType(ChartType type) {
         this.type = type;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public List<T> getData() {

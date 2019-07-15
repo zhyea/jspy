@@ -28,7 +28,7 @@ public class FrontEndController {
 
     @GetMapping("/")
     public String index(ModelMap model) {
-        model.put("message", "Hello Thymeleaf!");
+        model.put("isIndex", true);
         return "index";
     }
 

@@ -14,15 +14,18 @@ public final class JSpyClient {
 
     private final Scheduler scheduler;
 
+    private final int startDelayedSeconds;
+
     JSpyClient(JSpyConfig config) {
         this.jobRegistry = new JSpyJobRegistry(config);
         this.scheduler = newScheduler();
+        this.startDelayedSeconds = config.getStartDelayedSeconds();
     }
 
 
     public void start() {
         try {
-            scheduler.start();
+            scheduler.startDelayed(startDelayedSeconds);
             Iterable<JobCapsule> jobs = jobRegistry.jobs();
             for (JobCapsule j : jobs) {
                 scheduler.scheduleJob(j.job(), j.trigger());

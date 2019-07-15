@@ -13,4 +13,6 @@ public @interface Series {
     String value() default "";
 
     String id() default "";
+
+    boolean selected() default true;
 }

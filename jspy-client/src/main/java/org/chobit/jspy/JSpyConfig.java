@@ -11,13 +11,15 @@ public final class JSpyConfig {
 
     private boolean useSSL = false;
 
-    private int memoryCollectIntervalSeconds = 12;
+    private int startDelayedSeconds = 60;
 
-    private int threadCollectIntervalSeconds = 12;
+    private int memoryCollectIntervalSeconds = 6;
+
+    private int threadCollectIntervalSeconds = 6;
 
     private int gcCollectIntervalSeconds = 60 * 5;
 
-    private int classLoadingCollectIntervalSeconds = 12;
+    private int classLoadingCollectIntervalSeconds = 6;
 
     private int watcherHistogramPeriodSeconds = 60 * 5;
 
@@ -54,6 +56,14 @@ public final class JSpyConfig {
 
     public void setUseSSL(boolean useSSL) {
         this.useSSL = useSSL;
+    }
+
+    public int getStartDelayedSeconds() {
+        return startDelayedSeconds;
+    }
+
+    public void setStartDelayedSeconds(int startDelayedSeconds) {
+        this.startDelayedSeconds = startDelayedSeconds;
     }
 
     public int getMemoryCollectIntervalSeconds() {

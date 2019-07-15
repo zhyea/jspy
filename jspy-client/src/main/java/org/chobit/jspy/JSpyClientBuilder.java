@@ -43,6 +43,12 @@ public final class JSpyClientBuilder {
     }
 
 
+    public JSpyClientBuilder startDelayedSeconds(int startDelayed) {
+        this.config.setStartDelayedSeconds(startDelayed);
+        return this;
+    }
+
+
     public JSpyClientBuilder memoryCollectIntervalSeconds(int memoryCollectIntervalSeconds) {
         this.config.setMemoryCollectIntervalSeconds(memoryCollectIntervalSeconds);
         return this;

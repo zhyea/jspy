@@ -21,7 +21,7 @@ public class MemoryUsage extends AbstractStatEntity {
     private String managerNames;
 
 
-    @Series("初始内存")
+    @Series(value = "初始内存", selected = false)
     private long init;
 
     @Series("已使用")
@@ -30,7 +30,7 @@ public class MemoryUsage extends AbstractStatEntity {
     @Series("已提交")
     private long committed;
 
-    @Series("最大可用")
+    @Series(value = "最大可用", selected = false)
     private long max;
 
     @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)

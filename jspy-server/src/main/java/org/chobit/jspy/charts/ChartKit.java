@@ -66,9 +66,11 @@ public abstract class ChartKit {
             if (f.isAnnotationPresent(org.chobit.jspy.charts.annotation.Series.class)) {
                 org.chobit.jspy.charts.annotation.Series series =
                         f.getAnnotation(org.chobit.jspy.charts.annotation.Series.class);
+
                 String name = isBlank(series.value()) ? f.getName() : series.value();
                 String id = isBlank(series.id()) ? f.getName() : series.id();
-                seriesMap.put(humpToLine(f.getName()), new Series(id, name));
+                boolean selected = series.selected();
+                seriesMap.put(humpToLine(f.getName()), new Series(id, name, selected));
             }
         }
         return seriesMap;
