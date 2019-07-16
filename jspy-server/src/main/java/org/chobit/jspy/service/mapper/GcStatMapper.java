@@ -12,7 +12,6 @@ import java.util.List;
 public interface GcStatMapper {
 
 
-
     /**
      * 批量写入数据
      */
@@ -28,8 +27,6 @@ public interface GcStatMapper {
             "</script>"
     })
     int batchInsert(@Param("gcStats") List<GcStat> gcStats);
-
-
 
 
 }

@@ -1,7 +1,7 @@
 package org.chobit.jspy.service.beans;
 
 
-public class App extends  AbstractEntity{
+public class App extends AbstractEntity {
 
 
     private String appCode;

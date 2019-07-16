@@ -1,14 +1,29 @@
 package org.chobit.jspy.service.beans;
 
+import org.chobit.jspy.charts.AxisType;
+import org.chobit.jspy.charts.ValueType;
+import org.chobit.jspy.charts.annotation.Axis;
+import org.chobit.jspy.charts.annotation.Series;
+
+import java.util.Date;
+
 public class ThreadStat extends AbstractStatEntity {
 
+
+    @Series("活跃线程数")
     private long current;
 
+    @Series(value = "活跃线程峰值", selected = false)
     private long peak;
 
+    @Series(value = "启动线程总数", selected = false)
     private long totalStarted;
 
+    @Series("后台线程数")
     private long daemon;
+
+    @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
+    private Date eventTime;
 
 
     public long getCurrent() {
@@ -41,5 +56,13 @@ public class ThreadStat extends AbstractStatEntity {
 
     public void setDaemon(long daemon) {
         this.daemon = daemon;
+    }
+
+    public Date getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(Date eventTime) {
+        this.eventTime = eventTime;
     }
 }

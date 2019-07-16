@@ -1,6 +1,8 @@
 package org.chobit.jspy.model;
 
-public class ThreadInfo {
+import org.chobit.jspy.utils.SysTime;
+
+public class ThreadGauge {
 
 
     private long current;
@@ -10,6 +12,8 @@ public class ThreadInfo {
     private long totalStarted;
 
     private long daemon;
+
+    private long eventTime = SysTime.millis();
 
 
     public long getCurrent() {
@@ -42,5 +46,9 @@ public class ThreadInfo {
 
     public void setDaemon(long daemon) {
         this.daemon = daemon;
+    }
+
+    public long getEventTime() {
+        return eventTime;
     }
 }

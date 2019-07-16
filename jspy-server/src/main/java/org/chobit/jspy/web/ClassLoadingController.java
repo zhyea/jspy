@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/class-load")
-public class ClassLoadingStatController {
+public class ClassLoadingController {
 
     @Autowired
     private ClassLoadingService classLoadingService;

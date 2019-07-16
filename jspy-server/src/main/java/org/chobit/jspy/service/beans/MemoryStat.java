@@ -8,7 +8,7 @@ import org.chobit.jspy.charts.annotation.Series;
 
 import java.util.Date;
 
-public class MemoryUsage extends AbstractStatEntity {
+public class MemoryStat extends AbstractStatEntity {
 
 
     @JsonIgnore

@@ -29,7 +29,7 @@ public final class MethodHistogramJobCapsule extends JobCapsule<List<MethodHisto
 
     @Override
     int intervalSeconds() {
-        return config.getThreadCollectIntervalSeconds();
+        return config.getWatcherHistogramPeriodSeconds();
     }
 
     @Override

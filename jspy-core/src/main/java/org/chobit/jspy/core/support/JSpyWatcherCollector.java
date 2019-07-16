@@ -99,7 +99,8 @@ public final class JSpyWatcherCollector {
             if (null != collector) {
                 return collector;
             }
-            return new JSpyWatcherCollector(period, expectMethods);
+            collector = new JSpyWatcherCollector(period, expectMethods);
+            return collector;
         }
     }
 }

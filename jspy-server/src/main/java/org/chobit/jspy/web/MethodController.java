@@ -4,15 +4,17 @@ package org.chobit.jspy.web;
 import org.chobit.jspy.model.MethodHistogram;
 import org.chobit.jspy.service.MethodService;
 import org.chobit.jspy.utils.Args;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/method")
-public class MethodStatController {
+public class MethodController {
 
 
+    @Autowired
     private MethodService methodService;
 
 

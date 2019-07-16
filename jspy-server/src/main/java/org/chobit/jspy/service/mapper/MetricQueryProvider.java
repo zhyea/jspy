@@ -4,10 +4,13 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
 import org.chobit.jspy.model.QueryParam;
 
+import static org.chobit.jspy.core.utils.Strings.isNotBlank;
+
 public class MetricQueryProvider {
 
 
     public String queryWithQueryParam(@Param("table") String tableName,
+                                      @Param("appCode") String appCode,
                                       @Param("p") QueryParam param,
                                       @Param("conditionColumn") String conditionColumn,
                                       @Param("columns") String... resultColumns) {
@@ -20,7 +23,8 @@ public class MetricQueryProvider {
                 }
                 FROM(tableName);
                 WHERE("deleted=0");
-                if (null != param.getCondition()) {
+                WHERE("app_code=" + appCode);
+                if (isNotBlank(param.getCondition()) && isNotBlank(conditionColumn)) {
                     WHERE(conditionColumn + "=#{p.condition}");
                 }
                 if (null != param.getStartTime()) {

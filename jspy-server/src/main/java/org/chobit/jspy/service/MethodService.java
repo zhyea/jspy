@@ -4,9 +4,11 @@ package org.chobit.jspy.service;
 import org.chobit.jspy.model.MethodHistogram;
 import org.chobit.jspy.service.beans.MethodStat;
 import org.chobit.jspy.service.mapper.MethodStatMapper;
+import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,6 +45,8 @@ public class MethodService {
             stat.setPercentile90(h.getPercentile90());
             stat.setPercentile75(h.getPercentile75());
             stat.setMedian(h.getMedian());
+
+            stat.setEventTime(new Date(h.getEventTime() > 0 ? h.getEventTime() : SysTime.millis()));
 
             list.add(stat);
         }

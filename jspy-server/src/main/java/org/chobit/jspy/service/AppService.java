@@ -47,7 +47,7 @@ public class AppService {
     }
 
 
-    public App getByName(String appName){
+    public App getByName(String appName) {
         return appMapper.getByAppName(appName);
     }
 

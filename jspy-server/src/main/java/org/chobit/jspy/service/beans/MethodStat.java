@@ -1,5 +1,11 @@
 package org.chobit.jspy.service.beans;
 
+import org.chobit.jspy.charts.AxisType;
+import org.chobit.jspy.charts.ValueType;
+import org.chobit.jspy.charts.annotation.Axis;
+
+import java.util.Date;
+
 public class MethodStat extends AbstractStatEntity {
 
     private String methodId;
@@ -23,6 +29,9 @@ public class MethodStat extends AbstractStatEntity {
     private long percentile75;
 
     private long median;
+
+    @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
+    private Date eventTime;
 
     public String getMethodId() {
         return methodId;
@@ -110,5 +119,13 @@ public class MethodStat extends AbstractStatEntity {
 
     public void setMedian(long median) {
         this.median = median;
+    }
+
+    public Date getEventTime() {
+        return eventTime;
+    }
+
+    public void setEventTime(Date eventTime) {
+        this.eventTime = eventTime;
     }
 }

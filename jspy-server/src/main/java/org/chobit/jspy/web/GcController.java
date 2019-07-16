@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/gc")
-public class GcStatController {
+public class GcController {
 
     @Autowired
     private GcService gcService;

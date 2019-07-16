@@ -5,10 +5,9 @@ import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.model.QueryParam;
-import org.chobit.jspy.service.MemoryUsageService;
-import org.chobit.jspy.service.beans.MemoryUsage;
+import org.chobit.jspy.service.MemoryService;
+import org.chobit.jspy.service.beans.MemoryStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
-import org.chobit.jspy.utils.Args;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,16 +15,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/memory")
-public class MemoryUsageController {
+public class MemoryController {
 
     @Autowired
-    private MemoryUsageService memoryService;
+    private MemoryService memoryService;
 
 
     @PostMapping("/find-by-params")
-    public ChartModel findByParams(@RequestBody QueryParam param) {
-        List<LowerCaseKeyMap> m = memoryService.findByParams(param);
-        return ChartKit.fill(param.getCondition(), m, MemoryUsage.class);
+    public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
+                                   @RequestBody QueryParam param) {
+        List<LowerCaseKeyMap> m = memoryService.findByParams(appCode, param);
+        return ChartKit.fill(param.getCondition(), m, MemoryStat.class);
     }
 
 
@@ -33,7 +33,6 @@ public class MemoryUsageController {
     public boolean receive(@RequestHeader("appCode") String appCode,
                            @RequestHeader("ip") String ip,
                            @RequestBody MemoryOverview overview) {
-        Args.checkNotBlank(appCode, "appCode(应用码)不能为空");
         return memoryService.insert(appCode, ip, overview);
     }
 

@@ -6,8 +6,8 @@ import org.chobit.jspy.core.model.MemoryPool;
 import org.chobit.jspy.core.model.MemoryInfo;
 import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.model.QueryParam;
-import org.chobit.jspy.service.beans.MemoryUsage;
-import org.chobit.jspy.service.mapper.MemoryUsageMapper;
+import org.chobit.jspy.service.beans.MemoryStat;
+import org.chobit.jspy.service.mapper.MemoryStatMapper;
 import org.chobit.jspy.service.mapper.MetricQueryMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ import static java.lang.management.MemoryType.HEAP;
 import static java.lang.management.MemoryType.NON_HEAP;
 
 @Service
-public class MemoryUsageService {
+public class MemoryService {
 
     @Autowired
-    private MemoryUsageMapper memMapper;
+    private MemoryStatMapper memMapper;
     @Autowired
     private MetricQueryMapper metricMapper;
 
@@ -42,7 +42,7 @@ public class MemoryUsageService {
                        String[] managerNames,
                        long eventTime,
                        boolean isPeak) {
-        MemoryUsage m = new MemoryUsage();
+        MemoryStat m = new MemoryStat();
         m.setType(type.name());
         m.setName(name);
         m.setManagerNames(Arrays.toString(managerNames));
@@ -95,8 +95,8 @@ public class MemoryUsageService {
     /**
      * 查询内存数据
      */
-    public List<LowerCaseKeyMap> findByParams(QueryParam params) {
-        return metricMapper.findByParams("memory_usage", params, "`name`", "init", "used", "committed", "max", "event_time");
+    public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam params) {
+        return metricMapper.findByParams("memory_stat", appCode, params, "`name`", "init", "used", "committed", "max", "event_time");
     }
 
 
@@ -130,7 +130,7 @@ public class MemoryUsageService {
      * 写入内存池峰值数据
      */
     private void insertMemoryPoolPeakData(String appCode, String ip, MemoryPool pool, MemoryOverview overview) {
-        MemoryUsage usage = memMapper.getLatestPeakByName(appCode, pool.getName());
+        MemoryStat usage = memMapper.getLatestPeakByName(appCode, pool.getName());
         if (null != pool.getPeakUsage()) {
             if (null == usage || !isUsageClose(usage, pool.getPeakUsage())) {
                 insert(appCode,
@@ -154,7 +154,7 @@ public class MemoryUsageService {
     /**
      * 判断最近的两次内存用量是否近似，如差值在浮动区间内则认为是内存近似
      */
-    private boolean isUsageClose(MemoryUsage usage, MemoryInfo u) {
+    private boolean isUsageClose(MemoryStat usage, MemoryInfo u) {
         if (Math.abs(usage.getInit() - u.getInit()) > USAGE_FLOATING_RANGE) {
             return false;
         }

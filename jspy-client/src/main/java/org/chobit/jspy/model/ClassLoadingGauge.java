@@ -1,5 +1,7 @@
 package org.chobit.jspy.model;
 
+import org.chobit.jspy.utils.SysTime;
+
 public class ClassLoadingGauge {
 
 
@@ -8,6 +10,8 @@ public class ClassLoadingGauge {
     private long currentLoaded;
 
     private long unloaded;
+
+    private long eventTime = SysTime.millis();
 
 
     public long getTotalLoaded() {
@@ -33,4 +37,9 @@ public class ClassLoadingGauge {
     public void setUnloaded(long unloaded) {
         this.unloaded = unloaded;
     }
+
+    public long getEventTime() {
+        return eventTime;
+    }
+
 }

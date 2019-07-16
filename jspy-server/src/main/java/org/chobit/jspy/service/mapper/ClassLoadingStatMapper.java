@@ -10,11 +10,10 @@ import org.chobit.jspy.service.beans.ClassLoadingStat;
 public interface ClassLoadingStatMapper {
 
 
-
     @JSpyWatcher("加载的类的信息-Mapper.insert")
-    @Insert({"insert into class_loading_stat (app_code, ip, total_loaded, current_loaded, unloaded)",
+    @Insert({"insert into class_loading_stat (app_code, ip, total_loaded, current_loaded, unloaded, event_time)",
             "values",
-            "(#{appCode}, #{ip}, #{totalLoaded}, #{currentLoaded}, #{unloaded})"})
+            "(#{appCode}, #{ip}, #{totalLoaded}, #{currentLoaded}, #{unloaded}, #{eventTime})"})
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(ClassLoadingStat stat);
 

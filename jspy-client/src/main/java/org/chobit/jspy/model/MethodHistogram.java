@@ -1,5 +1,7 @@
 package org.chobit.jspy.model;
 
+import org.chobit.jspy.utils.SysTime;
+
 public class MethodHistogram {
 
     private String methodId;
@@ -23,6 +25,8 @@ public class MethodHistogram {
     private long percentile90;
 
     private long percentile75;
+
+    private long eventTime = SysTime.millis();
 
 
     public String getMethodId() {
@@ -111,5 +115,9 @@ public class MethodHistogram {
 
     public void setPercentile75(long percentile75) {
         this.percentile75 = percentile75;
+    }
+
+    public long getEventTime() {
+        return eventTime;
     }
 }
