@@ -20,10 +20,9 @@ public class FrontEndController {
     @Autowired
     private AppService appService;
 
-    @GetMapping("/hello")
+    @GetMapping("/memory")
     public String welcome(ModelMap model) {
-        model.put("message", "Hello Thymeleaf!");
-        return "hello";
+        return "memory";
     }
 
     @GetMapping("/")

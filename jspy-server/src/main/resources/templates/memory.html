@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/head::head"></div>
+<body>
+
+<div class="wrap">
+    <div th:replace="common/nav::nav"></div>
+    <main>
+
+
+
+        <div class="col-lg-6 col-md-6"><!-- 这个控制input的宽高   -->
+            <div class="input-group"><!--这个控制后面图片与input在一起的  -->
+                <input id="adddate" class="form-control" placeholder="申请日期范围" />
+                <span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
+            </div>
+        </div>
+
+        <div id="memoryChart" style="width: 100%; height:400px;"></div>
+    </main>
+    <div th:replace="common/footer::footer"></div>
+</div>
+
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    const memoryChart = echarts.init(document.getElementById('memoryChart'), 'macarons');
+    loadChart(memoryChart, '/memory/find-by-params', '堆内存使用量', true);
+
+    $(document).ready(
+        function() {
+            $('#adddate').daterangepicker({
+                    // startDate: moment().startOf('day'),
+                    //endDate: moment(),
+                    //minDate: '2012-01-01',    //最小时间  =====>>格式要跟格式化的样式一致
+                    endDate : moment(), //最大时间
+                    //dateLimit : {days : 30}, //起止时间的最大间隔
+                    showDropdowns : true,
+                    showWeekNumbers : false, //是否显示第几周
+                    timePicker : true, //是否显示小时和分钟
+                    timePickerIncrement : 60, //时间的增量，单位为分钟
+                    timePicker12Hour : true, //是否使用12小时制来显示时间
+                    ranges : {
+                        '最近1小时': [moment().subtract('hours',1), moment()],  //moment.js需要详细了解的可以点我一下
+                        '今天' : [ moment().startOf('day'), moment() ],
+                        '昨天' : [
+                            moment().subtract('days', 1).startOf('day'),
+                            moment().subtract('days', 1).endOf('day') ],
+                        '最近7日' : [ moment().subtract('days', 6),
+                            moment() ],
+                        '最近30日' : [ moment().subtract('days', 29),
+                            moment() ]
+                    },
+                    opens : 'right', //日期选择框的弹出位置
+                    buttonClasses : [ 'btn btn-default' ],
+                    applyClass : 'btn-small btn-primary blue',
+                    cancelClass : 'btn-small',
+                    format : 'YYYY-MM-DD HH:mm:SS', //控件中from和to 显示的日期格式
+                    separator : ' 到 ',
+                    locale : {
+                        applyLabel : '确定',
+                        cancelLabel : '取消',
+                        fromLabel : '起始时间',
+                        toLabel : '结束时间',
+                        customRangeLabel : '自定义时间',
+                        daysOfWeek : [ '日', '一', '二', '三', '四', '五','六' ],
+                        monthNames : [ '一月', '二月', '三月', '四月', '五月',
+                            '六月', '七月', '八月', '九月', '十月', '十一月',
+                            '十二月' ],
+                        firstDay : 1
+                    }
+                },
+                function(start, end, label) {//格式化日期显示框
+                    $('#adddate span').html(
+                        start.format('MM-DD-YYYY HH:mm:SS') + ' - '
+                        + end.format('YYYY-MM-DD HH:mm:SS'));
+                });
+            /*         $("#startdate").datetimepicker({
+                        language : 'zh-CN',
+                        format : "yyyy-mm-dd",
+                        autoclose : true,
+                        todayBtn : true,
+                        pickerPosition : "bottom-left",
+                        minView : 2            //最精准的时间选择为日期0-分 1-时 2-日 3-月
+                    });
+
+                    $("#enddate").datetimepicker({
+                        language : 'zh-CN',
+                        format : "yyyy-mm-dd",
+                        autoclose : true,
+                        todayBtn : true,
+                        pickerPosition : "bottom-left",
+                        minView : 2
+                    });  */
+        });
+
+</script>
+
+</body>
+</html>
