@@ -23,7 +23,7 @@ public class MetricQueryProvider {
                 }
                 FROM(tableName);
                 WHERE("deleted=0");
-                WHERE("app_code=" + appCode);
+                WHERE("app_code=#{appCode}");
                 if (isNotBlank(param.getCondition()) && isNotBlank(conditionColumn)) {
                     WHERE(conditionColumn + "=#{p.condition}");
                 }

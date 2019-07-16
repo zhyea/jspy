@@ -9,13 +9,13 @@ import java.util.Date;
 
 public class ClassLoadingStat extends AbstractStatEntity {
 
-    @Series("已加载类总数")
+    @Series(value = "已加载类总数", selected = false)
     private long totalLoaded;
 
     @Series("当前加载类总数")
     private long currentLoaded;
 
-    @Series("已卸载类总数")
+    @Series(value = "已卸载类总数", selected = false)
     private long unloaded;
 
     @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)

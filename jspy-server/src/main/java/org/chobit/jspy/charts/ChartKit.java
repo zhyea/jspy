@@ -59,6 +59,9 @@ public abstract class ChartKit {
     }
 
 
+    /**
+     * 解析Series数据
+     */
     private static Map<String, Series> parseSeriesNameMap(Class model) {
         Map<String, Series> seriesMap = new HashMap<>(4);
         Field[] fields = model.getDeclaredFields();
@@ -77,6 +80,9 @@ public abstract class ChartKit {
     }
 
 
+    /**
+     * 解析横轴数据
+     */
     private static AxisInfo parseAxisInfo(Class model) {
         Field[] fields = model.getDeclaredFields();
         for (Field f : fields) {

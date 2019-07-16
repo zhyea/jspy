@@ -1,14 +1,13 @@
-
 const REQUEST_START_TIME = new Date().getTime() - 60 * 60 * 1000;
 
 const REQUEST_INTERVAL = 6 * 1000;
 
-function loadChart(chart, url, type) {
+function loadChart(chart, url, type, formatB = false) {
     chart.showLoading();
-    obtainData(chart, url, type, 0);
+    obtainData(chart, url, type, 0, formatB);
 }
 
-function option() {
+function option(formatB = false) {
     // 指定图表的配置项和数据
     return {
         tooltip: {
@@ -17,7 +16,8 @@ function option() {
             formatter: function (params) {
                 let res = '<p>时间：' + new Date(params[0].axisValue * 1).format("yy-MM-dd HH:mm") + '</p>';
                 for (let i = 0; i < params.length; i++) {
-                    res += '<p>' + params[i].seriesName + '：' + (params[i].data[1] * 1).formatSize() + '</p>'
+                    let size = formatB ? (params[i].data[1] * 1).formatSize() : (params[i].data[1] * 1);
+                    res += '<p>' + params[i].seriesName + '：' + size + '</p>'
                 }
                 return res;
             }
@@ -28,7 +28,7 @@ function option() {
             type: 'value',
             axisLabel: {
                 formatter: function (value) {
-                    return (1 * value).formatSize()
+                    return formatB ? (1 * value).formatSize() : value;
                 }
             }
         },
@@ -49,7 +49,7 @@ function option() {
 /**
  * 向后台请求数据
  */
-function obtainData(chart, url, condition, startTime) {
+function obtainData(chart, url, condition, startTime, formatB = false) {
     if (startTime <= 0) {
         startTime = REQUEST_START_TIME;//12 * 60 * 60 * 1000;
     }
@@ -70,7 +70,7 @@ function obtainData(chart, url, condition, startTime) {
         success: function (result) {
             if (result) {
                 if ('undefined' == typeof chart.getOption()) {
-                    init(chart, result)
+                    init(chart, result, formatB)
                 } else {
                     refresh(chart, result);
                 }
@@ -91,8 +91,8 @@ function obtainData(chart, url, condition, startTime) {
 /**
  * 初始化图表配置
  */
-function init(chart, result) {
-    let opt = option();
+function init(chart, result, formatB = false) {
+    let opt = option(formatB);
 
     opt.title.text = result.title;
     opt.series = result.series;
