@@ -17,7 +17,7 @@
         </button>
         <ul th:if="${null==isIndex && null!=session.appName}" class="collapse navbar-collapse main-nav-items">
             <li class="menu-item">
-                <a th:href="'/app-home/' + ${session.appCode}" target="_self" th:text="${session.appName}"></a>
+                <a th:href="|/app-home/${session.appCode}|" target="_self" th:text="${session.appName}"></a>
             </li>
             <li class="menu-item"><a href="/memory/" target="_self">内存</a></li>
             <li class="menu-item"><a href="/threads/" target="_self">线程</a></li>
