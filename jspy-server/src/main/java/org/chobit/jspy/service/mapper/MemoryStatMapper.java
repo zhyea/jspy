@@ -24,12 +24,28 @@ public interface MemoryStatMapper {
 
 
     /**
-     * 查询内存区域名称
+     * 获取内存峰值
      */
-    @Select("select distinct name from memory_stat where app_code=#{appCode}")
-    List<String> findMemoryNames(@Param("appCode") String appCode);
-
-
     @Select("select * from memory_stat where app_code=#{appCode} and name=#{name} and is_peak=1 order by id desc limit 1")
     MemoryStat getLatestPeakByName(@Param("appCode") String appCode, @Param("name") String name);
+
+    /**
+     * 获取内存类型名称
+     */
+    @Select("select distinct(`name`) from memory_stat where app_code=#{appCode} and manager_names='null'")
+    List<String> findMemTypeNames(@Param("appCode") String appCode);
+
+    /**
+     * 获取堆 内存池名称
+     */
+    @Select("select distinct(`name`) from memory_stat where app_code=#{appCode} and type='HEAP' and manager_names<>'null'")
+    List<String> findHeapPoolNames(@Param("appCode") String appCode);
+
+    /**
+     * 获取非堆内存池名称
+     */
+    @Select("select distinct(`name`) from memory_stat where app_code=#{appCode} and type='NON_HEAP' and manager_names<>'null'")
+    List<String> findNonHeapPoolNames(@Param("appCode") String appCode);
+
+
 }

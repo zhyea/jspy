@@ -7,6 +7,8 @@ import java.lang.management.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.lang.management.MemoryType.HEAP;
+
 public abstract class MemoryGaugeManager {
 
 
@@ -27,9 +29,9 @@ public abstract class MemoryGaugeManager {
     public static List<MemoryPool> memoryPools() {
         List<MemoryPool> result = new LinkedList<>();
         for (MemoryPoolMXBean mxBean : poolMXBeans) {
-            String name = "内存池-" + mxBean.getName();
-            String[] managers = mxBean.getMemoryManagerNames();
             MemoryType type = mxBean.getType();
+            String name = "内存池-" + (type == HEAP ? "H" : "N") + "-" + mxBean.getName();
+            String[] managers = mxBean.getMemoryManagerNames();
             MemoryUsage usage = mxBean.getUsage();
             MemoryUsage peakUsage = mxBean.getPeakUsage();
 
@@ -40,6 +42,6 @@ public abstract class MemoryGaugeManager {
     }
 
 
-
-    private MemoryGaugeManager(){}
+    private MemoryGaugeManager() {
+    }
 }

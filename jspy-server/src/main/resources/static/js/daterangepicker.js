@@ -1,15 +1,15 @@
 /**
-* @version: 1.2
-* @author: Dan Grossman http://www.dangrossman.info/
-* @date: 2013-07-25
-* @copyright: Copyright (c) 2012-2013 Dan Grossman. All rights reserved.
-* @license: Licensed under Apache License v2.0. See http://www.apache.org/licenses/LICENSE-2.0
-* @website: http://www.improvely.com/
-*/
+ * @version: 1.2
+ * @author: Dan Grossman http://www.dangrossman.info/
+ * @date: 2013-07-25
+ * @copyright: Copyright (c) 2012-2013 Dan Grossman. All rights reserved.
+ * @license: Licensed under Apache License v2.0. See http://www.apache.org/licenses/LICENSE-2.0
+ * @website: http://www.improvely.com/
+ */
 !function ($) {
 
-    var DateRangePicker = function (element, options, cb) {
-        var hasOptions = typeof options == 'object';
+    let DateRangePicker = function (element, options, cb) {
+        let hasOptions = typeof options == 'object';
         var localeObject;
 
         //option defaults
@@ -31,8 +31,8 @@
         this.buttonClasses = ['btn', 'btn-small'];
         this.applyClass = 'btn-success';
         this.cancelClass = 'btn-default';
-        this.arrowLeft = 'en-arrow-left8';
-        this.arrowRight = 'en-arrow-right8';
+        this.arrowLeft = 'fa fa-angle-left fa-lg';
+        this.arrowRight = 'fa fa-angle-right fa-lg';
 
         this.format = 'MM/DD/YYYY';
         this.separator = ' - ';
@@ -49,7 +49,8 @@
             firstDay: 0
         };
 
-        this.cb = function () { };
+        this.cb = function () {
+        };
 
         // by default, the daterangepicker element is placed at the bottom of HTML body
         this.parentEl = 'body';
@@ -88,23 +89,23 @@
         }
 
         var DRPTemplate = '<div class="daterangepicker dropdown-menu">' +
-                '<div class="calendar left"></div>' +
-                '<div class="calendar right"></div>' +
-                '<div class="ranges">' +
-                  '<div class="range_inputs">' +
-                    '<div class="daterangepicker_start_input" style="float: left">' +
-                      '<label for="daterangepicker_start">' + this.locale.fromLabel + '</label>' +
-                      '<input class="input-mini" type="text" name="daterangepicker_start" value="" disabled="disabled" />' +
-                    '</div>' +
-                    '<div class="daterangepicker_end_input" style="float: left; padding-left: 11px">' +
-                      '<label for="daterangepicker_end">' + this.locale.toLabel + '</label>' +
-                      '<input class="input-mini" type="text" name="daterangepicker_end" value="" disabled="disabled" />' +
-                    '</div>' +
-                    '<button class="' + this.applyClass + ' applyBtn" disabled="disabled">' + this.locale.applyLabel + '</button>&nbsp;' +
-                    '<button class="' + this.cancelClass + ' cancelBtn">' + this.locale.cancelLabel + '</button>' +
-                  '</div>' +
-                '</div>' +
-              '</div>';
+            '<div class="calendar left"></div>' +
+            '<div class="calendar right"></div>' +
+            '<div class="ranges">' +
+            '<div class="range_inputs">' +
+            '<div class="daterangepicker_start_input" style="float: left">' +
+            '<label for="daterangepicker_start">' + this.locale.fromLabel + '</label>' +
+            '<input class="input-mini" type="text" name="daterangepicker_start" value="" disabled="disabled" />' +
+            '</div>' +
+            '<div class="daterangepicker_end_input" style="float: left; padding-left: 11px">' +
+            '<label for="daterangepicker_end">' + this.locale.toLabel + '</label>' +
+            '<input class="input-mini" type="text" name="daterangepicker_end" value="" disabled="disabled" />' +
+            '</div>' +
+            '<button class="' + this.applyClass + ' applyBtn" disabled="disabled">' + this.locale.applyLabel + '</button>&nbsp;' +
+            '<button class="' + this.cancelClass + ' cancelBtn">' + this.locale.cancelLabel + '</button>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
 
         this.parentEl = (hasOptions && options.parentEl && $(options.parentEl)) || $(this.parentEl);
         //the date range picker
@@ -416,7 +417,7 @@
             this.oldEndDate = this.endDate.clone();
 
             $(document).off('mousedown', this.hide);
-            this.element.trigger('hidden', { picker: this });
+            this.element.trigger('hidden', {picker: this});
         },
 
         enterRange: function (e) {
@@ -430,12 +431,12 @@
             }
         },
 
-        showCalendars: function() {
+        showCalendars: function () {
             this.container.find('.calendar').show();
             this.move();
         },
 
-        updateInputText: function() {
+        updateInputText: function () {
             if (this.element.is('input'))
                 this.element.val(this.startDate.format(this.format) + this.separator + this.endDate.format(this.format));
         },
@@ -577,7 +578,7 @@
 
         },
 
-        updateTime: function(e) {
+        updateTime: function (e) {
 
             var isLeft = $(e.target).closest('.calendar').hasClass('left');
             var cal = this.container.find('.calendar.left');
@@ -722,7 +723,7 @@
                 html += '<th></th>';
 
             if (!minDate || minDate.isBefore(calendar[1][1])) {
-                html += '<th class="prev available"><i class="'+ this.arrowLeft +'"></i></th>';
+                html += '<th class="prev available"><i class="' + this.arrowLeft + '"></i></th>';
             } else {
                 html += '<th></th>';
             }
@@ -735,7 +736,7 @@
 
             html += '<th colspan="5" style="width: auto">' + dateHtml + '</th>';
             if (!maxDate || maxDate.isAfter(calendar[1][1])) {
-                html += '<th class="next available"><i class="'+ this.arrowRight +'"></i></th>';
+                html += '<th class="next available"><i class="' + this.arrowRight + '"></i></th>';
             } else {
                 html += '<th></th>';
             }
@@ -778,8 +779,12 @@
                         }
                     } else if (calendar[row][col] >= this.startDate && calendar[row][col] <= this.endDate) {
                         cname += ' in-range ';
-                        if (calendar[row][col].isSame(this.startDate)) { cname += ' start-date '; }
-                        if (calendar[row][col].isSame(this.endDate)) { cname += ' end-date '; }
+                        if (calendar[row][col].isSame(this.startDate)) {
+                            cname += ' start-date ';
+                        }
+                        if (calendar[row][col].isSame(this.endDate)) {
+                            cname += ' end-date ';
+                        }
                     }
 
                     var title = 'r' + row + 'c' + col;

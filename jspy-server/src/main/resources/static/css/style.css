@@ -201,6 +201,14 @@ main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > t
     line-height: 200%;
 }
 
+/* 4. report
+/*------------------------------------------------------------------------------------*/
+
+.toolbar {
+    padding: 30px 42px 10px;
+}
+
+
 .tableOperate, .tableOperate a {
     font-size: 12px;
     color: #323233;

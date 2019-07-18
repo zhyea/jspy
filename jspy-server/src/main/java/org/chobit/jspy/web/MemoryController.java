@@ -36,11 +36,4 @@ public class MemoryController {
         return memoryService.insert(appCode, ip, overview);
     }
 
-
-    @GetMapping("/mem-names/{appCode}")
-    public List<String> memoryNames(@PathVariable("appCode") String appCode) {
-        return memoryService.findMemoryNames(appCode);
-    }
-
-
 }
