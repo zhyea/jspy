@@ -9,24 +9,29 @@
         <div class="form-inline row toolbar">
             <div class="input-group col-lg-8 col-md-8">
                 <!--时间选择-->
-                <input type="text" id="date_picker" class="form-control" placeholder="申请日期范围" readonly/>
+                <input type="text" id="date_picker" class="form-control" placeholder="申请日期范围" minlength="270px"
+                       readonly/>
                 <span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
                 <input type="hidden" id="startTimeMem" value=""/>
                 <input type="hidden" id="endTimeMem" value=""/>
+                <span class="input-group-addon">
+                    <input type="checkbox" id="enableAutoRefresh" value="enable" aria-label="动态刷新"> &nbsp;动态刷新
+                </span>
                 <!--下拉按钮 内存对象选择-->
                 <div class="input-group-btn">
-                    <button type="button" id="memObjDropdown"
+                    <button type="button"
                             class="btn btn-default dropdown-toggle"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         内存对象选择 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li th:each="n: ${memTypeNames}"><a th:href="|javascript:test('${n}')|" th:text="${n}"></a>
+                        <li th:each="n: ${memTypeNames}"><a th:href="|javascript:test('${n}')|" th:text="${n}"></a></li>
+                        <li role="separator" class="divider"></li>
+                        <li th:each="n: ${heapPoolNames}"><a th:href="|javascript:test('${n}')|" th:text="${n}"></a>
                         </li>
                         <li role="separator" class="divider"></li>
-                        <li th:each="n: ${heapPoolNames}"><a href="#" th:text="${n}"></a></li>
-                        <li role="separator" class="divider"></li>
-                        <li th:each="n: ${nonHeapPoolNames}"><a href="#" th:text="${n}"></a></li>
+                        <li th:each="n: ${nonHeapPoolNames}"><a th:href="|javascript:test('${n}')|" th:text="${n}"></a>
+                        </li>
                     </ul>
                 </div><!-- /btn-group -->
             </div><!-- /input-group -->
@@ -41,52 +46,23 @@
 <script type="text/javascript">
     // 基于准备好的dom，初始化echarts实例
     const memoryChart = echarts.init(document.getElementById('memoryChart'), 'macarons');
-    loadChart(memoryChart, '/memory/find-by-params', '堆内存使用量', true);
+    loadChartContinuously(memoryChart, '/memory/find-by-params', '堆内存使用量', true);
 
-    function test(zz) {
-        alert(zz);
-        alert($("startTimeMem").val());
+    function test(memObj) {
+        let enableAutoRefresh = $("#enableAutoRefresh").prop('checked');
+        let condition = memObj;
+        let start = ("#startTimeMem").val();
+        let end = ("#endTimeMem").val();
+        if (enableAutoRefresh) {
+            end = -1;
+        }
+        obtainData(memoryChart, '/memory/find-by-params', condition, start, end)
     }
 
-
-    $('#date_picker').daterangepicker({
-            endDate: moment(), //最大时间
-            showDropdowns: true,
-            showWeekNumbers: false, //是否显示第几周
-            timePicker: true, //是否显示小时和分钟
-            timePickerIncrement: 10, //时间的增量，单位为分钟
-            timePicker12Hour: true, //是否使用12小时制来显示时间
-            ranges: {
-                '最近1小时': [moment().subtract('hours', 1), moment()],  //moment.js需要详细了解的可以点我一下
-                '今天': [moment().startOf('day'), moment()],
-                '昨天': [moment().subtract('days', 1).startOf('day'), moment().subtract('days', 1).endOf('day')],
-                '最近7日': [moment().subtract('days', 6), moment()]
-            },
-            opens: 'right', //日期选择框的弹出位置
-            buttonClasses: ['btn btn-default'],
-            applyClass: 'btn-small btn-primary blue',
-            cancelClass: 'btn-small',
-            format: 'YY-MM-DD HH:mm', //控件中from和to 显示的日期格式
-            separator: ' 至 ',
-            locale: {
-                applyLabel: '确定',
-                cancelLabel: '取消',
-                fromLabel: '起始时间',
-                toLabel: '结束时间',
-                customRangeLabel: '自定义时间',
-                daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
-                monthNames: ['一月', '二月', '三月', '四月', '五月',
-                    '六月', '七月', '八月', '九月', '十月', '十一月',
-                    '十二月'],
-                firstDay: 1
-            }
-        }, function (start, end) {
-            $("startTimeMem").val(start)
-            alert(start);
-            alert($("startTimeMem").val());
-            $("endTimeMem").val(end)
-        }
-    )
+    loadDateRangePicker($('#date_picker'), function (start, end) {
+        $("#startTimeMem").val(start);
+        $("#endTimeMem").val(end);
+    });
 </script>
 
 </body>
