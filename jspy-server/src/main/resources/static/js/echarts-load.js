@@ -1,11 +1,12 @@
 const REQUEST_START_TIME = new Date().getTime() - 60 * 60 * 1000;
 
+const DEFAULT_REQUEST_INTERVAL = 6 * 1000;
 
 function loadChartContinuously(chart, url, condition, formatB = false) {
-    loadChartContinuously0(chart, url, condition, 6 * 1000, formatB);
+    loadChartContinuously0(chart, url, condition, DEFAULT_REQUEST_INTERVAL, formatB);
 }
 
-function loadChartContinuously0(chart, url, condition, interval = 6 * 1000, formatB = false) {
+function loadChartContinuously0(chart, url, condition, interval = DEFAULT_REQUEST_INTERVAL, formatB = false) {
     chart.showLoading();
     obtainData(chart, url, condition, -1, -1, interval, formatB);
 }
@@ -13,7 +14,7 @@ function loadChartContinuously0(chart, url, condition, interval = 6 * 1000, form
 /**
  * 向后台请求数据
  */
-function obtainData(chart, url, condition, startTime, endTime, interval = 6 * 1000, formatB = false) {
+function obtainData(chart, url, condition, startTime, endTime, interval = DEFAULT_REQUEST_INTERVAL, formatB = false) {
     if (startTime <= 0) {
         startTime = REQUEST_START_TIME;//12 * 60 * 60 * 1000;
     }
