@@ -25,7 +25,7 @@ public class MemoryController {
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
                                    @RequestBody QueryParam param) {
         List<LowerCaseKeyMap> m = memoryService.findByParams(appCode, param);
-        return ChartKit.fill(param.getCondition(), m, MemoryStat.class);
+        return ChartKit.fill(param.getTarget(), m, MemoryStat.class);
     }
 
 

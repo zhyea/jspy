@@ -7,15 +7,16 @@
     <div th:replace="common/nav::nav"></div>
     <main>
         <div class="form-inline row toolbar">
-            <div class="input-group col-lg-8 col-md-8">
+            <div class="input-group col-lg-10 col-md-10">
                 <!--时间选择-->
                 <input type="text" id="date_picker" class="form-control" placeholder="申请日期范围" minlength="270px"
                        readonly/>
                 <span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
                 <input type="hidden" id="startTimeMem" value=""/>
                 <input type="hidden" id="endTimeMem" value=""/>
+                <input type="hidden" id="memTarget" value="堆内存使用量"/>
                 <span class="input-group-addon">
-                    <input type="checkbox" id="enableAutoRefresh" value="enable" aria-label="动态刷新"> &nbsp;动态刷新
+                    <input type="checkbox" id="enableAutoRefresh" onclick="refreshChart()" checked> &nbsp;动态刷新
                 </span>
                 <!--下拉按钮 内存对象选择-->
                 <div class="input-group-btn">
@@ -44,24 +45,35 @@
 
 
 <script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    const memoryChart = echarts.init(document.getElementById('memoryChart'), 'macarons');
-    loadChartContinuously(memoryChart, '/memory/find-by-params', '堆内存使用量', true);
 
-    function test(memObj) {
-        let enableAutoRefresh = $("#enableAutoRefresh").prop('checked');
-        let condition = memObj;
+    const memChart = initAndLoadJSpyChart($('#memoryChart'), '/memory/find-by-params', '堆内存使用量', true);
+
+    function test(target) {
+        $("#memTarget").val(target);
+        refreshChart();
+    }
+
+
+    function refreshChart() {
+        let target = $("#memTarget").val();
+        if (!target) {
+            return;
+        }
         let start = $("#startTimeMem").val();
         let end = $("#endTimeMem").val();
+
+        let enableAutoRefresh = $("#enableAutoRefresh").prop('checked');
         if (enableAutoRefresh) {
             end = -1;
         }
-        obtainData(memoryChart, '/memory/find-by-params', condition, start, end)
+
+        memChart.refresh(target, start, end);
     }
 
     loadDateRangePicker($('#date_picker'), function (start, end) {
-        $("#startTimeMem").val(start);
-        $("#endTimeMem").val(end);
+        $("#startTimeMem").val(start.valueOf());
+        $("#endTimeMem").val(end.valueOf());
+        refreshChart();
     });
 </script>
 

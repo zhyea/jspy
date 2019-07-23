@@ -25,7 +25,7 @@ public class ThreadController {
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
                                    @RequestBody QueryParam param) {
         List<LowerCaseKeyMap> m = threadService.findByParams(appCode, param);
-        return ChartKit.fill(param.getCondition(), m, ThreadStat.class);
+        return ChartKit.fill(param.getTarget(), m, ThreadStat.class);
     }
 
     @PostMapping("/receive")

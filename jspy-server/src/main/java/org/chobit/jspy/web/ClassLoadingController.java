@@ -6,7 +6,6 @@ import org.chobit.jspy.model.ClassLoadingGauge;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.ClassLoadingService;
 import org.chobit.jspy.service.beans.ClassLoadingStat;
-import org.chobit.jspy.service.beans.MemoryStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.Args;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class ClassLoadingController {
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
                                    @RequestBody QueryParam param) {
         List<LowerCaseKeyMap> m = classLoadingService.findByParams(appCode, param);
-        return ChartKit.fill(param.getCondition(), m, ClassLoadingStat.class);
+        return ChartKit.fill(param.getTarget(), m, ClassLoadingStat.class);
     }
 
     @PostMapping("/receive")

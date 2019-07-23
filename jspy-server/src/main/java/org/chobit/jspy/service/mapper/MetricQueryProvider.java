@@ -12,7 +12,7 @@ public class MetricQueryProvider {
     public String queryWithQueryParam(@Param("table") String tableName,
                                       @Param("appCode") String appCode,
                                       @Param("p") QueryParam param,
-                                      @Param("conditionColumn") String conditionColumn,
+                                      @Param("targetColumn") String targetColumn,
                                       @Param("columns") String... resultColumns) {
         return new SQL() {
             {
@@ -24,8 +24,8 @@ public class MetricQueryProvider {
                 FROM(tableName);
                 WHERE("deleted=0");
                 WHERE("app_code=#{appCode}");
-                if (isNotBlank(param.getCondition()) && isNotBlank(conditionColumn)) {
-                    WHERE(conditionColumn + "=#{p.condition}");
+                if (isNotBlank(param.getTarget()) && isNotBlank(targetColumn)) {
+                    WHERE(targetColumn + "=#{p.target}");
                 }
                 if (null != param.getStartTime()) {
                     WHERE("event_time>=#{p.startTime}");

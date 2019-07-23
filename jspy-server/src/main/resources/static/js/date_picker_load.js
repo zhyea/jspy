@@ -4,6 +4,7 @@
 function loadDateRangePicker(attachEle, callback) {
 
     attachEle.daterangepicker({
+        startDate: moment().subtract('hours', 1),
         endDate: moment(), //最大时间
         showDropdowns: true,
         showWeekNumbers: false, //是否显示第几周

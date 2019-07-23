@@ -5,19 +5,19 @@ import java.util.Date;
 public class QueryParam {
 
 
-    private String condition;
+    private String target;
 
     private Date startTime;
 
     private Date endTime;
 
 
-    public String getCondition() {
-        return condition;
+    public String getTarget() {
+        return target;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    public void setTarget(String target) {
+        this.target = target;
     }
 
     public Date getStartTime() {
