@@ -79,9 +79,8 @@
          */
         obtainData: function (target, startTime, endTime) {
 
-            if (target !== this.target) {
+            if (target !== this.target)
                 return;
-            }
 
             startTime = this.startTime;
             endTime = this.endTime;
@@ -120,7 +119,9 @@
 
                     if (continuously && chart.state < 3) {
                         setTimeout(function () {
-                            if (chart.endTime !== endTime)
+                            if (target !== chart.target)
+                                return;
+                            if (endTime !== chart.endTime)
                                 return;
 
                             chart.startTime = tmp;
@@ -194,7 +195,7 @@
                     // 当trigger为’item’时只会显示该点的数据，为’axis’时显示该列下所有坐标轴所对应的数据。
                     trigger: 'axis',
                     formatter: function (params) {
-                        let res = '<p>时间：' + new Date(params[0].axisValue * 1).format("yy-MM-dd HH:mm") + '</p>';
+                        let res = '<p>时间：' + new Date(params[0].axisValue * 1).format("yy/MM/dd HH:mm") + '</p>';
                         for (let i = 0; i < params.length; i++) {
                             let size = chart.formatB ? (params[i].data[1] * 1).formatSize() : (params[i].data[1] * 1);
                             res += '<p>' + params[i].seriesName + '：' + size + '</p>'

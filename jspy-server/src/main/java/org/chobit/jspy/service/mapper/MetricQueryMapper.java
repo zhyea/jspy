@@ -13,10 +13,12 @@ public interface MetricQueryMapper {
 
 
     @SelectProvider(type = MetricQueryProvider.class, method = "queryWithQueryParam")
-    List<LowerCaseKeyMap> findByParams(@Param("table") String tableName,
-                                       @Param("appCode") String appCode,
-                                       @Param("p") QueryParam param,
-                                       @Param("targetColumn") String targetColumn,
-                                       @Param("columns") String... columns);
+    List<LowerCaseKeyMap> findWithQueryParam(@Param("table") String tableName,
+                                             @Param("appCode") String appCode,
+                                             @Param("p") QueryParam param,
+                                             boolean filterPeak,
+                                             @Param("targetColumn") String targetColumn,
+                                             @Param("columns") String... columns
+    );
 
 }

@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.service.beans.MemoryStat;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -24,10 +25,17 @@ public interface MemoryStatMapper {
 
 
     /**
-     * 获取内存峰值
+     * 根据内存区域名称获取最近的内存使用峰值
      */
-    @Select("select * from memory_stat where app_code=#{appCode} and name=#{name} and is_peak=1 order by id desc limit 1")
-    MemoryStat getLatestPeakByName(@Param("appCode") String appCode, @Param("name") String name);
+    @Select("select * from memory_stat where app_code=#{appCode} and name=#{name} and is_peak=1 and event_time>#{time} order by id desc limit 1")
+    MemoryStat getLatestPeakByName(@Param("appCode") String appCode, @Param("name") String name, @Param("time") Date time);
+
+
+    /**
+     * 根据内存区域名称获取最近的内存用量
+     */
+    @Select("select * from memory_stat where app_code=#{appCode} and name=#{name} and is_peak=0 and event_time>#{time} order by id desc limit 1")
+    MemoryStat getLatestByName(@Param("appCode") String appCode, @Param("name") String name, @Param("time") Date time);
 
     /**
      * 获取内存类型名称

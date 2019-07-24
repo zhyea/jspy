@@ -10,6 +10,7 @@ import org.chobit.jspy.service.beans.MemoryStat;
 import org.chobit.jspy.service.mapper.MemoryStatMapper;
 import org.chobit.jspy.service.mapper.MetricQueryMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
+import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,6 +20,7 @@ import java.lang.management.MemoryType;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.management.MemoryType.HEAP;
 import static java.lang.management.MemoryType.NON_HEAP;
@@ -91,28 +93,17 @@ public class MemoryService {
      * 写入内存数据，处理MemoryOverview
      */
     public boolean insert(String appCode, String ip, MemoryOverview overview) {
-        if (null != overview.getHeapUsage()) {
-            insert(appCode,
-                    ip,
-                    overview.getHeapUsage(),
-                    HEAP,
-                    MemoryNames.nameOf(HEAP),
-                    null,
-                    overview.getTime(),
-                    false);
-        }
-        if (null != overview.getNonHeapUsage()) {
-            insert(appCode,
-                    ip,
-                    overview.getNonHeapUsage(),
-                    NON_HEAP,
-                    MemoryNames.nameOf(NON_HEAP),
-                    null,
-                    overview.getTime(),
-                    false);
-        }
+
+        insertMemTypeData(appCode, ip, overview, HEAP);
+        insertMemTypeData(appCode, ip, overview, NON_HEAP);
+
         if (null != overview.getMemoryPools()) {
             for (MemoryPool pool : overview.getMemoryPools()) {
+                // 如存在峰值数据，则优先写入
+                if (null != pool.getPeakUsage()) {
+                    insertMemoryPoolPeakData(appCode, ip, pool, overview);
+                }
+                // 写入内存池数据
                 insertMemoryPoolData(appCode, ip, pool, overview);
             }
         }
@@ -124,7 +115,46 @@ public class MemoryService {
      * 查询内存数据
      */
     public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam params) {
-        return metricMapper.findByParams("memory_stat", appCode, params, "`name`", "init", "used", "committed", "max", "event_time");
+        return metricMapper.findWithQueryParam("memory_stat",
+                appCode,
+                params,
+                true,
+                "`name`",
+                "init", "used", "committed", "max", "event_time");
+    }
+
+
+    /**
+     * 写入内存类型数据
+     */
+    private void insertMemTypeData(String appCode, String ip, MemoryOverview overview, MemoryType type) {
+        MemoryInfo memInfo = null;
+        switch (type) {
+            case HEAP:
+                memInfo = overview.getHeapUsage();
+                break;
+            case NON_HEAP:
+                memInfo = overview.getNonHeapUsage();
+                break;
+            default:
+                return;
+        }
+        if (null == memInfo) {
+            return;
+        }
+        String name = MemoryNames.nameOf(type);
+        MemoryStat usage = getLatestByName(appCode, name);
+        if (null == usage || !isUsageClose(usage, memInfo, COMMON_FLOATING_RANGE)) {
+            insert(appCode,
+                    ip,
+                    memInfo,
+                    type,
+                    name,
+                    null,
+                    overview.getTime(),
+                    false);
+        }
+
     }
 
 
@@ -132,16 +162,17 @@ public class MemoryService {
      * 写入内存池数据
      */
     private void insertMemoryPoolData(String appCode, String ip, MemoryPool pool, MemoryOverview overview) {
-        insert(appCode,
-                ip,
-                pool.getUsage(),
-                pool.getType(),
-                pool.getName(),
-                pool.getMemoryManagerNames(),
-                overview.getTime(),
-                false);
-        if (null != pool.getPeakUsage()) {
-            insertMemoryPoolPeakData(appCode, ip, pool, overview);
+        MemoryStat usage = getLatestByName(appCode, pool.getName());
+
+        if (null == usage || !isUsageClose(usage, pool.getUsage(), COMMON_FLOATING_RANGE)) {
+            insert(appCode,
+                    ip,
+                    pool.getUsage(),
+                    pool.getType(),
+                    pool.getName(),
+                    pool.getMemoryManagerNames(),
+                    overview.getTime(),
+                    false);
         }
     }
 
@@ -150,9 +181,9 @@ public class MemoryService {
      * 写入内存池峰值数据
      */
     private void insertMemoryPoolPeakData(String appCode, String ip, MemoryPool pool, MemoryOverview overview) {
-        MemoryStat usage = memMapper.getLatestPeakByName(appCode, pool.getName());
+        MemoryStat usage = getLatestPeakByName(appCode, pool.getName());
         if (null != pool.getPeakUsage()) {
-            if (null == usage || !isUsageClose(usage, pool.getPeakUsage())) {
+            if (null == usage || !isUsageClose(usage, pool.getPeakUsage(), PEAK_FLOATING_RANGE)) {
                 insert(appCode,
                         ip,
                         pool.getPeakUsage(),
@@ -169,25 +200,48 @@ public class MemoryService {
     /**
      * 内存用量浮动区间
      */
-    private static final long USAGE_FLOATING_RANGE = 1024;
+    private static final long PEAK_FLOATING_RANGE = 1024;
+
+    private static final long COMMON_FLOATING_RANGE = 64;
 
     /**
      * 判断最近的两次内存用量是否近似，如差值在浮动区间内则认为是内存近似
      */
-    private boolean isUsageClose(MemoryStat usage, MemoryInfo u) {
-        if (Math.abs(usage.getInit() - u.getInit()) > USAGE_FLOATING_RANGE) {
+    private boolean isUsageClose(MemoryStat usage, MemoryInfo u, long floatRange) {
+        if (Math.abs(usage.getInit() - u.getInit()) > floatRange) {
             return false;
         }
-        if (Math.abs(usage.getMax() - u.getMax()) > USAGE_FLOATING_RANGE) {
+        if (Math.abs(usage.getMax() - u.getMax()) > floatRange) {
             return false;
         }
-        if (Math.abs(usage.getCommitted() - u.getCommitted()) > USAGE_FLOATING_RANGE) {
+        if (Math.abs(usage.getCommitted() - u.getCommitted()) > floatRange) {
             return false;
         }
-        if (Math.abs(usage.getUsed() - u.getUsed()) > USAGE_FLOATING_RANGE) {
+        if (Math.abs(usage.getUsed() - u.getUsed()) > floatRange) {
             return false;
         }
         return true;
     }
 
+
+    /**
+     * 根据内存区域名称获取最新的内存数据
+     * <p>
+     * 默认取6分钟内的数据
+     */
+    private MemoryStat getLatestByName(String appCode, String name) {
+        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
+        return memMapper.getLatestByName(appCode, name, time);
+    }
+
+
+    /**
+     * 根据内存区域名称获取最新的内存峰值数据
+     * <p>
+     * 默认取6分钟内的数据
+     */
+    private MemoryStat getLatestPeakByName(String appCode, String name) {
+        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
+        return memMapper.getLatestPeakByName(appCode, name, time);
+    }
 }

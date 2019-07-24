@@ -1,10 +1,10 @@
 package org.chobit.jspy.service.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.*;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.service.beans.ClassLoadingStat;
+
+import java.util.Date;
 
 @Mapper
 public interface ClassLoadingStatMapper {
@@ -18,4 +18,6 @@ public interface ClassLoadingStatMapper {
     int insert(ClassLoadingStat stat);
 
 
+    @Select("select * from class_loading_stat where app_code=#{appCode} and event_time>#{time} order by id desc limit 1")
+    ClassLoadingStat getLatest(@Param("appCode") String appCode, @Param("time") Date time);
 }

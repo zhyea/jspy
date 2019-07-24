@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ThreadService {
@@ -26,6 +27,10 @@ public class ThreadService {
 
     @JSpyWatcher
     public int insert(String appCode, String ip, ThreadGauge gauge) {
+        if (isClose(appCode, gauge)) {
+            return -1;
+        }
+
         ThreadStat stat = new ThreadStat();
         stat.setAppCode(appCode);
         stat.setIp(ip);
@@ -41,10 +46,41 @@ public class ThreadService {
 
 
     /**
+     * 判断与数据库中的最新纪录是否相同
+     */
+    private boolean isClose(String appCode, ThreadGauge gauge) {
+        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
+        ThreadStat latest = threadMapper.getLatest(appCode, time);
+        if (null == latest) {
+            return false;
+        }
+        if (latest.getCurrent() != gauge.getCurrent()) {
+            return false;
+        }
+        if (latest.getPeak() != gauge.getPeak()) {
+            return false;
+        }
+        if (latest.getTotalStarted() != gauge.getTotalStarted()) {
+            return false;
+        }
+        if (latest.getDaemon() != gauge.getDaemon()) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
      * 查询内存数据
      */
     public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam params) {
-        return metricMapper.findByParams("thread_stat", appCode, params, null, "current", "peak", "total_started", "daemon", "event_time");
+        return metricMapper.findWithQueryParam("thread_stat",
+                appCode,
+                params,
+                false,
+                null,
+                "current", "peak", "total_started", "daemon", "event_time");
     }
 
 }

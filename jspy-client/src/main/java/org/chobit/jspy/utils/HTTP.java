@@ -20,7 +20,8 @@ public abstract class HTTP {
 
     static {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.connectionPool(new ConnectionPool(16, 5, TimeUnit.MINUTES));
+        builder.connectTimeout(3, TimeUnit.SECONDS)
+                .connectionPool(new ConnectionPool(16, 10, TimeUnit.MINUTES));
         client = builder.build();
     }
 

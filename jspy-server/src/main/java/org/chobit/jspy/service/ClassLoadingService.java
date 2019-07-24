@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class ClassLoadingService {
@@ -22,6 +23,10 @@ public class ClassLoadingService {
     private MetricQueryMapper metricMapper;
 
     public int insert(String appCode, String ip, ClassLoadingGauge gauge) {
+        if (!isClose(appCode, gauge)) {
+            return -1;
+        }
+
         ClassLoadingStat stat = new ClassLoadingStat();
         stat.setAppCode(appCode);
         stat.setIp(ip);
@@ -33,13 +38,42 @@ public class ClassLoadingService {
     }
 
 
+    private boolean isClose(String appCode, ClassLoadingGauge gauge) {
+        ClassLoadingStat latest = getLatest(appCode);
+        if (null == latest) {
+            return false;
+        }
+        if (latest.getCurrentLoaded() != gauge.getCurrentLoaded()) {
+            return false;
+        }
+        if (latest.getTotalLoaded() != gauge.getTotalLoaded()) {
+            return false;
+        }
+        if (latest.getUnloaded() != gauge.getUnloaded()) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * 查询类加载数据
      */
-    public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam params) {
-        return metricMapper.findByParams("class_loading_stat", appCode, params, null, "total_loaded", "current_loaded", "unloaded", "event_time");
+    public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam param) {
+        return metricMapper.findWithQueryParam("class_loading_stat",
+                appCode,
+                param,
+                false,
+                null,
+                "total_loaded", "current_loaded", "unloaded", "event_time");
     }
 
+
+    /**
+     * 获取最新的数据
+     */
+    public ClassLoadingStat getLatest(String appCode) {
+        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
+        return mapper.getLatest(appCode, time);
+    }
 
 }
