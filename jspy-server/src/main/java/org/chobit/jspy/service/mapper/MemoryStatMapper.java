@@ -16,9 +16,9 @@ public interface MemoryStatMapper {
      */
     @JSpyWatcher("内存信息-Mapper.insert")
     @Insert({
-            "insert into memory_stat (app_code, ip, name, manager_names, type, init, used, committed, max, event_time)",
+            "insert into memory_stat (app_code, ip, name, manager_names, type, init, used, committed, max, event_time, is_peak)",
             "values",
-            "(#{appCode}, #{ip}, #{name}, #{managerNames}, #{type}, #{init}, #{used}, #{committed}, #{max}, #{eventTime})"
+            "(#{appCode}, #{ip}, #{name}, #{managerNames}, #{type}, #{init}, #{used}, #{committed}, #{max}, #{eventTime}, #{isPeak})"
     })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(MemoryStat memory);
