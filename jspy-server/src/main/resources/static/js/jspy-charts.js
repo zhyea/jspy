@@ -233,8 +233,8 @@
         refresh: function (target, starTime, endTime) {
             this.target = target;
             this.state = 3;
-            this.startTime = starTime;
-            this.endTime = endTime;
+            this.startTime = starTime || REQUEST_START_TIME;
+            this.endTime = endTime || Date.now();
             this.chart.showLoading();
             this.obtainData(target);
         },

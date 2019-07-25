@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.lang.management.MemoryType;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -114,13 +115,18 @@ public class MemoryService {
     /**
      * 查询内存数据
      */
-    public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam params) {
-        return metricMapper.findWithQueryParam("memory_stat",
+    public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam param) {
+        List<LowerCaseKeyMap> result = metricMapper.findWithQueryParam("memory_stat",
                 appCode,
-                params,
+                param,
                 true,
                 "`name`",
                 "init", "used", "committed", "max", "event_time");
+
+        if (param.getEndTime().getTime() - TimeUnit.DAYS.toMillis(1L) > param.getStartTime().getTime()) {
+            return shrink(result);
+        }
+        return result;
     }
 
 
@@ -198,11 +204,44 @@ public class MemoryService {
 
 
     /**
-     * 内存用量浮动区间
+     * 收缩要提交给前端的数据的规模，以减少报表展示的压力
      */
-    private static final long PEAK_FLOATING_RANGE = 1024;
+    private List<LowerCaseKeyMap> shrink(List<LowerCaseKeyMap> src) {
+        long tmpInit = 0;
+        long tmpMax = 0;
+        long tmpCommitted = 0;
+        long tmpUsed = 0;
 
-    private static final long COMMON_FLOATING_RANGE = 64;
+        List<LowerCaseKeyMap> result = new LinkedList<>();
+
+        for (LowerCaseKeyMap m : src) {
+            boolean filter = (Math.abs(m.getLong("init") - tmpInit) > PEAK_FLOATING_RANGE);
+            filter = filter || (Math.abs(m.getLong("max") - tmpMax) > PEAK_FLOATING_RANGE);
+            filter = filter || (Math.abs(m.getLong("committed") - tmpCommitted) > PEAK_FLOATING_RANGE);
+            filter = filter || (Math.abs(m.getLong("used") - tmpUsed) > PEAK_FLOATING_RANGE);
+
+            if (filter) {
+                tmpInit = m.getLong("init");
+                tmpMax = m.getLong("max");
+                tmpCommitted = m.getLong("committed");
+                tmpUsed = m.getLong("used");
+                result.add(m);
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
+     * 峰值内存用量浮动区间
+     */
+    private static final long PEAK_FLOATING_RANGE = 1024 * 1024;
+
+    /**
+     * 普通内存用量浮动区间
+     */
+    private static final long COMMON_FLOATING_RANGE = 1024;
 
     /**
      * 判断最近的两次内存用量是否近似，如差值在浮动区间内则认为是内存近似

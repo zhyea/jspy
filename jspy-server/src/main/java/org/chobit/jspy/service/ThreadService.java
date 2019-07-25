@@ -49,7 +49,7 @@ public class ThreadService {
      * 判断与数据库中的最新纪录是否相同
      */
     private boolean isClose(String appCode, ThreadGauge gauge) {
-        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
+        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(15));
         ThreadStat latest = threadMapper.getLatest(appCode, time);
         if (null == latest) {
             return false;

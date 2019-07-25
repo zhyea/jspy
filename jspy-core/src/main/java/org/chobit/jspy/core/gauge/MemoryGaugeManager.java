@@ -30,7 +30,7 @@ public abstract class MemoryGaugeManager {
         List<MemoryPool> result = new LinkedList<>();
         for (MemoryPoolMXBean mxBean : poolMXBeans) {
             MemoryType type = mxBean.getType();
-            String name = "内存池-" + (type == HEAP ? "H" : "N") + "-" + mxBean.getName();
+            String name = (type == HEAP ? "H" : "N") + "-" + mxBean.getName();
             String[] managers = mxBean.getMemoryManagerNames();
             MemoryUsage usage = mxBean.getUsage();
             MemoryUsage peakUsage = mxBean.getPeakUsage();

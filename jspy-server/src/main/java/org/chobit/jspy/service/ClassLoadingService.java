@@ -23,7 +23,7 @@ public class ClassLoadingService {
     private MetricQueryMapper metricMapper;
 
     public int insert(String appCode, String ip, ClassLoadingGauge gauge) {
-        if (!isClose(appCode, gauge)) {
+        if (isClose(appCode, gauge)) {
             return -1;
         }
 
@@ -39,7 +39,9 @@ public class ClassLoadingService {
 
 
     private boolean isClose(String appCode, ClassLoadingGauge gauge) {
-        ClassLoadingStat latest = getLatest(appCode);
+        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(15));
+        ClassLoadingStat latest = mapper.getLatest(appCode, time);
+
         if (null == latest) {
             return false;
         }
@@ -72,7 +74,7 @@ public class ClassLoadingService {
      * 获取最新的数据
      */
     public ClassLoadingStat getLatest(String appCode) {
-        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
+        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(15));
         return mapper.getLatest(appCode, time);
     }
 
