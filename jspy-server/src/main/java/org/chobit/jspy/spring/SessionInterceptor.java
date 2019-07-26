@@ -23,7 +23,12 @@ public class SessionInterceptor implements HandlerInterceptor {
         if (null != session.getAttribute("appCode")) {
             return true;
         }
-        logger.info("Cannot find target value from session, src path:{}", request.getRequestURL());
+        String url = request.getRequestURL().toString();
+        logger.info("Cannot find target value from session, src path:{}", url);
+        if (url.startsWith("/api")) {
+            response.setStatus(403);
+            return false;
+        }
         request.getRequestDispatcher(HOME_URL).forward(request, response);
         return false;
     }
