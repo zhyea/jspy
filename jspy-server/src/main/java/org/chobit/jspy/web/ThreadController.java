@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/thread")
+@RequestMapping("/api/thread")
 public class ThreadController {
 
     @Autowired

@@ -14,7 +14,7 @@ public final class ThreadsJobCapsule extends JobCapsule<ThreadGauge> {
 
     @Override
     String receivePath() {
-        return "/thread/receive";
+        return "/api/thread/receive";
     }
 
 

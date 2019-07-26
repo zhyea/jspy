@@ -26,12 +26,12 @@
                         内存对象选择 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li th:each="n: ${memTypeNames}"><a th:href="|javascript:test('${n}')|" th:text="${n}"></a></li>
+                        <li th:each="n: ${memTypeNames}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li th:each="n: ${heapPoolNames}"><a th:href="|javascript:test('${n}')|" th:text="${n}"></a>
+                        <li th:each="n: ${heapPoolNames}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a>
                         </li>
                         <li role="separator" class="divider"></li>
-                        <li th:each="n: ${nonHeapPoolNames}"><a th:href="|javascript:test('${n}')|" th:text="${n}"></a>
+                        <li th:each="n: ${nonHeapPoolNames}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a>
                         </li>
                     </ul>
                 </div><!-- /btn-group -->
@@ -46,13 +46,12 @@
 
 <script type="text/javascript">
 
-    const memChart = initAndLoadJSpyChart($('#memoryChart'), '/memory/find-by-params', '堆内存使用量', true);
+    const memChart = initAndLoadJSpyChart($('#memoryChart'), '/api/memory/find-by-params', '堆内存使用量', true);
 
-    function test(target) {
+    function refresh(target) {
         $("#memTarget").val(target);
         refreshChart();
     }
-
 
     function refreshChart() {
         let target = $("#memTarget").val();

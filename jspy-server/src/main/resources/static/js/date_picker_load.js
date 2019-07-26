@@ -12,10 +12,10 @@ function loadDateRangePicker(attachEle, callback) {
         timePickerIncrement: 10, //时间的增量，单位为分钟
         timePicker12Hour: true, //是否使用12小时制来显示时间
         ranges: {
-            '最近1小时': [moment().subtract('hours', 1), moment()],  //moment.js需要详细了解的可以点我一下
-            '今天': [moment().startOf('day'), moment()],
-            '昨天': [moment().subtract('days', 1).startOf('day'), moment().subtract('days', 1).endOf('day')],
-            '最近7日': [moment().subtract('days', 6), moment()]
+            '最近1小时': ['hours', 1],
+            '最近12小时': ['hours', 12],
+            '最近24小时': ['hours', 24],
+            '最近3日': ['days', 3]
         },
         opens: 'right', //日期选择框的弹出位置
         buttonClasses: ['btn btn-default'],

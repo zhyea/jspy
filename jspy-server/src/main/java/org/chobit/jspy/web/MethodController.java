@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/method")
+@RequestMapping("/api/method")
 public class MethodController {
 
 

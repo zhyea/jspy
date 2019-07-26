@@ -144,10 +144,13 @@
                 this.maxDate = moment(options.maxDate);
 
             if (typeof options.ranges == 'object') {
-                for (var range in options.ranges) {
+                for (let range in options.ranges) {
 
-                    var start = moment(options.ranges[range][0]);
-                    var end = moment(options.ranges[range][1]);
+                    let field = options.ranges[range][0];
+                    let diff =  options.ranges[range][1] * 1;
+
+                    let start = moment().subtract(field, diff);
+                    let end = moment();
 
                     // If we have a min/max date set, bound this range
                     // to it, but only if it would otherwise fall
@@ -165,7 +168,7 @@
                         continue;
                     }
 
-                    this.ranges[range] = [start, end];
+                    this.ranges[range] = [field, diff];
                 }
 
                 var list = '<ul>';
@@ -442,14 +445,30 @@
         },
 
         clickRange: function (e) {
-            var label = e.target.innerHTML;
-            if (label == this.locale.customRangeLabel) {
+            let label = e.target.innerHTML;
+            if (label === this.locale.customRangeLabel) {
                 this.showCalendars();
             } else {
-                var dates = this.ranges[label];
+                let ops = this.ranges[label];
 
-                this.startDate = dates[0];
-                this.endDate = dates[1];
+                let field = ops[0];
+                let diff = 1 * ops[1];
+
+                let start = moment().subtract(field, diff);
+                let end = moment();
+
+                // If we have a min/max date set, bound this range
+                // to it, but only if it would otherwise fall
+                // outside of the min/max.
+                if (this.minDate && start.isBefore(this.minDate))
+                    start = moment(this.minDate);
+
+                if (this.maxDate && end.isAfter(this.maxDate))
+                    end = moment(this.maxDate);
+
+
+                this.startDate = start;
+                this.endDate = end;
 
                 if (!this.timePicker) {
                     this.startDate.startOf('day');
@@ -756,15 +775,15 @@
             html += '</thead>';
             html += '<tbody>';
 
-            for (var row = 0; row < 6; row++) {
+            for (let row = 0; row < 6; row++) {
                 html += '<tr>';
 
                 // add week number
                 if (this.showWeekNumbers)
                     html += '<td class="week">' + calendar[row][0].week() + '</td>';
 
-                for (var col = 0; col < 7; col++) {
-                    var cname = 'available ';
+                for (let col = 0; col < 7; col++) {
+                    let cname = 'available ';
                     cname += (calendar[row][col].month() == calendar[1][1].month()) ? '' : 'off';
 
                     if ((minDate && calendar[row][col].isBefore(minDate)) || (maxDate && calendar[row][col].isAfter(maxDate))) {
@@ -787,7 +806,7 @@
                         }
                     }
 
-                    var title = 'r' + row + 'c' + col;
+                    let title = 'r' + row + 'c' + col;
                     html += '<td class="' + cname.replace(/\s+/g, ' ').replace(/^\s?(.*?)\s?$/, '$1') + '" data-title="' + title + '">' + calendar[row][col].date() + '</td>';
                 }
                 html += '</tr>';
@@ -801,9 +820,9 @@
 
                 html += '<div class="calendar-time">';
                 html += '<select class="hourselect">';
-                var start = 0;
-                var end = 23;
-                var selected_hour = selected.hour();
+                let start = 0;
+                let end = 23;
+                let selected_hour = selected.hour();
                 if (this.timePicker12Hour) {
                     start = 1;
                     end = 12;
@@ -813,7 +832,7 @@
                         selected_hour = 12;
                 }
 
-                for (var i = start; i <= end; i++) {
+                for (let i = start; i <= end; i++) {
                     if (i == selected_hour) {
                         html += '<option value="' + i + '" selected="selected">' + i + '</option>';
                     } else {
@@ -825,8 +844,8 @@
 
                 html += '<select class="minuteselect">';
 
-                for (var i = 0; i < 60; i += this.timePickerIncrement) {
-                    var num = i;
+                for (let i = 0; i < 60; i += this.timePickerIncrement) {
+                    let num = i;
                     if (num < 10)
                         num = '0' + num;
                     if (i == selected.minute()) {

@@ -27,7 +27,7 @@ public final class GCJobCapsule extends JobCapsule<List<GcRecord>> {
 
     @Override
     String receivePath() {
-        return "/gc/receive";
+        return "/api/gc/receive";
     }
 
 

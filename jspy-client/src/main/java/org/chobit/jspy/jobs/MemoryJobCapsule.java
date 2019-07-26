@@ -18,7 +18,7 @@ public final class MemoryJobCapsule extends JobCapsule<MemoryOverview> {
 
     @Override
     String receivePath() {
-        return "/memory/receive";
+        return "/api/memory/receive";
     }
 
     @Override

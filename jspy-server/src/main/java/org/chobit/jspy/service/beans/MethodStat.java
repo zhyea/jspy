@@ -10,6 +10,8 @@ public class MethodStat extends AbstractStatEntity {
 
     private String methodId;
 
+    private long count;
+
     private long stdDev;
 
     private long min;
@@ -39,6 +41,14 @@ public class MethodStat extends AbstractStatEntity {
 
     public void setMethodId(String methodId) {
         this.methodId = methodId;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
     }
 
     public long getStdDev() {

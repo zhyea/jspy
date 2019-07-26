@@ -23,7 +23,7 @@
                data-checkbox-header="false"
                data-click-to-select="true"
                data-toolbar="#appTableToolbar"
-               data-url="/app/all">
+               data-url="/api/app/all">
             <thead>
             <tr>
                 <th data-align="center" data-field="id" data-width="40px">ID</th>
@@ -108,9 +108,9 @@
             appName: $("#appNameInput").val()
         });
         if (appId > 0) {
-            subAppRequest0('put', '/app/', data)
+            subAppRequest0('put', '/api/app/', data)
         } else {
-            subAppRequest0('post', '/app/', data)
+            subAppRequest0('post', '/api/app/', data)
         }
     }
 
@@ -168,7 +168,7 @@
             openUpdateModal(row.id, row.appName)
         },
         'click .delete': function (e, value, row, index) {
-            subAppRequest0('delete', "/app/" + row.id, "");
+            subAppRequest0('delete', "/api/app/" + row.id, "");
         },
         'click .report': function (e, value, row, index) {
         }

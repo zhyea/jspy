@@ -1,4 +1,4 @@
-drop table if exists user;
+-- user
 create table if not exists user
 (
     id          int auto_increment primary key,
@@ -10,7 +10,7 @@ create table if not exists user
     op_time     timestamp          not null default current_timestamp on update current_timestamp
 );
 
-
+-- app
 create table if not exists app
 (
     id          int auto_increment primary key,
@@ -23,6 +23,7 @@ create table if not exists app
     op_time     timestamp          not null default current_timestamp on update current_timestamp
 );
 
+-- mem stat
 create table if not exists memory_stat
 (
     id            int auto_increment primary key,
@@ -46,8 +47,9 @@ create table if not exists memory_stat
     op_time       timestamp not null default current_timestamp on update current_timestamp
 );
 
+create index if not exists idx_q_mem on memory_stat (app_code, `name`, event_time);
 
-
+-- gc stat
 create table if not exists gc_stat
 (
     id             int auto_increment primary key,
@@ -77,6 +79,10 @@ create table if not exists gc_stat
 );
 
 
+create index if not exists idx_q_gc on gc_stat (app_code, event_time);
+
+
+-- thread stat
 create table if not exists thread_stat
 (
     id            int auto_increment primary key,
@@ -96,6 +102,9 @@ create table if not exists thread_stat
 );
 
 
+create index if not exists idx_q_thread on thread_stat (app_code, event_time);
+
+-- class loading stat
 create table if not exists class_loading_stat
 (
     id             int auto_increment primary key,
@@ -114,6 +123,10 @@ create table if not exists class_loading_stat
 );
 
 
+create index if not exists idx_q_class_loading on class_loading_stat (app_code, event_time);
+
+
+-- method stat
 create table if not exists method_stat
 (
     id            int auto_increment primary key,
@@ -122,6 +135,8 @@ create table if not exists method_stat
     ip            varchar(32),
 
     method_id     varchar(64),
+
+    count         bigint,
 
     std_dev       bigint,
     min           bigint,
@@ -141,3 +156,6 @@ create table if not exists method_stat
     insert_time   datetime           default current_date,
     op_time       timestamp not null default current_timestamp on update current_timestamp
 );
+
+
+create index if not exists idx_q_method on method_stat (app_code, method_id, event_time);

@@ -6,6 +6,8 @@ public class MethodHistogram {
 
     private String methodId;
 
+    private long count;
+
     private long stdDev;
 
     private long min;
@@ -28,6 +30,14 @@ public class MethodHistogram {
 
     private long eventTime = SysTime.millis();
 
+
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
 
     public String getMethodId() {
         return methodId;

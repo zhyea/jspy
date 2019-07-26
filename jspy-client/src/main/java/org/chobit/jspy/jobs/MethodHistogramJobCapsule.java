@@ -18,7 +18,7 @@ public final class MethodHistogramJobCapsule extends JobCapsule<List<MethodHisto
 
     @Override
     String receivePath() {
-        return "/method/receive";
+        return "/api/method/receive";
     }
 
 
@@ -47,6 +47,7 @@ public final class MethodHistogramJobCapsule extends JobCapsule<List<MethodHisto
 
             histogram.setMethodId(e.getKey());
             Snapshot s = e.getValue();
+            histogram.setCount(s.size());
             histogram.setStdDev((long) s.getStdDev());
             histogram.setMin(s.getMin());
             histogram.setMax(s.getMax());

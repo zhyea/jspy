@@ -14,7 +14,7 @@ public final class ClassLoadingJobCapsule extends JobCapsule<ClassLoadingGauge> 
 
     @Override
     String receivePath() {
-        return "/class-load/receive";
+        return "/api/class-load/receive";
     }
 
     @Override
