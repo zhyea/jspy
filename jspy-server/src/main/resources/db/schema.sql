@@ -126,15 +126,16 @@ create table if not exists class_loading_stat
 create index if not exists idx_q_class_loading on class_loading_stat (app_code, event_time);
 
 
--- method stat
-create table if not exists method_histogram
+-- histogram
+create table if not exists histogram
 (
     id            int auto_increment primary key,
 
     app_code      varchar(32),
     ip            varchar(32),
 
-    method_id     varchar(64),
+    `type`        int,
+    `name`        varchar(64),
 
     count         bigint,
 
@@ -158,4 +159,4 @@ create table if not exists method_histogram
 );
 
 
-create index if not exists idx_q_method on method_histogram (app_code, method_id, event_time);
+create index if not exists idx_q_histogram on histogram (app_code, `type`, `name`, event_time);

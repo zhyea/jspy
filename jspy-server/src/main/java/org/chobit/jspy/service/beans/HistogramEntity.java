@@ -3,12 +3,16 @@ package org.chobit.jspy.service.beans;
 import org.chobit.jspy.charts.AxisType;
 import org.chobit.jspy.charts.ValueType;
 import org.chobit.jspy.charts.annotation.Axis;
+import org.chobit.jspy.constants.HistogramType;
+import org.chobit.jspy.model.Histogram;
 
 import java.util.Date;
 
-public class MethodHistogram extends AbstractStatEntity {
+public class HistogramEntity extends AbstractStatEntity {
 
-    private String methodId;
+    private int type;
+
+    private String name;
 
     private long count;
 
@@ -35,12 +39,43 @@ public class MethodHistogram extends AbstractStatEntity {
     @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
-    public String getMethodId() {
-        return methodId;
+    public HistogramEntity() {
     }
 
-    public void setMethodId(String methodId) {
-        this.methodId = methodId;
+    public HistogramEntity(String appCode, String ip, HistogramType type, Histogram his) {
+        setAppCode(appCode);
+        setIp(ip);
+        this.type = type.id;
+        this.name = his.getName();
+        this.count = his.getCount();
+        this.stdDev = his.getStdDev();
+        this.min = his.getMin();
+        this.max = his.getMax();
+        this.mean = his.getMean();
+        this.percentile999 = his.getPercentile999();
+        this.percentile98 = his.getPercentile98();
+        this.percentile95 = his.getPercentile95();
+        this.percentile90 = his.getPercentile90();
+        this.percentile75 = his.getPercentile75();
+        this.median = his.getMedian();
+        this.eventTime = new Date(his.getEventTime());
+    }
+
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public long getCount() {

@@ -7,7 +7,6 @@ import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.ClassLoadingService;
 import org.chobit.jspy.service.beans.ClassLoadingStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
-import org.chobit.jspy.utils.Args;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +32,6 @@ public class ClassLoadingController {
     public int receive(@RequestHeader("appCode") String appCode,
                        @RequestHeader("ip") String ip,
                        @RequestBody ClassLoadingGauge gauge) {
-        Args.checkNotBlank(appCode, "appCode(应用码)不能为空");
         return classLoadingService.insert(appCode, ip, gauge);
     }
 

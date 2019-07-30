@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 
-public class AbstractEntity implements Serializable {
+public abstract class AbstractEntity implements Serializable {
 
     private int id;
 

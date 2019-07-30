@@ -3,13 +3,13 @@ package org.chobit.jspy.jobs;
 import org.chobit.jspy.JSpyConfig;
 import org.chobit.jspy.core.metrics.Snapshot;
 import org.chobit.jspy.core.support.JSpyWatcherCollector;
-import org.chobit.jspy.model.MethodHistogram;
+import org.chobit.jspy.model.Histogram;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public final class MethodHistogramJobCapsule extends JobCapsule<List<MethodHistogram>> {
+public final class MethodHistogramJobCapsule extends JobCapsule<List<Histogram>> {
 
 
     public MethodHistogramJobCapsule(JSpyConfig config) {
@@ -33,33 +33,17 @@ public final class MethodHistogramJobCapsule extends JobCapsule<List<MethodHisto
     }
 
     @Override
-    public List<MethodHistogram> collect() {
+    public List<Histogram> collect() {
         JSpyWatcherCollector collector = JSpyWatcherCollector.getIfExists();
         if (null == collector || 0 == collector.size()) {
             return null;
         }
 
-        List<MethodHistogram> list = new LinkedList<>();
+        List<Histogram> list = new LinkedList<>();
 
         Map<String, Snapshot> map = collector.snapshots();
         for (Map.Entry<String, Snapshot> e : map.entrySet()) {
-            MethodHistogram histogram = new MethodHistogram();
-
-            histogram.setMethodId(e.getKey());
-            Snapshot s = e.getValue();
-            histogram.setCount(s.size());
-            histogram.setStdDev((long) s.getStdDev());
-            histogram.setMin(s.getMin());
-            histogram.setMax(s.getMax());
-            histogram.setMean((long) s.getMean());
-            histogram.setPercentile999((long) s.get999thPercentile());
-            histogram.setPercentile98((long) s.get98thPercentile());
-            histogram.setPercentile95((long) s.get95thPercentile());
-            histogram.setPercentile90((long) s.get90thPercentile());
-            histogram.setPercentile75((long) s.get75thPercentile());
-            histogram.setMedian((long) s.getMedian());
-
-            list.add(histogram);
+            list.add(new Histogram(e.getKey(), e.getValue()));
         }
 
         return list;

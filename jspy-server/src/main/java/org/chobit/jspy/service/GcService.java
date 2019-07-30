@@ -1,13 +1,19 @@
 package org.chobit.jspy.service;
 
 import org.chobit.jspy.core.model.GcRecord;
+import org.chobit.jspy.model.GcOverview;
+import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.service.beans.GcStat;
+import org.chobit.jspy.service.beans.HistogramEntity;
 import org.chobit.jspy.service.mapper.GcStatMapper;
+import org.chobit.jspy.service.mapper.HistogramMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import static org.chobit.jspy.constants.HistogramType.GC;
 
 @Service
 public class GcService {
@@ -15,17 +21,36 @@ public class GcService {
 
     @Autowired
     private GcStatMapper gcMapper;
+    @Autowired
+    private HistogramMapper histogramMapper;
 
 
     /**
      * 写入GC记录
      */
-    public boolean insert(String appCode, String ip, List<GcRecord> gcRecords) {
-        if (gcRecords.isEmpty()) {
+    public boolean insert(String appCode, String ip, GcOverview overview) {
+        insertGcHistogram(appCode, ip, overview.getMajorHistogram());
+        insertGcHistogram(appCode, ip, overview.getMinorHistogram());
+        insertGcRecords(appCode, ip, overview.getGcRecords());
+
+        return true;
+    }
+
+
+    private boolean insertGcHistogram(String appCode, String ip, Histogram histogram) {
+        if (null == histogram) {
+            return true;
+        }
+        return histogramMapper.insert(new HistogramEntity(appCode, ip, GC, histogram)) > 0;
+    }
+
+
+    private boolean insertGcRecords(String appCode, String ip, List<GcRecord> gcRecords) {
+        if (null == gcRecords || gcRecords.isEmpty()) {
             return true;
         }
 
-        List<GcStat> gcStats = new ArrayList<>(gcRecords.size());
+        List<GcStat> gcStats = new LinkedList<>();
         for (GcRecord record : gcRecords) {
             GcStat stat = new GcStat();
             stat.setAppCode(appCode);
