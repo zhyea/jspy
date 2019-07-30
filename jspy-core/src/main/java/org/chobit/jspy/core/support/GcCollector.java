@@ -4,6 +4,9 @@ import com.sun.management.GarbageCollectionNotificationInfo;
 import com.sun.management.GcInfo;
 import org.chobit.jspy.core.constants.GcType;
 import org.chobit.jspy.core.exceptions.JSpyException;
+import org.chobit.jspy.core.metrics.Histogram;
+import org.chobit.jspy.core.metrics.SlidingTimeWindowReservoir;
+import org.chobit.jspy.core.metrics.Snapshot;
 import org.chobit.jspy.core.model.GcRecord;
 
 import java.lang.management.MemoryUsage;
@@ -23,6 +26,10 @@ public final class GcCollector {
 
     private final LongAdder minorGcCount;
 
+    private final Histogram majorHistogram;
+
+    private final Histogram minorHistogram;
+
 
     /**
      * GcCollector 构造器
@@ -35,6 +42,8 @@ public final class GcCollector {
         this.records = new LinkedBlockingDeque<>(capacity);
         this.majorGcCount = new LongAdder();
         this.minorGcCount = new LongAdder();
+        this.majorHistogram = new Histogram(new SlidingTimeWindowReservoir(5, TimeUnit.MINUTES));
+        this.minorHistogram = new Histogram(new SlidingTimeWindowReservoir(5, TimeUnit.MINUTES));
     }
 
 
@@ -63,18 +72,21 @@ public final class GcCollector {
         switch (gcType) {
             case MAJOR:
                 majorGcCount.increment();
+                majorHistogram.update(gcInfo.getDuration());
+                break;
             case MINOR:
                 minorGcCount.increment();
+                minorHistogram.update(gcInfo.getDuration());
         }
 
         GcRecord record = new GcRecord();
-        record.setGcId( gcInfo.getId());
+        record.setGcId(gcInfo.getId());
         record.setType(gcType);
         record.setAction(action);
         record.setCause(gcNotificationInfo.getGcCause());
         record.setName(gcNotificationInfo.getGcName());
         record.setStartTime(gcInfo.getStartTime());
-        record.setDuration( gcInfo.getDuration());
+        record.setDuration(gcInfo.getDuration());
         record.setUsageBefore(usageBefore);
         record.setUsageAfter(usageAfter);
         record.setMajorGcCount(majorGcCount.sum());
@@ -87,6 +99,14 @@ public final class GcCollector {
         }
     }
 
+
+    public Snapshot majorSnapshot() {
+        return majorHistogram.getSnapshot();
+    }
+
+    public Snapshot minorSnapshot() {
+        return minorHistogram.getSnapshot();
+    }
 
     private static final String END_OF_MAJOR_GC = "end of major GC";
 

@@ -1,5 +1,6 @@
 package org.chobit.jspy.core.support;
-import java.util.ArrayList;
+
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ public class ObjectNode {
 
     private boolean isPrimitive;
 
-    private List<ObjectNode> children = new ArrayList<>();
+    private List<ObjectNode> children = new LinkedList<>();
 
     public ObjectNode(Object root, boolean isPrimitive) {
         this.value = root;

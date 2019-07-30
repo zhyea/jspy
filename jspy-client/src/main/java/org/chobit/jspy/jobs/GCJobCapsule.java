@@ -1,16 +1,14 @@
 package org.chobit.jspy.jobs;
 
 import org.chobit.jspy.JSpyConfig;
-import org.chobit.jspy.core.model.GcRecord;
 import org.chobit.jspy.core.support.GcCollector;
 import org.chobit.jspy.core.support.GcNotificationListener;
+import org.chobit.jspy.model.GcOverview;
 
 import javax.management.InstanceNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public final class GCJobCapsule extends JobCapsule<List<GcRecord>> {
+public final class GCJobCapsule extends JobCapsule<GcOverview> {
 
     private final GcCollector gcCollector;
 
@@ -43,12 +41,11 @@ public final class GCJobCapsule extends JobCapsule<List<GcRecord>> {
 
 
     @Override
-    public List<GcRecord> collect() {
-        List<GcRecord> list = new ArrayList<>(gcCollector.size() + 6);
-        gcCollector.drainTo(list);
-        if (!list.isEmpty()) {
-            return list;
-        }
-        return null;
+    public GcOverview collect() {
+        GcOverview overview = new GcOverview();
+        gcCollector.drainTo(overview.getGcRecords());
+        overview.addMajorHistogram(gcCollector.majorSnapshot());
+        overview.addMinorHistogram(gcCollector.minorSnapshot());
+        return overview;
     }
 }

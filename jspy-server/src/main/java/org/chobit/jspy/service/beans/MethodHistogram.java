@@ -6,7 +6,7 @@ import org.chobit.jspy.charts.annotation.Axis;
 
 import java.util.Date;
 
-public class MethodStat extends AbstractStatEntity {
+public class MethodHistogram extends AbstractStatEntity {
 
     private String methodId;
 

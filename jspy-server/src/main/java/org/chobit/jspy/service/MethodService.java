@@ -1,9 +1,8 @@
 package org.chobit.jspy.service;
 
 
-import org.chobit.jspy.model.MethodHistogram;
-import org.chobit.jspy.service.beans.MethodStat;
-import org.chobit.jspy.service.mapper.MethodStatMapper;
+import org.chobit.jspy.service.beans.MethodHistogram;
+import org.chobit.jspy.service.mapper.MethodHistogramMapper;
 import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,19 +15,19 @@ import java.util.List;
 public class MethodService {
 
     @Autowired
-    private MethodStatMapper methodMapper;
+    private MethodHistogramMapper methodMapper;
 
 
-    public boolean insert(String appCode, String ip, List<MethodHistogram> histograms) {
+    public boolean insert(String appCode, String ip, List<org.chobit.jspy.model.MethodHistogram> histograms) {
 
         if (histograms.isEmpty()) {
             return true;
         }
 
-        List<MethodStat> list = new LinkedList<>();
+        List<MethodHistogram> list = new LinkedList<>();
 
-        for (MethodHistogram h : histograms) {
-            MethodStat stat = new MethodStat();
+        for (org.chobit.jspy.model.MethodHistogram h : histograms) {
+            MethodHistogram stat = new MethodHistogram();
             stat.setAppCode(appCode);
             stat.setIp(ip);
 

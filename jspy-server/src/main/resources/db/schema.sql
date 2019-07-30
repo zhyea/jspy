@@ -127,7 +127,7 @@ create index if not exists idx_q_class_loading on class_loading_stat (app_code, 
 
 
 -- method stat
-create table if not exists method_stat
+create table if not exists method_histogram
 (
     id            int auto_increment primary key,
 
@@ -158,4 +158,4 @@ create table if not exists method_stat
 );
 
 
-create index if not exists idx_q_method on method_stat (app_code, method_id, event_time);
+create index if not exists idx_q_method on method_histogram (app_code, method_id, event_time);

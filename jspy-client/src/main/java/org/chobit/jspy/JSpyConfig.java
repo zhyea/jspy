@@ -17,7 +17,7 @@ public final class JSpyConfig {
 
     private int threadCollectIntervalSeconds = 6;
 
-    private int gcCollectIntervalSeconds = 60 * 5;
+    private int gcCollectIntervalSeconds = 61 * 5;
 
     private int classLoadingCollectIntervalSeconds = 6;
 

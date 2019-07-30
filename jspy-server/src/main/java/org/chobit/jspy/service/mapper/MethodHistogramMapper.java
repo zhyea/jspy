@@ -5,10 +5,10 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
-import org.chobit.jspy.service.beans.MethodStat;
+import org.chobit.jspy.service.beans.MethodHistogram;
 
 @Mapper
-public interface MethodStatMapper {
+public interface MethodHistogramMapper {
 
 
     @JSpyWatcher("JSpyWatcher注解方法信息-Mapper.insert")
@@ -22,6 +22,6 @@ public interface MethodStatMapper {
             "</foreach>",
             "</script>"
     })
-    int batchInsert(@Param("mStats") Iterable<MethodStat> stats);
+    int batchInsert(@Param("mStats") Iterable<MethodHistogram> stats);
 
 }
