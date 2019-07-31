@@ -26,14 +26,11 @@
                         内存对象选择 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                        <li th:each="n: ${memTypeNames}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a>
-                        </li>
+                        <li th:each="n: ${memTypeNames}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li th:each="n: ${heapPoolNames}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a>
-                        </li>
+                        <li th:each="n: ${heapPoolNames}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a></li>
                         <li role="separator" class="divider"></li>
-                        <li th:each="n: ${nonHeapPoolNames}"><a th:href="|javascript:refresh('${n}')|"
-                                                                th:text="${n}"></a>
+                        <li th:each="n: ${nonHeapPoolNames}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a>
                         </li>
                     </ul>
                 </div><!-- /btn-group -->
@@ -41,6 +38,8 @@
         </div>
         <!--报表框-->
         <div id="memoryChart" style="width: 100%; height:400px;"></div>
+        <div>&nbsp;</div>
+        <div id="memoryPeakChart" style="width: 100%; height:400px;"></div>
     </main>
     <div th:replace="common/footer::footer"></div>
 </div>
@@ -49,6 +48,7 @@
 <script type="text/javascript">
 
     const memChart = initAndLoadJSpyChart($('#memoryChart'), '/api/memory/find-by-params', '堆内存使用量', true);
+    const memPeakChart = initAndLoadJSpyChart($('#memoryPeakChart'), '/api/memory/find-peak-by-params', '堆内存使用量', true);
 
     function refresh(target) {
         $("#memTarget").val(target);
@@ -69,6 +69,7 @@
         }
 
         memChart.refresh(target, start, end);
+        memPeakChart.refresh(target, start, end);
     }
 
     loadDateRangePicker($('#date_picker'), function (start, end) {

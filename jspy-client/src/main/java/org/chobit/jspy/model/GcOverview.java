@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.chobit.jspy.core.constants.GcType.MAJOR;
+import static org.chobit.jspy.core.constants.GcType.MINOR;
 
 public class GcOverview {
 
@@ -22,7 +23,7 @@ public class GcOverview {
     }
 
     public void addMinorHistogram(Snapshot snapshot) {
-        minorHistogram = new Histogram(MAJOR.name(), snapshot);
+        minorHistogram = new Histogram(MINOR.name(), snapshot);
     }
 
     public List<GcRecord> getGcRecords() {

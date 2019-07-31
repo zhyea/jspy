@@ -78,7 +78,6 @@ public class ThreadService {
         return metricMapper.findWithQueryParam("thread_stat",
                 appCode,
                 params,
-                false,
                 null,
                 "current", "peak", "total_started", "daemon", "event_time");
     }

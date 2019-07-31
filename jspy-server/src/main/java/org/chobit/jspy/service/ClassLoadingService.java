@@ -64,7 +64,6 @@ public class ClassLoadingService {
         return metricMapper.findWithQueryParam("class_loading_stat",
                 appCode,
                 param,
-                false,
                 null,
                 "total_loaded", "current_loaded", "unloaded", "event_time");
     }

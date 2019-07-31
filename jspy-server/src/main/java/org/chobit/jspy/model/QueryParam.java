@@ -11,6 +11,9 @@ public class QueryParam {
 
     private Date endTime;
 
+    private boolean usePeak = false;
+
+    private int isPeak = 0;
 
     public String getTarget() {
         return target;
@@ -34,5 +37,21 @@ public class QueryParam {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public boolean isUsePeak() {
+        return usePeak;
+    }
+
+    public void setUsePeak(boolean usePeak) {
+        this.usePeak = usePeak;
+    }
+
+    public int getIsPeak() {
+        return isPeak;
+    }
+
+    public void setIsPeak(int isPeak) {
+        this.isPeak = isPeak;
     }
 }

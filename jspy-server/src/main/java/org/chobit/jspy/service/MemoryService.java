@@ -119,7 +119,6 @@ public class MemoryService {
         List<LowerCaseKeyMap> result = metricMapper.findWithQueryParam("memory_stat",
                 appCode,
                 param,
-                true,
                 "`name`",
                 "init", "used", "committed", "max", "event_time");
 

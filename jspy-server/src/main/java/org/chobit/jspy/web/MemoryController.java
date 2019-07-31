@@ -20,10 +20,20 @@ public class MemoryController {
     @Autowired
     private MemoryService memoryService;
 
-
+    
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
                                    @RequestBody QueryParam param) {
+        param.setUsePeak(true);
+        List<LowerCaseKeyMap> m = memoryService.findByParams(appCode, param);
+        return ChartKit.fill(param.getTarget(), m, MemoryStat.class);
+    }
+
+    @PostMapping("/find-peak-by-params")
+    public ChartModel findPeakByParams(@SessionAttribute("appCode") String appCode,
+                                       @RequestBody QueryParam param) {
+        param.setUsePeak(true);
+        param.setIsPeak(1);
         List<LowerCaseKeyMap> m = memoryService.findByParams(appCode, param);
         return ChartKit.fill(param.getTarget(), m, MemoryStat.class);
     }

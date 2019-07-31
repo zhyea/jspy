@@ -12,7 +12,6 @@ public class MetricQueryProvider {
     public String queryWithQueryParam(@Param("table") String tableName,
                                       @Param("appCode") String appCode,
                                       @Param("p") QueryParam param,
-                                      boolean filterPeak,
                                       @Param("targetColumn") String targetColumn,
                                       @Param("columns") String... resultColumns) {
         return new SQL() {
@@ -34,8 +33,8 @@ public class MetricQueryProvider {
                 if (null != param.getEndTime()) {
                     WHERE("event_time<#{p.endTime}");
                 }
-                if (filterPeak) {
-                    WHERE("is_peak=0");
+                if (param.isUsePeak()) {
+                    WHERE("is_peak=#{p.isPeak}");
                 }
             }
         }.toString();
