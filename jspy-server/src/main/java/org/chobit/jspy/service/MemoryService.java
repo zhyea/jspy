@@ -65,14 +65,14 @@ public class MemoryService {
      * 写入内存数据，处理 java.lang.management.Memory
      */
     @JSpyWatcher
-    private synchronized int insert(String appCode,
-                                    String ip,
-                                    MemoryInfo usage,
-                                    MemoryType type,
-                                    String name,
-                                    String[] managerNames,
-                                    long eventTime,
-                                    boolean isPeak) {
+    private int insert(String appCode,
+                       String ip,
+                       MemoryInfo usage,
+                       MemoryType type,
+                       String name,
+                       String[] managerNames,
+                       long eventTime,
+                       boolean isPeak) {
         MemoryStat m = new MemoryStat();
         m.setType(type.name());
         m.setName(name);
@@ -94,6 +94,8 @@ public class MemoryService {
      * 写入内存数据，处理MemoryOverview
      */
     public boolean insert(String appCode, String ip, MemoryOverview overview) {
+
+        System.out.println(SysTime.millis() + "------------------------------------------------------------mem insert");
 
         insertMemTypeData(appCode, ip, overview, HEAP);
         insertMemTypeData(appCode, ip, overview, NON_HEAP);

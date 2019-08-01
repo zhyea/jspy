@@ -33,6 +33,7 @@ public final class MemoryJobCapsule extends JobCapsule<MemoryOverview> {
 
     @Override
     public MemoryOverview collect() {
+
         MemoryUsage heapUsage = MemoryGaugeManager.heapMemoryUsage();
         MemoryUsage nonHeapUsage = MemoryGaugeManager.nonHeapMemoryUsage();
         List<MemoryPool> memoryPools = MemoryGaugeManager.memoryPools();
