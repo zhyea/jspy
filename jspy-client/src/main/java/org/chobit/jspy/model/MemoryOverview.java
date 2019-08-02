@@ -14,6 +14,10 @@ public class MemoryOverview {
 
     private MemoryInfo nonHeapUsage;
 
+    private MemoryInfo peakHeapUsage;
+
+    private MemoryInfo peakNonHeapUsage;
+
     private List<MemoryPool> memoryPools;
 
 
@@ -23,10 +27,14 @@ public class MemoryOverview {
     public MemoryOverview(long time,
                           MemoryUsage heapUsage,
                           MemoryUsage nonHeapUsage,
+                          MemoryUsage peakHeapUsage,
+                          MemoryUsage peakNonHeapUsage,
                           List<MemoryPool> memoryPools) {
         this.time = time;
         this.heapUsage = new MemoryInfo(heapUsage);
         this.nonHeapUsage = new MemoryInfo(nonHeapUsage);
+        this.peakHeapUsage = new MemoryInfo(peakHeapUsage);
+        this.peakNonHeapUsage = new MemoryInfo(peakNonHeapUsage);
         this.memoryPools = memoryPools;
     }
 
@@ -41,6 +49,14 @@ public class MemoryOverview {
 
     public MemoryInfo getNonHeapUsage() {
         return nonHeapUsage;
+    }
+
+    public MemoryInfo getPeakHeapUsage() {
+        return peakHeapUsage;
+    }
+
+    public MemoryInfo getPeakNonHeapUsage() {
+        return peakNonHeapUsage;
     }
 
     public List<MemoryPool> getMemoryPools() {

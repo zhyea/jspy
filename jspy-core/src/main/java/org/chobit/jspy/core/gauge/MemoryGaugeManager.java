@@ -42,6 +42,30 @@ public abstract class MemoryGaugeManager {
     }
 
 
+    /**
+     * 比较内存使用量
+     *
+     * @param target 目标数据
+     * @param other  要比较的数据
+     * @return 若目标数据的任意一个内存指标值不大于要比较的数据，则返回false，否则返回true
+     */
+    public static boolean compareMemoryUsage(MemoryUsage target, MemoryUsage other) {
+        if (target.getInit() <= other.getInit()) {
+            return false;
+        }
+        if (target.getCommitted() <= other.getCommitted()) {
+            return false;
+        }
+        if (target.getUsed() <= other.getUsed()) {
+            return false;
+        }
+        if (target.getMax() <= other.getMax()) {
+            return false;
+        }
+        return true;
+    }
+
+
     private MemoryGaugeManager() {
     }
 }

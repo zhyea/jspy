@@ -1,13 +1,13 @@
 package org.chobit.jspy.jobs;
 
 import org.chobit.jspy.JSpyConfig;
-import org.chobit.jspy.core.gauge.MemoryGaugeManager;
 import org.chobit.jspy.core.model.MemoryPool;
 import org.chobit.jspy.model.MemoryOverview;
 
 import java.lang.management.MemoryUsage;
 import java.util.List;
 
+import static org.chobit.jspy.core.gauge.MemoryGaugeManager.*;
 import static org.chobit.jspy.utils.SysTime.millis;
 
 public final class MemoryJobCapsule extends JobCapsule<MemoryOverview> {
@@ -31,13 +31,25 @@ public final class MemoryJobCapsule extends JobCapsule<MemoryOverview> {
         return config.getMemoryCollectIntervalSeconds();
     }
 
+
+    private MemoryUsage peakHeapUsage;
+
+    private MemoryUsage peakNonHeapUsage;
+
     @Override
     public MemoryOverview collect() {
 
-        MemoryUsage heapUsage = MemoryGaugeManager.heapMemoryUsage();
-        MemoryUsage nonHeapUsage = MemoryGaugeManager.nonHeapMemoryUsage();
-        List<MemoryPool> memoryPools = MemoryGaugeManager.memoryPools();
+        MemoryUsage heapUsage = heapMemoryUsage();
+        MemoryUsage nonHeapUsage = nonHeapMemoryUsage();
+        List<MemoryPool> memoryPools = memoryPools();
 
-        return new MemoryOverview(millis(), heapUsage, nonHeapUsage, memoryPools);
+        if (null == peakHeapUsage || compareMemoryUsage(heapUsage, peakHeapUsage)) {
+            this.peakHeapUsage = heapUsage;
+        }
+        if (null == peakNonHeapUsage || compareMemoryUsage(nonHeapUsage, peakNonHeapUsage)) {
+            this.peakNonHeapUsage = nonHeapUsage;
+        }
+
+        return new MemoryOverview(millis(), heapUsage, nonHeapUsage, peakHeapUsage, peakNonHeapUsage, memoryPools);
     }
 }

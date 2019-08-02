@@ -14,7 +14,7 @@ public class JSpyProperties {
 
     private boolean useSsl = false;
 
-    private int startDelayedSeconds = 60;
+    private int startDelayedSeconds = 60 * 3;
 
     private int memoryCollectIntervalSeconds = 6;
 

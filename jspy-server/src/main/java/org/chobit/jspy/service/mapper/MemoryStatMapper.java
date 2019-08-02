@@ -23,19 +23,14 @@ public interface MemoryStatMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(MemoryStat memory);
 
-
-    /**
-     * 根据内存区域名称获取最近的内存使用峰值
-     */
-    @Select("select * from memory_stat where app_code=#{appCode} and name=#{name} and is_peak=1 and event_time>#{time} order by id desc limit 1")
-    MemoryStat getLatestPeakByName(@Param("appCode") String appCode, @Param("name") String name, @Param("time") Date time);
-
-
     /**
      * 根据内存区域名称获取最近的内存用量
      */
-    @Select("select * from memory_stat where app_code=#{appCode} and name=#{name} and is_peak=0 and event_time>#{time} order by id desc limit 1")
-    MemoryStat getLatestByName(@Param("appCode") String appCode, @Param("name") String name, @Param("time") Date time);
+    @Select("select * from memory_stat where app_code=#{appCode} and name=#{name} and event_time>#{time} and is_peak=#{isPeak} order by id desc limit 1")
+    MemoryStat getLatestByName(@Param("appCode") String appCode,
+                               @Param("name") String name,
+                               @Param("time") Date time,
+                               @Param("isPeak") int isPeak);
 
     /**
      * 获取内存类型名称
@@ -55,5 +50,21 @@ public interface MemoryStatMapper {
     @Select("select distinct(`name`) from memory_stat where app_code=#{appCode} and type='NON_HEAP' and manager_names<>'null'")
     List<String> findNonHeapPoolNames(@Param("appCode") String appCode);
 
+    /**
+     * 按时间删除记录
+     */
+    @Delete("delete from memory_stat where event_time < #{time}")
+    int deleteByTime(@Param("time") Date time);
 
+    /**
+     * 删除记录
+     */
+    @Delete("delete from memory_stat where id=#{id}")
+    boolean delete(@Param("id") int id);
+
+    /**
+     * 按时间获取记录
+     */
+    @Select("select * from memory_stat where event_time>#{time} and is_peak=#{isPeak}")
+    List<MemoryStat> findByTime(@Param("time") Date time, @Param("isPeak") int isPeak);
 }

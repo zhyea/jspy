@@ -30,8 +30,20 @@ import static java.lang.management.MemoryType.NON_HEAP;
 @CacheConfig(cacheNames = "mem")
 public class MemoryService {
 
+    /**
+     * 峰值内存用量浮动区间
+     */
+    private static final long PEAK_FLOATING_RANGE = 1024 * 1024;
+
+    /**
+     * 普通内存用量浮动区间
+     */
+    private static final long COMMON_FLOATING_RANGE = 1024;
+
+
     @Autowired
     private MemoryStatMapper memMapper;
+
     @Autowired
     private MetricQueryMapper metricMapper;
 
@@ -63,6 +75,8 @@ public class MemoryService {
 
     /**
      * 写入内存数据，处理 java.lang.management.Memory
+     * <p>
+     * 写入前判断要写入的数据是否与最新数据接近
      */
     @JSpyWatcher
     private int insert(String appCode,
@@ -73,6 +87,18 @@ public class MemoryService {
                        String[] managerNames,
                        long eventTime,
                        boolean isPeak) {
+
+        int isPeak_ = isPeak ? 1 : 0;
+
+        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
+        MemoryStat latest = memMapper.getLatestByName(appCode, name, time, isPeak_);
+
+        long floatingRange = isPeak ? PEAK_FLOATING_RANGE : COMMON_FLOATING_RANGE;
+
+        if (isUsageClose(usage, latest, floatingRange)) {
+            return 0;
+        }
+
         MemoryStat m = new MemoryStat();
         m.setType(type.name());
         m.setName(name);
@@ -84,7 +110,7 @@ public class MemoryService {
         m.setCommitted(usage.getCommitted());
         m.setMax(usage.getMax());
         m.setEventTime(new Date(eventTime));
-        m.setIsPeak(isPeak ? 1 : 0);
+        m.setIsPeak(isPeak_);
 
         return memMapper.insert(m);
     }
@@ -95,19 +121,18 @@ public class MemoryService {
      */
     public boolean insert(String appCode, String ip, MemoryOverview overview) {
 
-        System.out.println(SysTime.millis() + "------------------------------------------------------------mem insert");
+        long eventTime = overview.getTime();
+        System.out.println(SysTime.millis() + " - " + eventTime + "------------------------------------------------------------mem insert");
 
-        insertMemTypeData(appCode, ip, overview, HEAP);
-        insertMemTypeData(appCode, ip, overview, NON_HEAP);
+        insertMemTypeData(appCode, ip, overview.getHeapUsage(), HEAP, eventTime, false);
+        insertMemTypeData(appCode, ip, overview.getNonHeapUsage(), NON_HEAP, eventTime, false);
+        insertMemTypeData(appCode, ip, overview.getPeakHeapUsage(), HEAP, eventTime, true);
+        insertMemTypeData(appCode, ip, overview.getPeakNonHeapUsage(), NON_HEAP, eventTime, true);
 
         if (null != overview.getMemoryPools()) {
             for (MemoryPool pool : overview.getMemoryPools()) {
-                // 如存在峰值数据，则优先写入
-                if (null != pool.getPeakUsage()) {
-                    insertMemoryPoolPeakData(appCode, ip, pool, overview);
-                }
                 // 写入内存池数据
-                insertMemoryPoolData(appCode, ip, pool, overview);
+                insertMemoryPoolData(appCode, ip, pool, eventTime);
             }
         }
         return true;
@@ -134,33 +159,20 @@ public class MemoryService {
     /**
      * 写入内存类型数据
      */
-    private void insertMemTypeData(String appCode, String ip, MemoryOverview overview, MemoryType type) {
-        MemoryInfo memInfo = null;
-        switch (type) {
-            case HEAP:
-                memInfo = overview.getHeapUsage();
-                break;
-            case NON_HEAP:
-                memInfo = overview.getNonHeapUsage();
-                break;
-            default:
-                return;
-        }
+    private void insertMemTypeData(String appCode, String ip, MemoryInfo memInfo, MemoryType type, long eventTime, boolean isPeak) {
         if (null == memInfo) {
             return;
         }
         String name = MemoryNames.nameOf(type);
-        MemoryStat usage = getLatestByName(appCode, name);
-        if (null == usage || !isUsageClose(usage, memInfo, COMMON_FLOATING_RANGE)) {
-            insert(appCode,
-                    ip,
-                    memInfo,
-                    type,
-                    name,
-                    null,
-                    overview.getTime(),
-                    false);
-        }
+
+        insert(appCode,
+                ip,
+                memInfo,
+                type,
+                name,
+                null,
+                eventTime,
+                isPeak);
 
     }
 
@@ -168,39 +180,27 @@ public class MemoryService {
     /**
      * 写入内存池数据
      */
-    private void insertMemoryPoolData(String appCode, String ip, MemoryPool pool, MemoryOverview overview) {
-        MemoryStat usage = getLatestByName(appCode, pool.getName());
+    private void insertMemoryPoolData(String appCode, String ip, MemoryPool pool, long eventTime) {
 
-        if (null == usage || !isUsageClose(usage, pool.getUsage(), COMMON_FLOATING_RANGE)) {
+        if (null != pool.getPeakUsage()) {
             insert(appCode,
                     ip,
-                    pool.getUsage(),
+                    pool.getPeakUsage(),
                     pool.getType(),
                     pool.getName(),
                     pool.getMemoryManagerNames(),
-                    overview.getTime(),
-                    false);
+                    eventTime,
+                    true);
         }
-    }
 
-
-    /**
-     * 写入内存池峰值数据
-     */
-    private void insertMemoryPoolPeakData(String appCode, String ip, MemoryPool pool, MemoryOverview overview) {
-        MemoryStat usage = getLatestPeakByName(appCode, pool.getName());
-        if (null != pool.getPeakUsage()) {
-            if (null == usage || !isUsageClose(usage, pool.getPeakUsage(), PEAK_FLOATING_RANGE)) {
-                insert(appCode,
-                        ip,
-                        pool.getPeakUsage(),
-                        pool.getType(),
-                        pool.getName(),
-                        pool.getMemoryManagerNames(),
-                        overview.getTime(),
-                        true);
-            }
-        }
+        insert(appCode,
+                ip,
+                pool.getUsage(),
+                pool.getType(),
+                pool.getName(),
+                pool.getMemoryManagerNames(),
+                eventTime,
+                false);
     }
 
 
@@ -235,53 +235,24 @@ public class MemoryService {
 
 
     /**
-     * 峰值内存用量浮动区间
-     */
-    private static final long PEAK_FLOATING_RANGE = 1024 * 1024;
-
-    /**
-     * 普通内存用量浮动区间
-     */
-    private static final long COMMON_FLOATING_RANGE = 1024;
-
-    /**
      * 判断最近的两次内存用量是否近似，如差值在浮动区间内则认为是内存近似
      */
-    private boolean isUsageClose(MemoryStat usage, MemoryInfo u, long floatRange) {
-        if (Math.abs(usage.getInit() - u.getInit()) > floatRange) {
+    private boolean isUsageClose(MemoryInfo target, MemoryStat latest, long floatRange) {
+
+        if (Math.abs(latest.getInit() - target.getInit()) > floatRange) {
             return false;
         }
-        if (Math.abs(usage.getMax() - u.getMax()) > floatRange) {
+        if (Math.abs(latest.getMax() - target.getMax()) > floatRange) {
             return false;
         }
-        if (Math.abs(usage.getCommitted() - u.getCommitted()) > floatRange) {
+        if (Math.abs(latest.getCommitted() - target.getCommitted()) > floatRange) {
             return false;
         }
-        if (Math.abs(usage.getUsed() - u.getUsed()) > floatRange) {
+        if (Math.abs(latest.getUsed() - target.getUsed()) > floatRange) {
             return false;
         }
         return true;
     }
 
 
-    /**
-     * 根据内存区域名称获取最新的内存数据
-     * <p>
-     * 默认取6分钟内的数据
-     */
-    private MemoryStat getLatestByName(String appCode, String name) {
-        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
-        return memMapper.getLatestByName(appCode, name, time);
-    }
-
-
-    /**
-     * 根据内存区域名称获取最新的内存峰值数据
-     * <p>
-     * 默认取6分钟内的数据
-     */
-    private MemoryStat getLatestPeakByName(String appCode, String name) {
-        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
-        return memMapper.getLatestPeakByName(appCode, name, time);
-    }
 }

@@ -11,7 +11,7 @@ public final class JSpyConfig {
 
     private boolean useSSL = false;
 
-    private int startDelayedSeconds = 60;
+    private int startDelayedSeconds = 60 * 3;
 
     private int memoryCollectIntervalSeconds = 6;
 

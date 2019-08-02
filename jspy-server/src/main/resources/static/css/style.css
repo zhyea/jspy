@@ -205,6 +205,7 @@ main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > t
 /*------------------------------------------------------------------------------------*/
 
 .toolbar {
+    margin-left: 60px;
     padding: 30px 42px 10px;
 }
 
