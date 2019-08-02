@@ -7,13 +7,11 @@ import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.chobit.jspy.core.utils.Strings.humpToLine;
-import static org.chobit.jspy.core.utils.Strings.isBlank;
-import static org.chobit.jspy.core.utils.Strings.isNotBlank;
+import static org.chobit.jspy.core.utils.Strings.*;
 
 /**
  * ECharts工具包
@@ -63,7 +61,7 @@ public abstract class ChartKit {
      * 解析Series数据
      */
     private static Map<String, Series> parseSeriesNameMap(Class model) {
-        Map<String, Series> seriesMap = new HashMap<>(4);
+        Map<String, Series> seriesMap = new LinkedHashMap<>(4);
         Field[] fields = model.getDeclaredFields();
         for (Field f : fields) {
             if (f.isAnnotationPresent(org.chobit.jspy.charts.annotation.Series.class)) {

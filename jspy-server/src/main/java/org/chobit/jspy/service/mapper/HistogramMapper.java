@@ -1,12 +1,13 @@
 package org.chobit.jspy.service.mapper;
 
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.service.beans.HistogramEntity;
+import org.chobit.jspy.tools.LowerCaseKeyMap;
+
+import java.util.Date;
+import java.util.List;
 
 @Mapper
 public interface HistogramMapper {
@@ -36,4 +37,14 @@ public interface HistogramMapper {
             "</script>"
     })
     int batchInsert(@Param("histograms") Iterable<HistogramEntity> histograms);
+
+
+    @Select({"select * from histogram where ",
+            "app_code=#{appCode} and `type`=#{type} and `name`=#{name}",
+            "and event_time>#{start} and event_time<#{end}"})
+    List<LowerCaseKeyMap> findForChart(@Param("appCode") String appCode,
+                                       @Param("type") int type,
+                                       @Param("name") String name,
+                                       @Param("start") Date start,
+                                       @Param("end") Date end);
 }

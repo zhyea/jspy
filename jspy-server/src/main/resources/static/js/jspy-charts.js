@@ -198,7 +198,15 @@
                         let res = '<p>时间：' + new Date(params[0].axisValue * 1).format("MM-dd HH:mm") + '</p>';
                         for (let i = 0; i < params.length; i++) {
                             let sizeVal = params[i].data[1] * 1;
-                            let size = chart.formatB ? sizeVal.formatSize() + ' - ' + Math.round(sizeVal/1024).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + ' K' : sizeVal;
+
+                            let size = sizeVal;
+                            if (chart.formatB) {
+                                let kStr = ' - ' + Math.round(sizeVal / 1024).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + ' K';
+                                if (sizeVal < 0) {
+                                    kStr = ' - ' + sizeVal;
+                                }
+                                size = sizeVal.formatSize() + kStr;
+                            }
                             res += '<p>' + params[i].seriesName + '：' + size + '</p>'
                         }
                         return res;

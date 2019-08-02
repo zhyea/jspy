@@ -1,6 +1,5 @@
 package org.chobit.jspy.service.beans;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.chobit.jspy.charts.AxisType;
 import org.chobit.jspy.charts.ValueType;
 import org.chobit.jspy.charts.annotation.Axis;
@@ -11,15 +10,11 @@ import java.util.Date;
 public class MemoryStat extends AbstractStatEntity {
 
 
-    @JsonIgnore
     private String type;
 
-    @JsonIgnore
     private String name;
 
-    @JsonIgnore
     private String managerNames;
-
 
     @Series(value = "初始内存", selected = false)
     private long init;

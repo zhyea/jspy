@@ -9,14 +9,13 @@
         <div class="form-inline row toolbar">
             <div class="input-group col-lg-10 col-md-10">
                 <!--时间选择-->
-                <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px"
-                       readonly/>
+                <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px" readonly/>
                 <span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
                 <input type="hidden" id="startTimeMem" value=""/>
                 <input type="hidden" id="endTimeMem" value=""/>
                 <input type="hidden" id="memTarget" value="堆内存使用量"/>
                 <span class="input-group-addon">
-                    <input type="checkbox" id="enableAutoRefresh" onclick="refreshChart()" checked> &nbsp;动态刷新
+                    <input type="checkbox" id="enableAutoRefresh" onclick="refreshChart()" checked /> &nbsp;动态刷新
                 </span>
                 <!--下拉按钮 内存对象选择-->
                 <div class="input-group-btn">
@@ -37,9 +36,9 @@
             </div><!-- /input-group -->
         </div>
         <!--报表框-->
-        <div id="memoryChart" style="width: 100%; height:400px;"></div>
+        <div id="memoryChart" style="width: 100%; height:420px;"></div>
         <div>&nbsp;</div>
-        <div id="memoryPeakChart" style="width: 100%; height:400px;"></div>
+        <div id="memoryPeakChart" style="width: 100%; height:420px;"></div>
     </main>
     <div th:replace="common/footer::footer"></div>
 </div>

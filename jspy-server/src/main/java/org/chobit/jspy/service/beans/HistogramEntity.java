@@ -3,6 +3,7 @@ package org.chobit.jspy.service.beans;
 import org.chobit.jspy.charts.AxisType;
 import org.chobit.jspy.charts.ValueType;
 import org.chobit.jspy.charts.annotation.Axis;
+import org.chobit.jspy.charts.annotation.Series;
 import org.chobit.jspy.constants.HistogramType;
 import org.chobit.jspy.model.Histogram;
 
@@ -16,24 +17,34 @@ public class HistogramEntity extends AbstractStatEntity {
 
     private long count;
 
+    @Series(value = "标准差")
     private long stdDev;
 
+    @Series(value = "Min")
     private long min;
 
+    @Series(value = "Max")
     private long max;
 
+    @Series(value = "Mean")
     private long mean;
 
+    @Series(value = "99.9%", selected = false)
     private long percentile999;
 
+    @Series(value = "98%", selected = false)
     private long percentile98;
 
+    @Series(value = "95%", selected = false)
     private long percentile95;
 
+    @Series(value = "90%")
     private long percentile90;
 
+    @Series(value = "75%")
     private long percentile75;
 
+    @Series(value = "中值")
     private long median;
 
     @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)

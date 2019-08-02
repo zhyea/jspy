@@ -27,8 +27,8 @@ public class FrontEndController {
      * 跳转到内存数据页
      */
     @GetMapping("/memory")
-    public String welcome(@SessionAttribute("appCode") String appCode,
-                          ModelMap model) {
+    public String memory(@SessionAttribute("appCode") String appCode,
+                         ModelMap model) {
         List<String> memTypeNames = memoryService.findMemTypeNames(appCode);
         List<String> heapPoolNames = memoryService.findHeapPoolNames(appCode);
         List<String> nonHeapPoolNames = memoryService.findNonHeapPoolNames(appCode);
@@ -38,6 +38,16 @@ public class FrontEndController {
         model.addAttribute("nonHeapPoolNames", nonHeapPoolNames);
 
         return "memory";
+    }
+
+    /**
+     * 跳转到内存数据页
+     */
+    @GetMapping("/gc")
+    public String gc(@SessionAttribute("appCode") String appCode,
+                     ModelMap model) {
+
+        return "gc";
     }
 
     @RequestMapping("/")

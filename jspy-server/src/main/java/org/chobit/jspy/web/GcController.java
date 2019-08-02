@@ -1,9 +1,16 @@
 package org.chobit.jspy.web;
 
+import org.chobit.jspy.charts.ChartKit;
+import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.model.GcOverview;
+import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.GcService;
+import org.chobit.jspy.service.beans.HistogramEntity;
+import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/gc")
@@ -18,6 +25,24 @@ public class GcController {
                            @RequestHeader("ip") String ip,
                            @RequestBody GcOverview overview) {
         return gcService.insert(appCode, ip, overview);
+    }
+
+
+    @PostMapping("/find-by-params")
+    public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
+                                   @RequestBody QueryParam param) {
+        param.setUsePeak(true);
+        List<LowerCaseKeyMap> m = gcService.findByQueryParam(appCode, param);
+        return ChartKit.fill(param.getTarget(), m, HistogramEntity.class);
+    }
+
+
+    @PostMapping("/find-count-by-params")
+    public ChartModel findCountByParams(@SessionAttribute("appCode") String appCode,
+                                        @RequestBody QueryParam param) {
+        param.setUsePeak(true);
+        List<LowerCaseKeyMap> m = gcService.findByQueryParam(appCode, param);
+        return ChartKit.fill(param.getTarget(), m, HistogramEntity.class);
     }
 
 

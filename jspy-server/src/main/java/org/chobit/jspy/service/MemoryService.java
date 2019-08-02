@@ -36,6 +36,11 @@ public class MemoryService {
     private static final long PEAK_FLOATING_RANGE = 1024 * 1024;
 
     /**
+     * 缩减内存用量数据规模使用的浮动区间
+     */
+    private static final long SHRINK_FLOATING_RANGE = 10 * 1024 * 1024;
+
+    /**
      * 普通内存用量浮动区间
      */
     private static final long COMMON_FLOATING_RANGE = 1024;
@@ -95,7 +100,7 @@ public class MemoryService {
 
         long floatingRange = isPeak ? PEAK_FLOATING_RANGE : COMMON_FLOATING_RANGE;
 
-        if (isUsageClose(usage, latest, floatingRange)) {
+        if (null != latest && isUsageClose(usage, latest, floatingRange)) {
             return 0;
         }
 
@@ -150,7 +155,7 @@ public class MemoryService {
                 "init", "used", "committed", "max", "event_time");
 
         if (param.getEndTime().getTime() - TimeUnit.DAYS.toMillis(1L) > param.getStartTime().getTime()) {
-            return shrink(result);
+            return shrinkChartData(result);
         }
         return result;
     }
@@ -207,7 +212,7 @@ public class MemoryService {
     /**
      * 收缩要提交给前端的数据的规模，以减少报表展示的压力
      */
-    private List<LowerCaseKeyMap> shrink(List<LowerCaseKeyMap> src) {
+    private List<LowerCaseKeyMap> shrinkChartData(List<LowerCaseKeyMap> src) {
         long tmpInit = 0;
         long tmpMax = 0;
         long tmpCommitted = 0;
@@ -216,10 +221,10 @@ public class MemoryService {
         List<LowerCaseKeyMap> result = new LinkedList<>();
 
         for (LowerCaseKeyMap m : src) {
-            boolean filter = (Math.abs(m.getLong("init") - tmpInit) > PEAK_FLOATING_RANGE);
-            filter = filter || (Math.abs(m.getLong("max") - tmpMax) > PEAK_FLOATING_RANGE);
-            filter = filter || (Math.abs(m.getLong("committed") - tmpCommitted) > PEAK_FLOATING_RANGE);
-            filter = filter || (Math.abs(m.getLong("used") - tmpUsed) > PEAK_FLOATING_RANGE);
+            boolean filter = (Math.abs(m.getLong("init") - tmpInit) > SHRINK_FLOATING_RANGE);
+            filter = filter || (Math.abs(m.getLong("max") - tmpMax) > SHRINK_FLOATING_RANGE);
+            filter = filter || (Math.abs(m.getLong("committed") - tmpCommitted) > SHRINK_FLOATING_RANGE);
+            filter = filter || (Math.abs(m.getLong("used") - tmpUsed) > SHRINK_FLOATING_RANGE);
 
             if (filter) {
                 tmpInit = m.getLong("init");

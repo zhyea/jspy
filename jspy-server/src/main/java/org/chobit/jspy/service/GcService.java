@@ -3,10 +3,12 @@ package org.chobit.jspy.service;
 import org.chobit.jspy.core.model.GcRecord;
 import org.chobit.jspy.model.GcOverview;
 import org.chobit.jspy.model.Histogram;
+import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.beans.GcStat;
 import org.chobit.jspy.service.beans.HistogramEntity;
 import org.chobit.jspy.service.mapper.GcStatMapper;
 import org.chobit.jspy.service.mapper.HistogramMapper;
+import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,15 @@ public class GcService {
     private GcStatMapper gcMapper;
     @Autowired
     private HistogramMapper histogramMapper;
+
+
+    /**
+     * 查询报表数据
+     */
+    public List<LowerCaseKeyMap> findByQueryParam(String appCode, QueryParam param) {
+        return histogramMapper
+                .findForChart(appCode, GC.id, param.getTarget(), param.getStartTime(), param.getEndTime());
+    }
 
 
     /**
