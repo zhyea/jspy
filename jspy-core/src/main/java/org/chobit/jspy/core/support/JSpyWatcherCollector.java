@@ -30,8 +30,8 @@ public final class JSpyWatcherCollector {
             if (null != old) {
                 histogram = old;
             }
-            histogram.update(duration);
         }
+        histogram.update(duration);
     }
 
 

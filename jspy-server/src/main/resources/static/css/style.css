@@ -101,7 +101,7 @@ nav {
 
 .wrap {
     width: 100%;
-    max-width: 1024px;
+    max-width: 999px;
     margin: 0 auto;
     background: #fff;
     box-shadow: 0 0 15px 15px rgba(200, 200, 200, .14);
