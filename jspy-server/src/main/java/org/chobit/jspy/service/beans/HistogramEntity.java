@@ -17,13 +17,13 @@ public class HistogramEntity extends AbstractStatEntity {
 
     private long count;
 
-    @Series(value = "标准差")
+    @Series(value = "标准差", selected = false)
     private long stdDev;
 
-    @Series(value = "Min")
+    @Series(value = "Min", selected = false)
     private long min;
 
-    @Series(value = "Max")
+    @Series(value = "Max", selected = false)
     private long max;
 
     @Series(value = "Mean")
@@ -38,13 +38,13 @@ public class HistogramEntity extends AbstractStatEntity {
     @Series(value = "95%", selected = false)
     private long percentile95;
 
-    @Series(value = "90%")
+    @Series(value = "90%", selected = false)
     private long percentile90;
 
-    @Series(value = "75%")
+    @Series(value = "75%", selected = false)
     private long percentile75;
 
-    @Series(value = "中值")
+    @Series(value = "中值", selected = false)
     private long median;
 
     @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)

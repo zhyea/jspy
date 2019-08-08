@@ -13,6 +13,9 @@ import java.util.List;
 public interface HistogramMapper {
 
 
+    @Select("select distinct name from histogram where type=#{type}")
+    List<String> findNamesByType(@Param("type")int type);
+
     @Insert({
             "insert into histogram(app_code, ip, `type`, `name`, count, std_dev, min, max, mean, ",
             "percentile999, percentile98, percentile95, percentile90, percentile75, median, event_time)",

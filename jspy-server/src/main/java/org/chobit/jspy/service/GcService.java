@@ -10,6 +10,8 @@ import org.chobit.jspy.service.mapper.GcStatMapper;
 import org.chobit.jspy.service.mapper.HistogramMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -18,6 +20,7 @@ import java.util.List;
 import static org.chobit.jspy.constants.HistogramType.GC;
 
 @Service
+@CacheConfig(cacheNames = "gc")
 public class GcService {
 
 
@@ -33,6 +36,15 @@ public class GcService {
     public List<LowerCaseKeyMap> findByQueryParam(String appCode, QueryParam param) {
         return histogramMapper
                 .findForChart(appCode, GC.id, param.getTarget(), param.getStartTime(), param.getEndTime());
+    }
+
+
+    /**
+     * 获取Histogram名称
+     */
+    @Cacheable(key = "findHistogramNames")
+    public List<String> findHistogramNames() {
+        return histogramMapper.findNamesByType(GC.id);
     }
 
 

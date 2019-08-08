@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static java.lang.management.MemoryType.HEAP;
 import static java.lang.management.MemoryType.NON_HEAP;
@@ -56,9 +57,8 @@ public class MemoryService {
     /**
      * 查询内存类型名称
      */
-    @Cacheable(key = "'findMemTypeNames:'+#appCode")
-    public List<String> findMemTypeNames(String appCode) {
-        return memMapper.findMemTypeNames(appCode);
+    public List<String> findMemTypeNames() {
+        return Arrays.stream(MemoryType.values()).map(Enum::name).collect(Collectors.toList());
     }
 
     /**
@@ -127,7 +127,6 @@ public class MemoryService {
     public boolean insert(String appCode, String ip, MemoryOverview overview) {
 
         long eventTime = overview.getTime();
-        System.out.println(SysTime.millis() + " - " + eventTime + "------------------------------------------------------------mem insert");
 
         insertMemTypeData(appCode, ip, overview.getHeapUsage(), HEAP, eventTime, false);
         insertMemTypeData(appCode, ip, overview.getNonHeapUsage(), NON_HEAP, eventTime, false);

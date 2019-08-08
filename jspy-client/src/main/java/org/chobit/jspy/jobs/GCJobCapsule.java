@@ -1,7 +1,6 @@
 package org.chobit.jspy.jobs;
 
 import org.chobit.jspy.JSpyConfig;
-import org.chobit.jspy.core.metrics.Snapshot;
 import org.chobit.jspy.core.support.GcCollector;
 import org.chobit.jspy.core.support.GcNotificationListener;
 import org.chobit.jspy.model.GcOverview;
@@ -45,14 +44,8 @@ public final class GCJobCapsule extends JobCapsule<GcOverview> {
     public GcOverview collect() {
         GcOverview overview = new GcOverview();
         gcCollector.drainTo(overview.getGcRecords());
-        Snapshot major = gcCollector.majorSnapshot();
-        if (major.size() > 0) {
-            overview.addMajorHistogram(gcCollector.majorSnapshot());
-        }
-        Snapshot minor = gcCollector.minorSnapshot();
-        if (minor.size() > 0) {
-            overview.addMinorHistogram(gcCollector.minorSnapshot());
-        }
+        overview.addMajorHistogram(gcCollector.majorSnapshot());
+        overview.addMinorHistogram(gcCollector.minorSnapshot());
         return overview;
     }
 }

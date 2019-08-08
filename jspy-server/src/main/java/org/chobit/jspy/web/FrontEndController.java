@@ -1,6 +1,7 @@
 package org.chobit.jspy.web;
 
 import org.chobit.jspy.service.AppService;
+import org.chobit.jspy.service.GcService;
 import org.chobit.jspy.service.MemoryService;
 import org.chobit.jspy.service.beans.App;
 import org.chobit.jspy.utils.Args;
@@ -16,7 +17,8 @@ import java.util.List;
 @RequestMapping("/")
 public class FrontEndController {
 
-
+    @Autowired
+    private GcService gcService;
     @Autowired
     private AppService appService;
     @Autowired
@@ -27,9 +29,8 @@ public class FrontEndController {
      * 跳转到内存数据页
      */
     @GetMapping("/memory")
-    public String memory(@SessionAttribute("appCode") String appCode,
-                         ModelMap model) {
-        List<String> memTypeNames = memoryService.findMemTypeNames(appCode);
+    public String memory(@SessionAttribute("appCode") String appCode, ModelMap model) {
+        List<String> memTypeNames = memoryService.findMemTypeNames();
         List<String> heapPoolNames = memoryService.findHeapPoolNames(appCode);
         List<String> nonHeapPoolNames = memoryService.findNonHeapPoolNames(appCode);
 
@@ -46,7 +47,9 @@ public class FrontEndController {
     @GetMapping("/gc")
     public String gc(@SessionAttribute("appCode") String appCode,
                      ModelMap model) {
+        List<String> names = gcService.findHistogramNames();
 
+        model.addAttribute("names", names);
         return "gc";
     }
 

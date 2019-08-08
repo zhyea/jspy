@@ -43,9 +43,7 @@ public final class MethodHistogramJobCapsule extends JobCapsule<List<Histogram>>
 
         Map<String, Snapshot> map = collector.snapshots();
         for (Map.Entry<String, Snapshot> e : map.entrySet()) {
-            if (e.getValue().size() > 0) {
-                list.add(new Histogram(e.getKey(), e.getValue()));
-            }
+            list.add(new Histogram(e.getKey(), e.getValue()));
         }
 
         return list;

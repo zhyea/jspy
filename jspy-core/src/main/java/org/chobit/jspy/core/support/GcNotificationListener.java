@@ -31,7 +31,6 @@ public final class GcNotificationListener implements NotificationListener {
         }
     }
 
-
     @Override
     public void handleNotification(Notification notification, Object handback) {
         /**

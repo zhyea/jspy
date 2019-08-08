@@ -84,7 +84,7 @@ a img {
 
 body {
     /* font-family: "Trebuchet MS", monospace, 'Microsoft YaHei', STHeiti; */
-    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, 'PingFang SC', 'Microsoft YaHei', 'Source Han Sans SC', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', sans-serif;
+    font-family: sans-serif;
     color: #333;
     font-size: 13px;
     background-color: #f2f2f2;

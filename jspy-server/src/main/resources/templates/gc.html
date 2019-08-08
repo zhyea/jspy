@@ -9,14 +9,26 @@
         <div class="form-inline row toolbar">
             <div class="input-group col-lg-10 col-md-10">
                 <!--时间选择-->
-                <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px" readonly/>
+                <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px"
+                       readonly/>
                 <span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
                 <input type="hidden" id="startTimeGc" value=""/>
                 <input type="hidden" id="endTimeGc" value=""/>
-                <input type="hidden" id="gcTarget" value="MAJOR"/>
+                <input type="hidden" id="gcTarget" value="MINOR"/>
                 <span class="input-group-addon">
-                    <input type="checkbox" id="enableAutoRefresh" onclick="refreshChart()" checked /> &nbsp;动态刷新
+                    <input type="checkbox" id="enableAutoRefresh" onclick="refreshChart()" checked/> &nbsp;动态刷新
                 </span>
+                <!--下拉按钮 gc对象选择-->
+                <div class="input-group-btn">
+                    <button type="button"
+                            class="btn btn-default dropdown-toggle"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        GC对象选择 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li th:each="n: ${names}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a></li>
+                    </ul>
+                </div><!-- /btn-group -->
             </div><!-- /input-group -->
         </div>
         <!--报表框-->
@@ -30,8 +42,8 @@
 
 <script type="text/javascript">
 
-    const memChart = initAndLoadJSpyChart($('#gcHistogramChart'), '/api/gc/find-by-params', 'MAJOR');
-    const memPeakChart = initAndLoadJSpyChart($('#gcCountChart'), '/api/gc/find-count-by-params', 'MAJOR');
+    const gcHistogramChart = initAndLoadJSpyChart($('#gcHistogramChart'), '/api/gc/find-by-params', 'MINOR');
+    const gcCountChart = initAndLoadJSpyChart($('#gcCountChart'), '/api/gc/find-count-by-params', 'MINOR');
 
     function refresh(target) {
         $("#gcTarget").val(target);
@@ -51,8 +63,8 @@
             end = -1;
         }
 
-        memChart.refresh(target, start, end);
-        memPeakChart.refresh(target, start, end);
+        gcHistogramChart.refresh(target, start, end);
+        gcCountChart.refresh(target, start, end);
     }
 
     loadDateRangePicker($('#date_picker'), function (start, end) {
