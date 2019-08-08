@@ -183,7 +183,7 @@ a:focus {
 h1.prince-log {
     height: 80px;
     line-height: 80px;
-    font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
+    font-family:  sans-serif;
     text-transform: uppercase;
     letter-spacing: 3px;
     font-weight: 700;
@@ -230,7 +230,7 @@ main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > t
     }
 
     .main-nav-items li a {
-        font-family: 'Oswald', sans-serif, 'Microsoft YaHei', STHeiti;
+        font-family: sans-serif;
         font-size: 13px;
         font-weight: 400;
         letter-spacing: 1px;

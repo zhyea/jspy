@@ -214,14 +214,14 @@
                 },
                 title: {},
                 legend: {},
-                yAxis: {
+                yAxis: [{
                     type: 'value',
                     axisLabel: {
                         formatter: function (value) {
                             return chart.formatB ? (1 * value).formatSize() : value;
                         }
                     }
-                },
+                }],
                 xAxis: {
                     type: 'time'
                 },
