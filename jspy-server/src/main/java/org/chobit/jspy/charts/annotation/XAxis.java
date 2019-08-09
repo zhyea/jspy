@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Axis {
+public @interface XAxis {
 
     AxisType type() default AxisType.value;
 

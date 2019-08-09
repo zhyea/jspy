@@ -2,7 +2,7 @@ package org.chobit.jspy.service.beans;
 
 import org.chobit.jspy.charts.AxisType;
 import org.chobit.jspy.charts.ValueType;
-import org.chobit.jspy.charts.annotation.Axis;
+import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.charts.annotation.Series;
 import org.chobit.jspy.constants.HistogramType;
 import org.chobit.jspy.model.Histogram;
@@ -15,6 +15,7 @@ public class HistogramEntity extends AbstractStatEntity {
 
     private String name;
 
+    @Series(value = "次数", yAxisIndex = 1)
     private long count;
 
     @Series(value = "标准差", selected = false)
@@ -47,7 +48,7 @@ public class HistogramEntity extends AbstractStatEntity {
     @Series(value = "中值", selected = false)
     private long median;
 
-    @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
+    @XAxis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
     public HistogramEntity() {

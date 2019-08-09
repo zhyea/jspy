@@ -2,7 +2,7 @@ package org.chobit.jspy.service.beans;
 
 import org.chobit.jspy.charts.AxisType;
 import org.chobit.jspy.charts.ValueType;
-import org.chobit.jspy.charts.annotation.Axis;
+import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.charts.annotation.Series;
 
 import java.util.Date;
@@ -28,7 +28,7 @@ public class MemoryStat extends AbstractStatEntity {
     @Series(value = "最大可用", selected = false)
     private long max;
 
-    @Axis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
+    @XAxis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
     private int isPeak = 0;

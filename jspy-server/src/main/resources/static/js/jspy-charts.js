@@ -166,6 +166,14 @@
 
 
         /**
+         * 添加Y轴
+         */
+        addYAxis: function (axis) {
+            this.chart.getOption().yAxis.push(axis)
+        },
+
+
+        /**
          * 构建报表
          *
          * @param queryResult 查询结果

@@ -1,5 +1,6 @@
 package org.chobit.jspy.charts;
 
+import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 
 import java.lang.reflect.Field;
@@ -90,8 +91,8 @@ public abstract class ChartKit {
     private static Axis parseAxisInfo(Class model) {
         Field[] fields = model.getDeclaredFields();
         for (Field f : fields) {
-            if (f.isAnnotationPresent(org.chobit.jspy.charts.annotation.Axis.class)) {
-                org.chobit.jspy.charts.annotation.Axis axis = f.getAnnotation(org.chobit.jspy.charts.annotation.Axis.class);
+            if (f.isAnnotationPresent(XAxis.class)) {
+                XAxis axis = f.getAnnotation(XAxis.class);
                 String field = humpToLine(f.getName());
                 AxisType type = axis.type();
                 ValueType valueType = axis.valueType();
