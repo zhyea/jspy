@@ -15,4 +15,6 @@ public @interface Series {
     String id() default "";
 
     boolean selected() default true;
+
+    int yAxisIndex() default 0;
 }

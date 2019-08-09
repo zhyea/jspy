@@ -4,7 +4,7 @@ package org.chobit.jspy.charts;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Series<T> {
+public class Series {
 
     private String id;
 
@@ -16,7 +16,9 @@ public class Series<T> {
 
     private boolean selected;
 
-    private final List<T> data = new LinkedList<>();
+    private int yAxisIndex = 0;
+
+    private final List<Object> data = new LinkedList<>();
 
 
     public Series() {
@@ -26,13 +28,12 @@ public class Series<T> {
         this.name = name;
     }
 
-    public Series(String id, String name, boolean selected) {
+    public Series(String id, String name) {
         this.id = id;
         this.name = name;
-        this.selected = selected;
     }
 
-    public void addData(T d) {
+    public void addData(Object d) {
         data.add(d);
     }
 
@@ -68,7 +69,15 @@ public class Series<T> {
         this.selected = selected;
     }
 
-    public List<T> getData() {
+    public int getyAxisIndex() {
+        return yAxisIndex;
+    }
+
+    public void setyAxisIndex(int yAxisIndex) {
+        this.yAxisIndex = yAxisIndex;
+    }
+
+    public List<Object> getData() {
         return data;
     }
 

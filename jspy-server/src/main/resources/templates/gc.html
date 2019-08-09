@@ -42,8 +42,8 @@
 
 <script type="text/javascript">
 
-    const gcHistogramChart = initAndLoadJSpyChart($('#gcHistogramChart'), '/api/gc/find-by-params', 'MINOR');
-    const gcCountChart = initAndLoadJSpyChart($('#gcCountChart'), '/api/gc/find-count-by-params', 'MINOR');
+    const gcHistogramChart = initAndLoadJSpyChart($('#gcHistogramChart'), '/api/gc/find-by-params', 'MINOR', false, 'ms');
+    const gcCountChart = initAndLoadJSpyChart($('#gcCountChart'), '/api/gc/find-count-by-params', 'MINOR', false, 'ms');
 
     function refresh(target) {
         $("#gcTarget").val(target);

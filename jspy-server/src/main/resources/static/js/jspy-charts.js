@@ -18,6 +18,8 @@
         this.interval = DEFAULT_REQUEST_INTERVAL;
 
         this.formatB = false;
+
+        this.unit = "";
         /**
          * 0. 初始化
          * 1. 已构建
@@ -51,10 +53,12 @@
             if (typeof options.formatB == 'boolean')
                 this.formatB = options.formatB;
 
+            if (typeof options.unit == 'string')
+                this.unit = options.unit;
+
             if (typeof cb == 'function')
                 this.cb = cb
         }
-
     };
 
 
@@ -206,6 +210,8 @@
                                     kStr = ' - ' + sizeVal;
                                 }
                                 size = sizeVal.formatSize() + kStr;
+                            } else {
+                                size = size + ' ' + chart.unit;
                             }
                             res += '<p>' + params[i].seriesName + '：' + size + '</p>'
                         }
@@ -218,7 +224,7 @@
                     type: 'value',
                     axisLabel: {
                         formatter: function (value) {
-                            return chart.formatB ? (1 * value).formatSize() : value;
+                            return chart.formatB ? (1 * value).formatSize() : value + ' ' + chart.unit;
                         }
                     }
                 }],
@@ -260,14 +266,16 @@
 }(window.jQuery);
 
 
-function initAndLoadJSpyChart(ele, url, target, formatB) {
+function initAndLoadJSpyChart(ele, url, target, formatB, unit) {
 
     formatB = formatB || false;
+    unit = unit || '';
 
     let chart = ele.jspyCharts({
         target: target,
         url: url,
-        formatB: formatB
+        formatB: formatB,
+        unit: unit
     });
 
     chart.load();

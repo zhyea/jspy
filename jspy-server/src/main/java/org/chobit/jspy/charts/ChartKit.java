@@ -1,6 +1,5 @@
 package org.chobit.jspy.charts;
 
-import org.chobit.jspy.charts.annotation.Axis;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 
 import java.lang.reflect.Field;
@@ -27,9 +26,9 @@ public abstract class ChartKit {
     /**
      * 填充charts数据
      */
-    public static final ChartModel fill(String name, List<LowerCaseKeyMap> data, Class chartModel) {
+    public static  ChartModel fill(String name, List<LowerCaseKeyMap> data, Class chartModel) {
         Map<String, Series> seriesMap = parseSeriesNameMap(chartModel);
-        AxisInfo axisInfo = parseAxisInfo(chartModel);
+        Axis axisInfo = parseAxisInfo(chartModel);
 
         ChartModel model = new ChartModel(name);
 
@@ -42,6 +41,7 @@ public abstract class ChartKit {
             if (axisInfo.getType() != AxisType.time) {
                 model.addXAxis(axisInfo.format(axisInfo.getField()));
             }
+
             for (Map.Entry<String, Series> e : seriesMap.entrySet()) {
                 if (axisInfo.getType() == AxisType.time) {
                     // 如xAxis type为 time，时间在Series中设置
@@ -71,7 +71,13 @@ public abstract class ChartKit {
                 String name = isBlank(series.value()) ? f.getName() : series.value();
                 String id = isBlank(series.id()) ? f.getName() : series.id();
                 boolean selected = series.selected();
-                seriesMap.put(humpToLine(f.getName()), new Series(id, name, selected));
+                int yAxisIdx = series.yAxisIndex();
+
+                Series s = new Series(id, name);
+                s.setSelected(selected);
+                s.setyAxisIndex(yAxisIdx);
+
+                seriesMap.put(humpToLine(f.getName()), s);
             }
         }
         return seriesMap;
@@ -81,16 +87,16 @@ public abstract class ChartKit {
     /**
      * 解析横轴数据
      */
-    private static AxisInfo parseAxisInfo(Class model) {
+    private static Axis parseAxisInfo(Class model) {
         Field[] fields = model.getDeclaredFields();
         for (Field f : fields) {
-            if (f.isAnnotationPresent(Axis.class)) {
-                Axis axis = f.getAnnotation(Axis.class);
+            if (f.isAnnotationPresent(org.chobit.jspy.charts.annotation.Axis.class)) {
+                org.chobit.jspy.charts.annotation.Axis axis = f.getAnnotation(org.chobit.jspy.charts.annotation.Axis.class);
                 String field = humpToLine(f.getName());
                 AxisType type = axis.type();
                 ValueType valueType = axis.valueType();
                 String format = axis.format();
-                return new AxisInfo(field, type, valueType, format);
+                return new Axis(field, type, valueType, format);
             }
         }
         throw new IllegalArgumentException("Chart Model Class中没有提供坐标轴信息");
@@ -99,7 +105,7 @@ public abstract class ChartKit {
 
 }
 
-class AxisInfo {
+class Axis {
 
     private String field;
 
@@ -111,7 +117,7 @@ class AxisInfo {
 
     private Format fmt;
 
-    public AxisInfo(String field, AxisType type, ValueType valueType, String format) {
+    public Axis(String field, AxisType type, ValueType valueType, String format) {
         this.field = field;
         this.type = type;
         this.valueType = valueType;

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ChartModel<T, X> {
+public class ChartModel {
 
 
     private String title;
@@ -14,9 +14,9 @@ public class ChartModel<T, X> {
 
     private final Map<String, Boolean> legendUnSelected = new LinkedHashMap<>();
 
-    private final List<Series<T>> series = new LinkedList<>();
+    private final List<Series> series = new LinkedList<>();
 
-    private final List<X> xAxis = new LinkedList<>();
+    private final List<Object> xAxis = new LinkedList<>();
 
     private int interval;
 
@@ -28,7 +28,7 @@ public class ChartModel<T, X> {
         this.title = title;
     }
 
-    public void addSeries(Series<T> s) {
+    public void addSeries(Series s) {
         this.series.add(s);
         this.legend.add(s.getName());
         if (!s.isSelected()) {
@@ -36,7 +36,7 @@ public class ChartModel<T, X> {
         }
     }
 
-    public void addXAxis(X a) {
+    public void addXAxis(Object a) {
         xAxis.add(a);
     }
 
@@ -56,11 +56,11 @@ public class ChartModel<T, X> {
         return legendUnSelected;
     }
 
-    public List<Series<T>> getSeries() {
+    public List<Series> getSeries() {
         return series;
     }
 
-    public List<X> getxAxis() {
+    public List<Object> getxAxis() {
         return xAxis;
     }
 
