@@ -201,6 +201,14 @@
             let seriesArr = chartModel.series
             // 指定图表的配置项和数据
             return {
+                toolbox: {
+                    feature: {
+                        dataView: {show: true, readOnly: false},
+                        magicType: {show: true, type: ['line', 'bar']},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+                },
                 tooltip: {
                     // 当trigger为’item’时只会显示该点的数据，为’axis’时显示该列下所有坐标轴所对应的数据。
                     trigger: 'axis',
@@ -211,7 +219,7 @@
                         }
                     },
                     formatter: function (params) {
-                        let res = '<p>时间：' + new Date(params[0].axisValue * 1).format("MM-dd HH:mm") + '</p>';
+                        let res = '时间：' + new Date(params[0].axisValue * 1).format("MM/dd HH:mm") + '<br/>';
                         for (let i = 0; i < params.length; i++) {
                             let s = seriesArr[i];
                             let v = params[i].data[1] * 1;
@@ -224,7 +232,7 @@
                                 }
                                 vFormat = v.formatStorage() + kStr;
                             }
-                            res += '<p>' + params[i].seriesName + '：' + vFormat + '</p>'
+                            res += params[i].seriesName + '：' + vFormat + '<br/>'
                         }
                         return res;
                     }

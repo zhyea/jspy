@@ -10,15 +10,14 @@ import java.util.Date;
 
 public class GcHistogram {
 
-
-    @Series(value = "平均用时", unit = "ms", selected = false)
-    private long mean;
-
     @Series(value = "用时", unit = "ms")
     private long sum;
 
     @Series(value = "次数", yAxisIndex = 1, type = ChartType.bar)
     private long count;
+
+    @Series(value = "平均用时", unit = "ms", selected = false)
+    private long mean;
 
     @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;

@@ -17,10 +17,10 @@ public interface HistogramMapper {
     List<String> findNamesByType(@Param("type")int type);
 
     @Insert({
-            "insert into histogram(app_code, ip, `type`, `name`, count, std_dev, min, max, mean, ",
+            "insert into histogram(app_code, ip, `type`, `name`, count, std_dev, min, max, mean, sum,",
             "percentile999, percentile98, percentile95, percentile90, percentile75, median, event_time)",
             "values",
-            "(#{appCode}, #{ip}, #{type}, #{name}, #{count}, #{stdDev}, #{min}, #{max}, #{mean},",
+            "(#{appCode}, #{ip}, #{type}, #{name}, #{count}, #{stdDev}, #{min}, #{max}, #{mean}, #{sum},",
             " #{percentile999}, #{percentile98}, #{percentile95}, #{percentile90}, #{percentile75}, #{median}, #{eventTime})",
     })
     @Options(useGeneratedKeys = true, keyProperty = "id")
@@ -30,11 +30,11 @@ public interface HistogramMapper {
     @JSpyWatcher("JSpyWatcher注解方法信息-Mapper.insert")
     @Insert({
             "<script>",
-            "insert into histogram(app_code, ip, `type`, `name`, count, std_dev, min, max, mean, ",
+            "insert into histogram(app_code, ip, `type`, `name`, count, std_dev, min, max, mean, sum",
             "percentile999, percentile98, percentile95, percentile90, percentile75, median, event_time)",
             "values",
             "<foreach collection='histograms' item='item' separator=','>",
-            "(#{item.appCode}, #{item.ip}, #{item.type}, #{item.name}, #{item.count}, #{item.stdDev}, #{item.min}, #{item.max}, #{item.mean},",
+            "(#{item.appCode}, #{item.ip}, #{item.type}, #{item.name}, #{item.count}, #{item.stdDev}, #{item.min}, #{item.max}, #{item.mean}, #{item.sum},",
             " #{item.percentile999}, #{item.percentile98}, #{item.percentile95}, #{item.percentile90}, #{item.percentile75}, #{item.median}, #{item.eventTime})",
             "</foreach>",
             "</script>"
