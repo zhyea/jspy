@@ -30,7 +30,7 @@ public interface HistogramMapper {
     @JSpyWatcher("JSpyWatcher注解方法信息-Mapper.insert")
     @Insert({
             "<script>",
-            "insert into histogram(app_code, ip, `type`, `name`, count, std_dev, min, max, mean, sum",
+            "insert into histogram(app_code, ip, `type`, `name`, count, std_dev, min, max, mean, sum,",
             "percentile999, percentile98, percentile95, percentile90, percentile75, median, event_time)",
             "values",
             "<foreach collection='histograms' item='item' separator=','>",

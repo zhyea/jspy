@@ -28,4 +28,7 @@ public interface GcStatMapper {
     })
     int batchInsert(@Param("gcStats") List<GcStat> gcStats);
 
+
+    List<GcStat> findInPage();
+
 }
