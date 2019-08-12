@@ -119,4 +119,9 @@ public class UniformSnapshot extends Snapshot {
         final double variance = sum / (values.length - 1);
         return Math.sqrt(variance);
     }
+
+    @Override
+    public long sum() {
+        return Arrays.stream(values).sum();
+    }
 }

@@ -143,6 +143,7 @@ create table if not exists histogram
     min           bigint,
     max           bigint,
     mean          bigint,
+    sum           bigint,
 
     percentile999 bigint,
     percentile98  bigint,

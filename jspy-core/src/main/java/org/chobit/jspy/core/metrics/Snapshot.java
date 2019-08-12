@@ -21,42 +21,42 @@ public abstract class Snapshot {
     public abstract int size();
 
     /**
-     * 返回中值，意味着集合中50%的值都小于改值
+     * 返回中值，意味着集合中50%的值都小于该值
      */
     public double getMedian() {
         return getValue(0.5);
     }
 
     /**
-     * 返回%75线，意味着集合中75%的值都小于改值
+     * 返回%75线，意味着集合中75%的值都小于该值
      */
     public double get75thPercentile() {
         return getValue(0.75);
     }
 
     /**
-     * 返回%99线，意味着集合中99%的值都小于改值
+     * 返回%99线，意味着集合中99%的值都小于该值
      */
     public double get90thPercentile() {
         return getValue(0.90);
     }
 
     /**
-     * 返回%95线，意味着集合中95%的值都小于改值
+     * 返回%95线，意味着集合中95%的值都小于该值
      */
     public double get95thPercentile() {
         return getValue(0.95);
     }
 
     /**
-     * 返回%98线，意味着集合中98%的值都小于改值
+     * 返回%98线，意味着集合中98%的值都小于该值
      */
     public double get98thPercentile() {
         return getValue(0.98);
     }
 
     /**
-     * 返回%99.9线，意味着集合中99.9%的值都小于改值
+     * 返回%99.9线，意味着集合中99.9%的值都小于该值
      */
     public double get999thPercentile() {
         return getValue(0.999);
@@ -81,5 +81,10 @@ public abstract class Snapshot {
      * 返回标准差
      */
     public abstract double getStdDev();
+    
+    /**
+     * 返回值总和
+     */
+    public abstract long sum();
 
 }

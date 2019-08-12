@@ -134,7 +134,7 @@ public abstract class ChartKit {
                         f.getAnnotation(org.chobit.jspy.charts.annotation.Series.class);
 
                 if (series.yAxisIndex() + 1 > yAxisNum) {
-                    YAxis axis = new YAxis(yAxisNum);
+                    YAxis axis = new YAxis(yAxisNum++);
                     axis.setUnit(series.unit());
                     axis.setValType(series.valType());
 

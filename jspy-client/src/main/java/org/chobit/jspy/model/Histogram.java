@@ -9,6 +9,8 @@ public class Histogram {
 
     private long count;
 
+    private long sum;
+
     private long stdDev;
 
     private long min;
@@ -40,6 +42,7 @@ public class Histogram {
         this.name = name;
 
         this.count = snapshot.size();
+        this.sum = snapshot.sum();
         this.stdDev = (long) snapshot.getStdDev();
         this.min = snapshot.getMin();
         this.max = snapshot.getMax();
@@ -58,6 +61,10 @@ public class Histogram {
 
     public long getCount() {
         return count;
+    }
+
+    public long getSum() {
+        return sum;
     }
 
     public long getStdDev() {

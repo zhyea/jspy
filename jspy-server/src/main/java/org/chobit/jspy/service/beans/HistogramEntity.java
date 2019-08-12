@@ -16,9 +16,6 @@ public class HistogramEntity extends AbstractStatEntity {
 
     private String name;
 
-    @Series(value = "次数", yAxisIndex = 1, type = ChartType.bar)
-    private long count;
-
     @Series(value = "标准差", selected = false, unit = "ms")
     private long stdDev;
 
@@ -49,6 +46,12 @@ public class HistogramEntity extends AbstractStatEntity {
     @Series(value = "中值", selected = false, unit = "ms")
     private long median;
 
+    @Series(value = "总值", selected = false, unit = "ms")
+    private long sum;
+
+    @Series(value = "次数", yAxisIndex = 1, type = ChartType.bar)
+    private long count;
+
     @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
@@ -61,6 +64,7 @@ public class HistogramEntity extends AbstractStatEntity {
         this.type = type.id;
         this.name = his.getName();
         this.count = his.getCount();
+        this.sum = his.getSum();
         this.stdDev = his.getStdDev();
         this.min = his.getMin();
         this.max = his.getMax();
@@ -97,6 +101,14 @@ public class HistogramEntity extends AbstractStatEntity {
 
     public void setCount(long count) {
         this.count = count;
+    }
+
+    public long getSum() {
+        return sum;
+    }
+
+    public void setSum(long sum) {
+        this.sum = sum;
     }
 
     public long getStdDev() {
