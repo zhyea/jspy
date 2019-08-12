@@ -1,6 +1,6 @@
 package org.chobit.jspy.service.beans;
 
-import org.chobit.jspy.charts.AxisType;
+import org.chobit.jspy.charts.XAxisType;
 import org.chobit.jspy.charts.ValueType;
 import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.charts.annotation.Series;
@@ -22,7 +22,7 @@ public class ThreadStat extends AbstractStatEntity {
     @Series("后台线程数")
     private long daemon;
 
-    @XAxis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
+    @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
 

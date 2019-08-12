@@ -23,7 +23,7 @@ Date.prototype.format = function (fmt) {
 };
 
 
-Number.prototype.formatSize = function () {
+Number.prototype.formatStorage = function () {
     let sizes = ['B', 'K', 'M', 'G', 'T'];
     if (0 >= this) return 0;
     let i = parseInt(Math.floor(Math.log(this) / Math.log(1024)) + '');
@@ -31,13 +31,17 @@ Number.prototype.formatSize = function () {
 };
 
 
-function formatSize(bytes) {
+function formatStorage(bytes) {
     let sizes = ['B', 'K', 'M', 'G', 'T'];
     if (bytes == 0) return 0;
     let i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)) + '');
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
 
+
+function formatLong(src){
+    return Math.round(src).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+}
 
 function copyToClipboard(text) {
     let aux = document.createElement("input");

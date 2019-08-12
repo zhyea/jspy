@@ -1,6 +1,6 @@
 package org.chobit.jspy.charts;
 
-public enum AxisType {
+public enum XAxisType {
 
 
     value, //数值轴，适用于连续数据。

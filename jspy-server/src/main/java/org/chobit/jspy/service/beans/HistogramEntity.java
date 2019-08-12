@@ -1,6 +1,7 @@
 package org.chobit.jspy.service.beans;
 
-import org.chobit.jspy.charts.AxisType;
+import org.chobit.jspy.charts.XAxisType;
+import org.chobit.jspy.charts.ChartType;
 import org.chobit.jspy.charts.ValueType;
 import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.charts.annotation.Series;
@@ -15,40 +16,40 @@ public class HistogramEntity extends AbstractStatEntity {
 
     private String name;
 
-    @Series(value = "次数", yAxisIndex = 1)
+    @Series(value = "次数", yAxisIndex = 1, type = ChartType.bar)
     private long count;
 
-    @Series(value = "标准差", selected = false)
+    @Series(value = "标准差", selected = false, unit = "ms")
     private long stdDev;
 
-    @Series(value = "Min", selected = false)
+    @Series(value = "Min", selected = false, unit = "ms")
     private long min;
 
-    @Series(value = "Max", selected = false)
+    @Series(value = "Max", selected = false, unit = "ms")
     private long max;
 
-    @Series(value = "Mean")
+    @Series(value = "Mean", unit = "ms")
     private long mean;
 
-    @Series(value = "99.9%", selected = false)
+    @Series(value = "99.9%", selected = false, unit = "ms")
     private long percentile999;
 
-    @Series(value = "98%", selected = false)
+    @Series(value = "98%", selected = false, unit = "ms")
     private long percentile98;
 
-    @Series(value = "95%", selected = false)
+    @Series(value = "95%", selected = false, unit = "ms")
     private long percentile95;
 
-    @Series(value = "90%", selected = false)
+    @Series(value = "90%", selected = false, unit = "ms")
     private long percentile90;
 
-    @Series(value = "75%", selected = false)
+    @Series(value = "75%", selected = false, unit = "ms")
     private long percentile75;
 
-    @Series(value = "中值", selected = false)
+    @Series(value = "中值", selected = false, unit = "ms")
     private long median;
 
-    @XAxis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
+    @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
     public HistogramEntity() {

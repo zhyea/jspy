@@ -18,6 +18,10 @@ public class Series {
 
     private int yAxisIndex = 0;
 
+    private String unit = "";
+
+    private ValueType valType;
+
     private final List<Object> data = new LinkedList<>();
 
 
@@ -75,6 +79,22 @@ public class Series {
 
     public void setyAxisIndex(int yAxisIndex) {
         this.yAxisIndex = yAxisIndex;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public ValueType getValType() {
+        return valType;
+    }
+
+    public void setValType(ValueType valType) {
+        this.valType = valType;
     }
 
     public List<Object> getData() {

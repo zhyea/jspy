@@ -16,10 +16,6 @@
         this.url = "";
 
         this.interval = DEFAULT_REQUEST_INTERVAL;
-
-        this.formatB = false;
-
-        this.unit = "";
         /**
          * 0. 初始化
          * 1. 已构建
@@ -49,12 +45,6 @@
 
             if (typeof options.interval == 'number')
                 this.interval = options.interval;
-
-            if (typeof options.formatB == 'boolean')
-                this.formatB = options.formatB;
-
-            if (typeof options.unit == 'string')
-                this.unit = options.unit;
 
             if (typeof cb == 'function')
                 this.cb = cb
@@ -117,6 +107,7 @@
 
                     if (chart.state === 0 || chart.state === 3) {
                         chart.buildChart(result)
+
                     } else {
                         chart.refreshData(result);
                     }
@@ -166,29 +157,34 @@
 
 
         /**
-         * 添加Y轴
-         */
-        addYAxis: function (axis) {
-            this.chart.getOption().yAxis.push(axis)
-        },
-
-
-        /**
          * 构建报表
          *
-         * @param queryResult 查询结果
+         * @param chartModel 查询结果
          */
-        buildChart: function (queryResult) {
+        buildChart: function (chartModel) {
             if (this.state === 3) {
                 this.chart.clear();
             }
 
-            let opt = this.initOption();
+            let opt = this.initOption(chartModel);
 
-            opt.title.text = queryResult.title;
-            opt.series = queryResult.series;
-            opt.legend.data = queryResult.legend;
-            opt.legend.selected = queryResult.legendUnSelected;
+            let yAxises = chartModel.yAxises;
+
+            for (let i = 0; i < yAxises.length; i++) {
+                let a = yAxises[i];
+                opt.yAxis.push({
+                    type: 'value',
+                    axisLabel: {
+                        formatter: function (value) {
+                            if (a.valType === 'STORAGE') {
+                                return (1 * value).formatStorage();
+                            } else {
+                                return value + ' ' + a.unit
+                            }
+                        }
+                    }
+                })
+            }
 
             this.chart.setOption(opt, true, false);
             this.state = 1;
@@ -199,50 +195,59 @@
         /**
          * 初始配置项
          */
-        initOption: function () {
+        initOption: function (chartModel) {
             let chart = this;
+
+            let seriesArr = chartModel.series
             // 指定图表的配置项和数据
             return {
                 tooltip: {
                     // 当trigger为’item’时只会显示该点的数据，为’axis’时显示该列下所有坐标轴所对应的数据。
                     trigger: 'axis',
+                    axisPointer: {
+                        type: 'cross',
+                        crossStyle: {
+                            color: '#999'
+                        }
+                    },
                     formatter: function (params) {
                         let res = '<p>时间：' + new Date(params[0].axisValue * 1).format("MM-dd HH:mm") + '</p>';
                         for (let i = 0; i < params.length; i++) {
-                            let sizeVal = params[i].data[1] * 1;
+                            let s = seriesArr[i];
+                            let v = params[i].data[1] * 1;
 
-                            let size = sizeVal;
-                            if (chart.formatB) {
-                                let kStr = ' - ' + Math.round(sizeVal / 1024).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') + ' K';
-                                if (sizeVal < 0) {
-                                    kStr = ' - ' + sizeVal;
+                            let vFormat = v + ' ' + s.unit;
+                            if (s.valType === 'STORAGE') {
+                                let kStr = ' - ' + formatLong(vFormat) + ' K';
+                                if (v < 0) {
+                                    kStr = ' - ' + v;
                                 }
-                                size = sizeVal.formatSize() + kStr;
-                            } else {
-                                size = size + ' ' + chart.unit;
+                                vFormat = v.formatStorage() + kStr;
                             }
-                            res += '<p>' + params[i].seriesName + '：' + size + '</p>'
+                            res += '<p>' + params[i].seriesName + '：' + vFormat + '</p>'
                         }
                         return res;
                     }
                 },
-                title: {},
-                legend: {},
-                yAxis: [{
-                    type: 'value',
-                    axisLabel: {
-                        formatter: function (value) {
-                            return chart.formatB ? (1 * value).formatSize() : value + ' ' + chart.unit;
-                        }
-                    }
-                }],
+                title: {
+                    text: chartModel.title
+                },
+                legend: {
+                    data: chartModel.legend,
+                    selected: chartModel.legendSelected
+                },
+                yAxis: [],
                 xAxis: {
-                    type: 'time'
+                    type: 'time',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
                 },
                 grid: {
                     show: true,
                     bottom: 72
                 },
+                series: chartModel.series,
                 dataZoom: [{
                     start: 0,
                     end: 100
@@ -274,16 +279,11 @@
 }(window.jQuery);
 
 
-function initAndLoadJSpyChart(ele, url, target, formatB, unit) {
-
-    formatB = formatB || false;
-    unit = unit || '';
+function initAndLoadJSpyChart(ele, url, target) {
 
     let chart = ele.jspyCharts({
         target: target,
-        url: url,
-        formatB: formatB,
-        unit: unit
+        url: url
     });
 
     chart.load();

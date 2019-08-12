@@ -1,11 +1,13 @@
 package org.chobit.jspy.service.beans;
 
-import org.chobit.jspy.charts.AxisType;
+import org.chobit.jspy.charts.XAxisType;
 import org.chobit.jspy.charts.ValueType;
 import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.charts.annotation.Series;
 
 import java.util.Date;
+
+import static org.chobit.jspy.charts.ValueType.STORAGE;
 
 public class MemoryStat extends AbstractStatEntity {
 
@@ -16,19 +18,19 @@ public class MemoryStat extends AbstractStatEntity {
 
     private String managerNames;
 
-    @Series(value = "初始内存", selected = false)
+    @Series(value = "初始内存", valType = STORAGE, selected = false)
     private long init;
 
-    @Series("已使用")
+    @Series(value = "已使用", valType = STORAGE)
     private long used;
 
-    @Series("已提交")
+    @Series(value = "已提交", valType = STORAGE)
     private long committed;
 
-    @Series(value = "最大可用", selected = false)
+    @Series(value = "最大可用", valType = STORAGE, selected = false)
     private long max;
 
-    @XAxis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
+    @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
     private int isPeak = 0;

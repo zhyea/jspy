@@ -10,6 +10,8 @@ public enum ValueType {
     STRING,
 
     MILLS_TIME,
+
+    STORAGE,
     ;
 
 }

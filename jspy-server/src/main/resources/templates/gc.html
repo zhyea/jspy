@@ -41,7 +41,7 @@
 
 <script type="text/javascript">
 
-    const gcHistogramChart = initAndLoadJSpyChart($('#gcHistogramChart'), '/api/gc/find-by-params', 'MINOR', false, 'ms');
+    const gcHistogramChart = initAndLoadJSpyChart($('#gcHistogramChart'), '/api/gc/find-by-params', 'MINOR');
 
     function refresh(target) {
         $("#gcTarget").val(target);
@@ -69,10 +69,6 @@
         $("#endTimeGc").val(end.valueOf());
         refreshChart();
     });
-
-    gcHistogramChart.addYAxis({
-        type: 'value'
-    })
 </script>
 
 </body>

@@ -1,6 +1,6 @@
 package org.chobit.jspy.charts.annotation;
 
-import org.chobit.jspy.charts.AxisType;
+import org.chobit.jspy.charts.XAxisType;
 import org.chobit.jspy.charts.ValueType;
 
 import java.lang.annotation.ElementType;
@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface XAxis {
 
-    AxisType type() default AxisType.value;
+    XAxisType type() default XAxisType.value;
 
     ValueType valueType() default ValueType.INT;
 

@@ -1,9 +1,6 @@
 package org.chobit.jspy.charts;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ChartModel {
 
@@ -12,11 +9,13 @@ public class ChartModel {
 
     private final List<String> legend = new LinkedList<>();
 
-    private final Map<String, Boolean> legendUnSelected = new LinkedHashMap<>();
+    private final Map<String, Boolean> legendSelected = new LinkedHashMap<>();
 
     private final List<Series> series = new LinkedList<>();
 
     private final List<Object> xAxis = new LinkedList<>();
+
+    private final List<YAxis> yAxises = new LinkedList<>();
 
     private int interval;
 
@@ -32,12 +31,22 @@ public class ChartModel {
         this.series.add(s);
         this.legend.add(s.getName());
         if (!s.isSelected()) {
-            legendUnSelected.put(s.getName(), false);
+            legendSelected.put(s.getName(), false);
         }
     }
 
     public void addXAxis(Object a) {
         xAxis.add(a);
+    }
+
+
+    public void addYAxis(YAxis axis) {
+        yAxises.add(axis);
+    }
+
+
+    public void addYAxises(Collection<YAxis> axises) {
+        yAxises.addAll(axises);
     }
 
     public String getTitle() {
@@ -52,8 +61,8 @@ public class ChartModel {
         return legend;
     }
 
-    public Map<String, Boolean> getLegendUnSelected() {
-        return legendUnSelected;
+    public Map<String, Boolean> getLegendSelected() {
+        return legendSelected;
     }
 
     public List<Series> getSeries() {
@@ -70,5 +79,9 @@ public class ChartModel {
 
     public void setInterval(int interval) {
         this.interval = interval;
+    }
+
+    public List<YAxis> getyAxises() {
+        return yAxises;
     }
 }

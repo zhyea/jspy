@@ -46,8 +46,8 @@
 
 <script type="text/javascript">
 
-    const memChart = initAndLoadJSpyChart($('#memoryChart'), '/api/memory/find-by-params', '堆内存使用量', true);
-    const memPeakChart = initAndLoadJSpyChart($('#memoryPeakChart'), '/api/memory/find-peak-by-params', '堆内存使用量', true);
+    const memChart = initAndLoadJSpyChart($('#memoryChart'), '/api/memory/find-by-params', '堆内存使用量');
+    const memPeakChart = initAndLoadJSpyChart($('#memoryPeakChart'), '/api/memory/find-peak-by-params', '堆内存使用量');
 
     function refresh(target) {
         $("#memTarget").val(target);

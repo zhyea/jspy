@@ -1,6 +1,6 @@
 package org.chobit.jspy.service.beans;
 
-import org.chobit.jspy.charts.AxisType;
+import org.chobit.jspy.charts.XAxisType;
 import org.chobit.jspy.charts.ValueType;
 import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.charts.annotation.Series;
@@ -18,7 +18,7 @@ public class ClassLoadingStat extends AbstractStatEntity {
     @Series(value = "已卸载类总数", selected = false)
     private long unloaded;
 
-    @XAxis(type = AxisType.time, valueType = ValueType.MILLS_TIME)
+    @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
     public long getTotalLoaded() {
