@@ -44,7 +44,7 @@ public interface HistogramMapper {
 
     @Select({"select * from histogram where ",
             "app_code=#{appCode} and `type`=#{type} and `name`=#{name}",
-            "and event_time>#{start} and event_time<#{end}"})
+            "and event_time>=#{start} and event_time<#{end}"})
     List<LowerCaseKeyMap> findForChart(@Param("appCode") String appCode,
                                        @Param("type") int type,
                                        @Param("name") String name,

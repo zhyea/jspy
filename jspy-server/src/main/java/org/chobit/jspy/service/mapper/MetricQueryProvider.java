@@ -28,7 +28,7 @@ public class MetricQueryProvider {
                     WHERE(targetColumn + "=#{p.target}");
                 }
                 if (null != param.getStartTime()) {
-                    WHERE("event_time>#{p.startTime}");
+                    WHERE("event_time>=#{p.startTime}");
                 }
                 if (null != param.getEndTime()) {
                     WHERE("event_time<#{p.endTime}");
