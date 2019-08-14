@@ -39,8 +39,12 @@ function formatStorage(bytes) {
 }
 
 
-function formatLong(src){
+function formatLong(src) {
     return Math.round(src).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+}
+
+function formatTime(src) {
+    return moment(src).format('YYYY-MM-DD HH:mm:ss')
 }
 
 function copyToClipboard(text) {

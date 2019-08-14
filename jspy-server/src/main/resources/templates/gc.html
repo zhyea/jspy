@@ -52,8 +52,8 @@
                data-method="post"
                data-pagination=true
                data-side-pagination='server'
-               data-page-size=15
-               data-page-list=[15,25,50,All]
+               data-page-size=20
+               data-page-list=[20,30,50,All]
                data-url="/api/gc/find-in-page">
             <thead>
             <tr>
@@ -61,10 +61,11 @@
                 <th data-sortable=true data-halign="center" data-field="name">Name</th>
                 <th data-sortable=true data-halign="center" data-field="action">Action</th>
                 <th data-sortable=true data-halign="center" data-field="cause">Cause</th>
-                <th data-sortable=true data-halign="center" data-field="duration">时长</th>
-                <th data-halign="center" data-field="usage_before">GC前</th>
-                <th data-halign="center" data-field="usage_after">GC后</th>
-                <th data-sortable=true data-halign="center" data-field="event_time">时间</th>
+                <th data-sortable=true data-halign="center" data-field="duration" data-formatter="%s ms">时长</th>
+                <th data-halign="center" data-field="usage_before" data-formatter="formatLong">GC前</th>
+                <th data-halign="center" data-field="usage_after" data-formatter="formatLong">GC后</th>
+                <th data-halign="center" data-field="usage_after" data-formatter="computeGc">GC量</th>
+                <th data-sortable=true data-halign="center" data-field="event_time" data-formatter="formatTime">时间</th>
             </tr>
             </thead>
         </table>
@@ -98,6 +99,13 @@
         }
 
         gcHistogramChart.refresh(target, start, end);
+    }
+
+    function computeGc(value, row) {
+        let usageAfter = value * 1;
+        let usageBefore = row.usage_before * 1;
+        let v = usageBefore - usageAfter;
+        return v.formatStorage();
     }
 
     loadDateRangePicker($('#date_picker'), function (start, end) {
