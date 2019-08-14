@@ -5,7 +5,7 @@ import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.model.ThreadGauge;
 import org.chobit.jspy.service.beans.ThreadStat;
-import org.chobit.jspy.service.mapper.MetricQueryMapper;
+import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.service.mapper.ThreadStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.SysTime;
@@ -23,7 +23,7 @@ public class ThreadService {
     @Autowired
     private ThreadStatMapper threadMapper;
     @Autowired
-    private MetricQueryMapper metricMapper;
+    private AssembleQueryMapper aqMapper;
 
     @JSpyWatcher
     public int insert(String appCode, String ip, ThreadGauge gauge) {
@@ -75,7 +75,7 @@ public class ThreadService {
      * 查询内存数据
      */
     public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam params) {
-        return metricMapper.findWithQueryParam("thread_stat",
+        return aqMapper.findWithQueryParam("thread_stat",
                 appCode,
                 params,
                 null,

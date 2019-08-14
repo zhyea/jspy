@@ -4,7 +4,7 @@ import org.chobit.jspy.model.ClassLoadingGauge;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.beans.ClassLoadingStat;
 import org.chobit.jspy.service.mapper.ClassLoadingStatMapper;
-import org.chobit.jspy.service.mapper.MetricQueryMapper;
+import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class ClassLoadingService {
     @Autowired
     private ClassLoadingStatMapper mapper;
     @Autowired
-    private MetricQueryMapper metricMapper;
+    private AssembleQueryMapper aqMapper;
 
     public int insert(String appCode, String ip, ClassLoadingGauge gauge) {
         if (isClose(appCode, gauge)) {
@@ -61,7 +61,7 @@ public class ClassLoadingService {
      * 查询类加载数据
      */
     public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam param) {
-        return metricMapper.findWithQueryParam("class_loading_stat",
+        return aqMapper.findWithQueryParam("class_loading_stat",
                 appCode,
                 param,
                 null,

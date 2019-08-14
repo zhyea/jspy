@@ -4,8 +4,11 @@ import org.chobit.jspy.core.model.GcRecord;
 import org.chobit.jspy.model.GcOverview;
 import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.page.PageResult;
+import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.service.beans.GcStat;
 import org.chobit.jspy.service.beans.HistogramEntity;
+import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.service.mapper.GcStatMapper;
 import org.chobit.jspy.service.mapper.HistogramMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
@@ -14,6 +17,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,7 +32,22 @@ public class GcService {
     private GcStatMapper gcMapper;
     @Autowired
     private HistogramMapper histogramMapper;
+    @Autowired
+    private AssembleQueryMapper aqMapper;
 
+
+    /**
+     * 分页查询GC数据
+     */
+    public PageResult<LowerCaseKeyMap> findInPage(String appCode, Page page) {
+        String tableName = "gc_stat";
+        List<String> searchColumns = Arrays.asList("type", "name", "cause");
+        List<LowerCaseKeyMap> rows = aqMapper.findInPage(tableName, appCode, page, searchColumns,
+                "type", "name", "action", "cause", "duration", "usage_before", "usage_after", "event_time");
+        long total = aqMapper.countInPage(tableName, appCode, page, searchColumns);
+
+        return new PageResult<>(total, rows);
+    }
 
     /**
      * 查询报表数据
@@ -42,7 +61,7 @@ public class GcService {
     /**
      * 获取Histogram名称
      */
-    @Cacheable(key = "findHistogramNames")
+    @Cacheable
     public List<String> findHistogramNames() {
         return histogramMapper.findNamesByType(GC.id);
     }

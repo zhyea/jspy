@@ -31,9 +31,45 @@
                 </div><!-- /btn-group -->
             </div><!-- /input-group -->
         </div>
+
         <!--报表框-->
         <div id="gcHistogramChart" style="width: 100%; height:420px;"></div>
-        <div>&nbsp;</div>
+        <div>&nbsp;&nbsp;</div>
+
+        <!--GC记录表-->
+        <table id="gcTable"
+               data-toggle="table"
+               data-classes="table table-bordered table-hover table-striped"
+               data-thead-classes="thead-light"
+               data-show-toggle=true
+               data-show-columns=true
+               data-show-refresh=true
+               data-search=true
+               data-sort-name="id"
+               data-sort-order="desc"
+               data-smart-display=true
+               data-mobile-responsive=true
+               data-method="post"
+               data-pagination=true
+               data-side-pagination='server'
+               data-page-size=15
+               data-page-list=[15,25,50,All]
+               data-url="/api/gc/find-in-page">
+            <thead>
+            <tr>
+                <th data-sortable=true data-halign="center" data-field="type" data-align="center">Type</th>
+                <th data-sortable=true data-halign="center" data-field="name">Name</th>
+                <th data-sortable=true data-halign="center" data-field="action">Action</th>
+                <th data-sortable=true data-halign="center" data-field="cause">Cause</th>
+                <th data-sortable=true data-halign="center" data-field="duration">时长</th>
+                <th data-halign="center" data-field="usage_before">GC前</th>
+                <th data-halign="center" data-field="usage_after">GC后</th>
+                <th data-sortable=true data-halign="center" data-field="event_time">时间</th>
+            </tr>
+            </thead>
+        </table>
+        <div>&nbsp;&nbsp;</div>
+
     </main>
     <div th:replace="common/footer::footer"></div>
 </div>

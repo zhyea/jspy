@@ -183,7 +183,7 @@ a:focus {
 h1.prince-log {
     height: 80px;
     line-height: 80px;
-    font-family:  sans-serif;
+    font-family: sans-serif;
     text-transform: uppercase;
     letter-spacing: 3px;
     font-weight: 700;
@@ -199,6 +199,12 @@ h1.prince-log a {
 
 main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
     line-height: 200%;
+}
+
+.table .thead-light th {
+    color: #0b0b0b;
+    background-color: #dee2e6;
+    border: 2px solid #edecef;
 }
 
 /* 4. report

@@ -5,6 +5,8 @@ import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.model.GcOverview;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.model.chart.GcHistogram;
+import org.chobit.jspy.model.page.Page;
+import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.service.GcService;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,13 @@ public class GcController {
         param.setUsePeak(true);
         List<LowerCaseKeyMap> m = gcService.findByQueryParam(appCode, param);
         return ChartKit.fill(param.getTarget(), m, GcHistogram.class);
+    }
+
+
+    @PostMapping("/find-in-page")
+    public PageResult<LowerCaseKeyMap> findInPage(@SessionAttribute("appCode") String appCode,
+                                                  @RequestBody Page page) {
+        return gcService.findInPage(appCode, page);
     }
 
 

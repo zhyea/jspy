@@ -8,7 +8,7 @@ import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.beans.MemoryStat;
 import org.chobit.jspy.service.mapper.MemoryStatMapper;
-import org.chobit.jspy.service.mapper.MetricQueryMapper;
+import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class MemoryService {
     private MemoryStatMapper memMapper;
 
     @Autowired
-    private MetricQueryMapper metricMapper;
+    private AssembleQueryMapper aqMapper;
 
 
     /**
@@ -147,7 +147,7 @@ public class MemoryService {
      * 查询内存数据
      */
     public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam param) {
-        List<LowerCaseKeyMap> result = metricMapper.findWithQueryParam("memory_stat",
+        List<LowerCaseKeyMap> result = aqMapper.findWithQueryParam("memory_stat",
                 appCode,
                 param,
                 "`name`",
