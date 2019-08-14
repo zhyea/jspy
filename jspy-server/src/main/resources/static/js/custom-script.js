@@ -44,7 +44,7 @@ function formatLong(src) {
 }
 
 function formatTime(src) {
-    return moment(src).format('YYYY-MM-DD HH:mm:ss')
+    return moment(src).format('YY/MM/DD HH:mm:ss')
 }
 
 function copyToClipboard(text) {
