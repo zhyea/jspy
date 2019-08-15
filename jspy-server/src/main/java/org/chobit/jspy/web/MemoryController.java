@@ -25,7 +25,7 @@ public class MemoryController {
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
                                    @RequestBody QueryParam param) {
         param.setUsePeak(true);
-        List<LowerCaseKeyMap> m = memoryService.findByParams(appCode, param);
+        List<LowerCaseKeyMap> m = memoryService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, MemoryStat.class);
     }
 
@@ -34,7 +34,7 @@ public class MemoryController {
                                        @RequestBody QueryParam param) {
         param.setUsePeak(true);
         param.setIsPeak(1);
-        List<LowerCaseKeyMap> m = memoryService.findByParams(appCode, param);
+        List<LowerCaseKeyMap> m = memoryService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, MemoryStat.class);
     }
 

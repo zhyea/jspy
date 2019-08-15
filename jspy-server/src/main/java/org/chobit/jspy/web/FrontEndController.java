@@ -24,6 +24,23 @@ public class FrontEndController {
     @Autowired
     private MemoryService memoryService;
 
+    /**
+     * 跳转到方法数据页
+     */
+    @PostMapping("/method-detail")
+    public String methodDetail(@RequestBody String methodName, HttpSession session) {
+        session.setAttribute("methodName", methodName);
+        return "method-detail";
+    }
+
+
+    /**
+     * 跳转到方法列表页
+     */
+    @GetMapping("/method-list")
+    public String allMethods() {
+        return "method-list";
+    }
 
     /**
      * 跳转到内存数据页
@@ -42,23 +59,28 @@ public class FrontEndController {
     }
 
     /**
-     * 跳转到内存数据页
+     * 跳转到GC数据页
      */
     @GetMapping("/gc")
-    public String gc(@SessionAttribute("appCode") String appCode,
-                     ModelMap model) {
+    public String gc(ModelMap model) {
         List<String> names = gcService.findHistogramNames();
 
         model.addAttribute("names", names);
         return "gc";
     }
 
+    /**
+     * 跳转到首页
+     */
     @RequestMapping("/")
     public String index(ModelMap model) {
         model.put("isIndex", true);
         return "index";
     }
 
+    /**
+     * 应用信息首页
+     */
     @GetMapping("/app/home/{appCode}")
     public String appHome(@PathVariable("appCode") String appCode, HttpSession session) {
         App app = appService.getByAppCode(appCode);

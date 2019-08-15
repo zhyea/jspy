@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/head::head"></div>
+<body>
+
+
+<div class="wrap">
+    <div th:replace="common/nav::nav"></div>
+    <main>
+
+        <table id="methodsTable"
+
+               data-toggle="table"
+               data-classes="table table-bordered table-hover table-striped"
+               data-thead-classes="thead-light"
+               data-show-toggle=true
+               data-show-columns=true
+               data-show-refresh=true
+               data-search=true
+               data-pagination=true
+               data-page-size=25
+               data-page-list=[25,50,All]
+
+               data-url="/api/method/all-methods">
+            <thead>
+            <tr>
+                <th data-sortable=true data-halign="center" data-align="left" data-field="name">方法名称</th>
+                <th data-sortable=true data-halign="center" data-align="right" data-field="sum" data-width="90px" data-formatter="formatLong">调用总数</th>
+                <th data-align="center" data-field="name" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+            </tr>
+            </thead>
+        </table>
+
+    </main>
+    <div th:replace="common/footer::footer"></div>
+</div>
+
+<script type="text/javascript">
+
+    function operateFormatter(value) {
+        let arr = [
+            '<span class="tableOperate">',
+            '<a class="view" href="javascript:void(0)" title="查看报表">查看</a>',
+            '</span>'];
+        return arr.join('')
+    }
+
+
+    window.operateEvents = {
+        'click .view': function (e, value, row, index) {
+            let params = {"methodName": value};
+            post('/method-detail', params);
+        }
+    };
+</script>
+
+
+</body>
+</html>

@@ -52,7 +52,7 @@ public class GcService {
     /**
      * 查询报表数据
      */
-    public List<LowerCaseKeyMap> findByQueryParam(String appCode, QueryParam param) {
+    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
         return histogramMapper
                 .findForChart(appCode, GC.id, param.getTarget(), param.getStartTime(), param.getEndTime());
     }
@@ -63,7 +63,7 @@ public class GcService {
      */
     @Cacheable
     public List<String> findHistogramNames() {
-        return histogramMapper.findNamesByType(GC.id);
+        return histogramMapper.findNames(GC.id);
     }
 
 

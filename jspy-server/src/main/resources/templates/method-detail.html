@@ -12,32 +12,20 @@
                 <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px"
                        readonly/>
                 <span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
-                <input type="hidden" id="startTimeGc" value=""/>
-                <input type="hidden" id="endTimeGc" value=""/>
-                <input type="hidden" id="gcTarget" value="MINOR"/>
+                <input type="hidden" id="startTimeMethod" value=""/>
+                <input type="hidden" id="endTimeMethod" value=""/>
                 <span class="input-group-addon">
                     <input type="checkbox" id="enableAutoRefresh" onclick="refreshChart()" checked/> &nbsp;动态刷新
                 </span>
-                <!--下拉按钮 gc对象选择-->
-                <div class="input-group-btn">
-                    <button type="button"
-                            class="btn btn-default dropdown-toggle"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        GC对象选择 <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                        <li th:each="n: ${names}"><a th:href="|javascript:refresh('${n}')|" th:text="${n}"></a></li>
-                    </ul>
-                </div><!-- /btn-group -->
             </div><!-- /input-group -->
         </div>
 
         <!--报表框-->
-        <div id="gcHistogramChart" style="width: 100%; height:420px;"></div>
+        <div id="methodHistogramChart" style="width: 100%; height:420px;"></div>
         <div>&nbsp;&nbsp;</div>
 
         <!--GC记录表-->
-        <table id="gcTable"
+        <table id="methodTable"
                data-toggle="table"
                data-classes="table table-bordered table-hover table-striped"
                data-thead-classes="thead-light"
@@ -54,7 +42,7 @@
                data-side-pagination='server'
                data-page-size=15
                data-page-list=[15,30,50,All]
-               data-url="/api/gc/find-in-page">
+               data-url="/api/method/find-in-page">
             <thead>
             <tr>
                 <th data-sortable=true data-halign="center" data-field="event_time" data-formatter="formatTime">时间</th>
@@ -78,39 +66,23 @@
 
 <script type="text/javascript">
 
-    const gcHistogramChart = initAndLoadJSpyChart($('#gcHistogramChart'), '/api/gc/find-by-params', 'MINOR');
-
-    function refresh(target) {
-        $("#gcTarget").val(target);
-        refreshChart();
-    }
+    const methodHistogramChart = initAndLoadJSpyChart($('#methodHistogramChart'), '/api/method/find-by-params', '');
 
     function refreshChart() {
-        let target = $("#gcTarget").val();
-        if (!target) {
-            return;
-        }
-        let start = $("#startTimeGc").val();
-        let end = $("#endTimeGc").val();
+        let start = $("#startTimeMethod").val();
+        let end = $("#endTimeMethod").val();
 
         let enableAutoRefresh = $("#enableAutoRefresh").prop('checked');
         if (enableAutoRefresh) {
             end = -1;
         }
 
-        gcHistogramChart.refresh(target, start, end);
-    }
-
-    function computeGc(value, row) {
-        let usageAfter = value * 1;
-        let usageBefore = row.usage_before * 1;
-        let v = usageBefore - usageAfter;
-        return v.formatStorage();
+        methodHistogramChart.refresh(target, start, end);
     }
 
     loadDateRangePicker($('#date_picker'), function (start, end) {
-        $("#startTimeGc").val(start.valueOf());
-        $("#endTimeGc").val(end.valueOf());
+        $("#startTimeMethod").val(start.valueOf());
+        $("#endTimeMethod").val(end.valueOf());
         refreshChart();
     });
 </script>

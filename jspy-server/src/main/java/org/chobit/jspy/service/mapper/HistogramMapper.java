@@ -14,7 +14,13 @@ public interface HistogramMapper {
 
 
     @Select("select distinct name from histogram where type=#{type}")
-    List<String> findNamesByType(@Param("type")int type);
+    List<String> findNames(@Param("type") int type);
+
+
+    @Select("select name, sum(count) as sum from histogram where app_code=#{appCode} and type=#{type} group by name")
+    List<LowerCaseKeyMap> findNamesAndCount(@Param("appCode") String appCode,
+                                            @Param("type") int type);
+
 
     @Insert({
             "insert into histogram(app_code, ip, `type`, `name`, count, std_dev, min, max, mean, sum,",

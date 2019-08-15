@@ -34,7 +34,7 @@ public class GcController {
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
                                    @RequestBody QueryParam param) {
         param.setUsePeak(true);
-        List<LowerCaseKeyMap> m = gcService.findByQueryParam(appCode, param);
+        List<LowerCaseKeyMap> m = gcService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, GcHistogram.class);
     }
 

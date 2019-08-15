@@ -22,7 +22,7 @@ public class HistogramEntity extends AbstractStatEntity {
     @Series(value = "Min", selected = false, unit = "ms")
     private long min;
 
-    @Series(value = "Max", selected = false, unit = "ms")
+    @Series(value = "Max", unit = "ms")
     private long max;
 
     @Series(value = "Mean", unit = "ms")
@@ -37,16 +37,15 @@ public class HistogramEntity extends AbstractStatEntity {
     @Series(value = "95%", selected = false, unit = "ms")
     private long percentile95;
 
-    @Series(value = "90%", selected = false, unit = "ms")
+    @Series(value = "90%", unit = "ms")
     private long percentile90;
 
     @Series(value = "75%", selected = false, unit = "ms")
     private long percentile75;
 
-    @Series(value = "中值", selected = false, unit = "ms")
+    @Series(value = "中值", unit = "ms")
     private long median;
 
-    @Series(value = "总值", selected = false, unit = "ms")
     private long sum;
 
     @Series(value = "次数", yAxisIndex = 1, type = ChartType.bar)

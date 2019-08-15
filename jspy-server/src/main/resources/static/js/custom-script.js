@@ -31,6 +31,9 @@ Number.prototype.formatStorage = function () {
 };
 
 
+/**
+ * 格式化存储数据
+ */
 function formatStorage(bytes) {
     let sizes = ['B', 'K', 'M', 'G', 'T'];
     if (bytes == 0) return 0;
@@ -38,15 +41,25 @@ function formatStorage(bytes) {
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
 
-
+/**
+ * 格式化长整型数字
+ */
 function formatLong(src) {
     return Math.round(src).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
 }
 
+
+/**
+ * 格式化毫秒时间
+ */
 function formatTime(src) {
     return moment(src).format('YY/MM/DD HH:mm:ss')
 }
 
+
+/**
+ * 复制到粘贴板
+ */
 function copyToClipboard(text) {
     let aux = document.createElement("input");
     aux.setAttribute("value", text);
@@ -54,4 +67,36 @@ function copyToClipboard(text) {
     aux.select();
     document.execCommand("Copy");
     document.body.removeChild(aux);
+}
+
+
+/**
+ * 以模拟表单的形式发送post请求
+ */
+function post(url, params, target) {
+
+    target = target || '_blank';
+
+    let tempForm = document.createElement("form");
+    tempForm.action = url;
+    tempForm.method = "post";
+    tempForm.style.display = "none";
+
+    if (target) {
+        tempForm.target = target;
+    }
+
+    for (let x in params) {
+        let opt = document.createElement("input");
+        opt.name = x;
+        opt.value = params[x];
+        tempForm.appendChild(opt);
+    }
+
+    let opt = document.createElement("input");
+    opt.type = "submit";
+    tempForm.appendChild(opt);
+    document.body.appendChild(tempForm);
+    tempForm.submit();
+    document.body.removeChild(tempForm);
 }

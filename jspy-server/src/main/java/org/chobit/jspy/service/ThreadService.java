@@ -74,7 +74,7 @@ public class ThreadService {
     /**
      * 查询内存数据
      */
-    public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam params) {
+    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam params) {
         return aqMapper.findWithQueryParam("thread_stat",
                 appCode,
                 params,

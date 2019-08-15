@@ -24,7 +24,7 @@ public class ClassLoadingController {
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
                                    @RequestBody QueryParam param) {
-        List<LowerCaseKeyMap> m = classLoadingService.findByParams(appCode, param);
+        List<LowerCaseKeyMap> m = classLoadingService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, ClassLoadingStat.class);
     }
 

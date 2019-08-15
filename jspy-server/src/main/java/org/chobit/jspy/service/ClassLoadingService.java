@@ -60,7 +60,7 @@ public class ClassLoadingService {
     /**
      * 查询类加载数据
      */
-    public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam param) {
+    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
         return aqMapper.findWithQueryParam("class_loading_stat",
                 appCode,
                 param,

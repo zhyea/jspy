@@ -146,7 +146,7 @@ public class MemoryService {
     /**
      * 查询内存数据
      */
-    public List<LowerCaseKeyMap> findByParams(String appCode, QueryParam param) {
+    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
         List<LowerCaseKeyMap> result = aqMapper.findWithQueryParam("memory_stat",
                 appCode,
                 param,
