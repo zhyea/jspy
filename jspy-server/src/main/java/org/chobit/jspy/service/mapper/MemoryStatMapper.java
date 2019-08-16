@@ -14,9 +14,9 @@ public interface MemoryStatMapper {
     /**
      * 写入数据
      */
-    @JSpyWatcher("内存信息-Mapper.insertHistograms")
+    @JSpyWatcher("内存信息-Mapper.insert")
     @Insert({
-            "insertHistograms into memory_stat (app_code, ip, name, manager_names, type, init, used, committed, max, event_time, is_peak)",
+            "insert into memory_stat (app_code, ip, name, manager_names, type, init, used, committed, max, event_time, is_peak)",
             "values",
             "(#{appCode}, #{ip}, #{name}, #{managerNames}, #{type}, #{init}, #{used}, #{committed}, #{max}, #{eventTime}, #{isPeak})"
     })

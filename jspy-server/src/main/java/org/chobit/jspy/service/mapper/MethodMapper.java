@@ -10,7 +10,7 @@ import java.util.List;
 public interface MethodMapper {
 
 
-    @Insert({"insertHistograms into method(app_code, ip, `name`, recent_count, recent_failed)",
+    @Insert({"insert into method(app_code, ip, `name`, recent_count, recent_failed)",
             "values",
             "(#{appCode}, #{ip}, #{name}, #{recentCount}, #{recentFailed})"})
     int insert(MethodEntity method);

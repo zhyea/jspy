@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface AppMapper {
 
-    @Insert("insertHistograms into app (app_code, app_name) values (#{appCode}, #{appName})")
+    @Insert("insert into app (app_code, app_name) values (#{appCode}, #{appName})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(App app);
 

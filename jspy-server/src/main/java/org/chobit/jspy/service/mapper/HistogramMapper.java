@@ -24,7 +24,7 @@ public interface HistogramMapper {
 
 
     @Insert({
-            "insertHistograms into histogram(app_code, ip, `type`, `name`, count, failed_count, std_dev, min, max, mean, sum,",
+            "insert into histogram(app_code, ip, `type`, `name`, count, failed_count, std_dev, min, max, mean, sum,",
             "percentile999, percentile98, percentile95, percentile90, percentile75, median, event_time)",
             "values",
             "(#{appCode}, #{ip}, #{type}, #{name}, #{count}, #{failedCount}, #{stdDev}, #{min}, #{max}, #{mean}, #{sum},",
@@ -34,10 +34,10 @@ public interface HistogramMapper {
     int insert(HistogramEntity histogram);
 
 
-    @JSpyWatcher("JSpyWatcher注解方法信息-Mapper.insertHistograms")
+    @JSpyWatcher("JSpyWatcher注解方法信息-Mapper.insert")
     @Insert({
             "<script>",
-            "insertHistograms into histogram(app_code, ip, `type`, `name`, count, failed_count, std_dev, min, max, mean, sum,",
+            "insert into histogram(app_code, ip, `type`, `name`, count, failed_count, std_dev, min, max, mean, sum,",
             "percentile999, percentile98, percentile95, percentile90, percentile75, median, event_time)",
             "values",
             "<foreach collection='histograms' item='item' separator=','>",

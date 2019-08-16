@@ -18,7 +18,7 @@ public class AppService {
     @Autowired
     private AppMapper appMapper;
 
-    @JSpyWatcher("insertHistograms")
+    @JSpyWatcher("insert")
     public int insert(App app) {
         String appCode = gen();
         app.setAppCode(appCode);

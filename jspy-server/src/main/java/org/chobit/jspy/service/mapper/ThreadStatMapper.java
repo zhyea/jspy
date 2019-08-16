@@ -11,7 +11,7 @@ public interface ThreadStatMapper {
 
 
     @JSpyWatcher
-    @Insert({"insertHistograms into thread_stat (app_code, ip, current, peak, total_started, daemon, event_time)",
+    @Insert({"insert into thread_stat (app_code, ip, current, peak, total_started, daemon, event_time)",
             "values",
             "(#{appCode}, #{ip}, #{current}, #{peak}, #{totalStarted}, #{daemon}, #{eventTime})"})
     @Options(useGeneratedKeys = true, keyProperty = "id")

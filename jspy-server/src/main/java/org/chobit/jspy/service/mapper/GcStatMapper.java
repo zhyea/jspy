@@ -17,7 +17,7 @@ public interface GcStatMapper {
      */
     @Insert({
             "<script>",
-            "insertHistograms into gc_stat(app_code, ip, gc_id, `type`, action, `name`, cause, start_time, duration,",
+            "insert into gc_stat(app_code, ip, gc_id, `type`, action, `name`, cause, start_time, duration,",
             "usage_before, usage_after, event_time, major_gc_count, minor_gc_count)",
             "values",
             "<foreach collection='gcStats' item='item' separator=','>",
