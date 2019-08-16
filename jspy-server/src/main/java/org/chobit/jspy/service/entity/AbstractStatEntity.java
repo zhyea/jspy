@@ -1,4 +1,4 @@
-package org.chobit.jspy.service.beans;
+package org.chobit.jspy.service.entity;
 
 public abstract class AbstractStatEntity extends AbstractEntity {
 

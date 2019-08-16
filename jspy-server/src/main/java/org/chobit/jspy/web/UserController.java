@@ -1,6 +1,6 @@
 package org.chobit.jspy.web;
 
-import org.chobit.jspy.service.beans.User;
+import org.chobit.jspy.service.entity.User;
 import org.chobit.jspy.service.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

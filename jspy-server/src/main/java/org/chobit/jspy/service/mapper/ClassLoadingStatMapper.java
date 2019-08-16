@@ -2,7 +2,7 @@ package org.chobit.jspy.service.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
-import org.chobit.jspy.service.beans.ClassLoadingStat;
+import org.chobit.jspy.service.entity.ClassLoadingStat;
 
 import java.util.Date;
 
@@ -10,8 +10,8 @@ import java.util.Date;
 public interface ClassLoadingStatMapper {
 
 
-    @JSpyWatcher("加载的类的信息-Mapper.insert")
-    @Insert({"insert into class_loading_stat (app_code, ip, total_loaded, current_loaded, unloaded, event_time)",
+    @JSpyWatcher("加载的类的信息-Mapper.insertHistograms")
+    @Insert({"insertHistograms into class_loading_stat (app_code, ip, total_loaded, current_loaded, unloaded, event_time)",
             "values",
             "(#{appCode}, #{ip}, #{totalLoaded}, #{currentLoaded}, #{unloaded}, #{eventTime})"})
     @Options(useGeneratedKeys = true, keyProperty = "id")

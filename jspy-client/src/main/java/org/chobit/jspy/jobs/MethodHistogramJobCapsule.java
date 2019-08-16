@@ -3,13 +3,11 @@ package org.chobit.jspy.jobs;
 import org.chobit.jspy.JSpyConfig;
 import org.chobit.jspy.core.metrics.Snapshot;
 import org.chobit.jspy.core.support.JSpyWatcherCollector;
-import org.chobit.jspy.model.Histogram;
+import org.chobit.jspy.model.MethodHistogram;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
-public final class MethodHistogramJobCapsule extends JobCapsule<List<Histogram>> {
+public final class MethodHistogramJobCapsule extends JobCapsule<MethodHistogram> {
 
 
     public MethodHistogramJobCapsule(JSpyConfig config) {
@@ -33,19 +31,24 @@ public final class MethodHistogramJobCapsule extends JobCapsule<List<Histogram>>
     }
 
     @Override
-    public List<Histogram> collect() {
+    public MethodHistogram collect() {
         JSpyWatcherCollector collector = JSpyWatcherCollector.getIfExists();
         if (null == collector || 0 == collector.size()) {
             return null;
         }
 
-        List<Histogram> list = new LinkedList<>();
+        MethodHistogram mh = new MethodHistogram();
 
-        Map<String, Snapshot> map = collector.snapshots();
-        for (Map.Entry<String, Snapshot> e : map.entrySet()) {
-            list.add(new Histogram(e.getKey(), e.getValue()));
+        Map<String, Snapshot> all = collector.snapshotsOfAll();
+        for (Map.Entry<String, Snapshot> e : all.entrySet()) {
+            mh.add(e.getKey(), e.getValue());
         }
 
-        return list;
+        Map<String, Snapshot> failed = collector.snapshotsOfFailed();
+        for (Map.Entry<String, Snapshot> e : failed.entrySet()) {
+            mh.addFailed(e.getKey(), e.getValue().size());
+        }
+
+        return mh;
     }
 }

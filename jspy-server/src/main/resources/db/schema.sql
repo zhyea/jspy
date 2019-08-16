@@ -126,6 +126,26 @@ create table if not exists class_loading_stat
 create index if not exists idx_q_class_loading on class_loading_stat (app_code, event_time);
 
 
+create table if not exists method
+(
+    id            int auto_increment primary key,
+
+    app_code      varchar(32),
+    ip            varchar(32),
+
+    `name`        varchar(64),
+
+    recent_count  bigint,
+    recent_failed bigint,
+
+    deleted       tinyint            default 0,
+    insert_time   datetime           default current_date,
+    op_time       timestamp not null default current_timestamp on update current_timestamp
+);
+
+create index if not exists idx_q_method on histogram (app_code, `name`);
+
+
 -- histogram
 create table if not exists histogram
 (
@@ -138,6 +158,7 @@ create table if not exists histogram
     `name`        varchar(64),
 
     count         bigint,
+    failed_count  bigint             default 0,
 
     std_dev       bigint,
     min           bigint,

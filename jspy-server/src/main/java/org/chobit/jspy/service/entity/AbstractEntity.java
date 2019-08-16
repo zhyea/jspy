@@ -1,4 +1,4 @@
-package org.chobit.jspy.service.beans;
+package org.chobit.jspy.service.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

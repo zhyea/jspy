@@ -4,7 +4,7 @@ package org.chobit.jspy.service;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.model.ThreadGauge;
-import org.chobit.jspy.service.beans.ThreadStat;
+import org.chobit.jspy.service.entity.ThreadStat;
 import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.service.mapper.ThreadStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;

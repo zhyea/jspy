@@ -2,14 +2,14 @@ package org.chobit.jspy.service.mapper;
 
 
 import org.apache.ibatis.annotations.*;
-import org.chobit.jspy.service.beans.App;
+import org.chobit.jspy.service.entity.App;
 
 import java.util.List;
 
 @Mapper
 public interface AppMapper {
 
-    @Insert("insert into app (app_code, app_name) values (#{appCode}, #{appName})")
+    @Insert("insertHistograms into app (app_code, app_name) values (#{appCode}, #{appName})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(App app);
 

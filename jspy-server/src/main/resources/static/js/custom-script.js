@@ -75,7 +75,7 @@ function copyToClipboard(text) {
  */
 function post(url, params, target) {
 
-    target = target || '_blank';
+    target = target || '_self';
 
     let tempForm = document.createElement("form");
     tempForm.action = url;

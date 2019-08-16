@@ -2,17 +2,24 @@ package org.chobit.jspy.service;
 
 
 import org.chobit.jspy.model.Histogram;
+import org.chobit.jspy.model.MethodHistogram;
 import org.chobit.jspy.model.QueryParam;
-import org.chobit.jspy.service.beans.HistogramEntity;
+import org.chobit.jspy.service.entity.HistogramEntity;
+import org.chobit.jspy.service.entity.MethodEntity;
 import org.chobit.jspy.service.mapper.HistogramMapper;
+import org.chobit.jspy.service.mapper.MethodMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
+import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static org.chobit.jspy.constants.HistogramType.METHOD;
 
@@ -21,42 +28,84 @@ import static org.chobit.jspy.constants.HistogramType.METHOD;
 public class MethodService {
 
     @Autowired
-    private HistogramMapper methodMapper;
+    private HistogramMapper histogramMapper;
+    @Autowired
+    private MethodMapper methodMapper;
 
 
     /**
      * 查询报表数据
      */
-    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param, String methodName) {
-        return methodMapper
-                .findForChart(appCode, METHOD.id, methodName, param.getStartTime(), param.getEndTime());
+    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
+        return histogramMapper
+                .findForChart(appCode, METHOD.id, param.getTarget(), param.getStartTime(), param.getEndTime());
     }
 
     /**
-     * 查找方法名称
+     * 根据ID获取方法记录
      */
-    @Cacheable
-    public List<LowerCaseKeyMap> findMethodNames(String appCode) {
-        System.out.println("method names -----------------------------------------------------------");
-        return methodMapper.findNamesAndCount(appCode, METHOD.id);
+    @Cacheable(key = "'get:'+#id")
+    public MethodEntity get(int id) {
+        System.out.println("----------------------------" + id);
+        return methodMapper.get(id);
+    }
+
+    /**
+     * 查找方法信息
+     */
+    public List<MethodEntity> findMethodNames(String appCode) {
+        return methodMapper.findByAppCode(appCode);
     }
 
 
     /**
      * 写入方法统计数据
      */
-    public boolean insert(String appCode, String ip, List<Histogram> histograms) {
-
-        if (histograms.isEmpty()) {
+    public boolean insertHistograms(String appCode, String ip, MethodHistogram mh) {
+        if (mh.isEmpty()) {
             return true;
         }
 
         List<HistogramEntity> list = new LinkedList<>();
 
-        for (Histogram h : histograms) {
-            list.add(new HistogramEntity(appCode, ip, METHOD, h));
+        for (Histogram h : mh.getHistograms()) {
+            long failedCount = mh.failedCount(h.getName());
+            list.add(new HistogramEntity(appCode, ip, METHOD, h, failedCount));
         }
-        return histograms.size() == methodMapper.batchInsert(list);
+        boolean allInsert = mh.size() == histogramMapper.batchInsert(list);
+
+        for (HistogramEntity e : list) {
+            insertOrUpdate(appCode, e.getName());
+        }
+
+        return allInsert;
+    }
+
+
+    /**
+     * 写入或更新方法信息
+     */
+    private void insertOrUpdate(String appCode, String methodName) {
+        MethodEntity entity = methodMapper.findByName(appCode, methodName);
+        if (null == entity) {
+            entity = new MethodEntity();
+            entity.setAppCode(appCode);
+            entity.setName(methodName);
+        }
+
+        Date date = new Date(SysTime.millis() - TimeUnit.DAYS.toMillis(1));
+        Map<String, Long> counts = histogramMapper.countByTime(appCode, methodName, date);
+        long all = counts.getOrDefault("all", 0L);
+        long failed = counts.getOrDefault("failed", 0L);
+
+        entity.setRecentCount(all);
+        entity.setRecentFailed(failed);
+
+        if (0 <= entity.getId()) {
+            methodMapper.insert(entity);
+        } else {
+            methodMapper.update(entity);
+        }
     }
 
 }

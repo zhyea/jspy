@@ -1,7 +1,7 @@
 package org.chobit.jspy.web;
 
 import org.chobit.jspy.service.AppService;
-import org.chobit.jspy.service.beans.App;
+import org.chobit.jspy.service.entity.App;
 import org.chobit.jspy.utils.Args;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

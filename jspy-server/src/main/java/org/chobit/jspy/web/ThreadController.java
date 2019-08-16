@@ -5,7 +5,7 @@ import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.model.ThreadGauge;
 import org.chobit.jspy.service.ThreadService;
-import org.chobit.jspy.service.beans.ThreadStat;
+import org.chobit.jspy.service.entity.ThreadStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

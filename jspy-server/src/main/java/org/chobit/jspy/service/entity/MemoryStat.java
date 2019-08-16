@@ -1,4 +1,4 @@
-package org.chobit.jspy.service.beans;
+package org.chobit.jspy.service.entity;
 
 import org.chobit.jspy.charts.XAxisType;
 import org.chobit.jspy.charts.ValueType;

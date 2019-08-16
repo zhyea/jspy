@@ -1,4 +1,4 @@
-package org.chobit.jspy.service.beans;
+package org.chobit.jspy.service.entity;
 
 import org.chobit.jspy.charts.XAxisType;
 import org.chobit.jspy.charts.ChartType;
@@ -51,6 +51,9 @@ public class HistogramEntity extends AbstractStatEntity {
     @Series(value = "次数", yAxisIndex = 1, type = ChartType.bar)
     private long count;
 
+    @Series(value = "失败次数", yAxisIndex = 1, type = ChartType.bar)
+    private long failedCount;
+
     @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
 
@@ -58,11 +61,16 @@ public class HistogramEntity extends AbstractStatEntity {
     }
 
     public HistogramEntity(String appCode, String ip, HistogramType type, Histogram his) {
+        this(appCode, ip, type, his, 0);
+    }
+
+    public HistogramEntity(String appCode, String ip, HistogramType type, Histogram his, long failedCount) {
         setAppCode(appCode);
         setIp(ip);
         this.type = type.id;
         this.name = his.getName();
         this.count = his.getCount();
+        this.failedCount = failedCount;
         this.sum = his.getSum();
         this.stdDev = his.getStdDev();
         this.min = his.getMin();
@@ -100,6 +108,15 @@ public class HistogramEntity extends AbstractStatEntity {
 
     public void setCount(long count) {
         this.count = count;
+    }
+
+
+    public long getFailedCount() {
+        return failedCount;
+    }
+
+    public void setFailedCount(long failedCount) {
+        this.failedCount = failedCount;
     }
 
     public long getSum() {

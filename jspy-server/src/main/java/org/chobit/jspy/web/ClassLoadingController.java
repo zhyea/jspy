@@ -5,7 +5,7 @@ import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.model.ClassLoadingGauge;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.ClassLoadingService;
-import org.chobit.jspy.service.beans.ClassLoadingStat;
+import org.chobit.jspy.service.entity.ClassLoadingStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

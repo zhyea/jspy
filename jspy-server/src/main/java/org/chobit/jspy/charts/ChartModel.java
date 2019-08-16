@@ -30,6 +30,10 @@ public class ChartModel {
     public void addSeries(Series s) {
         this.series.add(s);
         this.legend.add(s.getName());
+        // 如果legend中的元素数量超过6个则换行
+        if (this.legend.size() == 6) {
+            legend.add("");
+        }
         if (!s.isSelected()) {
             legendSelected.put(s.getName(), false);
         }

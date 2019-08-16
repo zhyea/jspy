@@ -6,7 +6,7 @@ import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.MemoryService;
-import org.chobit.jspy.service.beans.MemoryStat;
+import org.chobit.jspy.service.entity.MemoryStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

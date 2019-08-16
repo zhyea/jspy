@@ -2,7 +2,7 @@ package org.chobit.jspy.service;
 
 import org.chobit.jspy.model.ClassLoadingGauge;
 import org.chobit.jspy.model.QueryParam;
-import org.chobit.jspy.service.beans.ClassLoadingStat;
+import org.chobit.jspy.service.entity.ClassLoadingStat;
 import org.chobit.jspy.service.mapper.ClassLoadingStatMapper;
 import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;

@@ -15,28 +15,43 @@ public final class JSpyWatcherCollector {
     private final long collectPeriodSeconds;
 
     private final ConcurrentHashMap<String, Histogram> methodHistogramMap;
+    private final ConcurrentHashMap<String, Histogram> failedMethodHistogramMap;
 
     private JSpyWatcherCollector(long collectPeriodSeconds, int initialCapacity) {
         this.collectPeriodSeconds = collectPeriodSeconds;
         this.methodHistogramMap = new ConcurrentHashMap<>(initialCapacity);
+        this.failedMethodHistogramMap = new ConcurrentHashMap<>(initialCapacity);
     }
 
-
+    /**
+     * 更新方法Histogram
+     */
     public void update(String methodId, long duration) {
-        Histogram histogram = methodHistogramMap.get(methodId);
-        if (null == histogram) {
-            histogram = newHistogram();
-            Histogram old = methodHistogramMap.putIfAbsent(methodId, histogram);
-            if (null != old) {
-                histogram = old;
-            }
-        }
+        Histogram histogram = getHistogram(this.methodHistogramMap, methodId);
+        histogram.update(duration);
+    }
+
+    /**
+     * 更新执行出现异常的方法的Histogram
+     */
+    public void updateFailed(String methodId, long duration) {
+        Histogram histogram = getHistogram(this.failedMethodHistogramMap, methodId);
         histogram.update(duration);
     }
 
 
-    public Map<String, Snapshot> snapshots() {
-        Map<String, Snapshot> map = new HashMap<>(size());
+    public Map<String, Snapshot> snapshotsOfAll() {
+        return snapshotsOfMap(this.methodHistogramMap);
+    }
+
+
+    public Map<String, Snapshot> snapshotsOfFailed() {
+        return snapshotsOfMap(this.failedMethodHistogramMap);
+    }
+
+
+    private synchronized Map<String, Snapshot> snapshotsOfMap(ConcurrentHashMap<String, Histogram> methodHistogramMap) {
+        Map<String, Snapshot> map = new HashMap<>(methodHistogramMap.size() + 2);
         for (Map.Entry<String, Histogram> entry : methodHistogramMap.entrySet()) {
             map.put(entry.getKey(), entry.getValue().getSnapshot());
         }
@@ -47,6 +62,21 @@ public final class JSpyWatcherCollector {
     public int size() {
         return methodHistogramMap.size();
     }
+
+
+    private Histogram getHistogram(ConcurrentHashMap<String, Histogram> methodHistogramMap,
+                                   String methodId) {
+        Histogram histogram = methodHistogramMap.get(methodId);
+        if (null == histogram) {
+            histogram = newHistogram();
+            Histogram old = methodHistogramMap.putIfAbsent(methodId, histogram);
+            if (null != old) {
+                histogram = old;
+            }
+        }
+        return histogram;
+    }
+
 
     private Histogram newHistogram() {
         SlidingTimeWindowReservoir reservoir =

@@ -3,7 +3,9 @@ package org.chobit.jspy.web;
 import org.chobit.jspy.service.AppService;
 import org.chobit.jspy.service.GcService;
 import org.chobit.jspy.service.MemoryService;
-import org.chobit.jspy.service.beans.App;
+import org.chobit.jspy.service.MethodService;
+import org.chobit.jspy.service.entity.App;
+import org.chobit.jspy.service.entity.MethodEntity;
 import org.chobit.jspy.utils.Args;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,13 +25,16 @@ public class FrontEndController {
     private AppService appService;
     @Autowired
     private MemoryService memoryService;
+    @Autowired
+    private MethodService methodService;
 
     /**
      * 跳转到方法数据页
      */
-    @PostMapping("/method-detail")
-    public String methodDetail(@RequestBody String methodName, HttpSession session) {
-        session.setAttribute("methodName", methodName);
+    @GetMapping("/method-detail/{id}")
+    public String methodDetail(@PathVariable("id") int id, HttpSession session) {
+        MethodEntity entity = methodService.get(id);
+        session.setAttribute("methodName", entity.getName());
         return "method-detail";
     }
 

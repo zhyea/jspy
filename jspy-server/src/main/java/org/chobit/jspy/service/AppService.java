@@ -2,7 +2,7 @@ package org.chobit.jspy.service;
 
 
 import org.chobit.jspy.core.annotation.JSpyWatcher;
-import org.chobit.jspy.service.beans.App;
+import org.chobit.jspy.service.entity.App;
 import org.chobit.jspy.service.mapper.AppMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class AppService {
     @Autowired
     private AppMapper appMapper;
 
-    @JSpyWatcher("insert")
+    @JSpyWatcher("insertHistograms")
     public int insert(App app) {
         String appCode = gen();
         app.setAppCode(appCode);

@@ -68,6 +68,9 @@ public abstract class WatcherAspectSupport implements BeanFactoryAware, Initiali
         long start = SysTime.millis();
         try {
             r = invocation.proceedWithInvocation();
+        } catch (Throwable t) {
+            collector.updateFailed(methodId, SysTime.millis() - start);
+            throw t;
         } finally {
             collector.update(methodId, SysTime.millis() - start);
         }

@@ -25,8 +25,10 @@
             <thead>
             <tr>
                 <th data-sortable=true data-halign="center" data-align="left" data-field="name">方法名称</th>
-                <th data-sortable=true data-halign="center" data-align="right" data-field="sum" data-width="90px" data-formatter="formatLong">调用总数</th>
-                <th data-align="center" data-field="name" data-formatter="operateFormatter" data-events="operateEvents">操作</th>
+                <th data-sortable=true data-halign="center" data-align="right" data-field="recentCount" data-formatter="formatLong">最近调用次数</th>
+                <th data-sortable=true data-halign="center" data-align="right" data-field="recentFailed" data-formatter="formatLong">最近失败次数</th>
+                <th data-sortable=true data-halign="center" data-align="center" data-field="op_time">更新时间</th>
+                <th data-align="center" data-field="id" data-formatter="operateFormatter" >操作</th>
             </tr>
             </thead>
         </table>
@@ -40,18 +42,10 @@
     function operateFormatter(value) {
         let arr = [
             '<span class="tableOperate">',
-            '<a class="view" href="javascript:void(0)" title="查看报表">查看</a>',
+            '<a class="report" href="/method-detail/"'+value+' title="查看报表">查看</a>',
             '</span>'];
         return arr.join('')
     }
-
-
-    window.operateEvents = {
-        'click .view': function (e, value, row, index) {
-            let params = {"methodName": value};
-            post('/method-detail', params);
-        }
-    };
 </script>
 
 
