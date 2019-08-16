@@ -6,6 +6,7 @@ import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.service.entity.HistogramEntity;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +17,6 @@ public interface HistogramMapper {
 
     @Select("select distinct name from histogram where type=#{type}")
     List<String> findNames(@Param("type") int type);
-
-
-    @Select("select name, sum(count) as sum from histogram where app_code=#{appCode} and type=#{type} group by name")
-    List<LowerCaseKeyMap> findNamesAndCount(@Param("appCode") String appCode,
-                                            @Param("type") int type);
 
 
     @Insert({
@@ -60,9 +56,9 @@ public interface HistogramMapper {
                                        @Param("end") Date end);
 
 
-    @Select({"select sum(count) as all, sum(failed_count) as failed from histogram",
-            "where app_code=#{appCode} and name=#{name} and event_time>=#{time}"})
-    Map<String, Long> countByTime(@Param("appCode") String appCode,
-                                  @Param("name") String name,
-                                  @Param("time") Date time);
+    @Select({"select sum(count) as total, sum(failed_count) as failed from histogram",
+            "where app_code=#{appCode} and `name`=#{name} and event_time>=#{time}"})
+    Map<String, BigDecimal> countByTime(@Param("appCode") String appCode,
+                                        @Param("name") String name,
+                                        @Param("time") Date time);
 }

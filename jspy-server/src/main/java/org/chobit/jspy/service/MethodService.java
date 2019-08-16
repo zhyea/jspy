@@ -15,6 +15,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -94,14 +95,14 @@ public class MethodService {
         }
 
         Date date = new Date(SysTime.millis() - TimeUnit.DAYS.toMillis(1));
-        Map<String, Long> counts = histogramMapper.countByTime(appCode, methodName, date);
-        long all = counts.getOrDefault("all", 0L);
-        long failed = counts.getOrDefault("failed", 0L);
+        Map<String, BigDecimal> counts = histogramMapper.countByTime(appCode, methodName, date);
+        BigDecimal total = counts.getOrDefault("TOTAL", BigDecimal.ZERO);
+        BigDecimal failed = counts.getOrDefault("FAILED", BigDecimal.ZERO);
 
-        entity.setRecentCount(all);
-        entity.setRecentFailed(failed);
+        entity.setRecentCount(total.longValue());
+        entity.setRecentFailed(failed.longValue());
 
-        if (0 <= entity.getId()) {
+        if (0 >= entity.getId()) {
             methodMapper.insert(entity);
         } else {
             methodMapper.update(entity);

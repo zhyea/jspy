@@ -15,7 +15,6 @@ public abstract class AbstractEntity implements Serializable {
     @JsonIgnore
     private Date insertTime;
 
-    @JsonIgnore
     private Date opTime;
 
     public int getId() {

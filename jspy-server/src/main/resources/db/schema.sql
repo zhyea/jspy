@@ -143,7 +143,7 @@ create table if not exists method
     op_time       timestamp not null default current_timestamp on update current_timestamp
 );
 
-create index if not exists idx_q_method on histogram (app_code, `name`);
+create index if not exists idx_q_method on method (app_code, `name`);
 
 
 -- histogram
