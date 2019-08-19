@@ -8,11 +8,14 @@ import org.chobit.jspy.model.chart.GcHistogram;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.service.GcService;
+import org.chobit.jspy.service.entity.GcStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.chobit.jspy.utils.Args.checkPage;
 
 @RestController
 @RequestMapping("/api/gc")
@@ -42,6 +45,7 @@ public class GcController {
     @PostMapping("/find-in-page")
     public PageResult<LowerCaseKeyMap> findInPage(@SessionAttribute("appCode") String appCode,
                                                   @RequestBody Page page) {
+        checkPage(page, GcStat.class);
         return gcService.findInPage(appCode, page);
     }
 

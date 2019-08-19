@@ -424,13 +424,9 @@
         },
 
         enterRange: function (e) {
-            var label = e.target.innerHTML;
-            if (label == this.locale.customRangeLabel) {
+            let label = e.target.innerHTML;
+            if (label === this.locale.customRangeLabel) {
                 this.updateView();
-            } else {
-                var dates = this.ranges[label];
-                this.container.find('input[name=daterangepicker_start]').val(dates[0].format(this.format));
-                this.container.find('input[name=daterangepicker_end]').val(dates[1].format(this.format));
             }
         },
 

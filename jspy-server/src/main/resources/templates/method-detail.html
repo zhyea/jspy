@@ -6,11 +6,15 @@
 <div class="wrap">
     <div th:replace="common/nav::nav"></div>
     <main>
+        <div class="page-header">
+            <h4 th:text="${session.methodName}"></h4>
+        </div>
+
+        <!--chart-->
         <div class="form-inline row toolbar">
             <div class="input-group col-lg-10 col-md-10">
                 <!--时间选择-->
-                <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px"
-                       readonly/>
+                <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px" readonly/>
                 <span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
                 <input type="hidden" id="startTimeMethod" value=""/>
                 <input type="hidden" id="endTimeMethod" value=""/>
@@ -29,11 +33,9 @@
                data-toggle="table"
                data-classes="table table-bordered table-hover table-striped"
                data-thead-classes="thead-light"
-               data-show-toggle=true
                data-show-columns=true
                data-show-refresh=true
-               data-search=true
-               data-sort-name="event_time"
+               data-sort-name="eventTime"
                data-sort-order="desc"
                data-smart-display=true
                data-mobile-responsive=true
@@ -45,15 +47,20 @@
                data-url="/api/method/find-in-page">
             <thead>
             <tr>
-                <th data-sortable=true data-halign="center" data-field="event_time" data-formatter="formatTime">时间</th>
-                <th data-sortable=true data-halign="center" data-field="type" data-align="center">Type</th>
-                <th data-sortable=true data-halign="center" data-field="name">Name</th>
-                <th data-sortable=true data-halign="center" data-field="action">Action</th>
-                <th data-sortable=true data-halign="center" data-field="cause">Cause</th>
-                <th data-sortable=true data-halign="center" data-field="duration" data-formatter="%s ms">时长</th>
-                <th data-halign="center" data-align="right" data-field="usage_before" data-formatter="formatLong">GC前</th>
-                <th data-halign="center" data-align="right" data-field="usage_after" data-formatter="formatLong">GC后</th>
-                <th data-halign="center" data-align="right" data-field="usage_after" data-formatter="computeGc">GC量</th>
+                <th data-sortable=true data-field="eventTime" data-formatter="formatTime" data-halign="center">时间</th>
+                <th data-sortable=true data-field="count" data-formatter="formatLong" data-align="right">次数</th>
+                <th data-sortable=true data-field="failedCount" data-formatter="formatLong" data-visible="false" data-align="right">失败次数</th>
+                <th data-sortable=true data-field="max" data-formatter="formatLong" data-align="right">最大</th>
+                <th data-sortable=true data-field="min" data-formatter="formatLong" data-align="right">最小</th>
+                <th data-sortable=true data-field="mean" data-formatter="formatLong" data-align="right">平均</th>
+                <th data-sortable=true data-field="stdDev" data-formatter="formatLong" data-align="right">标准差</th>
+                <th data-sortable=true data-field="median" data-formatter="formatLong" data-align="right">中值</th>
+                <th data-sortable=true data-field="percentile75" data-formatter="formatLong" data-align="right">75%</th>
+                <th data-sortable=true data-field="percentile90" data-formatter="formatLong" data-align="right">90%</th>
+                <th data-sortable=true data-field="percentile95" data-formatter="formatLong" data-align="right">95%</th>
+                <th data-sortable=true data-field="percentile98" data-formatter="formatLong" data-align="right">98%</th>
+                <th data-sortable=true data-field="percentile999" data-formatter="formatLong" data-align="right">99.9%
+                </th>
             </tr>
             </thead>
         </table>
@@ -77,7 +84,7 @@
             end = -1;
         }
 
-        methodHistogramChart.refresh(target, start, end);
+        methodHistogramChart.refresh('', start, end);
     }
 
     loadDateRangePicker($('#date_picker'), function (start, end) {

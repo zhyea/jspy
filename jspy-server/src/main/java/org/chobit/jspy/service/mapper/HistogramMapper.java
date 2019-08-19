@@ -3,6 +3,7 @@ package org.chobit.jspy.service.mapper;
 
 import org.apache.ibatis.annotations.*;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
+import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.service.entity.HistogramEntity;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 
@@ -58,7 +59,23 @@ public interface HistogramMapper {
 
     @Select({"select sum(count) as total, sum(failed_count) as failed from histogram",
             "where app_code=#{appCode} and `name`=#{name} and event_time>=#{time}"})
-    Map<String, BigDecimal> countByTime(@Param("appCode") String appCode,
-                                        @Param("name") String name,
-                                        @Param("time") Date time);
+    Map<String, BigDecimal> sumByTime(@Param("appCode") String appCode,
+                                      @Param("name") String name,
+                                      @Param("time") Date time);
+
+
+    @Select({"select * from histogram ",
+            "where app_code=#{appCode} and `type`=#{type} and `name`=#{methodName} ",
+            "order by ${page.sort} ${page.order} limit ${page.offset}, ${page.limit}"})
+    List<HistogramEntity> findInPage(@Param("appCode") String appCode,
+                                     @Param("type") int type,
+                                     @Param("methodName") String methodName,
+                                     @Param("page") Page page);
+
+    @Select({"select count(id) from histogram ",
+            "where app_code=#{appCode} and `type`=#{type} and `name`=#{methodName}"})
+    long countByMethod(@Param("appCode") String appCode,
+                       @Param("type") int type,
+                       @Param("methodName") String methodName);
+
 }

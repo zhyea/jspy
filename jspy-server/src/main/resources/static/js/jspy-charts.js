@@ -221,7 +221,18 @@
                     formatter: function (params) {
                         let res = '时间：' + new Date(params[0].axisValue * 1).format("MM/dd HH:mm") + '<br/>';
                         for (let i = 0; i < params.length; i++) {
-                            let s = seriesArr[i];
+                            let s;
+                            for (let j = i; j < seriesArr.length; j++) {
+                                if (seriesArr[j].name === params[i].seriesName) {
+                                    s = seriesArr[j];
+                                    break;
+                                }
+                            }
+
+                            if (!s) {
+                                break;
+                            }
+
                             let v = params[i].data[1] * 1;
 
                             let vFormat = v + ' ' + s.unit;

@@ -4,6 +4,8 @@ package org.chobit.jspy.service;
 import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.model.MethodHistogram;
 import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.page.Page;
+import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.service.entity.HistogramEntity;
 import org.chobit.jspy.service.entity.MethodEntity;
 import org.chobit.jspy.service.mapper.HistogramMapper;
@@ -33,13 +35,22 @@ public class MethodService {
     @Autowired
     private MethodMapper methodMapper;
 
+    /**
+     * 分页查询
+     */
+    public PageResult<HistogramEntity> findInPage(String appCode, String methodName, Page page) {
+        long total = histogramMapper.countByMethod(appCode, METHOD.id, methodName);
+        List<HistogramEntity> rows = histogramMapper.findInPage(appCode, METHOD.id, methodName, page);
+        return new PageResult<>(total, rows);
+    }
+
 
     /**
      * 查询报表数据
      */
-    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
+    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param, String methodName) {
         return histogramMapper
-                .findForChart(appCode, METHOD.id, param.getTarget(), param.getStartTime(), param.getEndTime());
+                .findForChart(appCode, METHOD.id, methodName, param.getStartTime(), param.getEndTime());
     }
 
     /**
@@ -95,7 +106,7 @@ public class MethodService {
         }
 
         Date date = new Date(SysTime.millis() - TimeUnit.DAYS.toMillis(1));
-        Map<String, BigDecimal> counts = histogramMapper.countByTime(appCode, methodName, date);
+        Map<String, BigDecimal> counts = histogramMapper.sumByTime(appCode, methodName, date);
         BigDecimal total = counts.getOrDefault("TOTAL", BigDecimal.ZERO);
         BigDecimal failed = counts.getOrDefault("FAILED", BigDecimal.ZERO);
 

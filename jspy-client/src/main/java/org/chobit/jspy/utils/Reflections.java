@@ -4,12 +4,14 @@ import org.chobit.jspy.core.exceptions.JSpyException;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 
 import static org.chobit.jspy.core.utils.Strings.isNotBlank;
 
@@ -150,6 +152,10 @@ public abstract class Reflections {
         return Reflections.class.getClassLoader();
     }
 
+
+    public static List<String> fieldsOf(Class<?> clazz) {
+        return Arrays.stream(clazz.getDeclaredFields()).map(Field::getName).collect(Collectors.toList());
+    }
 
     private Reflections() {
     }

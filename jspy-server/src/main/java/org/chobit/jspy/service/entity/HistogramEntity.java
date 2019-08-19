@@ -16,46 +16,46 @@ public class HistogramEntity extends AbstractStatEntity {
 
     private String name;
 
-    @Series(value = "标准差", selected = false, unit = "ms")
-    private long stdDev;
-
-    @Series(value = "Min", selected = false, unit = "ms")
-    private long min;
-
-    @Series(value = "Max", unit = "ms")
-    private long max;
-
-    @Series(value = "Mean", unit = "ms")
-    private long mean;
-
-    @Series(value = "99.9%", selected = false, unit = "ms")
-    private long percentile999;
-
-    @Series(value = "98%", selected = false, unit = "ms")
-    private long percentile98;
-
-    @Series(value = "95%", selected = false, unit = "ms")
-    private long percentile95;
-
-    @Series(value = "90%", unit = "ms")
-    private long percentile90;
-
-    @Series(value = "75%", selected = false, unit = "ms")
-    private long percentile75;
-
-    @Series(value = "中值", unit = "ms")
-    private long median;
-
-    private long sum;
-
     @Series(value = "次数", yAxisIndex = 1, type = ChartType.bar)
     private long count;
 
     @Series(value = "失败次数", yAxisIndex = 1, type = ChartType.bar)
     private long failedCount;
 
+    @Series(value = "最大", unit = "ms")
+    private long max;
+
+    @Series(value = "最小", selected = false, unit = "ms")
+    private long min;
+
+    @Series(value = "平均", unit = "ms")
+    private long mean;
+
+    @Series(value = "标准差", selected = false, unit = "ms")
+    private long stdDev;
+
+    @Series(value = "中值", unit = "ms")
+    private long median;
+
+    @Series(value = "75%", selected = false, unit = "ms")
+    private long percentile75;
+
+    @Series(value = "90%", unit = "ms")
+    private long percentile90;
+
+    @Series(value = "95%", selected = false, unit = "ms")
+    private long percentile95;
+
+    @Series(value = "98%", selected = false, unit = "ms")
+    private long percentile98;
+
+    @Series(value = "99.9%", selected = false, unit = "ms")
+    private long percentile999;
+
     @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
     private Date eventTime;
+
+    private long sum;
 
     public HistogramEntity() {
     }
