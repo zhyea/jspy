@@ -2,8 +2,10 @@ package org.chobit.jspy.service;
 
 
 import org.chobit.jspy.core.annotation.JSpyWatcher;
+import org.chobit.jspy.core.model.ThreadInfo;
 import org.chobit.jspy.model.QueryParam;
-import org.chobit.jspy.model.ThreadGauge;
+import org.chobit.jspy.model.ThreadCount;
+import org.chobit.jspy.model.ThreadOverview;
 import org.chobit.jspy.service.entity.ThreadStat;
 import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.service.mapper.ThreadStatMapper;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -25,30 +29,47 @@ public class ThreadService {
     @Autowired
     private AssembleQueryMapper aqMapper;
 
+    private Map<String, List<ThreadInfo>> allThreads = new ConcurrentHashMap<>(16);
+
     @JSpyWatcher
-    public int insert(String appCode, String ip, ThreadGauge gauge) {
-        if (isClose(appCode, gauge)) {
+    public int insert(String appCode, String ip, ThreadOverview overview) {
+        ThreadCount count = overview.getThreadCount();
+
+        this.allThreads.put(appCode, overview.getThreads());
+
+        if (null == count) {
+            return -1;
+        }
+
+        count.setEventTime(overview.getEventTime());
+
+        if (isClose(appCode, count)) {
             return -1;
         }
 
         ThreadStat stat = new ThreadStat();
         stat.setAppCode(appCode);
         stat.setIp(ip);
-        stat.setCurrent(gauge.getCurrent());
-        stat.setPeak(gauge.getPeak());
-        stat.setTotalStarted(gauge.getTotalStarted());
-        stat.setDaemon(gauge.getDaemon());
+        stat.setCurrent(count.getCurrent());
+        stat.setPeak(count.getPeak());
+        stat.setTotalStarted(count.getTotalStarted());
+        stat.setDaemon(count.getDaemon());
 
-        stat.setEventTime(new Date(gauge.getEventTime() > 0 ? gauge.getEventTime() : SysTime.millis()));
+        stat.setEventTime(new Date(count.getEventTime() > 0 ? count.getEventTime() : SysTime.millis()));
 
         return threadMapper.insert(stat);
+    }
+
+
+    public List<ThreadInfo> allThreads(String appCode) {
+        return this.allThreads.get(appCode);
     }
 
 
     /**
      * 判断与数据库中的最新纪录是否相同
      */
-    private boolean isClose(String appCode, ThreadGauge gauge) {
+    private boolean isClose(String appCode, ThreadCount gauge) {
         Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(15));
         ThreadStat latest = threadMapper.getLatest(appCode, time);
         if (null == latest) {

@@ -1,11 +1,17 @@
 package org.chobit.jspy.jobs;
 
 import org.chobit.jspy.JSpyConfig;
-import org.chobit.jspy.model.ThreadGauge;
+import org.chobit.jspy.core.model.ThreadInfo;
+import org.chobit.jspy.model.ThreadCount;
+import org.chobit.jspy.model.ThreadOverview;
+import org.chobit.jspy.utils.SysTime;
+
+import java.util.List;
 
 import static org.chobit.jspy.core.gauge.Threads.*;
+import static org.chobit.jspy.core.gauge.ThreadsGaugeManager.allThreads;
 
-public final class ThreadsJobCapsule extends JobCapsule<ThreadGauge> {
+public final class ThreadsJobCapsule extends JobCapsule<ThreadOverview> {
 
 
     public ThreadsJobCapsule(JSpyConfig config) {
@@ -29,14 +35,18 @@ public final class ThreadsJobCapsule extends JobCapsule<ThreadGauge> {
     }
 
     @Override
-    public ThreadGauge collect() {
-        ThreadGauge gauge = new ThreadGauge();
+    public ThreadOverview collect() {
+        ThreadCount count = new ThreadCount();
 
-        gauge.setCurrent(THREAD_COUNT.value());
-        gauge.setPeak(PEAK_THREAD_COUNT.value());
-        gauge.setTotalStarted(TOTAL_STARTED_THREAD_COUNT.value());
-        gauge.setDaemon(DAEMON_THREAD_COUNT.value());
+        count.setCurrent(THREAD_COUNT.value());
+        count.setPeak(PEAK_THREAD_COUNT.value());
+        count.setTotalStarted(TOTAL_STARTED_THREAD_COUNT.value());
+        count.setDaemon(DAEMON_THREAD_COUNT.value());
 
-        return gauge;
+        long time = SysTime.millis();
+
+        List<ThreadInfo> threads = allThreads();
+
+        return new ThreadOverview(time, count, threads);
     }
 }

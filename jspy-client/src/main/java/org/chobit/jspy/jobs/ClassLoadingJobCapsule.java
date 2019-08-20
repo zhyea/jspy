@@ -1,11 +1,11 @@
 package org.chobit.jspy.jobs;
 
 import org.chobit.jspy.JSpyConfig;
-import org.chobit.jspy.model.ClassLoadingGauge;
+import org.chobit.jspy.model.ClassLoadingCount;
 
 import static org.chobit.jspy.core.gauge.ClassLoading.*;
 
-public final class ClassLoadingJobCapsule extends JobCapsule<ClassLoadingGauge> {
+public final class ClassLoadingJobCapsule extends JobCapsule<ClassLoadingCount> {
 
 
     public ClassLoadingJobCapsule(JSpyConfig config) {
@@ -28,8 +28,8 @@ public final class ClassLoadingJobCapsule extends JobCapsule<ClassLoadingGauge> 
     }
 
     @Override
-    ClassLoadingGauge collect() {
-        ClassLoadingGauge gauge = new ClassLoadingGauge();
+    ClassLoadingCount collect() {
+        ClassLoadingCount gauge = new ClassLoadingCount();
         gauge.setTotalLoaded(TOTAL_LOADED.value());
         gauge.setCurrentLoaded(CURRENT_LOADED.value());
         gauge.setUnloaded(UNLOADED.value());

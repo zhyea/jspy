@@ -28,6 +28,15 @@ public class FrontEndController {
     @Autowired
     private MethodService methodService;
 
+
+    /**
+     * 跳转到方法列表页
+     */
+    @GetMapping("/thread")
+    public String thread() {
+        return "thread";
+    }
+
     /**
      * 跳转到方法数据页
      */

@@ -2,7 +2,7 @@ package org.chobit.jspy.model;
 
 import org.chobit.jspy.utils.SysTime;
 
-public class ClassLoadingGauge {
+public class ClassLoadingCount {
 
 
     private long totalLoaded;

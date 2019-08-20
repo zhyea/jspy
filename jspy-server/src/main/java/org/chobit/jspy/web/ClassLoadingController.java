@@ -2,7 +2,7 @@ package org.chobit.jspy.web;
 
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
-import org.chobit.jspy.model.ClassLoadingGauge;
+import org.chobit.jspy.model.ClassLoadingCount;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.ClassLoadingService;
 import org.chobit.jspy.service.entity.ClassLoadingStat;
@@ -31,7 +31,7 @@ public class ClassLoadingController {
     @PostMapping("/receive")
     public int receive(@RequestHeader("appCode") String appCode,
                        @RequestHeader("ip") String ip,
-                       @RequestBody ClassLoadingGauge gauge) {
+                       @RequestBody ClassLoadingCount gauge) {
         return classLoadingService.insert(appCode, ip, gauge);
     }
 

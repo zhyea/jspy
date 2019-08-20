@@ -1,6 +1,6 @@
 package org.chobit.jspy.service;
 
-import org.chobit.jspy.model.ClassLoadingGauge;
+import org.chobit.jspy.model.ClassLoadingCount;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.entity.ClassLoadingStat;
 import org.chobit.jspy.service.mapper.ClassLoadingStatMapper;
@@ -22,7 +22,7 @@ public class ClassLoadingService {
     @Autowired
     private AssembleQueryMapper aqMapper;
 
-    public int insert(String appCode, String ip, ClassLoadingGauge gauge) {
+    public int insert(String appCode, String ip, ClassLoadingCount gauge) {
         if (isClose(appCode, gauge)) {
             return -1;
         }
@@ -38,7 +38,7 @@ public class ClassLoadingService {
     }
 
 
-    private boolean isClose(String appCode, ClassLoadingGauge gauge) {
+    private boolean isClose(String appCode, ClassLoadingCount gauge) {
         Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(15));
         ClassLoadingStat latest = mapper.getLatest(appCode, time);
 

@@ -2,7 +2,7 @@ package org.chobit.jspy.model;
 
 import org.chobit.jspy.utils.SysTime;
 
-public class ThreadGauge {
+public class ThreadCount {
 
 
     private long current;
@@ -50,5 +50,9 @@ public class ThreadGauge {
 
     public long getEventTime() {
         return eventTime;
+    }
+
+    public void setEventTime(long eventTime) {
+        this.eventTime = eventTime;
     }
 }
