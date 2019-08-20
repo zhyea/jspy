@@ -6,3 +6,5 @@ spring:
   profiles:
     active: dev
 
+jspy:
+  enable: false

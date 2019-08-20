@@ -10,6 +10,13 @@
   "properties": [
     {
       "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.enable",
+      "description": "enable JSpy starter",
+      "type": "java.lang.Boolean",
+      "defaultValue": "true"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
       "name": "jspy.app-code",
       "description": "JSpy app code",
       "type": "java.lang.String"

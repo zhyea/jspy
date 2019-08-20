@@ -120,7 +120,7 @@ public class AssembleQueryProvider {
                         if (i++ > 0) {
                             builder.append(" or ");
                         }
-                        builder.append(s + " like '" + page.getSearch() + "'");
+                        builder.append(s + " like #{p.search}");
                     }
 
                     AND();

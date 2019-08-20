@@ -11,26 +11,29 @@ public class JSpyClientStarter implements DisposableBean {
 
     public JSpyClientStarter(JSpyProperties properties) {
 
-        JSpyClientBuilder builder = JSpyClientBuilder.builder();
+        if (properties.isEnable()) {
 
-        builder.appCode(properties.getAppCode())
-                .serverHost(properties.getServerHost())
-                .serverPort(properties.getServerPort())
-                .useSSL(properties.isUseSsl())
-                .startDelayedSeconds(properties.getStartDelayedSeconds())
-                .memoryCollectIntervalSeconds(properties.getMemoryCollectIntervalSeconds())
-                .threadCollectIntervalSeconds(properties.getThreadCollectIntervalSeconds())
-                .gcCollectIntervalSeconds(properties.getGcCollectIntervalSeconds())
-                .classLoadingCollectIntervalSeconds(properties.getClassLoadingCollectIntervalSeconds());
+            JSpyClientBuilder builder = JSpyClientBuilder.builder();
 
-        WatcherConfig watcher = properties.getWatcher();
+            builder.appCode(properties.getAppCode())
+                    .serverHost(properties.getServerHost())
+                    .serverPort(properties.getServerPort())
+                    .useSSL(properties.isUseSsl())
+                    .startDelayedSeconds(properties.getStartDelayedSeconds())
+                    .memoryCollectIntervalSeconds(properties.getMemoryCollectIntervalSeconds())
+                    .threadCollectIntervalSeconds(properties.getThreadCollectIntervalSeconds())
+                    .gcCollectIntervalSeconds(properties.getGcCollectIntervalSeconds())
+                    .classLoadingCollectIntervalSeconds(properties.getClassLoadingCollectIntervalSeconds());
 
-        if (null != watcher) {
-            builder.watcherHistogramPeriodSeconds(watcher.getHistogramPeriod())
-                    .expectNumOfWatchedMethods(watcher.getExpectNumMethods());
+            WatcherConfig watcher = properties.getWatcher();
+
+            if (null != watcher) {
+                builder.watcherHistogramPeriodSeconds(watcher.getHistogramPeriod())
+                        .expectNumOfWatchedMethods(watcher.getExpectNumMethods());
+            }
+
+            this.client = builder.build();
         }
-
-        this.client = builder.build();
     }
 
     @PostConstruct

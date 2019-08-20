@@ -6,6 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "jspy")
 public class JSpyProperties {
 
+    private boolean enable = true;
+
     private String appCode;
 
     private String serverHost = "127.0.0.1";
@@ -26,6 +28,13 @@ public class JSpyProperties {
 
     private WatcherConfig watcher;
 
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 
     public String getAppCode() {
         return appCode;
