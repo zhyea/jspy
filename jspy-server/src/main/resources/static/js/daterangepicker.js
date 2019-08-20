@@ -147,7 +147,7 @@
                 for (let range in options.ranges) {
 
                     let field = options.ranges[range][0];
-                    let diff =  options.ranges[range][1] * 1;
+                    let diff = options.ranges[range][1] * 1;
 
                     let start = moment().subtract(field, diff);
                     let end = moment();
@@ -366,7 +366,7 @@
         },
 
         move: function () {
-            var parentOffset = {
+            let parentOffset = {
                 top: this.parentEl.offset().top - (this.parentEl.is('body') ? 0 : this.parentEl.scrollTop()),
                 left: this.parentEl.offset().left - (this.parentEl.is('body') ? 0 : this.parentEl.scrollLeft())
             };

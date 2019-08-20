@@ -16,7 +16,7 @@ public class HistogramEntity extends AbstractStatEntity {
 
     private String name;
 
-    @Series(value = "次数", yAxisIndex = 1, type = ChartType.bar)
+    @Series(value = "执行次数", yAxisIndex = 1, type = ChartType.bar)
     private long count;
 
     @Series(value = "失败次数", yAxisIndex = 1, type = ChartType.bar)
