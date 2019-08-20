@@ -33,6 +33,8 @@ public class JSpyClientStarter implements DisposableBean {
             }
 
             this.client = builder.build();
+        } else {
+            this.client = null;
         }
     }
 
@@ -46,6 +48,8 @@ public class JSpyClientStarter implements DisposableBean {
 
     @Override
     public void destroy() {
-        client.shutdown(true);
+        if (null != client) {
+            client.shutdown(true);
+        }
     }
 }
