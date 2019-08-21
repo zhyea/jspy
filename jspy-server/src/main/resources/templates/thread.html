@@ -39,25 +39,25 @@
                data-search=true
                data-method="post"
                data-pagination=true
-               data-page-size=15
+               data-page-size=30
                data-page-list=[15,30,50,All]
                data-url="/api/thread/all-threads">
             <thead>
             <tr>
-                <th data-sortable=true data-field="eventTime" data-formatter="formatTime" data-halign="center">时间</th>
-                <th data-sortable=true data-field="count" data-formatter="formatLong" data-align="right">次数</th>
-                <th data-sortable=true data-field="failedCount" data-formatter="formatLong" data-visible="false" data-align="right">失败次数</th>
-                <th data-sortable=true data-field="max" data-formatter="formatLong" data-align="right">最大</th>
-                <th data-sortable=true data-field="min" data-formatter="formatLong" data-align="right">最小</th>
-                <th data-sortable=true data-field="mean" data-formatter="formatLong" data-align="right">平均</th>
-                <th data-sortable=true data-field="stdDev" data-formatter="formatLong" data-align="right">标准差</th>
-                <th data-sortable=true data-field="median" data-formatter="formatLong" data-align="right">中值</th>
-                <th data-sortable=true data-field="percentile75" data-formatter="formatLong" data-align="right">75%</th>
-                <th data-sortable=true data-field="percentile90" data-formatter="formatLong" data-align="right">90%</th>
-                <th data-sortable=true data-field="percentile95" data-formatter="formatLong" data-align="right">95%</th>
-                <th data-sortable=true data-field="percentile98" data-formatter="formatLong" data-align="right">98%</th>
-                <th data-sortable=true data-field="percentile999" data-formatter="formatLong" data-align="right">99.9%
-                </th>
+                <th data-sortable=true data-field="id" data-halign="center">ID</th>
+                <th data-sortable=true data-field="state">State</th>
+                <th data-sortable=true data-field="name">Name</th>
+                <th data-sortable=true data-field="cpuTime" data-formatter="formatLong" data-align="right" data-visible="false">CPU Time</th>
+                <th data-sortable=true data-field="userTime" data-formatter="formatLong" data-align="right" data-visible="false">UserTime</th>
+                <th data-sortable=true data-field="lockName"  data-visible="false">LockName</th>
+                <th data-sortable=true data-field="lockOwnerId" data-visible="false">LockOwnerId</th>
+                <th data-sortable=true data-field="lockOwnerName" data-visible="false">LockOwnerName</th>
+                <th data-sortable=true data-field="suspended" data-visible="false">Suspended</th>
+                <th data-sortable=true data-field="inNative" data-visible="false">InNative</th>
+                <th data-sortable=true data-field="waitedTime" data-formatter="formatLong" data-align="right" >WaitedTime</th>
+                <th data-sortable=true data-field="waitedCount" data-formatter="formatLong" data-align="right">WaitedCount</th>
+                <th data-sortable=true data-field="blockedTime" data-formatter="formatLong" data-align="right" data-visible="false">BlockedTime</th>
+                <th data-sortable=true data-field="blockedCount" data-formatter="formatLong" data-align="right">BlockedCount</th>
             </tr>
             </thead>
         </table>

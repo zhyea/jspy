@@ -17,6 +17,15 @@
 
     <packaging>jar</packaging>
 
+    <properties>
+        <jna.version>5.4.0</jna.version>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>4.0.0</version>
+        </dependency>
     </dependencies>
 </project>

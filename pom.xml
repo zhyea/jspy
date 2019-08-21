@@ -12,6 +12,7 @@
 
     <properties>
         <project.version>0.1-SNAPSHOT</project.version>
+        <jna.version>5.4.0</jna.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -64,6 +65,16 @@
                 <groupId>org.chobit.jspy</groupId>
                 <artifactId>jspy-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna-platform</artifactId>
+                <version>5.4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>5.4.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
