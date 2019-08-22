@@ -125,7 +125,7 @@ create table if not exists class_loading_stat
 
 create index if not exists idx_q_class_loading on class_loading_stat (app_code, event_time);
 
-
+-- 方法列表
 create table if not exists method
 (
     id            int auto_increment primary key,
@@ -182,3 +182,23 @@ create table if not exists histogram
 
 
 create index if not exists idx_q_histogram on histogram (app_code, `type`, `name`, event_time);
+
+
+-- 服务器信息
+create table if not exists sys
+(
+    id          int auto_increment primary key,
+
+    app_code    varchar(32),
+    ip          varchar(32),
+
+    detail      text,
+    event_time  datetime           default current_date,
+
+
+    deleted     tinyint            default 0,
+    insert_time datetime           default current_date,
+    op_time     timestamp not null default current_timestamp on update current_timestamp
+);
+
+create index if not exists idx_q_sys on sys (app_code, event_time);

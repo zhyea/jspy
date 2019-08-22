@@ -1,5 +1,6 @@
 package org.chobit.jspy.core.utils;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -86,6 +87,28 @@ public abstract class Strings {
         }
         matcher.appendTail(sb);
         return sb.toString();
+    }
+
+    /**
+     * 格式化长整型，格式如 1,000
+     *
+     * @param value 要格式化的值
+     * @return 格式化后的值
+     */
+    public static String formatLong(long value) {
+        return formatLong(",000", value);
+    }
+
+    /**
+     * 格式化长整型
+     *
+     * @param pattern 格式模板
+     * @param value   要格式化的值
+     * @return 格式化后的值
+     */
+    public static String formatLong(String pattern, long value) {
+        DecimalFormat format = new DecimalFormat(pattern);
+        return format.format(value);
     }
 
 }

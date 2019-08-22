@@ -1,21 +1,31 @@
 package org.chobit.jspy.core.model;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static org.chobit.jspy.core.utils.Strings.isBlank;
 
 public class Item {
 
     private String title;
 
-    private Map<String, String> details = new HashMap<>(4);
+    private Map<String, Object> details = new LinkedHashMap<>(4);
 
-    
+
+    public Item() {
+    }
+
     public Item(String title) {
         this.title = title;
     }
 
 
-    public void add(String key, String value) {
+    public void add(String key, Object value) {
+        if (null == value) {
+            value = "-";
+        } else if (value instanceof String && isBlank(value.toString())) {
+            value = "-";
+        }
         this.details.put(key, value);
     }
 
@@ -24,7 +34,7 @@ public class Item {
         return title;
     }
 
-    public Map<String, String> getDetails() {
+    public Map<String, Object> getDetails() {
         return details;
     }
 }
