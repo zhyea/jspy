@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/")
@@ -79,8 +80,8 @@ public class FrontEndController {
     @GetMapping("/memory")
     public String memory(@SessionAttribute("appCode") String appCode, ModelMap model) {
         List<String> memTypeNames = memoryService.getMemTypeNames();
-        List<String> heapPoolNames = memoryService.getHeapPoolNames(appCode);
-        List<String> nonHeapPoolNames = memoryService.getNonHeapPoolNames(appCode);
+        Set<String> heapPoolNames = memoryService.getHeapPoolNames(appCode);
+        Set<String> nonHeapPoolNames = memoryService.getNonHeapPoolNames(appCode);
 
         model.addAttribute("memTypeNames", memTypeNames);
         model.addAttribute("heapPoolNames", heapPoolNames);

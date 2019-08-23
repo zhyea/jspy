@@ -6,6 +6,7 @@ import org.chobit.jspy.service.entity.MemoryStat;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface MemoryStatMapper {
@@ -32,23 +33,18 @@ public interface MemoryStatMapper {
                                @Param("time") Date time,
                                @Param("isPeak") int isPeak);
 
-    /**
-     * 获取内存类型名称
-     */
-    @Select("select distinct(`name`) from memory_stat where app_code=#{appCode} and manager_names='null'")
-    List<String> findMemTypeNames(@Param("appCode") String appCode);
 
     /**
      * 获取堆 内存池名称
      */
     @Select("select distinct(`name`) from memory_stat where app_code=#{appCode} and type='HEAP' and manager_names<>'null'")
-    List<String> findHeapPoolNames(@Param("appCode") String appCode);
+    Set<String> findHeapPoolNames(@Param("appCode") String appCode);
 
     /**
      * 获取非堆内存池名称
      */
     @Select("select distinct(`name`) from memory_stat where app_code=#{appCode} and type='NON_HEAP' and manager_names<>'null'")
-    List<String> findNonHeapPoolNames(@Param("appCode") String appCode);
+    Set<String> findNonHeapPoolNames(@Param("appCode") String appCode);
 
     /**
      * 按时间删除记录

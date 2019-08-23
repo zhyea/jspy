@@ -18,10 +18,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.lang.management.MemoryType;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -55,13 +52,13 @@ public class MemoryService {
     private AssembleQueryMapper aqMapper;
 
 
-    private LoadingCache<String, List<String>> heapPoolNames = Caffeine.newBuilder()
+    private LoadingCache<String, Set<String>> heapPoolNames = Caffeine.newBuilder()
             .maximumSize(20000)
             .expireAfterAccess(30, TimeUnit.DAYS)
             .refreshAfterWrite(10, TimeUnit.MINUTES)
             .build(this::findHeapPoolNames);
 
-    private LoadingCache<String, List<String>> nonHeapPoolNames = Caffeine.newBuilder()
+    private LoadingCache<String, Set<String>> nonHeapPoolNames = Caffeine.newBuilder()
             .maximumSize(20000)
             .expireAfterAccess(30, TimeUnit.DAYS)
             .refreshAfterWrite(10, TimeUnit.MINUTES)
@@ -78,28 +75,28 @@ public class MemoryService {
     /**
      * 获取堆 内存池名称
      */
-    public List<String> getHeapPoolNames(String appCode) {
+    public Set<String> getHeapPoolNames(String appCode) {
         return heapPoolNames.get(appCode);
     }
 
     /**
      * 获取非堆内存池名称
      */
-    public List<String> getNonHeapPoolNames(String appCode) {
+    public Set<String> getNonHeapPoolNames(String appCode) {
         return nonHeapPoolNames.get(appCode);
     }
 
     /**
      * 获取堆 内存池名称
      */
-    private List<String> findHeapPoolNames(String appCode) {
+    private Set<String> findHeapPoolNames(String appCode) {
         return memMapper.findHeapPoolNames(appCode);
     }
 
     /**
      * 获取非堆内存池名称
      */
-    private List<String> findNonHeapPoolNames(String appCode) {
+    private Set<String> findNonHeapPoolNames(String appCode) {
         return memMapper.findNonHeapPoolNames(appCode);
     }
 
