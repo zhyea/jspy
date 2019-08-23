@@ -66,6 +66,7 @@ public class MemoryService {
      */
     @Cacheable(key = "'findHeapPoolNames:'+#appCode")
     public List<String> findHeapPoolNames(String appCode) {
+        System.out.println("---------------------------- " + appCode);
         return memMapper.findHeapPoolNames(appCode);
     }
 
@@ -146,6 +147,7 @@ public class MemoryService {
     /**
      * 查询内存数据
      */
+    @JSpyWatcher("获取内存报表数据Service")
     public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
         List<LowerCaseKeyMap> result = aqMapper.findWithQueryParam("memory_stat",
                 appCode,

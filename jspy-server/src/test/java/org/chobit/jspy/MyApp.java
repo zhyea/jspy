@@ -5,13 +5,13 @@ import org.apache.ibatis.jdbc.SQL;
 
 import java.net.UnknownHostException;
 
-public class Test {
+public class MyApp {
 
     public static void main(String[] args) throws UnknownHostException {
 
         new SQL(){};
 
-        new Test(){
+        new MyApp(){
             {
                 f();
             }

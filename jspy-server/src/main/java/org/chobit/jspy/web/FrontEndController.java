@@ -1,16 +1,18 @@
 package org.chobit.jspy.web;
 
-import org.chobit.jspy.service.AppService;
-import org.chobit.jspy.service.GcService;
-import org.chobit.jspy.service.MemoryService;
-import org.chobit.jspy.service.MethodService;
+import org.chobit.jspy.core.annotation.JSpyWatcher;
+import org.chobit.jspy.core.model.Item;
+import org.chobit.jspy.service.*;
 import org.chobit.jspy.service.entity.App;
 import org.chobit.jspy.service.entity.MethodEntity;
 import org.chobit.jspy.utils.Args;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -27,6 +29,20 @@ public class FrontEndController {
     private MemoryService memoryService;
     @Autowired
     private MethodService methodService;
+    @Autowired
+    private SysStatService sysService;
+
+
+    /**
+     * 跳转到服务器信息页
+     */
+    @GetMapping("/server")
+    public String server(@SessionAttribute("appCode") String appCode,
+                         ModelMap model) {
+        List<Item> details = sysService.getLatest(appCode);
+        model.addAttribute("details", details);
+        return "server";
+    }
 
 
     /**
@@ -59,6 +75,7 @@ public class FrontEndController {
     /**
      * 跳转到内存数据页
      */
+    @JSpyWatcher("跳转到内存信息页")
     @GetMapping("/memory")
     public String memory(@SessionAttribute("appCode") String appCode, ModelMap model) {
         List<String> memTypeNames = memoryService.findMemTypeNames();

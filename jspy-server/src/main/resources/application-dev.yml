@@ -8,6 +8,8 @@ spring:
     platform: h2
     schema: classpath:db/schema.sql
     data: classpath:db/data.sql
+    validation-query: select 1
+    test-while-idle: true
   h2:
     console:
       enabled: true

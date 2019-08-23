@@ -185,7 +185,7 @@ create index if not exists idx_q_histogram on histogram (app_code, `type`, `name
 
 
 -- 服务器信息
-create table if not exists sys
+create table if not exists sys_stat
 (
     id          int auto_increment primary key,
 
@@ -195,10 +195,9 @@ create table if not exists sys
     detail      text,
     event_time  datetime           default current_date,
 
-
     deleted     tinyint            default 0,
     insert_time datetime           default current_date,
     op_time     timestamp not null default current_timestamp on update current_timestamp
 );
 
-create index if not exists idx_q_sys on sys (app_code, event_time);
+create index if not exists idx_q_sys on sys_stat (app_code, event_time);
