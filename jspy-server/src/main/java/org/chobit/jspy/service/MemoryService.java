@@ -1,19 +1,20 @@
 package org.chobit.jspy.service;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.chobit.jspy.constants.MemoryNames;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
-import org.chobit.jspy.core.model.MemoryPool;
 import org.chobit.jspy.core.model.MemoryInfo;
+import org.chobit.jspy.core.model.MemoryPool;
 import org.chobit.jspy.model.MemoryOverview;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.entity.MemoryStat;
-import org.chobit.jspy.service.mapper.MemoryStatMapper;
 import org.chobit.jspy.service.mapper.AssembleQueryMapper;
+import org.chobit.jspy.service.mapper.MemoryStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.lang.management.MemoryType;
@@ -54,27 +55,51 @@ public class MemoryService {
     private AssembleQueryMapper aqMapper;
 
 
+    private LoadingCache<String, List<String>> heapPoolNames = Caffeine.newBuilder()
+            .maximumSize(20000)
+            .expireAfterAccess(30, TimeUnit.DAYS)
+            .refreshAfterWrite(10, TimeUnit.MINUTES)
+            .build(this::findHeapPoolNames);
+
+    private LoadingCache<String, List<String>> nonHeapPoolNames = Caffeine.newBuilder()
+            .maximumSize(20000)
+            .expireAfterAccess(30, TimeUnit.DAYS)
+            .refreshAfterWrite(10, TimeUnit.MINUTES)
+            .build(this::findNonHeapPoolNames);
+
+
     /**
      * 查询内存类型名称
      */
-    public List<String> findMemTypeNames() {
+    public List<String> getMemTypeNames() {
         return Arrays.stream(MemoryType.values()).map(Enum::name).collect(Collectors.toList());
     }
 
     /**
      * 获取堆 内存池名称
      */
-    @Cacheable(key = "'findHeapPoolNames:'+#appCode")
-    public List<String> findHeapPoolNames(String appCode) {
-        System.out.println("---------------------------- " + appCode);
+    public List<String> getHeapPoolNames(String appCode) {
+        return heapPoolNames.get(appCode);
+    }
+
+    /**
+     * 获取非堆内存池名称
+     */
+    public List<String> getNonHeapPoolNames(String appCode) {
+        return nonHeapPoolNames.get(appCode);
+    }
+
+    /**
+     * 获取堆 内存池名称
+     */
+    private List<String> findHeapPoolNames(String appCode) {
         return memMapper.findHeapPoolNames(appCode);
     }
 
     /**
      * 获取非堆内存池名称
      */
-    @Cacheable(key = "'findNonHeapPoolNames:'+#appCode")
-    public List<String> findNonHeapPoolNames(String appCode) {
+    private List<String> findNonHeapPoolNames(String appCode) {
         return memMapper.findNonHeapPoolNames(appCode);
     }
 

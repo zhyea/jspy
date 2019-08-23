@@ -78,9 +78,9 @@ public class FrontEndController {
     @JSpyWatcher("跳转到内存信息页")
     @GetMapping("/memory")
     public String memory(@SessionAttribute("appCode") String appCode, ModelMap model) {
-        List<String> memTypeNames = memoryService.findMemTypeNames();
-        List<String> heapPoolNames = memoryService.findHeapPoolNames(appCode);
-        List<String> nonHeapPoolNames = memoryService.findNonHeapPoolNames(appCode);
+        List<String> memTypeNames = memoryService.getMemTypeNames();
+        List<String> heapPoolNames = memoryService.getHeapPoolNames(appCode);
+        List<String> nonHeapPoolNames = memoryService.getNonHeapPoolNames(appCode);
 
         model.addAttribute("memTypeNames", memTypeNames);
         model.addAttribute("heapPoolNames", heapPoolNames);
