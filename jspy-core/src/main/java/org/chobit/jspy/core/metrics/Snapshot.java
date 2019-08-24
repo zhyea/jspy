@@ -81,7 +81,7 @@ public abstract class Snapshot {
      * 返回标准差
      */
     public abstract double getStdDev();
-    
+
     /**
      * 返回值总和
      */
