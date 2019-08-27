@@ -5,9 +5,8 @@ import org.chobit.jspy.core.info.Sys;
 import org.chobit.jspy.core.model.Item;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-public final class SysJobCapsule extends JobCapsule<List<Item>> {
+public final class SysJobCapsule extends AbstractOneOffJob<List<Item>> {
 
 
     public SysJobCapsule(JSpyConfig config) {
@@ -24,10 +23,6 @@ public final class SysJobCapsule extends JobCapsule<List<Item>> {
         return "sysInfo";
     }
 
-    @Override
-    int intervalSeconds() {
-        return (int) TimeUnit.DAYS.toSeconds(60);
-    }
 
     @Override
     List<Item> collect() {

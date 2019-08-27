@@ -8,11 +8,11 @@ import org.chobit.jspy.model.GcOverview;
 import javax.management.InstanceNotFoundException;
 import java.util.concurrent.TimeUnit;
 
-public final class GCJobCapsule extends JobCapsule<GcOverview> {
+public final class GCJob extends AbstractQuartzJob<GcOverview> {
 
     private final GcCollector gcCollector;
 
-    public GCJobCapsule(JSpyConfig config) {
+    public GCJob(JSpyConfig config) {
         super(config);
         int waitSecs = (int) TimeUnit.MINUTES.toSeconds(5);
         gcCollector = new GcCollector(waitSecs * 10, waitSecs);

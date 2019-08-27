@@ -114,12 +114,18 @@ public class FrontEndController {
      * 应用信息首页
      */
     @GetMapping("/app/home/{appCode}")
-    public String appHome(@PathVariable("appCode") String appCode, HttpSession session) {
+    public String appHome(@PathVariable("appCode") String appCode,
+                          ModelMap model, HttpSession session) {
+
         App app = appService.getByAppCode(appCode);
         Args.checkNotNull(app, "无效应用码");
 
         session.setAttribute("appCode", appCode);
         session.setAttribute("appName", app.getAppName());
+
+        List<Item> details = sysService.getLatest(appCode);
+        model.addAttribute("sysInfo", details);
+
         return "app-home";
     }
 

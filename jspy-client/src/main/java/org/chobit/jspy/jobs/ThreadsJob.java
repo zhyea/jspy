@@ -11,10 +11,10 @@ import java.util.List;
 import static org.chobit.jspy.core.gauge.Threads.*;
 import static org.chobit.jspy.core.gauge.ThreadsGaugeManager.allThreads;
 
-public final class ThreadsJobCapsule extends JobCapsule<ThreadOverview> {
+public final class ThreadsJob extends AbstractQuartzJob<ThreadOverview> {
 
 
-    public ThreadsJobCapsule(JSpyConfig config) {
+    public ThreadsJob(JSpyConfig config) {
         super(config);
     }
 

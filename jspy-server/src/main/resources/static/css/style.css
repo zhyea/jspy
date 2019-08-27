@@ -222,6 +222,15 @@ main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > t
 }
 
 
+.kv-label {
+    text-align: right;
+}
+
+.kv-label：after {
+    content: ":";
+}
+
+
 @media only screen and (min-width: 768px) {
     ul.main-nav-items {
         float: right;
