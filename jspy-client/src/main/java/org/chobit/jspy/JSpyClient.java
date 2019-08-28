@@ -27,9 +27,16 @@ public final class JSpyClient {
 
 
     public void start() {
+        new Thread(() -> start0(),
+                "jspy-client-starter-thread").start();
+    }
+
+
+    private void start0() {
         try {
             TimeUnit.SECONDS.sleep(startDelayedSeconds);
             startQuartzJob();
+            startOneOffJob();
         } catch (Exception e) {
             throw new JSpyException(e);
         }

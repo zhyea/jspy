@@ -31,34 +31,37 @@ public class FrontEndController {
     @Autowired
     private MethodService methodService;
     @Autowired
-    private SysStatService sysService;
+    private SysInfoService sysService;
 
 
     /**
-     * 跳转到服务器信息页
+     * 跳转到类信息页
      */
-    @GetMapping("/server")
-    public String server(@SessionAttribute("appCode") String appCode,
-                         ModelMap model) {
-        List<Item> details = sysService.getLatest(appCode);
-        model.addAttribute("details", details);
-        return "server";
+    @GetMapping("/classes")
+    public String classLoading(@SessionAttribute("appCode") String appCode,
+                               ModelMap model) {
+        List<Item> items = sysService.getLatestRuntimeInfo(appCode);
+        model.addAttribute("runtime", items);
+
+        return "classes";
     }
 
 
     /**
-     * 跳转到方法列表页
+     * 跳转到线程数据页
      */
     @GetMapping("/thread")
     public String thread() {
         return "thread";
     }
 
+
     /**
      * 跳转到方法数据页
      */
     @GetMapping("/method-detail/{id}")
-    public String methodDetail(@PathVariable("id") int id, HttpSession session) {
+    public String methodDetail(@PathVariable("id") int id,
+                               HttpSession session) {
         MethodEntity entity = methodService.get(id);
         session.setAttribute("methodName", entity.getName());
         return "method-detail";
@@ -78,7 +81,8 @@ public class FrontEndController {
      */
     @JSpyWatcher("跳转到内存信息页")
     @GetMapping("/memory")
-    public String memory(@SessionAttribute("appCode") String appCode, ModelMap model) {
+    public String memory(@SessionAttribute("appCode") String appCode,
+                         ModelMap model) {
         List<String> memTypeNames = memoryService.getMemTypeNames();
         Set<String> heapPoolNames = memoryService.getHeapPoolNames(appCode);
         Set<String> nonHeapPoolNames = memoryService.getNonHeapPoolNames(appCode);
@@ -111,7 +115,7 @@ public class FrontEndController {
     }
 
     /**
-     * 应用信息首页
+     * 跳转到应用信息首页
      */
     @GetMapping("/app/home/{appCode}")
     public String appHome(@PathVariable("appCode") String appCode,
@@ -123,7 +127,7 @@ public class FrontEndController {
         session.setAttribute("appCode", appCode);
         session.setAttribute("appName", app.getAppName());
 
-        List<Item> details = sysService.getLatest(appCode);
+        List<Item> details = sysService.getLatestSysInfo(appCode);
         model.addAttribute("sysInfo", details);
 
         return "app-home";

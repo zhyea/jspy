@@ -9,7 +9,7 @@ public enum OS implements Info {
      * 这里以单例模式获取操作系统信息
      */
 
-    ARCH("操作系统体系结构") {
+    ARCH("Arch") {
         @Override
         public String value() {
             return arch();
@@ -17,14 +17,14 @@ public enum OS implements Info {
     },
 
 
-    OS_NAME("操作系统名称") {
+    OS_NAME("OS Name") {
         @Override
         public String value() {
             return osName();
         }
     },
 
-    OS_VERSION("操作系统版本号") {
+    OS_VERSION("OS Version") {
         @Override
         public String value() {
             return osVersion();
@@ -46,7 +46,7 @@ public enum OS implements Info {
     /**
      * 说明：在某些平台上可能不可用；不可用则返回-1
      */
-    LOAD_AVERAGE("近一分钟内负载平均值") {
+    LOAD_AVERAGE("近一分钟内平均负载") {
         @Override
         public String value() {
             return loadAverage() + "";

@@ -182,11 +182,37 @@ public abstract class Sys {
 
 
     /**
+     * 通过JVM获取的NET信息
+     */
+    public static Item jvmNet() {
+        Item item = new Item("NET(from JVM)");
+        for (Net n : Net.values()) {
+            item.add(n.alias, n.value());
+        }
+        return item;
+    }
+
+
+    /**
+     * 通过JVM获取的OS信息
+     */
+    public static Item jvmOS() {
+        Item item = new Item("OS(from JVM)");
+        for (OS e : OS.values()) {
+            item.add(e.alias, e.value());
+        }
+        return item;
+    }
+
+
+    /**
      * 全部的系统信息
      */
     public static List<Item> values() {
         List<Item> items = new LinkedList<>();
 
+        items.add(jvmOS());
+        items.add(jvmNet());
         items.add(deviceSummary());
         items.add(os());
         items.add(firmware());

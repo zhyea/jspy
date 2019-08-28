@@ -7,10 +7,6 @@ spring:
     active: dev
   thymeleaf:
     cache: false
-  cache:
-    type: CAFFEINE
-    caffeine:
-      spec: initialCapacity=1048576,maximumSize=1073741824,expireAfterAccess=10m
 
 
 mybatis:
