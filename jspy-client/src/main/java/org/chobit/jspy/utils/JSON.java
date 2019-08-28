@@ -8,8 +8,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-
 public abstract class JSON {
 
 
@@ -44,7 +42,7 @@ public abstract class JSON {
     public static <T> T fromJson(String json, Class<T> clazz) {
         try {
             return MAPPER.readValue(json, clazz);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("Read from json error, json: {}", json, e);
         }
         return null;
@@ -54,7 +52,7 @@ public abstract class JSON {
     public static <T> T fromJson(String json, TypeReference<T> tr) {
         try {
             return MAPPER.readValue(json, tr);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.error("Read from json error, json: {}", json, e);
         }
         return null;

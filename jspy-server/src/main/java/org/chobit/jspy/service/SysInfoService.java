@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.chobit.jspy.constants.InfoType.RUNTIME;
 import static org.chobit.jspy.constants.InfoType.SYS;
+import static org.chobit.jspy.core.utils.Strings.isBlank;
 import static org.chobit.jspy.utils.JSON.fromJson;
 import static org.chobit.jspy.utils.JSON.toJson;
 
@@ -50,6 +52,9 @@ public class SysInfoService {
 
     private List<Item> getLatest(String appCode, InfoType type) {
         String json = mapper.getLatest(appCode, type.id);
+        if (isBlank(json)) {
+            return new LinkedList<>();
+        }
         return fromJson(json, new TypeReference<List<Item>>() {
         });
     }
