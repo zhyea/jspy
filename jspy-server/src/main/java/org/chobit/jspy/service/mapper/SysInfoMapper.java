@@ -12,7 +12,7 @@ import java.util.Date;
 public interface SysInfoMapper {
 
 
-    @Insert({"insert into sys_info (app_code, ip, `type` detail, event_time) ",
+    @Insert({"insert into sys_info (app_code, ip, `type`, detail, event_time) ",
             "values ",
             "(#{appCode}, #{ip}, #{type}, #{detail}, #{eventTime})"})
     int insert(@Param("appCode") String appCode,

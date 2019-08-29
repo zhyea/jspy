@@ -6,10 +6,10 @@ import org.chobit.jspy.core.model.Item;
 
 import java.util.List;
 
-public final class SysJobCapsule extends AbstractOneOffJob<List<Item>> {
+public final class SysJob extends AbstractOneOffJob<List<Item>> {
 
 
-    public SysJobCapsule(JSpyConfig config) {
+    public SysJob(JSpyConfig config) {
         super(config);
     }
 

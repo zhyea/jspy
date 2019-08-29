@@ -8,10 +8,10 @@ import org.chobit.jspy.core.model.Item;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class RuntimeJobCapsule extends AbstractOneOffJob<List<Item>> {
+public final class RuntimeJob extends AbstractOneOffJob<List<Item>> {
 
 
-    public RuntimeJobCapsule(JSpyConfig config) {
+    public RuntimeJob(JSpyConfig config) {
         super(config);
     }
 

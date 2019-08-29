@@ -5,6 +5,8 @@ import okhttp3.HttpUrl;
 import org.chobit.jspy.JSpyConfig;
 import org.chobit.jspy.utils.HttpResult;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.chobit.jspy.utils.HTTP.post;
 
 public abstract class AbstractOneOffJob<T> extends AbstractJob<T> {
@@ -30,6 +32,11 @@ public abstract class AbstractOneOffJob<T> extends AbstractJob<T> {
         HttpResult result = post(url, headers, data);
 
         while (result.isFailed()) {
+            try {
+                TimeUnit.MINUTES.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             logger.error("send message to {} failed.", url, result.getThrowable());
             result = post(url, headers, data);
         }
