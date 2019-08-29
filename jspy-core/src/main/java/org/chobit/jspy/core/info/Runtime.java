@@ -1,6 +1,8 @@
 package org.chobit.jspy.core.info;
 
 import static org.chobit.jspy.core.info.RuntimeInfoManager.*;
+import static org.chobit.jspy.core.utils.Dates.format;
+import static org.chobit.jspy.core.utils.Strings.formatLong;
 import static org.chobit.jspy.core.utils.Strings.mkString;
 
 public enum Runtime implements Info {
@@ -45,7 +47,7 @@ public enum Runtime implements Info {
     START_TIME("进程启动时间") {
         @Override
         public String value() {
-            return startTime() + "";
+            return format(startTime());
         }
     },
 
@@ -53,7 +55,7 @@ public enum Runtime implements Info {
     UP_TIME("进程运行时间") {
         @Override
         public String value() {
-            return uptime() + "";
+            return formatLong(uptime()) + " MS";
         }
     },
 
@@ -125,7 +127,6 @@ public enum Runtime implements Info {
             return libPath();
         }
     },
-
 
     ;
 
