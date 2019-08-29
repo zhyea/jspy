@@ -222,15 +222,22 @@ main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > t
 }
 
 
+.page-header {
+    font-size: 16px;
+}
+
 .kv-label {
     margin: 0;
     padding: 0;
+    font-size: 14px;
     text-align: right;
+    font-weight: bold;
 }
 
 .kv-value {
     margin: 0;
     padding: 0;
+    font-size: 14px;
 }
 
 

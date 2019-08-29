@@ -28,6 +28,7 @@ public class ClassLoadingController {
         return ChartKit.fill(param.getTarget(), m, ClassLoadingStat.class);
     }
 
+
     @PostMapping("/receive")
     public int receive(@RequestHeader("appCode") String appCode,
                        @RequestHeader("ip") String ip,

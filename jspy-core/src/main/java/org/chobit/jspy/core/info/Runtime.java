@@ -10,36 +10,6 @@ public enum Runtime implements Info {
      * 这里以单例模式获取JVM运行时信息
      */
 
-    IS_BOOTCLASS_PATH_SUPPORTED("是否支持引导类路径搜索") {
-        @Override
-        public String value() {
-            return isBootClassPathSupported() + "";
-        }
-    },
-
-    BOOT_CLASS_PATH("引导类路径") {
-        @Override
-        public String value() {
-            return bootClassPath();
-        }
-    },
-
-    CLASS_PATH("类路径") {
-        @Override
-        public String value() {
-            return classPath();
-        }
-    },
-
-
-    EXECUTE_FILE_PATH("库路径") {
-        @Override
-        public String value() {
-            return libPath();
-        }
-    },
-
-
     MANAGEMENT_SPEC_VERSION("管理接口规范版本") {
         @Override
         public String value() {
@@ -126,6 +96,36 @@ public enum Runtime implements Info {
             return mkString(inputArgs(), ";");
         }
     },
+
+    IS_BOOTCLASS_PATH_SUPPORTED("是否支持引导类路径搜索") {
+        @Override
+        public String value() {
+            return isBootClassPathSupported() + "";
+        }
+    },
+
+    BOOT_CLASS_PATH("引导类路径") {
+        @Override
+        public String value() {
+            return bootClassPath();
+        }
+    },
+
+    CLASS_PATH("类路径") {
+        @Override
+        public String value() {
+            return classPath();
+        }
+    },
+
+
+    EXECUTE_FILE_PATH("库路径") {
+        @Override
+        public String value() {
+            return libPath();
+        }
+    },
+
 
     ;
 

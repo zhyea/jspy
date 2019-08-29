@@ -187,7 +187,7 @@
             if (typeof options.locale == 'object') {
                 if (typeof options.locale.firstDay == 'number') {
                     this.locale.firstDay = options.locale.firstDay;
-                    var iterator = options.locale.firstDay;
+                    let iterator = options.locale.firstDay;
                     while (iterator > 0) {
                         this.locale.daysOfWeek.push(this.locale.daysOfWeek.shift());
                         iterator--;
@@ -241,8 +241,8 @@
 
         if (this.opens == 'right') {
             //swap calendar positions
-            var left = this.container.find('.calendar.left');
-            var right = this.container.find('.calendar.right');
+            let left = this.container.find('.calendar.left');
+            let right = this.container.find('.calendar.right');
             left.removeClass('left').addClass('right');
             right.removeClass('right').addClass('left');
         }
@@ -260,10 +260,10 @@
         //try parse date if in text input
         if (!hasOptions || (typeof options.startDate == 'undefined' && typeof options.endDate == 'undefined')) {
             if ($(this.element).is('input[type=text]')) {
-                var val = $(this.element).val();
-                var split = val.split(this.separator);
-                var start, end;
-                if (split.length == 2) {
+                let val = $(this.element).val();
+                let split = val.split(this.separator);
+                let start, end;
+                if (split.length === 2) {
                     start = moment(split[0], this.format);
                     end = moment(split[1], this.format);
                 }
@@ -346,9 +346,9 @@
             if (!this.element.is('input')) return;
             if (!this.element.val().length) return;
 
-            var dateString = this.element.val().split(this.separator);
-            var start = moment(dateString[0], this.format);
-            var end = moment(dateString[1], this.format);
+            let dateString = this.element.val().split(this.separator);
+            let start = moment(dateString[0], this.format);
+            let end = moment(dateString[1], this.format);
 
             if (start == null || end == null) return;
             if (end.isBefore(start)) return;
@@ -370,7 +370,7 @@
                 top: this.parentEl.offset().top - (this.parentEl.is('body') ? 0 : this.parentEl.scrollTop()),
                 left: this.parentEl.offset().left - (this.parentEl.is('body') ? 0 : this.parentEl.scrollLeft())
             };
-            if (this.opens == 'left') {
+            if (this.opens === 'left') {
                 this.container.css({
                     top: this.element.offset().top + this.element.outerHeight() - parentOffset.top,
                     right: $(window).width() - this.element.offset().left - this.element.outerWidth() - parentOffset.left,
@@ -427,6 +427,17 @@
             let label = e.target.innerHTML;
             if (label === this.locale.customRangeLabel) {
                 this.updateView();
+            } else {
+                let r = this.ranges[label];
+
+                let field = r[0];
+                let diff = r[1] * 1;
+
+                let start = moment().subtract(field, diff);
+                let end = moment();
+
+                this.container.find('input[name=daterangepicker_start]').val(start.format(this.format));
+                this.container.find('input[name=daterangepicker_end]').val(end.format(this.format));
             }
         },
 
