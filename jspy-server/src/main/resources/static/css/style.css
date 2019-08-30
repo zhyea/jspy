@@ -226,6 +226,10 @@ main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > t
     font-size: 16px;
 }
 
+.item {
+    line-height: 160%;
+}
+
 .kv-label {
     margin: 0;
     padding: 0;

@@ -55,7 +55,7 @@ public enum Runtime implements Info {
     UP_TIME("进程运行时间") {
         @Override
         public String value() {
-            return formatLong(uptime()) + " MS";
+            return formatLong(uptime()) + " ms";
         }
     },
 

@@ -17,7 +17,7 @@
             <div class="page-header">
                 <h4 th:text="${item.title}"></h4>
             </div>
-            <div class="row" th:each="e : ${item.details}">
+            <div class="row item" th:each="e : ${item.details}">
                 <div class="kv-label col-md-3 col-xs-3 col-sm-3" th:text="|${e.key} ：|"></div>
                 <div class="kv-value col-md-9 col-xs-9 col-sm-9" th:text="${e.value}"></div>
             </div>

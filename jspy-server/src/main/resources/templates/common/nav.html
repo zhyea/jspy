@@ -19,11 +19,12 @@
             <li class="menu-item">
                 <a th:href="|/app/home/${session.appCode}|" target="_self" th:text="${session.appName}"></a>
             </li>
-            <li class="menu-item"><a href="/memory/" target="_self">内存</a></li>
-            <li class="menu-item"><a href="/gc/" target="_self">GC</a></li>
-            <li class="menu-item"><a href="/method-list/" target="_self">方法</a></li>
-            <li class="menu-item"><a href="/thread/" target="_self">线程</a></li>
-            <li class="menu-item"><a href="/classes/" target="_self">类</a></li>
+            <li class="menu-item"><a target="_self" href="/memory">内存</a></li>
+            <li class="menu-item"><a target="_self" href="/gc">GC</a></li>
+            <li class="menu-item"><a target="_self" href="/cpu">CPU</a></li>
+            <li class="menu-item"><a target="_self" href="/method-list">方法</a></li>
+            <li class="menu-item"><a target="_self" href="/thread">线程</a></li>
+            <li class="menu-item"><a target="_self" href="/classes">类</a></li>
         </ul>
     </div>
 </nav>

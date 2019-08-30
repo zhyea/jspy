@@ -71,6 +71,13 @@
       "defaultValue": 6
     },
     {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.cpu-usage-collect-interval-seconds",
+      "description": "interval seconds of JSpy cpu usage stats collect",
+      "type": "java.lang.Integer",
+      "defaultValue": 6
+    },
+    {
       "sourceType": "org.chobit.jspy.WatcherConfig",
       "name": "jspy.watcher.enable",
       "description": "enable using of @JSpyWatcher annotation",

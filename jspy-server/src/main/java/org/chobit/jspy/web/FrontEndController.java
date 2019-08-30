@@ -95,6 +95,14 @@ public class FrontEndController {
     }
 
     /**
+     * 跳转到CPU数据页
+     */
+    @GetMapping("/cpu")
+    public String cpu() {
+        return "cpu";
+    }
+
+    /**
      * 跳转到GC数据页
      */
     @GetMapping("/gc")

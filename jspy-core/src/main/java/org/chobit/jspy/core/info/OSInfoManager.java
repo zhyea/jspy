@@ -3,7 +3,7 @@ package org.chobit.jspy.core.info;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 
-abstract class OSInfoManager {
+public abstract class OSInfoManager {
 
 
     private static final OperatingSystemMXBean mxBean = ManagementFactory.getOperatingSystemMXBean();
@@ -23,7 +23,7 @@ abstract class OSInfoManager {
     }
 
 
-    static int availableProcessors() {
+    public static int availableProcessors() {
         return mxBean.getAvailableProcessors();
     }
 

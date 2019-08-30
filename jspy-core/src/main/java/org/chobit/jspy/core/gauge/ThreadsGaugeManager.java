@@ -32,6 +32,16 @@ public abstract class ThreadsGaugeManager {
     }
 
 
+    static long[] allThreadIds() {
+        return mxBean.getAllThreadIds();
+    }
+
+
+    static long getThreadCpuTime(long threadId) {
+        return mxBean.getThreadCpuTime(threadId);
+    }
+
+
     public static List<org.chobit.jspy.core.model.ThreadInfo> allThreads() {
         ThreadInfo[] arr = mxBean.dumpAllThreads(true, true);
         List<org.chobit.jspy.core.model.ThreadInfo> list = new LinkedList<>();

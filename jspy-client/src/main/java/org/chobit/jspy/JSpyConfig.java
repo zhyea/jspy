@@ -21,6 +21,8 @@ public final class JSpyConfig {
 
     private int classLoadingCollectIntervalSeconds = 6;
 
+    private int cpuUsageCollectIntervalSeconds = 6;
+
     private int watcherHistogramPeriodSeconds = 60 * 5;
 
     private int expectNumOfWatchedMethods = 32;
@@ -99,6 +101,13 @@ public final class JSpyConfig {
         this.classLoadingCollectIntervalSeconds = classLoadingCollectIntervalSeconds;
     }
 
+    public int getCpuUsageCollectIntervalSeconds() {
+        return cpuUsageCollectIntervalSeconds;
+    }
+
+    public void setCpuUsageCollectIntervalSeconds(int cpuUsageCollectIntervalSeconds) {
+        this.cpuUsageCollectIntervalSeconds = cpuUsageCollectIntervalSeconds;
+    }
 
     public int getWatcherHistogramPeriodSeconds() {
         return watcherHistogramPeriodSeconds;

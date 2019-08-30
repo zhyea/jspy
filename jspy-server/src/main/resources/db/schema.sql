@@ -78,7 +78,6 @@ create table if not exists gc_stat
     op_time        timestamp not null default current_timestamp on update current_timestamp
 );
 
-
 create index if not exists idx_q_gc on gc_stat (app_code, event_time);
 
 
@@ -101,7 +100,6 @@ create table if not exists thread_stat
     op_time       timestamp not null default current_timestamp on update current_timestamp
 );
 
-
 create index if not exists idx_q_thread on thread_stat (app_code, event_time);
 
 -- class loading stat
@@ -121,7 +119,6 @@ create table if not exists class_loading_stat
     insert_time    datetime           default current_date,
     op_time        timestamp not null default current_timestamp on update current_timestamp
 );
-
 
 create index if not exists idx_q_class_loading on class_loading_stat (app_code, event_time);
 
@@ -180,7 +177,6 @@ create table if not exists histogram
     op_time       timestamp not null default current_timestamp on update current_timestamp
 );
 
-
 create index if not exists idx_q_histogram on histogram (app_code, `type`, `name`, event_time);
 
 
@@ -202,3 +198,22 @@ create table if not exists sys_info
 );
 
 create index if not exists idx_q_sys on sys_info (app_code, `type`, event_time);
+
+
+-- CPU用量信息
+create table if not exists cpu_usage
+(
+    id          int auto_increment primary key,
+
+    app_code    varchar(32),
+    ip          varchar(32),
+
+    usage       decimal,
+    event_time  datetime           default current_date,
+
+    deleted     tinyint            default 0,
+    insert_time datetime           default current_date,
+    op_time     timestamp not null default current_timestamp on update current_timestamp
+);
+
+create index if not exists idx_q_cpu on cpu_usage (app_code, event_time);
