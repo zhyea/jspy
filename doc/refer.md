@@ -28,4 +28,14 @@ https://blog.csdn.net/houzhizhen/article/details/71534313
 
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-auto-configuration.html
 
-* Spring-boot-starter开发
+* Spring-boot-
+
+## 要做的事情
+
+* 替换数据库连接池为Hirik
+* 分析Simple缓存的使用及配置方案
+* 尝试在加载自动化配置项的时候排除某些配置
+* 不再使用自定义的Caffeine配置，进行全局统一配置
+* 完成定期删除过期数据的能力
+* 完成数据shrink的能力
+* 尝试去掉data.sql文件
