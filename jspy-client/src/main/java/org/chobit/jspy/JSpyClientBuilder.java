@@ -70,6 +70,12 @@ public final class JSpyClientBuilder {
         return this;
     }
 
+    public JSpyClientBuilder cpuUsageCollectIntervalSeconds(int cpuUsageCollectIntervalSeconds) {
+        this.config.setCpuUsageCollectIntervalSeconds(cpuUsageCollectIntervalSeconds);
+        return this;
+    }
+
+
     public JSpyClientBuilder watcherHistogramPeriodSeconds(int methodHistogramPeriodSeconds) {
         this.config.setWatcherHistogramPeriodSeconds(methodHistogramPeriodSeconds);
         return this;

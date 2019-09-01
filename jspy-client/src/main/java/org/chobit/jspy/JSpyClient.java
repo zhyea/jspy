@@ -1,12 +1,15 @@
 package org.chobit.jspy;
 
 import org.chobit.jspy.core.exceptions.JSpyException;
-import org.chobit.jspy.jobs.JobCapsule;
-import org.chobit.jspy.jobs.internal.JSpyJobFactory;
+import org.chobit.jspy.jobs.AbstractOneOffJob;
+import org.chobit.jspy.jobs.AbstractQuartzJob;
+import org.chobit.jspy.jobs.internal.QuartzJobFactory;
 import org.chobit.jspy.jobs.internal.JSpyJobRegistry;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
+
+import java.util.concurrent.TimeUnit;
 
 public final class JSpyClient {
 
@@ -24,12 +27,16 @@ public final class JSpyClient {
 
 
     public void start() {
+        new Thread(() -> start0(),
+                "jspy-client-starter-thread").start();
+    }
+
+
+    private void start0() {
         try {
-            scheduler.startDelayed(startDelayedSeconds);
-            Iterable<JobCapsule> jobs = jobRegistry.jobs();
-            for (JobCapsule j : jobs) {
-                scheduler.scheduleJob(j.job(), j.trigger());
-            }
+            TimeUnit.SECONDS.sleep(startDelayedSeconds);
+            startQuartzJob();
+            startOneOffJob();
         } catch (Exception e) {
             throw new JSpyException(e);
         }
@@ -50,10 +57,26 @@ public final class JSpyClient {
     }
 
 
+    private void startOneOffJob() {
+        Iterable<AbstractOneOffJob> jobs = jobRegistry.oneOffJobs();
+        for (AbstractOneOffJob job : jobs) {
+            job.execute();
+        }
+    }
+
+    private void startQuartzJob() throws SchedulerException {
+        scheduler.start();
+        Iterable<AbstractQuartzJob> jobs = jobRegistry.quartzJobs();
+        for (AbstractQuartzJob j : jobs) {
+            scheduler.scheduleJob(j.job(), j.trigger());
+        }
+    }
+
+
     private Scheduler newScheduler() {
         try {
             Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-            scheduler.setJobFactory(new JSpyJobFactory(jobRegistry));
+            scheduler.setJobFactory(new QuartzJobFactory(jobRegistry));
             return scheduler;
         } catch (SchedulerException e) {
             throw new JSpyException(e);

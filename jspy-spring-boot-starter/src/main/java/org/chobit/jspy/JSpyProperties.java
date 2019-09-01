@@ -26,6 +26,8 @@ public class JSpyProperties {
 
     private int classLoadingCollectIntervalSeconds = 6;
 
+    private int cpuUsageCollectIntervalSeconds = 6;
+
     private WatcherConfig watcher;
 
     public boolean isEnable() {
@@ -106,6 +108,14 @@ public class JSpyProperties {
 
     public void setClassLoadingCollectIntervalSeconds(int classLoadingCollectIntervalSeconds) {
         this.classLoadingCollectIntervalSeconds = classLoadingCollectIntervalSeconds;
+    }
+
+    public int getCpuUsageCollectIntervalSeconds() {
+        return cpuUsageCollectIntervalSeconds;
+    }
+
+    public void setCpuUsageCollectIntervalSeconds(int cpuUsageCollectIntervalSeconds) {
+        this.cpuUsageCollectIntervalSeconds = cpuUsageCollectIntervalSeconds;
     }
 
     public WatcherConfig getWatcher() {

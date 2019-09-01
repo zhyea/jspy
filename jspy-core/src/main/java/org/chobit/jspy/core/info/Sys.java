@@ -48,8 +48,8 @@ public abstract class Sys {
         operatingSys.add("Version", os.getVersion().toString());
         operatingSys.add("Bitness", os.getBitness());
         operatingSys.add("Family", os.getFamily());
-        operatingSys.add("BootTime", TimeUnit.SECONDS.toHours(os.getSystemBootTime()) + "h");
-        operatingSys.add("UpTime", TimeUnit.SECONDS.toHours(os.getSystemUptime()) + "h");
+        operatingSys.add("BootTime", TimeUnit.SECONDS.toHours(os.getSystemBootTime()) + " h");
+        operatingSys.add("UpTime", TimeUnit.SECONDS.toHours(os.getSystemUptime()) + " h");
         return operatingSys;
     }
 
@@ -158,7 +158,7 @@ public abstract class Sys {
             networkIF.add("IPv4", Arrays.toString(net.getIPv4addr()));
             networkIF.add("IPv6", Arrays.toString(net.getIPv6addr()));
             networkIF.add("MTU", formatLong(net.getMTU()));
-            networkIF.add("Speed", formatLong(net.getSpeed()) + "bps");
+            networkIF.add("Speed", formatLong(net.getSpeed()) + " bps");
 
             items.add(networkIF);
         }
@@ -182,11 +182,37 @@ public abstract class Sys {
 
 
     /**
+     * 通过JVM获取的NET信息
+     */
+    public static Item jvmNet() {
+        Item item = new Item("NET(from JVM)");
+        for (Net n : Net.values()) {
+            item.add(n.alias, n.value());
+        }
+        return item;
+    }
+
+
+    /**
+     * 通过JVM获取的OS信息
+     */
+    public static Item jvmOS() {
+        Item item = new Item("OS(from JVM)");
+        for (OS e : OS.values()) {
+            item.add(e.alias, e.value());
+        }
+        return item;
+    }
+
+
+    /**
      * 全部的系统信息
      */
     public static List<Item> values() {
         List<Item> items = new LinkedList<>();
 
+        items.add(jvmOS());
+        items.add(jvmNet());
         items.add(deviceSummary());
         items.add(os());
         items.add(firmware());

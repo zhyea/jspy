@@ -2,24 +2,17 @@ package org.chobit.jspy.core;
 
 
 import java.lang.management.ManagementFactory;
-import java.lang.management.ThreadInfo;
-import java.lang.management.ThreadMXBean;
-import java.util.concurrent.TimeUnit;
+import java.lang.management.OperatingSystemMXBean;
 
 public class MBeanTest {
 
     public static void main(String[] args) throws InterruptedException {
 
-        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
+        OperatingSystemMXBean bean = ManagementFactory.getOperatingSystemMXBean();
 
-        ThreadInfo[] threads = bean.dumpAllThreads(true, true);
-
-        for (ThreadInfo t : threads) {
-            System.out.println(t.getThreadId() + " : " + t.getThreadState() + " : " + t.getThreadName() + " : " + bean.getThreadCpuTime(t.getThreadId()) + " : " + bean.getThreadUserTime(t.getThreadId()) );
+        for(int i=0; i<1000; i++){
+            bean.getSystemLoadAverage();
         }
-
-        TimeUnit.MINUTES.sleep(3L);
-
     }
 
 

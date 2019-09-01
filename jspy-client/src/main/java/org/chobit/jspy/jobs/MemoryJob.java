@@ -10,9 +10,9 @@ import java.util.List;
 import static org.chobit.jspy.core.gauge.MemoryGaugeManager.*;
 import static org.chobit.jspy.utils.SysTime.millis;
 
-public final class MemoryJobCapsule extends JobCapsule<MemoryOverview> {
+public final class MemoryJob extends AbstractQuartzJob<MemoryOverview> {
 
-    public MemoryJobCapsule(JSpyConfig config) {
+    public MemoryJob(JSpyConfig config) {
         super(config);
     }
 

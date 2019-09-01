@@ -3,14 +3,14 @@ package org.chobit.jspy.core.info;
 
 public enum Net implements Info {
 
-    LOCAL_HOST_IP("本机IP") {
+    LOCAL_HOST_IP("Local Host IP") {
         @Override
         public String value() {
             return NetInfoManager.getLocalHostIp();
         }
     },
 
-    LOCAL_HOST_NAME("本机服务器名称") {
+    LOCAL_HOST_NAME("Local Host Name") {
         @Override
         public String value() {
             return NetInfoManager.getLocalHostName();

@@ -5,10 +5,10 @@ import org.chobit.jspy.model.ClassLoadingCount;
 
 import static org.chobit.jspy.core.gauge.ClassLoading.*;
 
-public final class ClassLoadingJobCapsule extends JobCapsule<ClassLoadingCount> {
+public final class ClassLoadingJob extends AbstractQuartzJob<ClassLoadingCount> {
 
 
-    public ClassLoadingJobCapsule(JSpyConfig config) {
+    public ClassLoadingJob(JSpyConfig config) {
         super(config);
     }
 

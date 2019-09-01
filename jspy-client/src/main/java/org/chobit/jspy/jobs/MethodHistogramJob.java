@@ -7,10 +7,10 @@ import org.chobit.jspy.model.MethodHistogram;
 
 import java.util.Map;
 
-public final class MethodHistogramJobCapsule extends JobCapsule<MethodHistogram> {
+public final class MethodHistogramJob extends AbstractQuartzJob<MethodHistogram> {
 
 
-    public MethodHistogramJobCapsule(JSpyConfig config) {
+    public MethodHistogramJob(JSpyConfig config) {
         super(config);
     }
 

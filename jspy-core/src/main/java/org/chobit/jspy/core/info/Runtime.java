@@ -1,6 +1,8 @@
 package org.chobit.jspy.core.info;
 
 import static org.chobit.jspy.core.info.RuntimeInfoManager.*;
+import static org.chobit.jspy.core.utils.Dates.format;
+import static org.chobit.jspy.core.utils.Strings.formatLong;
 import static org.chobit.jspy.core.utils.Strings.mkString;
 
 public enum Runtime implements Info {
@@ -9,36 +11,6 @@ public enum Runtime implements Info {
     /**
      * 这里以单例模式获取JVM运行时信息
      */
-
-    IS_BOOTCLASS_PATH_SUPPORTED("是否支持引导类路径搜索") {
-        @Override
-        public String value() {
-            return isBootClassPathSupported() + "";
-        }
-    },
-
-    BOOT_CLASS_PATH("引导类路径") {
-        @Override
-        public String value() {
-            return bootClassPath();
-        }
-    },
-
-    CLASS_PATH("类路径") {
-        @Override
-        public String value() {
-            return classPath();
-        }
-    },
-
-
-    EXECUTE_FILE_PATH("库路径") {
-        @Override
-        public String value() {
-            return libPath();
-        }
-    },
-
 
     MANAGEMENT_SPEC_VERSION("管理接口规范版本") {
         @Override
@@ -75,7 +47,7 @@ public enum Runtime implements Info {
     START_TIME("进程启动时间") {
         @Override
         public String value() {
-            return startTime() + "";
+            return format(startTime());
         }
     },
 
@@ -83,7 +55,7 @@ public enum Runtime implements Info {
     UP_TIME("进程运行时间") {
         @Override
         public String value() {
-            return uptime() + "";
+            return formatLong(uptime()) + " ms";
         }
     },
 
@@ -124,6 +96,35 @@ public enum Runtime implements Info {
         @Override
         public String value() {
             return mkString(inputArgs(), ";");
+        }
+    },
+
+    IS_BOOTCLASS_PATH_SUPPORTED("是否支持引导类路径搜索") {
+        @Override
+        public String value() {
+            return isBootClassPathSupported() + "";
+        }
+    },
+
+    BOOT_CLASS_PATH("引导类路径") {
+        @Override
+        public String value() {
+            return bootClassPath();
+        }
+    },
+
+    CLASS_PATH("类路径") {
+        @Override
+        public String value() {
+            return classPath();
+        }
+    },
+
+
+    EXECUTE_FILE_PATH("库路径") {
+        @Override
+        public String value() {
+            return libPath();
         }
     },
 

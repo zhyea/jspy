@@ -61,7 +61,7 @@ public class GcService {
     /**
      * 获取Histogram名称
      */
-    @Cacheable
+    @Cacheable("'gcHistograms'")
     public List<String> findHistogramNames() {
         return histogramMapper.findNames(GC.id);
     }

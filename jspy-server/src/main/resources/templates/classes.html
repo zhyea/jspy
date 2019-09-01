@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="common/head::head"></div>
+<body>
+
+<div class="wrap">
+    <div th:replace="common/nav::nav"></div>
+    <main>
+        <!--chart-->
+        <div class="form-inline row toolbar">
+            <div class="input-group col-lg-10 col-md-10">
+                <!--时间选择-->
+                <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px"
+                       readonly/>
+                <span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
+                <input type="hidden" id="startTimeClasses" value=""/>
+                <input type="hidden" id="endTimeClasses" value=""/>
+                <span class="input-group-addon">
+                    <input type="checkbox" id="enableAutoRefresh" onclick="refreshChart()" checked/> &nbsp;动态刷新
+                </span>
+            </div><!-- /input-group -->
+        </div>
+
+        <!--报表框-->
+        <div id="classesChart" style="width: 100%; height:420px;"></div>
+        <div>&nbsp;&nbsp;</div>
+
+
+        <div th:each="item : ${runtime}">
+            <div class="page-header">
+                <h4 th:text="${item.title}"></h4>
+            </div>
+            <div class="row item" th:each="e : ${item.details}">
+                <div class="kv-label col-md-3 col-xs-3 col-sm-3" th:text="|${e.key} ：|"></div>
+                <div class="kv-value col-md-9 col-xs-9 col-sm-9" th:text="${e.value}"></div>
+            </div>
+        </div>
+
+    </main>
+    <div th:replace="common/footer::footer"></div>
+</div>
+
+
+<script type="text/javascript">
+
+    const classesChart = initAndLoadJSpyChart($('#classesChart'), '/api/class-load/find-by-params', '');
+
+    function refreshChart() {
+        let start = $("#startTimeClasses").val();
+        let end = $("#endTimeClasses").val();
+
+        let enableAutoRefresh = $("#enableAutoRefresh").prop('checked');
+        if (enableAutoRefresh) {
+            end = -1;
+        }
+
+        classesChart.refresh('', start, end);
+    }
+
+    loadDateRangePicker($('#date_picker'), function (start, end) {
+        $("#startTimeClasses").val(start.valueOf());
+        $("#endTimeClasses").val(end.valueOf());
+        refreshChart();
+    });
+</script>
+
+</body>
+</html>

@@ -111,4 +111,7 @@ public abstract class Strings {
         return format.format(value);
     }
 
+
+    private Strings() {
+    }
 }

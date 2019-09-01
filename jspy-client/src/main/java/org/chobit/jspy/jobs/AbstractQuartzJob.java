@@ -4,33 +4,27 @@ import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import org.chobit.jspy.JSpyConfig;
 import org.chobit.jspy.utils.HttpResult;
-import org.quartz.*;
+import org.quartz.Job;
+import org.quartz.JobDetail;
+import org.quartz.JobExecutionContext;
+import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.chobit.jspy.core.info.Net.LOCAL_HOST_IP;
 import static org.chobit.jspy.utils.HTTP.post;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-public abstract class JobCapsule<T> implements Job {
+public abstract class AbstractQuartzJob<T> extends  AbstractJob<T> implements Job {
 
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    protected final JSpyConfig config;
 
-    public JobCapsule(JSpyConfig config) {
-        this.config = config;
+    public AbstractQuartzJob(JSpyConfig config) {
+        super(config);
     }
 
-    abstract String receivePath();
-
-    abstract String name();
-
     abstract int intervalSeconds();
-
-    abstract T collect();
 
 
     String group() {
@@ -56,11 +50,7 @@ public abstract class JobCapsule<T> implements Job {
     @Override
     public void execute(JobExecutionContext context) {
 
-        Headers headers =
-                new Headers.Builder()
-                        .add("appCode", config.getAppCode())
-                        .add("ip", LOCAL_HOST_IP.value())
-                        .build();
+        Headers headers = headers();
 
         T data = collect();
         if (null == data) {
@@ -73,15 +63,5 @@ public abstract class JobCapsule<T> implements Job {
         }
     }
 
-
-    private HttpUrl receiveUrl() {
-        return new HttpUrl.Builder()
-                .scheme(config.isUseSSL() ? "https" : "http")
-                .host(config.getServerHost())
-                .port(config.getServerPort())
-                .addPathSegments(receivePath())
-                .build();
-
-    }
 
 }
