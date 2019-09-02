@@ -16,8 +16,9 @@ import java.util.Map;
 public interface HistogramMapper {
 
 
-    @Select("select distinct name from histogram where type=#{type}")
-    List<String> findNames(@Param("type") int type);
+    @Select("select distinct name from histogram where app_code=#{appCode} and type=#{type}")
+    List<String> findNames(@Param("appCode") String appCode,
+                           @Param("type") int type);
 
 
     @Insert({

@@ -11,7 +11,7 @@ import java.util.Date;
 public class CpuUsage extends AbstractStatEntity {
 
 
-    @Series(value = "CPU占用率")
+    @Series(value = "CPU占用率", unit = "%")
     private BigDecimal usage;
 
     @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,10 @@ public class FrontEndController {
     private MethodService methodService;
     @Autowired
     private SysInfoService sysService;
+    @Autowired
+    private ClassLoadingService classLoadingService;
+    @Autowired
+    private PreheatService preheatService;
 
 
     /**
@@ -40,8 +45,12 @@ public class FrontEndController {
     @GetMapping("/classes")
     public String classLoading(@SessionAttribute("appCode") String appCode,
                                ModelMap model) {
+        Item i = classLoadingService.getLatest(appCode);
         List<Item> items = sysService.getLatestRuntimeInfo(appCode);
-        model.addAttribute("runtime", items);
+        List<Item> list = new LinkedList<>();
+        list.add(i);
+        list.addAll(items);
+        model.addAttribute("runtime", list);
 
         return "classes";
     }
@@ -106,8 +115,9 @@ public class FrontEndController {
      * 跳转到GC数据页
      */
     @GetMapping("/gc")
-    public String gc(ModelMap model) {
-        List<String> names = gcService.findHistogramNames();
+    public String gc(@SessionAttribute("appCode") String appCode,
+                     ModelMap model) {
+        List<String> names = gcService.findGcNames(appCode);
 
         model.addAttribute("names", names);
         return "gc";
@@ -137,6 +147,8 @@ public class FrontEndController {
 
         List<Item> details = sysService.getLatestSysInfo(appCode);
         model.addAttribute("sysInfo", details);
+
+        preheatService.preheat(appCode);
 
         return "app-home";
     }

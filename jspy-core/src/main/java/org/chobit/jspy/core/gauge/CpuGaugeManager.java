@@ -35,7 +35,9 @@ abstract class CpuGaugeManager {
             return 0;
         }
 
-        return Math.round(10000.0 * elapsed / passed / availableProcessors) / 100.0;
+        double v = Math.round(10000.0 * elapsed / passed / availableProcessors) / 100.0;
+
+        return v > 100.0 ? 100.0 : v;
     }
 
 

@@ -1,11 +1,12 @@
 package org.chobit.jspy.service;
 
+import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.chobit.jspy.core.model.GcRecord;
 import org.chobit.jspy.model.GcOverview;
 import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.model.QueryParam;
-import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.model.page.Page;
+import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.service.entity.GcStat;
 import org.chobit.jspy.service.entity.HistogramEntity;
 import org.chobit.jspy.service.mapper.AssembleQueryMapper;
@@ -14,7 +15,6 @@ import org.chobit.jspy.service.mapper.HistogramMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.chobit.jspy.constants.HistogramType.GC;
+import static org.chobit.jspy.tools.CacheBuilder.build;
 
 @Service
 @CacheConfig(cacheNames = "gc")
@@ -35,6 +36,8 @@ public class GcService {
     @Autowired
     private AssembleQueryMapper aqMapper;
 
+
+    private LoadingCache<String, List<String>> gcNames = build(this::findGcNames0);
 
     /**
      * 分页查询GC数据
@@ -59,11 +62,14 @@ public class GcService {
 
 
     /**
-     * 获取Histogram名称
+     * 获取GC类型名称
      */
-    @Cacheable("'gcHistograms'")
-    public List<String> findHistogramNames() {
-        return histogramMapper.findNames(GC.id);
+    public List<String> findGcNames(String appCode) {
+        return gcNames.get(appCode);
+    }
+
+    private List<String> findGcNames0(String appCode) {
+        return histogramMapper.findNames(appCode, GC.id);
     }
 
 

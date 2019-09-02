@@ -36,5 +36,4 @@ public interface AppMapper {
 
     @Update("update app set deleted=1 where id=#{id}")
     boolean logicDelete(@Param("id") int id);
-
 }

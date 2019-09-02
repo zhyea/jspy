@@ -1,6 +1,7 @@
 package org.chobit.jspy.service;
 
 
+import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.model.MethodHistogram;
 import org.chobit.jspy.model.QueryParam;
@@ -14,17 +15,14 @@ import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static org.chobit.jspy.constants.HistogramType.METHOD;
+import static org.chobit.jspy.tools.CacheBuilder.build;
 
 @Service
 @CacheConfig(cacheNames = "method")
@@ -34,6 +32,9 @@ public class MethodService {
     private HistogramMapper histogramMapper;
     @Autowired
     private MethodMapper methodMapper;
+
+
+    private LoadingCache<String, List<MethodEntity>> methodNames = build(this::findMethods0);
 
     /**
      * 分页查询
@@ -56,16 +57,18 @@ public class MethodService {
     /**
      * 根据ID获取方法记录
      */
-    @Cacheable(key = "'get:'+#id")
     public MethodEntity get(int id) {
-        System.out.println("----------------------------" + id);
         return methodMapper.get(id);
+    }
+
+    public List<MethodEntity> findMethods(String appCode) {
+        return methodNames.get(appCode);
     }
 
     /**
      * 查找方法信息
      */
-    public List<MethodEntity> findMethodNames(String appCode) {
+    private List<MethodEntity> findMethods0(String appCode) {
         return methodMapper.findByAppCode(appCode);
     }
 

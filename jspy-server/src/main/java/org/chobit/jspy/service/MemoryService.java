@@ -1,6 +1,5 @@
 package org.chobit.jspy.service;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.chobit.jspy.constants.MemoryNames;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
@@ -24,6 +23,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.management.MemoryType.HEAP;
 import static java.lang.management.MemoryType.NON_HEAP;
+import static org.chobit.jspy.tools.CacheBuilder.build;
 
 @Service
 @CacheConfig(cacheNames = "mem")
@@ -52,17 +52,9 @@ public class MemoryService {
     private AssembleQueryMapper aqMapper;
 
 
-    private LoadingCache<String, Set<String>> heapPoolNames = Caffeine.newBuilder()
-            .maximumSize(20000)
-            .expireAfterAccess(30, TimeUnit.DAYS)
-            .refreshAfterWrite(10, TimeUnit.MINUTES)
-            .build(this::findHeapPoolNames);
+    private LoadingCache<String, Set<String>> heapPoolNames = build(this::findHeapPoolNames);
 
-    private LoadingCache<String, Set<String>> nonHeapPoolNames = Caffeine.newBuilder()
-            .maximumSize(20000)
-            .expireAfterAccess(30, TimeUnit.DAYS)
-            .refreshAfterWrite(10, TimeUnit.MINUTES)
-            .build(this::findNonHeapPoolNames);
+    private LoadingCache<String, Set<String>> nonHeapPoolNames = build(this::findNonHeapPoolNames);
 
 
     /**
@@ -90,6 +82,7 @@ public class MemoryService {
      * 获取堆 内存池名称
      */
     private Set<String> findHeapPoolNames(String appCode) {
+        System.out.println("---------------------find heap pool names");
         return memMapper.findHeapPoolNames(appCode);
     }
 

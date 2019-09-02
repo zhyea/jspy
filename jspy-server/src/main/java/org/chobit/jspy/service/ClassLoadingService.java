@@ -1,5 +1,6 @@
 package org.chobit.jspy.service;
 
+import org.chobit.jspy.core.model.Item;
 import org.chobit.jspy.model.ClassLoadingCount;
 import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.entity.ClassLoadingStat;
@@ -72,9 +73,14 @@ public class ClassLoadingService {
     /**
      * 获取最新的数据
      */
-    public ClassLoadingStat getLatest(String appCode) {
+    public Item getLatest(String appCode) {
         Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(15));
-        return mapper.getLatest(appCode, time);
+        ClassLoadingStat stat = mapper.getLatest(appCode, time);
+        Item item = new Item("类加载信息");
+        item.add("已装载当前类", stat.getCurrentLoaded());
+        item.add("已装载类总数", stat.getTotalLoaded());
+        item.add("已卸载类总数", stat.getUnloaded());
+        return item;
     }
 
 }

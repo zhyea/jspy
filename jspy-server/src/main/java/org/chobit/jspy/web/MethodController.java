@@ -55,8 +55,6 @@ public class MethodController {
 
     @GetMapping("/all-methods")
     public List<MethodEntity> allMethods(@SessionAttribute("appCode") String appCode) {
-        return methodService.findMethodNames(appCode);
+        return methodService.findMethods(appCode);
     }
-
-
 }
