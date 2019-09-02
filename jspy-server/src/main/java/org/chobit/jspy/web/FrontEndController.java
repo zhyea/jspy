@@ -48,7 +48,9 @@ public class FrontEndController {
         Item i = classLoadingService.getLatest(appCode);
         List<Item> items = sysService.getLatestRuntimeInfo(appCode);
         List<Item> list = new LinkedList<>();
-        list.add(i);
+        if (null != i) {
+            list.add(i);
+        }
         list.addAll(items);
         model.addAttribute("runtime", list);
 

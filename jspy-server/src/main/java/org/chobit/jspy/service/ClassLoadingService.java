@@ -76,6 +76,9 @@ public class ClassLoadingService {
     public Item getLatest(String appCode) {
         Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(15));
         ClassLoadingStat stat = mapper.getLatest(appCode, time);
+        if (null == stat) {
+            return null;
+        }
         Item item = new Item("类加载信息");
         item.add("已装载当前类", stat.getCurrentLoaded());
         item.add("已装载类总数", stat.getTotalLoaded());

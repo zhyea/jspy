@@ -10,6 +10,11 @@ create table if not exists user
     op_time     timestamp          not null default current_timestamp on update current_timestamp
 );
 
+insert into user (username, password)
+select 'admin', 'admin'
+from dual
+where not exists(select 1 from user where username = 'admin');
+
 -- app
 create table if not exists app
 (
@@ -22,6 +27,12 @@ create table if not exists app
     insert_time datetime                    default current_date,
     op_time     timestamp          not null default current_timestamp on update current_timestamp
 );
+
+insert into app (app_name, app_code)
+select 'JSPY Console', 'jSpyCons'
+from dual
+where not exists(select 1 from app where app_code = 'jSpyCons');
+
 
 -- mem stat
 create table if not exists memory_stat
@@ -216,4 +227,5 @@ create table if not exists cpu_usage
     op_time     timestamp not null default current_timestamp on update current_timestamp
 );
 
-create index if not exists idx_q_cpu on cpu_usage (app_code, event_time);
+create index if not exists idx_q_cpu on cpu_usage (app_code, event_time)
+
