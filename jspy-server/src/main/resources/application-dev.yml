@@ -2,12 +2,15 @@ profiles: dev
 
 spring:
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
     platform: h2
     schema: classpath:db/schema.sql
     data: classpath:db/data.sql
+    hikari:
+      minimum-idle: 5
+      connection-test-query: SELECT 1
   h2:
     console:
       enabled: true
