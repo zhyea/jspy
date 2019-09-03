@@ -4,7 +4,7 @@ package org.chobit.jspy.web;
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.model.MethodHistogram;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.service.MethodService;
@@ -38,7 +38,7 @@ public class MethodController {
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
                                    @SessionAttribute("methodName") String methodName,
-                                   @RequestBody QueryParam param) {
+                                   @RequestBody ChartParam param) {
         List<LowerCaseKeyMap> m = methodService.findForChart(appCode, param, methodName);
         return ChartKit.fill(param.getTarget(), m, HistogramEntity.class);
     }

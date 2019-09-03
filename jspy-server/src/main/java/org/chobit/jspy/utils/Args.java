@@ -7,7 +7,7 @@ import org.chobit.jspy.service.entity.AbstractEntity;
 import java.util.List;
 
 import static org.chobit.jspy.core.utils.Strings.*;
-import static org.chobit.jspy.utils.Reflections.fieldsOf;
+import static org.chobit.jspy.utils.Reflections.nameOfFields;
 
 
 public abstract class Args {
@@ -44,7 +44,7 @@ public abstract class Args {
 
         String sortInHump = page.getSort().contains("_") ? lineToHump(page.getSort()) : page.getSort();
 
-        List<String> fields = fieldsOf(entityClass);
+        List<String> fields = Reflections.nameOfFields(entityClass);
 
         check(!fields.contains(sortInHump), "sort in Page is illegal.");
 

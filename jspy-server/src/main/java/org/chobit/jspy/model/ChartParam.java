@@ -2,7 +2,7 @@ package org.chobit.jspy.model;
 
 import java.util.Date;
 
-public class QueryParam {
+public class ChartParam {
 
 
     private String target;

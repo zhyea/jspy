@@ -3,11 +3,10 @@ package org.chobit.jspy.service;
 
 import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.core.model.ThreadInfo;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.ThreadCount;
 import org.chobit.jspy.model.ThreadOverview;
 import org.chobit.jspy.service.entity.ThreadStat;
-import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.service.mapper.ThreadStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.SysTime;
@@ -24,12 +23,15 @@ import java.util.concurrent.TimeUnit;
 public class ThreadService {
 
 
+    private static final String TABLE_NAME = "thread_stat";
+
     @Autowired
     private ThreadStatMapper threadMapper;
     @Autowired
-    private AssembleQueryMapper aqMapper;
+    private AssembleQueryService aqService;
 
     private Map<String, List<ThreadInfo>> allThreads = new ConcurrentHashMap<>(16);
+
 
     @JSpyWatcher
     public int insert(String appCode, String ip, ThreadOverview overview) {
@@ -47,17 +49,7 @@ public class ThreadService {
             return -1;
         }
 
-        ThreadStat stat = new ThreadStat();
-        stat.setAppCode(appCode);
-        stat.setIp(ip);
-        stat.setCurrent(count.getCurrent());
-        stat.setPeak(count.getPeak());
-        stat.setTotalStarted(count.getTotalStarted());
-        stat.setDaemon(count.getDaemon());
-
-        stat.setEventTime(new Date(count.getEventTime() > 0 ? count.getEventTime() : SysTime.millis()));
-
-        return threadMapper.insert(stat);
+        return threadMapper.insert(new ThreadStat(appCode, ip, count));
     }
 
 
@@ -95,11 +87,8 @@ public class ThreadService {
     /**
      * 查询内存数据
      */
-    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam params) {
-        return aqMapper.findWithQueryParam("thread_stat",
-                appCode,
-                params,
-                null,
+    public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam params) {
+        return aqService.findForChart(TABLE_NAME, appCode, params,
                 "current", "peak", "total_started", "daemon", "event_time");
     }
 

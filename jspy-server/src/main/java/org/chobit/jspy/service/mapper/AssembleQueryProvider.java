@@ -2,7 +2,7 @@ package org.chobit.jspy.service.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.page.Page;
 
 import static org.chobit.jspy.core.utils.Strings.isBlank;
@@ -15,9 +15,9 @@ public class AssembleQueryProvider {
     /**
      * 组装查询参数查询语句，通常用于报表
      */
-    public String queryWithQueryParam(@Param("table") String tableName,
+    public String findForChart(@Param("table") String tableName,
                                       @Param("appCode") String appCode,
-                                      @Param("p") QueryParam param,
+                                      @Param("p") ChartParam param,
                                       @Param("targetColumn") String targetColumn,
                                       @Param("columns") String... resultColumns) {
         return new SQL() {

@@ -5,10 +5,9 @@ import org.chobit.jspy.constants.MemoryNames;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.core.model.MemoryInfo;
 import org.chobit.jspy.core.model.MemoryPool;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.MemoryOverview;
-import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.entity.MemoryStat;
-import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.service.mapper.MemoryStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.SysTime;
@@ -45,11 +44,14 @@ public class MemoryService {
     private static final long COMMON_FLOATING_RANGE = 1024;
 
 
+    private static final String TABLE_NAME = "memory_stat";
+
+
     @Autowired
     private MemoryStatMapper memMapper;
 
     @Autowired
-    private AssembleQueryMapper aqMapper;
+    private AssembleQueryService aqService;
 
 
     private LoadingCache<String, Set<String>> heapPoolNames = build(this::findHeapPoolNames);
@@ -82,7 +84,6 @@ public class MemoryService {
      * 获取堆 内存池名称
      */
     private Set<String> findHeapPoolNames(String appCode) {
-        System.out.println("---------------------find heap pool names");
         return memMapper.findHeapPoolNames(appCode);
     }
 
@@ -109,10 +110,8 @@ public class MemoryService {
                        long eventTime,
                        boolean isPeak) {
 
-        int isPeak_ = isPeak ? 1 : 0;
-
         Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
-        MemoryStat latest = memMapper.getLatestByName(appCode, name, time, isPeak_);
+        MemoryStat latest = memMapper.getLatestByName(appCode, name, time, isPeak ? 1 : 0);
 
         long floatingRange = isPeak ? PEAK_FLOATING_RANGE : COMMON_FLOATING_RANGE;
 
@@ -120,18 +119,7 @@ public class MemoryService {
             return 0;
         }
 
-        MemoryStat m = new MemoryStat();
-        m.setType(type.name());
-        m.setName(name);
-        m.setManagerNames(Arrays.toString(managerNames));
-        m.setIp(ip);
-        m.setAppCode(appCode);
-        m.setInit(usage.getInit());
-        m.setUsed(usage.getUsed());
-        m.setCommitted(usage.getCommitted());
-        m.setMax(usage.getMax());
-        m.setEventTime(new Date(eventTime));
-        m.setIsPeak(isPeak_);
+        MemoryStat m = new MemoryStat(appCode, ip, type, usage, name, managerNames, eventTime, isPeak);
 
         return memMapper.insert(m);
     }
@@ -163,13 +151,9 @@ public class MemoryService {
      * 查询内存数据
      */
     @JSpyWatcher("获取内存报表数据Service")
-    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
-        List<LowerCaseKeyMap> result = aqMapper.findWithQueryParam("memory_stat",
-                appCode,
-                param,
-                "`name`",
+    public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param) {
+        List<LowerCaseKeyMap> result = aqService.findForChart(TABLE_NAME, "`name`", appCode, param,
                 "init", "used", "committed", "max", "event_time");
-
         if (param.getEndTime().getTime() - TimeUnit.DAYS.toMillis(1L) > param.getStartTime().getTime()) {
             return shrinkChartData(result);
         }

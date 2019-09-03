@@ -6,12 +6,10 @@ import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.chobit.jspy.core.utils.Strings.*;
+import static org.chobit.jspy.utils.Reflections.fieldsOf;
 
 /**
  * ECharts工具集合
@@ -73,7 +71,7 @@ public abstract class ChartKit {
      */
     private static Map<String, Series> parseSeriesMap(Class model) {
         Map<String, Series> seriesMap = new LinkedHashMap<>(4);
-        Field[] fields = model.getDeclaredFields();
+        List<Field> fields = fieldsOf(model);
         for (Field f : fields) {
             if (f.isAnnotationPresent(org.chobit.jspy.charts.annotation.Series.class)) {
                 org.chobit.jspy.charts.annotation.Series series =
@@ -105,7 +103,8 @@ public abstract class ChartKit {
      * 解析横轴数据
      */
     private static XAxis parseXAxis(Class model) {
-        Field[] fields = model.getDeclaredFields();
+        List<Field> fields = fieldsOf(model);
+
         for (Field f : fields) {
             if (f.isAnnotationPresent(org.chobit.jspy.charts.annotation.XAxis.class)) {
                 org.chobit.jspy.charts.annotation.XAxis axis = f.getAnnotation(org.chobit.jspy.charts.annotation.XAxis.class);
@@ -126,7 +125,7 @@ public abstract class ChartKit {
     private static List<YAxis> parseYAxises(Class model) {
         List<YAxis> axisList = new LinkedList<>();
 
-        Field[] fields = model.getDeclaredFields();
+        List<Field> fields = fieldsOf(model);
         int yAxisNum = 0;
         for (Field f : fields) {
             if (f.isAnnotationPresent(org.chobit.jspy.charts.annotation.Series.class)) {
@@ -145,7 +144,6 @@ public abstract class ChartKit {
 
         return axisList;
     }
-
 
 }
 

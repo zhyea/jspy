@@ -1,11 +1,10 @@
 package org.chobit.jspy.service.entity;
 
-import org.chobit.jspy.charts.XAxisType;
-import org.chobit.jspy.charts.ValueType;
-import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.charts.annotation.Series;
+import org.chobit.jspy.core.model.MemoryInfo;
 
-import java.util.Date;
+import java.lang.management.MemoryType;
+import java.util.Arrays;
 
 import static org.chobit.jspy.charts.ValueType.STORAGE;
 
@@ -30,11 +29,32 @@ public class MemoryStat extends AbstractStatEntity {
     @Series(value = "最大可用", valType = STORAGE, selected = false)
     private long max;
 
-    @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
-    private Date eventTime;
-
     private int isPeak = 0;
 
+
+    public MemoryStat() {
+    }
+
+    public MemoryStat(String appCode,
+                      String ip,
+                      MemoryType type,
+                      MemoryInfo usage,
+                      String name,
+                      String[] managerNames,
+                      long eventTime,
+                      boolean isPeak) {
+        this.setType(type.name());
+        this.setName(name);
+        this.setManagerNames(Arrays.toString(managerNames));
+        this.setIp(ip);
+        this.setAppCode(appCode);
+        this.setInit(usage.getInit());
+        this.setUsed(usage.getUsed());
+        this.setCommitted(usage.getCommitted());
+        this.setMax(usage.getMax());
+        this.setEventTime(eventTime);
+        this.setIsPeak(isPeak ? 1 : 0);
+    }
 
     public String getType() {
         return type;
@@ -90,14 +110,6 @@ public class MemoryStat extends AbstractStatEntity {
 
     public void setMax(long max) {
         this.max = max;
-    }
-
-    public Date getEventTime() {
-        return eventTime;
-    }
-
-    public void setEventTime(Date eventTime) {
-        this.eventTime = eventTime;
     }
 
     public int getIsPeak() {

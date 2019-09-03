@@ -50,8 +50,9 @@ create table if not exists memory_stat
     used          bigint,
     `committed`   bigint,
     `max`         bigint,
-    event_time    datetime           default current_date,
     is_peak       tinyint            default 0,
+
+    event_time    datetime           default current_date,
 
     deleted       tinyint            default 0,
     insert_time   datetime           default current_date,
@@ -59,6 +60,7 @@ create table if not exists memory_stat
 );
 
 create index if not exists idx_q_mem on memory_stat (app_code, `name`, event_time);
+create index if not exists idx_q_mem_name on memory_stat (app_code, `type`, `name`);
 
 -- gc stat
 create table if not exists gc_stat
@@ -79,7 +81,8 @@ create table if not exists gc_stat
 
     usage_before   bigint,
     usage_after    bigint,
-    event_time     bigint,
+
+    event_time     datetime           default current_date,
 
     major_gc_count bigint,
     minor_gc_count bigint,
@@ -104,6 +107,7 @@ create table if not exists thread_stat
     peak          bigint,
     total_started bigint,
     daemon        bigint,
+
     event_time    datetime           default current_date,
 
     deleted       tinyint            default 0,
@@ -124,6 +128,7 @@ create table if not exists class_loading_stat
     total_loaded   bigint,
     current_loaded bigint,
     unloaded       bigint,
+
     event_time     datetime           default current_date,
 
     deleted        tinyint            default 0,
@@ -201,6 +206,7 @@ create table if not exists sys_info
 
     `type`      int,
     detail      text,
+
     event_time  datetime           default current_date,
 
     deleted     tinyint            default 0,
@@ -220,6 +226,7 @@ create table if not exists cpu_usage
     ip          varchar(32),
 
     usage       decimal,
+
     event_time  datetime           default current_date,
 
     deleted     tinyint            default 0,
@@ -227,5 +234,5 @@ create table if not exists cpu_usage
     op_time     timestamp not null default current_timestamp on update current_timestamp
 );
 
-create index if not exists idx_q_cpu on cpu_usage (app_code, event_time)
+create index if not exists idx_q_cpu on cpu_usage (app_code, event_time);
 

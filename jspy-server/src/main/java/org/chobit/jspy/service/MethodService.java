@@ -4,7 +4,7 @@ package org.chobit.jspy.service;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.model.MethodHistogram;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.service.entity.HistogramEntity;
@@ -49,7 +49,7 @@ public class MethodService {
     /**
      * 查询报表数据
      */
-    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param, String methodName) {
+    public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param, String methodName) {
         return histogramMapper
                 .findForChart(appCode, METHOD.id, methodName, param.getStartTime(), param.getEndTime());
     }

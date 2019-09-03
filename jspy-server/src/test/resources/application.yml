@@ -16,3 +16,7 @@ mybatis:
 
 jspy:
   enable: false
+
+
+custom:
+  data-reserve-dates: 30

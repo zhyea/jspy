@@ -34,5 +34,3 @@ https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-dev
 
 * 完成定期删除过期数据的能力
 * 完成数据shrink的能力
-* 尝试去掉data.sql文件
-* 基于spi调整服务

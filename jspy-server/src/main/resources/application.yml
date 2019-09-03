@@ -24,3 +24,7 @@ jspy:
   use-ssl: false
   watcher:
     enable: true
+
+
+custom:
+  data-reserve-dates: 30

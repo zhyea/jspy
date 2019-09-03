@@ -1,11 +1,10 @@
 package org.chobit.jspy.service;
 
 import org.chobit.jspy.core.model.Item;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.ClassLoadingCount;
-import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.service.entity.ClassLoadingStat;
 import org.chobit.jspy.service.mapper.ClassLoadingStatMapper;
-import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +20,17 @@ public class ClassLoadingService {
     @Autowired
     private ClassLoadingStatMapper mapper;
     @Autowired
-    private AssembleQueryMapper aqMapper;
+    private AssembleQueryService aqService;
 
+    private static final String TABLE_NAME = "class_loading_stat";
+
+    
     public int insert(String appCode, String ip, ClassLoadingCount gauge) {
         if (isClose(appCode, gauge)) {
             return -1;
         }
 
-        ClassLoadingStat stat = new ClassLoadingStat();
-        stat.setAppCode(appCode);
-        stat.setIp(ip);
-        stat.setTotalLoaded(gauge.getTotalLoaded());
-        stat.setCurrentLoaded(gauge.getCurrentLoaded());
-        stat.setUnloaded(gauge.getUnloaded());
-        stat.setEventTime(new Date(gauge.getEventTime() > 0 ? gauge.getEventTime() : SysTime.millis()));
-        return mapper.insert(stat);
+        return mapper.insert(new ClassLoadingStat(appCode, ip, gauge));
     }
 
 
@@ -61,11 +56,8 @@ public class ClassLoadingService {
     /**
      * 查询类加载数据
      */
-    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
-        return aqMapper.findWithQueryParam("class_loading_stat",
-                appCode,
-                param,
-                null,
+    public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param) {
+        return aqService.findForChart(TABLE_NAME, appCode, param,
                 "total_loaded", "current_loaded", "unloaded", "event_time");
     }
 

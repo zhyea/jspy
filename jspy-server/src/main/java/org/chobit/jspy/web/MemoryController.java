@@ -5,7 +5,7 @@ import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.model.MemoryOverview;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.service.MemoryService;
 import org.chobit.jspy.service.entity.MemoryStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
@@ -25,7 +25,7 @@ public class MemoryController {
     @JSpyWatcher("获取内存报表数据Controller")
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
-                                   @RequestBody QueryParam param) {
+                                   @RequestBody ChartParam param) {
         param.setUsePeak(true);
         List<LowerCaseKeyMap> m = memoryService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, MemoryStat.class);
@@ -35,7 +35,7 @@ public class MemoryController {
     @JSpyWatcher("获取内存峰值报表数据Controller")
     @PostMapping("/find-peak-by-params")
     public ChartModel findPeakByParams(@SessionAttribute("appCode") String appCode,
-                                       @RequestBody QueryParam param) {
+                                       @RequestBody ChartParam param) {
         param.setUsePeak(true);
         param.setIsPeak(1);
         List<LowerCaseKeyMap> m = memoryService.findForChart(appCode, param);

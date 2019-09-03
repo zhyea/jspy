@@ -1,8 +1,7 @@
 package org.chobit.jspy.service;
 
 
-import org.chobit.jspy.model.QueryParam;
-import org.chobit.jspy.service.mapper.AssembleQueryMapper;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.service.mapper.CpuMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,10 @@ public class CpuService {
     @Autowired
     private CpuMapper mapper;
     @Autowired
-    private AssembleQueryMapper aqMapper;
+    private AssembleQueryService aqService;
+
+
+    private static final String TABLE_NAME = "cpu_usage";
 
 
     /**
@@ -32,9 +34,7 @@ public class CpuService {
     /**
      * 查询CPU使用量数据
      */
-    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
-        return aqMapper.findWithQueryParam("cpu_usage",
-                appCode,
-                param, null, "usage", "event_time");
+    public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param) {
+        return aqService.findForChart(TABLE_NAME, appCode, param, "usage", "event_time");
     }
 }

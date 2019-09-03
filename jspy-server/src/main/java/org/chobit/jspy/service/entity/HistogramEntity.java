@@ -1,14 +1,9 @@
 package org.chobit.jspy.service.entity;
 
-import org.chobit.jspy.charts.XAxisType;
 import org.chobit.jspy.charts.ChartType;
-import org.chobit.jspy.charts.ValueType;
-import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.charts.annotation.Series;
 import org.chobit.jspy.constants.HistogramType;
 import org.chobit.jspy.model.Histogram;
-
-import java.util.Date;
 
 public class HistogramEntity extends AbstractStatEntity {
 
@@ -52,9 +47,6 @@ public class HistogramEntity extends AbstractStatEntity {
     @Series(value = "99.9%", selected = false, unit = "ms")
     private long percentile999;
 
-    @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
-    private Date eventTime;
-
     private long sum;
 
     public HistogramEntity() {
@@ -82,7 +74,7 @@ public class HistogramEntity extends AbstractStatEntity {
         this.percentile90 = his.getPercentile90();
         this.percentile75 = his.getPercentile75();
         this.median = his.getMedian();
-        this.eventTime = new Date(his.getEventTime());
+        super.setEventTime(his.getEventTime());
     }
 
 
@@ -205,13 +197,5 @@ public class HistogramEntity extends AbstractStatEntity {
 
     public void setMedian(long median) {
         this.median = median;
-    }
-
-    public Date getEventTime() {
-        return eventTime;
-    }
-
-    public void setEventTime(Date eventTime) {
-        this.eventTime = eventTime;
     }
 }

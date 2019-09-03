@@ -2,7 +2,7 @@ package org.chobit.jspy.web;
 
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.service.CpuService;
 import org.chobit.jspy.service.entity.CpuUsage;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
@@ -22,7 +22,7 @@ public class CpuController {
 
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
-                                   @RequestBody QueryParam param) {
+                                   @RequestBody ChartParam param) {
         List<LowerCaseKeyMap> m = cpuService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, CpuUsage.class);
     }

@@ -1,12 +1,14 @@
 package org.chobit.jspy.service.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,12 +18,12 @@ import java.util.List;
 public interface AssembleQueryMapper {
 
 
-    @SelectProvider(type = AssembleQueryProvider.class, method = "queryWithQueryParam")
-    List<LowerCaseKeyMap> findWithQueryParam(@Param("table") String tableName,
-                                             @Param("appCode") String appCode,
-                                             @Param("p") QueryParam param,
-                                             @Param("targetColumn") String targetColumn,
-                                             @Param("columns") String... columns
+    @SelectProvider(type = AssembleQueryProvider.class, method = "findForChart")
+    List<LowerCaseKeyMap> findForChart(@Param("table") String tableName,
+                                       @Param("appCode") String appCode,
+                                       @Param("p") ChartParam param,
+                                       @Param("targetColumn") String targetColumn,
+                                       @Param("columns") String... columns
     );
 
 
@@ -39,5 +41,11 @@ public interface AssembleQueryMapper {
                      @Param("p") Page page,
                      @Param("searchColumn") Iterable<String> searchColumns
     );
+
+
+    @Delete("delete from ${table} where ${dateColumn} <= #{date}")
+    int delete(@Param("table") String tableName,
+               @Param("dateColumn") String dateColumn,
+               @Param("date") Date date);
 
 }

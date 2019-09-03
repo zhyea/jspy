@@ -3,7 +3,7 @@ package org.chobit.jspy.web;
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.core.model.ThreadInfo;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.ThreadOverview;
 import org.chobit.jspy.service.ThreadService;
 import org.chobit.jspy.service.entity.ThreadStat;
@@ -23,7 +23,7 @@ public class ThreadController {
 
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
-                                   @RequestBody QueryParam param) {
+                                   @RequestBody ChartParam param) {
         List<LowerCaseKeyMap> m = threadService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, ThreadStat.class);
     }

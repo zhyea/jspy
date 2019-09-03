@@ -1,5 +1,7 @@
 package org.chobit.jspy.service.entity;
 
+import org.chobit.jspy.core.model.GcRecord;
+
 public class GcStat extends AbstractStatEntity {
 
     private long gcId;
@@ -20,12 +22,37 @@ public class GcStat extends AbstractStatEntity {
 
     private long usageAfter;
 
-    private long eventTime;
-
     private long majorGcCount;
 
     private long minorGcCount;
 
+
+    public GcStat() {
+    }
+
+
+    public GcStat(String appCode, String ip, GcRecord record) {
+
+        this.setAppCode(appCode);
+        this.setIp(ip);
+
+        this.setGcId(record.getGcId());
+        this.setType(record.getType().name());
+        this.setAction(record.getAction());
+        this.setName(record.getName());
+        this.setCause(record.getCause());
+
+        this.setStartTime(record.getStartTime());
+        this.setDuration(record.getDuration());
+
+        this.setUsageBefore(record.getUsageBefore());
+        this.setUsageAfter(record.getUsageAfter());
+
+        this.setEventTime(record.getRecordTime());
+
+        this.setMajorGcCount(record.getMajorGcCount());
+        this.setMinorGcCount(record.getMinorGcCount());
+    }
 
     public long getGcId() {
         return gcId;
@@ -97,14 +124,6 @@ public class GcStat extends AbstractStatEntity {
 
     public void setUsageAfter(long usageAfter) {
         this.usageAfter = usageAfter;
-    }
-
-    public long getEventTime() {
-        return eventTime;
-    }
-
-    public void setEventTime(long eventTime) {
-        this.eventTime = eventTime;
     }
 
     public long getMajorGcCount() {

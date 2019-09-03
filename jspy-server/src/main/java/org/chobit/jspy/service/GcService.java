@@ -2,14 +2,13 @@ package org.chobit.jspy.service;
 
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.chobit.jspy.core.model.GcRecord;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.GcOverview;
 import org.chobit.jspy.model.Histogram;
-import org.chobit.jspy.model.QueryParam;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.service.entity.GcStat;
 import org.chobit.jspy.service.entity.HistogramEntity;
-import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.service.mapper.GcStatMapper;
 import org.chobit.jspy.service.mapper.HistogramMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
@@ -28,14 +27,15 @@ import static org.chobit.jspy.tools.CacheBuilder.build;
 @CacheConfig(cacheNames = "gc")
 public class GcService {
 
-
     @Autowired
     private GcStatMapper gcMapper;
     @Autowired
     private HistogramMapper histogramMapper;
     @Autowired
-    private AssembleQueryMapper aqMapper;
+    private AssembleQueryService aqService;
 
+
+    private static final String TABLE_NAME = "gc_stat";
 
     private LoadingCache<String, List<String>> gcNames = build(this::findGcNames0);
 
@@ -43,19 +43,15 @@ public class GcService {
      * 分页查询GC数据
      */
     public PageResult<LowerCaseKeyMap> findInPage(String appCode, Page page) {
-        String tableName = "gc_stat";
         List<String> searchColumns = Arrays.asList("type", "name", "cause");
-        List<LowerCaseKeyMap> rows = aqMapper.findInPage(tableName, appCode, page, searchColumns,
+        return aqService.findInPage(TABLE_NAME, searchColumns, appCode, page,
                 "type", "name", "action", "cause", "duration", "usage_before", "usage_after", "event_time");
-        long total = aqMapper.countInPage(tableName, appCode, page, searchColumns);
-
-        return new PageResult<>(total, rows);
     }
 
     /**
      * 查询报表数据
      */
-    public List<LowerCaseKeyMap> findForChart(String appCode, QueryParam param) {
+    public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param) {
         return histogramMapper
                 .findForChart(appCode, GC.id, param.getTarget(), param.getStartTime(), param.getEndTime());
     }
@@ -100,28 +96,7 @@ public class GcService {
 
         List<GcStat> gcStats = new LinkedList<>();
         for (GcRecord record : gcRecords) {
-            GcStat stat = new GcStat();
-            stat.setAppCode(appCode);
-            stat.setIp(ip);
-
-            stat.setGcId(record.getGcId());
-            stat.setType(record.getType().name());
-            stat.setAction(record.getAction());
-            stat.setName(record.getName());
-            stat.setCause(record.getCause());
-
-            stat.setStartTime(record.getStartTime());
-            stat.setDuration(record.getDuration());
-
-            stat.setUsageBefore(record.getUsageBefore());
-            stat.setUsageAfter(record.getUsageAfter());
-
-            stat.setEventTime(record.getRecordTime());
-
-            stat.setMajorGcCount(record.getMajorGcCount());
-            stat.setMinorGcCount(record.getMinorGcCount());
-
-            gcStats.add(stat);
+            gcStats.add(new GcStat(appCode, ip, record));
         }
         return gcMapper.batchInsert(gcStats) == gcStats.size();
     }

@@ -1,11 +1,8 @@
 package org.chobit.jspy.service.entity;
 
-import org.chobit.jspy.charts.XAxisType;
-import org.chobit.jspy.charts.ValueType;
-import org.chobit.jspy.charts.annotation.XAxis;
 import org.chobit.jspy.charts.annotation.Series;
-
-import java.util.Date;
+import org.chobit.jspy.model.ThreadCount;
+import org.chobit.jspy.utils.SysTime;
 
 public class ThreadStat extends AbstractStatEntity {
 
@@ -22,8 +19,20 @@ public class ThreadStat extends AbstractStatEntity {
     @Series("后台线程数")
     private long daemon;
 
-    @XAxis(type = XAxisType.time, valueType = ValueType.MILLS_TIME)
-    private Date eventTime;
+
+    public ThreadStat() {
+    }
+
+
+    public ThreadStat(String appCode, String ip, ThreadCount count){
+        this.setAppCode(appCode);
+        this.setIp(ip);
+        this.setCurrent(count.getCurrent());
+        this.setPeak(count.getPeak());
+        this.setTotalStarted(count.getTotalStarted());
+        this.setDaemon(count.getDaemon());
+        this.setEventTime(count.getEventTime() > 0 ? count.getEventTime() : SysTime.millis());
+    }
 
 
     public long getCurrent() {
@@ -56,13 +65,5 @@ public class ThreadStat extends AbstractStatEntity {
 
     public void setDaemon(long daemon) {
         this.daemon = daemon;
-    }
-
-    public Date getEventTime() {
-        return eventTime;
-    }
-
-    public void setEventTime(Date eventTime) {
-        this.eventTime = eventTime;
     }
 }

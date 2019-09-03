@@ -2,9 +2,8 @@ package org.chobit.jspy.web;
 
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
-import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.model.GcOverview;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.chart.GcHistogram;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.model.page.PageResult;
@@ -35,7 +34,7 @@ public class GcController {
 
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
-                                   @RequestBody QueryParam param) {
+                                   @RequestBody ChartParam param) {
         param.setUsePeak(true);
         List<LowerCaseKeyMap> m = gcService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, GcHistogram.class);

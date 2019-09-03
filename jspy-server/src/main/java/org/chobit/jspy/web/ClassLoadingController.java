@@ -3,7 +3,7 @@ package org.chobit.jspy.web;
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.model.ClassLoadingCount;
-import org.chobit.jspy.model.QueryParam;
+import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.service.ClassLoadingService;
 import org.chobit.jspy.service.entity.ClassLoadingStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
@@ -23,7 +23,7 @@ public class ClassLoadingController {
 
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
-                                   @RequestBody QueryParam param) {
+                                   @RequestBody ChartParam param) {
         List<LowerCaseKeyMap> m = classLoadingService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, ClassLoadingStat.class);
     }
