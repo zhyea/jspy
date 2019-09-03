@@ -157,7 +157,7 @@ public abstract class Reflections {
      * 获取类的所有属性成员的名称
      */
     public static List<String> nameOfFields(Class<?> clazz) {
-        return Arrays.stream(clazz.getDeclaredFields()).map(Field::getName).collect(Collectors.toList());
+        return fieldsOf(clazz).stream().map(Field::getName).collect(Collectors.toList());
     }
 
     /**

@@ -34,6 +34,13 @@ public class AssembleQueryService {
         return queryMapper.delete(tableName, dateColumn, date);
     }
 
+    /**
+     * 删除记录
+     */
+    public int delete(String tableName) {
+        return delete(tableName, "event_time");
+    }
+
 
     /**
      * 查询报表数据

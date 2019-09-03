@@ -92,4 +92,12 @@ public class ThreadService {
                 "current", "peak", "total_started", "daemon", "event_time");
     }
 
+
+    /**
+     * 删除记录
+     */
+    public int delete() {
+        return aqService.delete(TABLE_NAME);
+    }
+
 }

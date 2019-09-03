@@ -9,9 +9,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @EnableCaching
+@EnableScheduling
 @SpringBootApplication(exclude = {QuartzAutoConfiguration.class})
 public class JSpyApplication {
 

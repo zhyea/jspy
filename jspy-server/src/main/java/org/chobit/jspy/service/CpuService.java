@@ -37,4 +37,12 @@ public class CpuService {
     public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param) {
         return aqService.findForChart(TABLE_NAME, appCode, param, "usage", "event_time");
     }
+
+
+    /**
+     * 删除记录
+     */
+    public int delete() {
+        return aqService.delete(TABLE_NAME);
+    }
 }

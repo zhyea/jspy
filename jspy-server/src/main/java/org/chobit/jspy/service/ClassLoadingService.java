@@ -24,7 +24,7 @@ public class ClassLoadingService {
 
     private static final String TABLE_NAME = "class_loading_stat";
 
-    
+
     public int insert(String appCode, String ip, ClassLoadingCount gauge) {
         if (isClose(appCode, gauge)) {
             return -1;
@@ -54,7 +54,7 @@ public class ClassLoadingService {
     }
 
     /**
-     * 查询类加载数据
+     * 查询类加载报表数据
      */
     public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param) {
         return aqService.findForChart(TABLE_NAME, appCode, param,
@@ -76,6 +76,14 @@ public class ClassLoadingService {
         item.add("已装载类总数", stat.getTotalLoaded());
         item.add("已卸载类总数", stat.getUnloaded());
         return item;
+    }
+
+
+    /**
+     * 删除记录
+     */
+    public int delete() {
+        return aqService.delete(TABLE_NAME);
     }
 
 }

@@ -260,4 +260,11 @@ public class MemoryService {
     }
 
 
+    /**
+     * 删除记录
+     */
+    public int delete() {
+        return aqService.delete(TABLE_NAME);
+    }
+
 }

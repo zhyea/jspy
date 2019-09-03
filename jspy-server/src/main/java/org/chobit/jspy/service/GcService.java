@@ -8,9 +8,7 @@ import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.service.entity.GcStat;
-import org.chobit.jspy.service.entity.HistogramEntity;
 import org.chobit.jspy.service.mapper.GcStatMapper;
-import org.chobit.jspy.service.mapper.HistogramMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -30,7 +28,7 @@ public class GcService {
     @Autowired
     private GcStatMapper gcMapper;
     @Autowired
-    private HistogramMapper histogramMapper;
+    private HistogramService histogramService;
     @Autowired
     private AssembleQueryService aqService;
 
@@ -52,8 +50,7 @@ public class GcService {
      * 查询报表数据
      */
     public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param) {
-        return histogramMapper
-                .findForChart(appCode, GC.id, param.getTarget(), param.getStartTime(), param.getEndTime());
+        return histogramService.findForChart(appCode, param, GC);
     }
 
 
@@ -65,7 +62,7 @@ public class GcService {
     }
 
     private List<String> findGcNames0(String appCode) {
-        return histogramMapper.findNames(appCode, GC.id);
+        return histogramService.findNames(appCode, GC);
     }
 
 
@@ -82,10 +79,7 @@ public class GcService {
 
 
     private boolean insertGcHistogram(String appCode, String ip, Histogram histogram) {
-        if (null == histogram) {
-            return true;
-        }
-        return histogramMapper.insert(new HistogramEntity(appCode, ip, GC, histogram)) > 0;
+        return histogramService.insert(appCode, ip, histogram, GC);
     }
 
 
@@ -99,6 +93,14 @@ public class GcService {
             gcStats.add(new GcStat(appCode, ip, record));
         }
         return gcMapper.batchInsert(gcStats) == gcStats.size();
+    }
+
+
+    /**
+     * 删除记录
+     */
+    public int delete() {
+        return aqService.delete(TABLE_NAME);
     }
 
 }
