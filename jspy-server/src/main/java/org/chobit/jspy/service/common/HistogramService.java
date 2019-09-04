@@ -1,4 +1,4 @@
-package org.chobit.jspy.service;
+package org.chobit.jspy.service.common;
 
 
 import org.chobit.jspy.constants.HistogramType;

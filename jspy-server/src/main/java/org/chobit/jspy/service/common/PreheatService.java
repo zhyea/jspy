@@ -1,5 +1,8 @@
-package org.chobit.jspy.service;
+package org.chobit.jspy.service.common;
 
+import org.chobit.jspy.service.GcService;
+import org.chobit.jspy.service.MemoryService;
+import org.chobit.jspy.service.MethodService;
 import org.chobit.jspy.utils.SysTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

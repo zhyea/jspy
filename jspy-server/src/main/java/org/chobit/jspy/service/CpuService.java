@@ -2,6 +2,7 @@ package org.chobit.jspy.service;
 
 
 import org.chobit.jspy.model.ChartParam;
+import org.chobit.jspy.service.common.AssembleQueryService;
 import org.chobit.jspy.service.mapper.CpuMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -10,10 +10,12 @@
         <br/><br/>
         <div id="threadChart" style="width: 100%; height:400px;"></div>
         <br/><br/>
+        <div id="cpuChart" style="width: 100%; height:400px;"></div>
+        <br/><br/>
         <div id="classLoadingChart" style="width: 100%; height:400px;"></div>
 
 
-        <div  th:each="item : ${sysInfo}">
+        <div th:each="item : ${sysInfo}">
             <div class="page-header">
                 <h4 th:text="${item.title}"></h4>
             </div>
@@ -30,7 +32,8 @@
 <script type="text/javascript">
     initAndLoadJSpyChart($('#memoryChart'), '/api/memory/find-by-params', '堆内存使用量');
     initAndLoadJSpyChart($('#threadChart'), '/api/thread/find-by-params', '线程信息');
-    initAndLoadJSpyChart($('#classLoadingChart'), '/api/class-load/find-by-params', '类信息');
+    initAndLoadJSpyChart($('#cpuChart'), '/api/cpu/find-by-params', 'CPU占用率');
+    initAndLoadJSpyChart($('#classLoadingChart'), '/api/class-load/find-by-params', '类加载统计');
 </script>
 
 </body>

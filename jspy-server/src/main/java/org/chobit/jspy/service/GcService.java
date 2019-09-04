@@ -7,6 +7,8 @@ import org.chobit.jspy.model.GcOverview;
 import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.model.page.PageResult;
+import org.chobit.jspy.service.common.AssembleQueryService;
+import org.chobit.jspy.service.common.HistogramService;
 import org.chobit.jspy.service.entity.GcStat;
 import org.chobit.jspy.service.mapper.GcStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;

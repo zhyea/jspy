@@ -6,6 +6,7 @@ import org.chobit.jspy.core.model.ThreadInfo;
 import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.ThreadCount;
 import org.chobit.jspy.model.ThreadOverview;
+import org.chobit.jspy.service.common.AssembleQueryService;
 import org.chobit.jspy.service.entity.ThreadStat;
 import org.chobit.jspy.service.mapper.ThreadStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;

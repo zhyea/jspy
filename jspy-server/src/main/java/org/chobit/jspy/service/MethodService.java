@@ -5,6 +5,8 @@ import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.model.MethodHistogram;
+import org.chobit.jspy.service.common.AssembleQueryService;
+import org.chobit.jspy.service.common.HistogramService;
 import org.chobit.jspy.service.entity.HistogramEntity;
 import org.chobit.jspy.service.entity.MethodEntity;
 import org.chobit.jspy.service.mapper.MethodMapper;

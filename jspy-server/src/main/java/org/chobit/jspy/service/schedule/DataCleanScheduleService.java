@@ -2,6 +2,7 @@ package org.chobit.jspy.service.schedule;
 
 
 import org.chobit.jspy.service.*;
+import org.chobit.jspy.service.common.HistogramService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

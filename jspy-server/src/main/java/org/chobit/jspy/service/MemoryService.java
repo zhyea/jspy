@@ -7,6 +7,7 @@ import org.chobit.jspy.core.model.MemoryInfo;
 import org.chobit.jspy.core.model.MemoryPool;
 import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.MemoryOverview;
+import org.chobit.jspy.service.common.AssembleQueryService;
 import org.chobit.jspy.service.entity.MemoryStat;
 import org.chobit.jspy.service.mapper.MemoryStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
