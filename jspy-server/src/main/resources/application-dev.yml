@@ -2,14 +2,16 @@ profiles: dev
 
 spring:
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
+    type: org.apache.commons.dbcp2.BasicDataSource
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;DB_CLOSE_ON_EXIT=FALSE
     platform: h2
     schema: classpath:db/schema.sql
-    hikari:
-      minimum-idle: 5
-      connection-test-query: SELECT 1
+    dbcp2:
+      validation-query: SELECT 1
+      pool-prepared-statements: true
+
+
   h2:
     console:
       enabled: true

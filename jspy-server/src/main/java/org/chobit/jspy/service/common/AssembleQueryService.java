@@ -21,9 +21,11 @@ import java.util.concurrent.TimeUnit;
 public class AssembleQueryService {
 
     @Autowired
+    private CustomConfig config;
+    @Autowired
     private AssembleQueryMapper queryMapper;
     @Autowired
-    private CustomConfig config;
+    private DataShrinkService shrinkService;
 
     /**
      * 删除记录
@@ -50,7 +52,11 @@ public class AssembleQueryService {
                                               String appCode,
                                               ChartParam param,
                                               String... columns) {
-        return queryMapper.findForChart(tableName, appCode, param, targetColumn, columns);
+        List<LowerCaseKeyMap> r = queryMapper.findForChart(tableName, appCode, param, targetColumn, columns);
+        if (param.getEndTime().getTime() - param.getStartTime().getTime() > TimeUnit.HOURS.toMillis(3)) {
+            return shrinkService.shrink(r);
+        }
+        return r;
     }
 
 
@@ -62,7 +68,7 @@ public class AssembleQueryService {
                                               ChartParam param,
                                               String... columns) {
 
-        return queryMapper.findForChart(tableName, appCode, param, null, columns);
+        return findForChart(tableName, null, appCode, param, columns);
     }
 
     /**

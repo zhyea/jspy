@@ -11,14 +11,14 @@ import org.chobit.jspy.service.common.AssembleQueryService;
 import org.chobit.jspy.service.entity.MemoryStat;
 import org.chobit.jspy.service.mapper.MemoryStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
-import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.lang.management.MemoryType;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.lang.management.MemoryType.HEAP;
@@ -29,24 +29,8 @@ import static org.chobit.jspy.tools.CacheBuilder.build;
 @CacheConfig(cacheNames = "mem")
 public class MemoryService {
 
-    /**
-     * 峰值内存用量浮动区间
-     */
-    private static final long PEAK_FLOATING_RANGE = 1024 * 1024;
-
-    /**
-     * 缩减内存用量数据规模使用的浮动区间
-     */
-    private static final long SHRINK_FLOATING_RANGE = 10 * 1024 * 1024;
-
-    /**
-     * 普通内存用量浮动区间
-     */
-    private static final long COMMON_FLOATING_RANGE = 1024;
-
 
     private static final String TABLE_NAME = "memory_stat";
-
 
     @Autowired
     private MemoryStatMapper memMapper;
@@ -111,15 +95,6 @@ public class MemoryService {
                        long eventTime,
                        boolean isPeak) {
 
-        Date time = new Date(SysTime.millis() - TimeUnit.MINUTES.toMillis(6));
-        MemoryStat latest = memMapper.getLatestByName(appCode, name, time, isPeak ? 1 : 0);
-
-        long floatingRange = isPeak ? PEAK_FLOATING_RANGE : COMMON_FLOATING_RANGE;
-
-        if (null != latest && isUsageClose(usage, latest, floatingRange)) {
-            return 0;
-        }
-
         MemoryStat m = new MemoryStat(appCode, ip, type, usage, name, managerNames, eventTime, isPeak);
 
         return memMapper.insert(m);
@@ -153,12 +128,8 @@ public class MemoryService {
      */
     @JSpyWatcher("获取内存报表数据Service")
     public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param) {
-        List<LowerCaseKeyMap> result = aqService.findForChart(TABLE_NAME, "`name`", appCode, param,
+        return aqService.findForChart(TABLE_NAME, "`name`", appCode, param,
                 "init", "used", "committed", "max", "event_time");
-        if (param.getEndTime().getTime() - TimeUnit.DAYS.toMillis(1L) > param.getStartTime().getTime()) {
-            return shrinkChartData(result);
-        }
-        return result;
     }
 
 
@@ -209,56 +180,6 @@ public class MemoryService {
                 false);
     }
 
-
-    /**
-     * 收缩要提交给前端的数据的规模，以减少报表展示的压力
-     */
-    private List<LowerCaseKeyMap> shrinkChartData(List<LowerCaseKeyMap> src) {
-        long tmpInit = 0;
-        long tmpMax = 0;
-        long tmpCommitted = 0;
-        long tmpUsed = 0;
-
-        List<LowerCaseKeyMap> result = new LinkedList<>();
-
-        for (LowerCaseKeyMap m : src) {
-            boolean filter = (Math.abs(m.getLong("init") - tmpInit) > SHRINK_FLOATING_RANGE);
-            filter = filter || (Math.abs(m.getLong("max") - tmpMax) > SHRINK_FLOATING_RANGE);
-            filter = filter || (Math.abs(m.getLong("committed") - tmpCommitted) > SHRINK_FLOATING_RANGE);
-            filter = filter || (Math.abs(m.getLong("used") - tmpUsed) > SHRINK_FLOATING_RANGE);
-
-            if (filter) {
-                tmpInit = m.getLong("init");
-                tmpMax = m.getLong("max");
-                tmpCommitted = m.getLong("committed");
-                tmpUsed = m.getLong("used");
-                result.add(m);
-            }
-        }
-
-        return result;
-    }
-
-
-    /**
-     * 判断最近的两次内存用量是否近似，如差值在浮动区间内则认为是内存近似
-     */
-    private boolean isUsageClose(MemoryInfo target, MemoryStat latest, long floatRange) {
-
-        if (Math.abs(latest.getInit() - target.getInit()) > floatRange) {
-            return false;
-        }
-        if (Math.abs(latest.getMax() - target.getMax()) > floatRange) {
-            return false;
-        }
-        if (Math.abs(latest.getCommitted() - target.getCommitted()) > floatRange) {
-            return false;
-        }
-        if (Math.abs(latest.getUsed() - target.getUsed()) > floatRange) {
-            return false;
-        }
-        return true;
-    }
 
 
     /**

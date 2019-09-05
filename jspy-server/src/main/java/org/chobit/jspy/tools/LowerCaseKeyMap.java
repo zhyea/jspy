@@ -3,6 +3,7 @@ package org.chobit.jspy.tools;
 import org.springframework.lang.Nullable;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.*;
 
 public class LowerCaseKeyMap<V> implements Map<String, V>, Serializable, Cloneable {
@@ -156,6 +157,31 @@ public class LowerCaseKeyMap<V> implements Map<String, V>, Serializable, Cloneab
             return (Long) get(key);
         }
         throw new NumberFormatException();
+    }
+
+
+    public double getDouble(String key) {
+        Object v = get(key);
+        if (v instanceof Long) {
+            return 1.0 * (Long) v;
+        }
+        if (v instanceof Double) {
+            return (Double) v;
+        }
+        if (v instanceof BigDecimal) {
+            return ((BigDecimal) v).doubleValue();
+        }
+        throw new NumberFormatException();
+    }
+
+
+    public long getTime(String key) {
+        Object v = get(key);
+        if (v instanceof Date) {
+            Date d = (Date) v;
+            return d.getTime();
+        }
+        throw new IllegalArgumentException();
     }
 
     public Integer getInt(String key) {
