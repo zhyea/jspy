@@ -83,6 +83,7 @@
         <module>jspy-core</module>
         <module>jspy-server</module>
         <module>jspy-client</module>
+        <module>jspy-agent</module>
         <module>jspy-spring-boot-starter</module>
     </modules>
 

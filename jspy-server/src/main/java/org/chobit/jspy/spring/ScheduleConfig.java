@@ -11,8 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 @Configuration
 public class ScheduleConfig {
 
-
-    private static Logger logger = LoggerFactory.getLogger(ScheduleConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(ScheduleConfig.class);
 
 
     @Autowired
@@ -21,8 +20,9 @@ public class ScheduleConfig {
 
     @Scheduled(cron = "0 0 2 * * ?")
     public void clean() {
-        logger.info("executing data clean job");
+        logger.info("------------>> executing data clean job");
         dataCleanService.clean();
     }
+
 
 }
