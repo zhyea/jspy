@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class DataShrinkService {
 
 
-    private static final int INTERVAL_MINUTES = 6;
+    private static final int INTERVAL_MINUTES = 10;
 
     private static final String TIME_COLUMN = "event_time";
 
@@ -23,6 +23,7 @@ public class DataShrinkService {
      * @return 缩减后的数据集
      */
     public List<LowerCaseKeyMap> shrink(List<LowerCaseKeyMap> src) {
+
         List<LowerCaseKeyMap> result = new LinkedList<>();
 
         long minTime = 0;
@@ -37,7 +38,7 @@ public class DataShrinkService {
                 seg.add(m);
             } else {
                 // 如截取的数据集规模不大则不需要处理
-                if (seg.size() <= 5) {
+                if (seg.size() <= 10) {
                     result.addAll(seg);
                 } else {
                     result.addAll(shrink1(seg));
@@ -71,7 +72,7 @@ public class DataShrinkService {
                 result.add(m);
                 continue;
             }
-            Set<String> keys = m.keySet();
+            Set<String> keys = keysOf(m);
             for (String k : keys) {
                 double r = ruler.getDouble(k);
                 double v = m.getDouble(k);
@@ -100,8 +101,7 @@ public class DataShrinkService {
     private Map<String, Double> computeFloatingRange(List<LowerCaseKeyMap> seg) {
         Map<String, Counter> counters = new HashMap<>(8);
         for (LowerCaseKeyMap m : seg) {
-            Set<String> keys = new HashSet<>(m.keySet());
-            keys.remove(TIME_COLUMN);
+            Set<String> keys = keysOf(m);
             for (String k : keys) {
                 Counter c = counters.get(k);
                 if (null == c) {
@@ -116,5 +116,13 @@ public class DataShrinkService {
             result.put(e.getKey(), e.getValue().computeFloatingRange());
         }
         return result;
+    }
+
+
+    private Set<String> keysOf(LowerCaseKeyMap map) {
+        Set<String> keys = map.keySet();
+        Set<String> r = new HashSet<>(keys);
+        r.remove(TIME_COLUMN);
+        return r;
     }
 }

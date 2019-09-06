@@ -15,7 +15,7 @@ public class Counter {
     /**
      * 计算一个数据集的浮动区间
      * <p>
-     * 取数据集排序后，20%~80%这个区间内的数据的平均值作为浮动区间
+     * 取数据集排序后，25%~75%这个区间内的数据的差值作为浮动区间
      */
     public double computeFloatingRange() {
         Double[] arr = new Double[values.size()];
@@ -25,12 +25,10 @@ public class Counter {
         int lowIdx = Double.valueOf(0.2 * arr.length).intValue();
         int highIdx = Double.valueOf(0.8 * arr.length).intValue();
 
-        int len = highIdx - lowIdx + 1;
+        double low = arr[lowIdx];
+        double high = arr[highIdx];
 
-        Double[] arr0 = new Double[len];
-        System.arraycopy(arr, lowIdx, arr0, 0, len);
-
-        return Arrays.stream(arr0).mapToDouble(e -> e).sum() / len;
+        return high - low;
     }
 
 
