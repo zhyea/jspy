@@ -10,18 +10,21 @@
 JSPY依赖了如下项目：
 
 * JSPY-CORE  
-        * oshi
+    * oshi
 
 * JSPY-CLIENT  
-        * quartz
-        * jackson
-        * okHttp
+    * quartz
+    * jackson
+    * okHttp
 
 * JSPY-SERVER & JSPY-SPRING-BOOT-STARTER  
-        * spring
-        * dbcp2
-        * mybatis
-        * h2
+    * spring
+    * dbcp2
+    * mybatis
+    * h2
+    * BootStrap
+    * JQuery
+    * eCharts
 
 * JSP-AGENT  
-        * asm
+    * asm
