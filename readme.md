@@ -4,7 +4,7 @@ JSPY是一个应用性能监控分析工具(APM)，适用于企业内部使用�
 
 # License
 
-[ GNU GENERAL PUBLIC LICENSE (GNU)](https://raw.githubusercontent.com/zhyea/jspy/dev2/LICENSE)
+[GNU GENERAL PUBLIC LICENSE (GNU)](https://raw.githubusercontent.com/zhyea/jspy/dev2/LICENSE)
 
 # Credits
 
