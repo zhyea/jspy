@@ -1,0 +1,22 @@
+debug: false
+
+spring:
+  application:
+    name: jspy-server
+  profiles:
+    active: dev
+  thymeleaf:
+    cache: false
+
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+
+jspy:
+  enable: false
+
+
+custom:
+  data-reserve-dates: 30

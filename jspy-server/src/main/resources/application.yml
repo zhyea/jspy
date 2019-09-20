@@ -1,0 +1,30 @@
+debug: false
+
+spring:
+  application:
+    name: jspy-server
+  profiles:
+    active: prod
+  thymeleaf:
+    cache: false
+
+server:
+  port: 8190
+
+
+mybatis:
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+
+jspy:
+  app-code: jSpyCons
+  server-host: 127.0.0.1
+  serverPort: 8190
+  use-ssl: false
+  watcher:
+    enable: true
+
+
+custom:
+  data-reserve-dates: 30

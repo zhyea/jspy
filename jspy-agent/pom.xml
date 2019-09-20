@@ -7,8 +7,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.chobit.jspy</groupId>
         <artifactId>jspy</artifactId>
+        <groupId>org.chobit.jspy</groupId>
         <version>0.1-SNAPSHOT</version>
     </parent>
 
@@ -21,16 +21,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jspy-commons</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.chobit.jspy</groupId>
+            <artifactId>jspy-client</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jspy-annotations</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>
@@ -65,7 +58,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <Premain-Class>
-                                            org.chobit.jspy.agent.JSpyAgent
+                                            org.chobit.jspy.JSpyAgent
                                         </Premain-Class>
                                     </manifestEntries>
                                 </transformer>

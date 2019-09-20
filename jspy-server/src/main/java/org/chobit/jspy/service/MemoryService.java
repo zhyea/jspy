@@ -1,0 +1,192 @@
+package org.chobit.jspy.service;
+
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import org.chobit.jspy.constants.MemoryNames;
+import org.chobit.jspy.core.annotation.JSpyWatcher;
+import org.chobit.jspy.core.model.MemoryInfo;
+import org.chobit.jspy.core.model.MemoryPool;
+import org.chobit.jspy.model.ChartParam;
+import org.chobit.jspy.model.MemoryOverview;
+import org.chobit.jspy.service.common.AssembleQueryService;
+import org.chobit.jspy.service.entity.MemoryStat;
+import org.chobit.jspy.service.mapper.MemoryStatMapper;
+import org.chobit.jspy.tools.LowerCaseKeyMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.stereotype.Service;
+
+import java.lang.management.MemoryType;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static java.lang.management.MemoryType.HEAP;
+import static java.lang.management.MemoryType.NON_HEAP;
+import static org.chobit.jspy.tools.CacheBuilder.build;
+
+@Service
+@CacheConfig(cacheNames = "mem")
+public class MemoryService {
+
+
+    private static final String TABLE_NAME = "memory_stat";
+
+    @Autowired
+    private MemoryStatMapper memMapper;
+
+    @Autowired
+    private AssembleQueryService aqService;
+
+
+    private LoadingCache<String, Set<String>> heapPoolNames = build(this::findHeapPoolNames);
+
+    private LoadingCache<String, Set<String>> nonHeapPoolNames = build(this::findNonHeapPoolNames);
+
+
+    /**
+     * 查询内存类型名称
+     */
+    public List<String> getMemTypeNames() {
+        return Arrays.stream(MemoryType.values()).map(Enum::name).collect(Collectors.toList());
+    }
+
+    /**
+     * 获取堆 内存池名称
+     */
+    public Set<String> getHeapPoolNames(String appCode) {
+        return heapPoolNames.get(appCode);
+    }
+
+    /**
+     * 获取非堆内存池名称
+     */
+    public Set<String> getNonHeapPoolNames(String appCode) {
+        return nonHeapPoolNames.get(appCode);
+    }
+
+    /**
+     * 获取堆 内存池名称
+     */
+    private Set<String> findHeapPoolNames(String appCode) {
+        return memMapper.findHeapPoolNames(appCode);
+    }
+
+    /**
+     * 获取非堆内存池名称
+     */
+    private Set<String> findNonHeapPoolNames(String appCode) {
+        return memMapper.findNonHeapPoolNames(appCode);
+    }
+
+
+    /**
+     * 写入内存数据，处理 java.lang.management.Memory
+     * <p>
+     * 写入前判断要写入的数据是否与最新数据接近
+     */
+    @JSpyWatcher
+    private int insert(String appCode,
+                       String ip,
+                       MemoryInfo usage,
+                       MemoryType type,
+                       String name,
+                       String[] managerNames,
+                       long eventTime,
+                       boolean isPeak) {
+
+        MemoryStat m = new MemoryStat(appCode, ip, type, usage, name, managerNames, eventTime, isPeak);
+
+        return memMapper.insert(m);
+    }
+
+
+    /**
+     * 写入内存数据，处理MemoryOverview
+     */
+    public boolean insert(String appCode, String ip, MemoryOverview overview) {
+
+        long eventTime = overview.getTime();
+
+        insertMemTypeData(appCode, ip, overview.getHeapUsage(), HEAP, eventTime, false);
+        insertMemTypeData(appCode, ip, overview.getNonHeapUsage(), NON_HEAP, eventTime, false);
+        insertMemTypeData(appCode, ip, overview.getPeakHeapUsage(), HEAP, eventTime, true);
+        insertMemTypeData(appCode, ip, overview.getPeakNonHeapUsage(), NON_HEAP, eventTime, true);
+
+        if (null != overview.getMemoryPools()) {
+            for (MemoryPool pool : overview.getMemoryPools()) {
+                // 写入内存池数据
+                insertMemoryPoolData(appCode, ip, pool, eventTime);
+            }
+        }
+        return true;
+    }
+
+
+    /**
+     * 查询内存数据
+     */
+    @JSpyWatcher("获取内存报表数据Service")
+    public List<LowerCaseKeyMap> findForChart(String appCode, ChartParam param) {
+        return aqService.findForChart(TABLE_NAME, "`name`", appCode, param,
+                "init", "used", "committed", "max", "event_time");
+    }
+
+
+    /**
+     * 写入内存类型数据
+     */
+    private void insertMemTypeData(String appCode, String ip, MemoryInfo memInfo, MemoryType type, long eventTime, boolean isPeak) {
+        if (null == memInfo) {
+            return;
+        }
+        String name = MemoryNames.nameOf(type);
+
+        insert(appCode,
+                ip,
+                memInfo,
+                type,
+                name,
+                null,
+                eventTime,
+                isPeak);
+
+    }
+
+
+    /**
+     * 写入内存池数据
+     */
+    private void insertMemoryPoolData(String appCode, String ip, MemoryPool pool, long eventTime) {
+
+        if (null != pool.getPeakUsage()) {
+            insert(appCode,
+                    ip,
+                    pool.getPeakUsage(),
+                    pool.getType(),
+                    pool.getName(),
+                    pool.getMemoryManagerNames(),
+                    eventTime,
+                    true);
+        }
+
+        insert(appCode,
+                ip,
+                pool.getUsage(),
+                pool.getType(),
+                pool.getName(),
+                pool.getMemoryManagerNames(),
+                eventTime,
+                false);
+    }
+
+
+
+    /**
+     * 删除记录
+     */
+    public int delete() {
+        return aqService.delete(TABLE_NAME);
+    }
+
+}

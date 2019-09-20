@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav class="page-navigation" th:fragment="nav">
+    <div class="nav-container">
+        <div class="page-header-logo">
+            <h1 class="prince-log"><a href="/" class="home-link">JSPY</a></h1>
+        </div>
+        <button type="button"
+                data-toggle="collapse"
+                data-target=".main-nav-items"
+                class="navbar-toggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <ul th:if="${null==isIndex && null!=session.appName}" class="collapse navbar-collapse main-nav-items">
+            <li class="menu-item">
+                <a th:href="|/app/home/${session.appCode}|" target="_self" th:text="${session.appName}"></a>
+            </li>
+            <li class="menu-item"><a target="_self" href="/memory">内存</a></li>
+            <li class="menu-item"><a target="_self" href="/gc">GC</a></li>
+            <li class="menu-item"><a target="_self" href="/cpu">CPU</a></li>
+            <li class="menu-item"><a target="_self" href="/method-list">方法</a></li>
+            <li class="menu-item"><a target="_self" href="/thread">线程</a></li>
+            <li class="menu-item"><a target="_self" href="/classes">类</a></li>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

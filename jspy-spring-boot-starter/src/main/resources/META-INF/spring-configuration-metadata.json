@@ -1,0 +1,102 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy",
+      "type": "org.chobit.jspy.JSpyProperties"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.enable",
+      "description": "enable JSpy starter",
+      "type": "java.lang.Boolean",
+      "defaultValue": "true"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.app-code",
+      "description": "JSpy app code",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.server-host",
+      "description": "JSpy server host",
+      "type": "java.lang.String",
+      "defaultValue": "127.0.0.1"
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.server-port",
+      "description": "JSpy server port",
+      "type": "java.lang.Integer",
+      "defaultValue": 8190
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.use-ssl",
+      "description": "JSpy server use ssl",
+      "type": "java.lang.Boolean",
+      "defaultValue": false
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.memory-collect-interval-seconds",
+      "description": "interval seconds of JSpy memory stats collect",
+      "type": "java.lang.Integer",
+      "defaultValue": 6
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.thread-collect-interval-seconds",
+      "description": "interval seconds of JSpy thread stats collect",
+      "type": "java.lang.Integer",
+      "defaultValue": 6
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.gc-collect-interval-seconds",
+      "description": "interval seconds of JSpy gc stats collect",
+      "type": "java.lang.Integer",
+      "defaultValue": 300
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.class-loading-collect-interval-seconds",
+      "description": "interval seconds of JSpy classLoading stats collect",
+      "type": "java.lang.Integer",
+      "defaultValue": 6
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.cpu-usage-collect-interval-seconds",
+      "description": "interval seconds of JSpy cpu usage stats collect",
+      "type": "java.lang.Integer",
+      "defaultValue": 6
+    },
+    {
+      "sourceType": "org.chobit.jspy.WatcherConfig",
+      "name": "jspy.watcher.enable",
+      "description": "enable using of @JSpyWatcher annotation",
+      "type": "java.lang.Boolean",
+      "defaultValue": false
+    },
+    {
+      "sourceType": "org.chobit.jspy.WatcherConfig",
+      "name": "jspy.watcher.expect-method-nums",
+      "description": "expect num of methods using @JSpyWatcher annotation",
+      "type": "java.lang.Integer",
+      "defaultValue": 32
+    },
+    {
+      "sourceType": "org.chobit.jspy.WatcherConfig",
+      "name": "jspy.watcher.histogram-period",
+      "description": "period of histogram in seconds for methods using @JSpyWatcher annotation",
+      "type": "java.lang.Integer",
+      "defaultValue": 300
+    }
+  ]
+}
