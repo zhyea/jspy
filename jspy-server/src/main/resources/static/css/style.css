@@ -227,6 +227,7 @@ main .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > t
 }
 
 .item {
+    padding: 2px 0;
     line-height: 160%;
 }
 

@@ -26,6 +26,17 @@ public final class JSpyWatcherCollector {
     /**
      * 更新方法Histogram
      */
+    public void update(boolean failed, String methodId, long duration) {
+        if (failed) {
+            update(methodId, duration);
+        } else {
+            updateFailed(methodId, duration);
+        }
+    }
+
+    /**
+     * 更新方法Histogram
+     */
     public void update(String methodId, long duration) {
         Histogram histogram = getHistogram(this.methodHistogramMap, methodId);
         histogram.update(duration);
