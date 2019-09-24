@@ -27,8 +27,8 @@ public class CpuService {
     /**
      * 写入CPU使用量数据
      */
-    public int insert(String appCode, String ip, BigDecimal usage) {
-        return mapper.insert(appCode, ip, usage, new Date());
+    public int insert(String appCode, String ip, BigDecimal usage, long time) {
+        return mapper.insert(appCode, ip, usage, new Date(time));
     }
 
 

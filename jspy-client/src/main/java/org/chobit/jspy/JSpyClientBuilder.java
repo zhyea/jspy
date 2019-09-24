@@ -75,6 +75,11 @@ public final class JSpyClientBuilder {
         return this;
     }
 
+    public JSpyClientBuilder messageSendIntervalSeconds(int messageSendIntervalSeconds) {
+        this.config.setMessageSendIntervalSeconds(messageSendIntervalSeconds);
+        return this;
+    }
+
 
     public JSpyClientBuilder watcherHistogramPeriodSeconds(int methodHistogramPeriodSeconds) {
         this.config.setWatcherHistogramPeriodSeconds(methodHistogramPeriodSeconds);

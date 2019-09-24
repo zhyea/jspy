@@ -24,7 +24,8 @@ public class JSpyClientStarter implements DisposableBean {
                     .threadCollectIntervalSeconds(properties.getThreadCollectIntervalSeconds())
                     .gcCollectIntervalSeconds(properties.getGcCollectIntervalSeconds())
                     .classLoadingCollectIntervalSeconds(properties.getClassLoadingCollectIntervalSeconds())
-                    .cpuUsageCollectIntervalSeconds(properties.getCpuUsageCollectIntervalSeconds());
+                    .cpuUsageCollectIntervalSeconds(properties.getCpuUsageCollectIntervalSeconds())
+                    .messageSendIntervalSeconds(properties.getMessageSendIntervalSeconds());
 
             WatcherConfig watcher = properties.getWatcher();
 

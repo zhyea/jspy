@@ -7,7 +7,7 @@
 
     const REQUEST_TIMEOUT = 3 * 60 * 1000;
 
-    const DEFAULT_REQUEST_INTERVAL = 6 * 1000;
+    const DEFAULT_REQUEST_INTERVAL = 60 * 1000;
 
     let JSpyCharts = function (element, options, cb) {
 

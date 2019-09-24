@@ -11,16 +11,11 @@ import java.util.List;
 import static org.chobit.jspy.core.gauge.Threads.*;
 import static org.chobit.jspy.core.gauge.ThreadsGaugeManager.allThreads;
 
-public final class ThreadsJob extends AbstractQuartzJob<ThreadOverview> {
+public final class ThreadsJob extends AbstractQuartzJob {
 
 
     public ThreadsJob(JSpyConfig config) {
         super(config);
-    }
-
-    @Override
-    String receivePath() {
-        return "/api/thread/receive";
     }
 
 
@@ -35,7 +30,7 @@ public final class ThreadsJob extends AbstractQuartzJob<ThreadOverview> {
     }
 
     @Override
-    public ThreadOverview collect() {
+    void collect() {
         ThreadCount count = new ThreadCount();
 
         count.setCurrent(THREAD_COUNT.value());
@@ -47,6 +42,6 @@ public final class ThreadsJob extends AbstractQuartzJob<ThreadOverview> {
 
         List<ThreadInfo> threads = allThreads();
 
-        return new ThreadOverview(time, count, threads);
+        messagePack().addThread(new ThreadOverview(time, count, threads));
     }
 }

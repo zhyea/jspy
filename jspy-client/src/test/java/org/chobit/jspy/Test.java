@@ -1,15 +1,18 @@
 package org.chobit.jspy;
 
 
-import org.chobit.jspy.core.info.Sys;
-
-import static org.chobit.jspy.utils.JSON.toJson;
-
 public class Test {
 
 
     public static void main(String[] args) {
-        System.out.println(toJson(Sys.values()));
+        String[] arr = {"abc", "123"};
+
+        String s = arr[0];
+        System.out.println(s);
+        arr[0] = "tmp";
+        System.out.println(arr[0]);
+        System.out.println(s);
+
     }
 
 

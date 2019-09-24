@@ -1,15 +1,13 @@
 package org.chobit.jspy.jobs;
 
 
-import okhttp3.Headers;
-import okhttp3.HttpUrl;
 import org.chobit.jspy.JSpyConfig;
+import org.chobit.jspy.jobs.internal.MessageContainer;
+import org.chobit.jspy.model.MessagePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.chobit.jspy.core.info.Net.LOCAL_HOST_IP;
-
-public abstract class AbstractJob<T> {
+public abstract class AbstractJob {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -19,29 +17,17 @@ public abstract class AbstractJob<T> {
         this.config = config;
     }
 
-
-    abstract String receivePath();
-
     abstract String name();
 
-    abstract T collect();
+    abstract void collect();
 
+    protected MessagePack messagePack() {
+        return MessageContainer.getMessages();
+    }
 
-    HttpUrl receiveUrl() {
-        return new HttpUrl.Builder()
-                .scheme(config.isUseSSL() ? "https" : "http")
-                .host(config.getServerHost())
-                .port(config.getServerPort())
-                .addPathSegments(receivePath())
-                .build();
-
+    protected MessagePack dumpMessages(){
+        return MessageContainer.dumpMessages();
     }
 
 
-    Headers headers() {
-        return new Headers.Builder()
-                .add("appCode", config.getAppCode())
-                .add("ip", LOCAL_HOST_IP.value())
-                .build();
-    }
 }

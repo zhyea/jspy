@@ -9,7 +9,6 @@ import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -25,14 +24,6 @@ public class CpuController {
                                    @RequestBody ChartParam param) {
         List<LowerCaseKeyMap> m = cpuService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, CpuUsage.class);
-    }
-
-
-    @PostMapping("/receive")
-    public int receive(@RequestHeader("appCode") String appCode,
-                       @RequestHeader("ip") String ip,
-                       @RequestBody Double usage) {
-        return cpuService.insert(appCode, ip, new BigDecimal(usage));
     }
 
 

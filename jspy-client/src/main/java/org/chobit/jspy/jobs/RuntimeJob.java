@@ -8,16 +8,11 @@ import org.chobit.jspy.core.model.Item;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class RuntimeJob extends AbstractOneOffJob<List<Item>> {
+public final class RuntimeJob extends AbstractOneOffJob {
 
 
     public RuntimeJob(JSpyConfig config) {
         super(config);
-    }
-
-    @Override
-    String receivePath() {
-        return "/api/sys/runtime/receive";
     }
 
     @Override
@@ -27,7 +22,7 @@ public final class RuntimeJob extends AbstractOneOffJob<List<Item>> {
 
 
     @Override
-    List<Item> collect() {
+    void collect() {
         List<Item> items = new LinkedList<>();
 
         Item compilations = new Item("编译信息");
@@ -43,6 +38,6 @@ public final class RuntimeJob extends AbstractOneOffJob<List<Item>> {
         }
         items.add(runtime);
 
-        return items;
+        messagePack().setRuntime(items);
     }
 }

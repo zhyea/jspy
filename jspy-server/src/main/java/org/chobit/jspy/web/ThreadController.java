@@ -4,7 +4,6 @@ import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.core.model.ThreadInfo;
 import org.chobit.jspy.model.ChartParam;
-import org.chobit.jspy.model.ThreadOverview;
 import org.chobit.jspy.service.ThreadService;
 import org.chobit.jspy.service.entity.ThreadStat;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
@@ -32,14 +31,6 @@ public class ThreadController {
     @PostMapping("/all-threads")
     public List<ThreadInfo> allThreads(@SessionAttribute("appCode") String appCode) {
         return threadService.allThreads(appCode);
-    }
-
-
-    @PostMapping("/receive")
-    public int receive(@RequestHeader("appCode") String appCode,
-                       @RequestHeader("ip") String ip,
-                       @RequestBody ThreadOverview overview) {
-        return threadService.insert(appCode, ip, overview);
     }
 
 }

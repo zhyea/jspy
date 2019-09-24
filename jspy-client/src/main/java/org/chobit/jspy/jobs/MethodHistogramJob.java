@@ -7,18 +7,12 @@ import org.chobit.jspy.model.MethodHistogram;
 
 import java.util.Map;
 
-public final class MethodHistogramJob extends AbstractQuartzJob<MethodHistogram> {
+public final class MethodHistogramJob extends AbstractQuartzJob {
 
 
     public MethodHistogramJob(JSpyConfig config) {
         super(config);
     }
-
-    @Override
-    String receivePath() {
-        return "/api/method/receive";
-    }
-
 
     @Override
     String name() {
@@ -30,11 +24,10 @@ public final class MethodHistogramJob extends AbstractQuartzJob<MethodHistogram>
         return config.getWatcherHistogramPeriodSeconds();
     }
 
-    @Override
-    public MethodHistogram collect() {
+    void collect() {
         JSpyWatcherCollector collector = JSpyWatcherCollector.getIfExists();
         if (null == collector || 0 == collector.size()) {
-            return null;
+            return;
         }
 
         MethodHistogram mh = new MethodHistogram();
@@ -49,6 +42,6 @@ public final class MethodHistogramJob extends AbstractQuartzJob<MethodHistogram>
             mh.addFailed(e.getKey(), e.getValue().size());
         }
 
-        return mh;
+        messagePack().addMethod(mh);
     }
 }

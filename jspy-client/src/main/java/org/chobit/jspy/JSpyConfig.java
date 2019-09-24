@@ -17,11 +17,13 @@ public final class JSpyConfig {
 
     private int threadCollectIntervalSeconds = 6;
 
-    private int gcCollectIntervalSeconds = 61 * 5;
+    private int gcCollectIntervalSeconds = 60 * 5;
 
     private int classLoadingCollectIntervalSeconds = 6;
 
     private int cpuUsageCollectIntervalSeconds = 6;
+
+    private int messageSendIntervalSeconds = 60;
 
     private int watcherHistogramPeriodSeconds = 60 * 5;
 
@@ -107,6 +109,14 @@ public final class JSpyConfig {
 
     public void setCpuUsageCollectIntervalSeconds(int cpuUsageCollectIntervalSeconds) {
         this.cpuUsageCollectIntervalSeconds = cpuUsageCollectIntervalSeconds;
+    }
+
+    public int getMessageSendIntervalSeconds() {
+        return messageSendIntervalSeconds;
+    }
+
+    public void setMessageSendIntervalSeconds(int messageSendIntervalSeconds) {
+        this.messageSendIntervalSeconds = messageSendIntervalSeconds;
     }
 
     public int getWatcherHistogramPeriodSeconds() {

@@ -4,7 +4,6 @@ package org.chobit.jspy.web;
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
 import org.chobit.jspy.model.ChartParam;
-import org.chobit.jspy.model.MethodHistogram;
 import org.chobit.jspy.service.MethodService;
 import org.chobit.jspy.service.entity.HistogramEntity;
 import org.chobit.jspy.service.entity.MethodEntity;
@@ -18,17 +17,8 @@ import java.util.List;
 @RequestMapping("/api/method")
 public class MethodController {
 
-
     @Autowired
     private MethodService methodService;
-
-
-    @PostMapping("/receive")
-    public boolean receive(@RequestHeader("appCode") String appCode,
-                           @RequestHeader("ip") String ip,
-                           @RequestBody MethodHistogram histogram) {
-        return methodService.insertHistograms(appCode, ip, histogram);
-    }
 
 
     @PostMapping("/find-by-params")
@@ -38,8 +28,7 @@ public class MethodController {
         List<LowerCaseKeyMap> m = methodService.findForChart(appCode, param, methodName);
         return ChartKit.fill(param.getTarget(), m, HistogramEntity.class);
     }
-
-
+    
 
     @GetMapping("/all-methods")
     public List<MethodEntity> allMethods(@SessionAttribute("appCode") String appCode) {

@@ -2,32 +2,49 @@ package org.chobit.jspy.core.gauge;
 
 import org.chobit.jspy.core.info.OSInfoManager;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import static org.chobit.jspy.core.gauge.ThreadsGaugeManager.allThreadIds;
 import static org.chobit.jspy.core.gauge.ThreadsGaugeManager.getThreadCpuTime;
 
 abstract class CpuGaugeManager {
 
-    private static long preTotalTime = 0;
-    private static long preTime = System.nanoTime();
-    private static int availableProcessors = OSInfoManager.availableProcessors();
+    private static final int AVAILABLE_PROCESSORS = OSInfoManager.availableProcessors();
+
+    private static long preTime = 0;
+    private static Map<Long, Long> hisThreads = new HashMap<>(128);
+
 
     static double cpuLoad() {
-        long total = 0;
+
+        long elapsed = 0;
+        Set<Long> threadIds = new TreeSet<>(hisThreads.keySet());
 
         for (long id : allThreadIds()) {
-            total += getThreadCpuTime(id);
+            threadIds.remove(id);
+
+            long tCurr = getThreadCpuTime(id);
+            Long tHis = hisThreads.put(id, tCurr);
+
+            if (null == tHis) {
+                continue;
+            }
+
+            elapsed += (tCurr - tHis);
         }
 
-        long curr = System.nanoTime();
-        long elapsed = 0 == preTotalTime ? 0 : total - preTotalTime;
-        long passed = curr - preTime;
+        threadIds.forEach(e -> hisThreads.remove(e));
 
+        long curr = System.nanoTime();
+        long passed = curr - preTime;
         preTime = curr;
-        preTotalTime = total;
 
         elapsed = elapsed < 0 ? 0 : elapsed;
 
-        if (0 >= availableProcessors) {
+        if (0 >= AVAILABLE_PROCESSORS) {
             return 0;
         }
 
@@ -35,9 +52,9 @@ abstract class CpuGaugeManager {
             return 0;
         }
 
-        double v = Math.round(10000.0 * elapsed / passed / availableProcessors) / 100.0;
+        double v = Math.round(10000.0 * elapsed / passed / AVAILABLE_PROCESSORS) / 100.0;
 
-        return v > 100.0 ? 100.0 : v;
+        return Math.min(v, 100.0);
     }
 
 

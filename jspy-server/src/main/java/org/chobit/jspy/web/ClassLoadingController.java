@@ -2,7 +2,6 @@ package org.chobit.jspy.web;
 
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
-import org.chobit.jspy.model.ClassLoadingCount;
 import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.service.ClassLoadingService;
 import org.chobit.jspy.service.entity.ClassLoadingStat;
@@ -20,21 +19,11 @@ public class ClassLoadingController {
     private ClassLoadingService classLoadingService;
 
 
-
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
                                    @RequestBody ChartParam param) {
         List<LowerCaseKeyMap> m = classLoadingService.findForChart(appCode, param);
         return ChartKit.fill(param.getTarget(), m, ClassLoadingStat.class);
     }
-
-
-    @PostMapping("/receive")
-    public int receive(@RequestHeader("appCode") String appCode,
-                       @RequestHeader("ip") String ip,
-                       @RequestBody ClassLoadingCount gauge) {
-        return classLoadingService.insert(appCode, ip, gauge);
-    }
-
 
 }

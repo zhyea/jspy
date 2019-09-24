@@ -78,6 +78,13 @@
       "defaultValue": 6
     },
     {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.message-send-interval-seconds",
+      "description": "interval seconds of JSpy Client send message",
+      "type": "java.lang.Integer",
+      "defaultValue": 60
+    },
+    {
       "sourceType": "org.chobit.jspy.WatcherConfig",
       "name": "jspy.watcher.enable",
       "description": "enable using of @JSpyWatcher annotation",

@@ -4,7 +4,6 @@ import org.chobit.jspy.utils.SysTime;
 
 public class ClassLoadingCount {
 
-
     private long totalLoaded;
 
     private long currentLoaded;

@@ -3,16 +3,11 @@ package org.chobit.jspy.jobs;
 import org.chobit.jspy.JSpyConfig;
 import org.chobit.jspy.core.gauge.CPU;
 
-public class CpuUsageJob extends AbstractQuartzJob<Double> {
+public final class CpuUsageJob extends AbstractQuartzJob {
 
 
     public CpuUsageJob(JSpyConfig config) {
         super(config);
-    }
-
-    @Override
-    String receivePath() {
-        return "/api/cpu/receive";
     }
 
     @Override
@@ -26,7 +21,7 @@ public class CpuUsageJob extends AbstractQuartzJob<Double> {
     }
 
     @Override
-    Double collect() {
-        return CPU.LOAD.value();
+    void collect() {
+        messagePack().addCpuUsage(CPU.LOAD.value());
     }
 }

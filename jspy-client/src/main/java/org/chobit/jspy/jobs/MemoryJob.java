@@ -10,15 +10,10 @@ import java.util.List;
 import static org.chobit.jspy.core.gauge.MemoryGaugeManager.*;
 import static org.chobit.jspy.utils.SysTime.millis;
 
-public final class MemoryJob extends AbstractQuartzJob<MemoryOverview> {
+public final class MemoryJob extends AbstractQuartzJob {
 
     public MemoryJob(JSpyConfig config) {
         super(config);
-    }
-
-    @Override
-    String receivePath() {
-        return "/api/memory/receive";
     }
 
     @Override
@@ -37,7 +32,7 @@ public final class MemoryJob extends AbstractQuartzJob<MemoryOverview> {
     private MemoryUsage peakNonHeapUsage;
 
     @Override
-    public MemoryOverview collect() {
+    void collect() {
 
         MemoryUsage heapUsage = heapMemoryUsage();
         MemoryUsage nonHeapUsage = nonHeapMemoryUsage();
@@ -50,6 +45,7 @@ public final class MemoryJob extends AbstractQuartzJob<MemoryOverview> {
             this.peakNonHeapUsage = nonHeapUsage;
         }
 
-        return new MemoryOverview(millis(), heapUsage, nonHeapUsage, peakHeapUsage, peakNonHeapUsage, memoryPools);
+        MemoryOverview mem = new MemoryOverview(millis(), heapUsage, nonHeapUsage, peakHeapUsage, peakNonHeapUsage, memoryPools);
+        messagePack().addMemory(mem);
     }
 }

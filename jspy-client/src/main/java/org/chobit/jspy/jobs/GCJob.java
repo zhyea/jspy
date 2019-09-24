@@ -8,7 +8,7 @@ import org.chobit.jspy.model.GcOverview;
 import javax.management.InstanceNotFoundException;
 import java.util.concurrent.TimeUnit;
 
-public final class GCJob extends AbstractQuartzJob<GcOverview> {
+public final class GCJob extends AbstractQuartzJob {
 
     private final GcCollector gcCollector;
 
@@ -21,11 +21,6 @@ public final class GCJob extends AbstractQuartzJob<GcOverview> {
         } catch (InstanceNotFoundException e) {
             logger.error("Applying GcNotificationListener error.", e);
         }
-    }
-
-    @Override
-    String receivePath() {
-        return "/api/gc/receive";
     }
 
 
@@ -41,11 +36,12 @@ public final class GCJob extends AbstractQuartzJob<GcOverview> {
 
 
     @Override
-    public GcOverview collect() {
+    void collect() {
         GcOverview overview = new GcOverview();
         gcCollector.drainTo(overview.getGcRecords());
         overview.addMajorHistogram(gcCollector.majorSnapshot());
         overview.addMinorHistogram(gcCollector.minorSnapshot());
-        return overview;
+
+        messagePack().addGc(overview);
     }
 }

@@ -28,6 +28,8 @@ public class JSpyProperties {
 
     private int cpuUsageCollectIntervalSeconds = 6;
 
+    private int messageSendIntervalSeconds = 60;
+
     private WatcherConfig watcher;
 
     public boolean isEnable() {
@@ -116,6 +118,14 @@ public class JSpyProperties {
 
     public void setCpuUsageCollectIntervalSeconds(int cpuUsageCollectIntervalSeconds) {
         this.cpuUsageCollectIntervalSeconds = cpuUsageCollectIntervalSeconds;
+    }
+
+    public int getMessageSendIntervalSeconds() {
+        return messageSendIntervalSeconds;
+    }
+
+    public void setMessageSendIntervalSeconds(int messageSendIntervalSeconds) {
+        this.messageSendIntervalSeconds = messageSendIntervalSeconds;
     }
 
     public WatcherConfig getWatcher() {

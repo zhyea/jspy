@@ -25,7 +25,9 @@ public class SysInfoService {
 
 
     public void insertSysInfo(String appCode, String ip, List<Item> items) {
-        insert(appCode, ip, items, SYS);
+        if (null != items) {
+            insert(appCode, ip, items, SYS);
+        }
     }
 
 
@@ -35,7 +37,9 @@ public class SysInfoService {
 
 
     public void insertRuntimeInfo(String appCode, String ip, List<Item> items) {
-        insert(appCode, ip, items, RUNTIME);
+        if (null != items) {
+            insert(appCode, ip, items, RUNTIME);
+        }
     }
 
 

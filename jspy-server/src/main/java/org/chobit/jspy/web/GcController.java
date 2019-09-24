@@ -2,7 +2,6 @@ package org.chobit.jspy.web;
 
 import org.chobit.jspy.charts.ChartKit;
 import org.chobit.jspy.charts.ChartModel;
-import org.chobit.jspy.model.GcOverview;
 import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.chart.GcHistogram;
 import org.chobit.jspy.model.page.Page;
@@ -24,13 +23,6 @@ public class GcController {
     @Autowired
     private GcService gcService;
 
-
-    @PostMapping("/receive")
-    public boolean receive(@RequestHeader("appCode") String appCode,
-                           @RequestHeader("ip") String ip,
-                           @RequestBody GcOverview overview) {
-        return gcService.insert(appCode, ip, overview);
-    }
 
     @PostMapping("/find-by-params")
     public ChartModel findByParams(@SessionAttribute("appCode") String appCode,
