@@ -78,5 +78,7 @@
                 </configuration>
             </plugin>
         </plugins>
+
+        <finalName>jspy-server</finalName>
     </build>
 </project>

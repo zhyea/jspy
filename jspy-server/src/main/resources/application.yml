@@ -18,6 +18,7 @@ mybatis:
 
 
 jspy:
+  enable: true
   app-code: jSpyCons
   server-host: 127.0.0.1
   serverPort: 8190
