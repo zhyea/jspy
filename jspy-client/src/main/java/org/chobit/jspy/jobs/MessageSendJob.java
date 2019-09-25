@@ -8,6 +8,7 @@ import org.chobit.jspy.utils.HttpResult;
 
 import static org.chobit.jspy.core.info.Net.LOCAL_HOST_IP;
 import static org.chobit.jspy.utils.HTTP.post;
+import static org.chobit.jspy.utils.SysTime.sleepInSeconds;
 
 public final class MessageSendJob extends AbstractQuartzJob {
 
@@ -36,8 +37,12 @@ public final class MessageSendJob extends AbstractQuartzJob {
         HttpUrl url = receiveUrl();
         HttpResult result = post(url, headers(), data);
 
-        if (result.isFailed()) {
+        int count = 0;
+
+        while (result.isFailed() && ++count < 5) {
+            sleepInSeconds(10);
             logger.error("send message to {} failed.", url, result.getThrowable());
+            result = post(url, headers(), data);
         }
     }
 

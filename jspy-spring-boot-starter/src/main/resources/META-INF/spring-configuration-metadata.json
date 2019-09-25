@@ -44,6 +44,13 @@
     },
     {
       "sourceType": "org.chobit.jspy.JSpyProperties",
+      "name": "jspy.start-delayed-seconds",
+      "description": "the time before jspy client start",
+      "type": "java.lang.Integer",
+      "defaultValue": 60
+    },
+    {
+      "sourceType": "org.chobit.jspy.JSpyProperties",
       "name": "jspy.memory-collect-interval-seconds",
       "description": "interval seconds of JSpy memory stats collect",
       "type": "java.lang.Integer",

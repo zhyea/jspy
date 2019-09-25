@@ -1,21 +1,22 @@
 package org.chobit.jspy.jobs;
 
-import org.chobit.jspy.JSpyConfig;
 import org.chobit.jspy.core.info.Sys;
+import org.chobit.jspy.core.model.Item;
+
+import java.util.List;
 
 public final class SysJob extends AbstractOneOffJob {
 
-    public SysJob(JSpyConfig config) {
-        super(config);
-    }
 
     @Override
     String name() {
         return "sysInfo";
     }
 
+
     @Override
     void collect() {
-        messagePack().setSysInfo(Sys.values());
+        List<Item> items = Sys.values();
+        messagePack().setSysInfo(items);
     }
 }

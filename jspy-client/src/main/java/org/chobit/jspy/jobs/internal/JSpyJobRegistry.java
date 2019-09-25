@@ -74,11 +74,11 @@ public class JSpyJobRegistry {
 
 
     private Map<Class<? extends AbstractOneOffJob>, AbstractOneOffJob> oneOffJobMap()
-            throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+            throws IllegalAccessException, InstantiationException {
         Set<Class<? extends AbstractOneOffJob>> jobClasses = subTypeOf(AbstractOneOffJob.class);
         Map<Class<? extends AbstractOneOffJob>, AbstractOneOffJob> map = new HashMap<>(jobClasses.size());
         for (Class<? extends AbstractOneOffJob> clazz : jobClasses) {
-            AbstractOneOffJob instance = clazz.getDeclaredConstructor(JSpyConfig.class).newInstance(config);
+            AbstractOneOffJob instance = clazz.newInstance();
             map.put(clazz, instance);
         }
         return map;

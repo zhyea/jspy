@@ -13,9 +13,10 @@ import static org.quartz.TriggerBuilder.newTrigger;
 public abstract class AbstractQuartzJob extends  AbstractJob implements Job {
 
 
+    protected final JSpyConfig config;
 
     public AbstractQuartzJob(JSpyConfig config) {
-        super(config);
+        this.config = config;
     }
 
     abstract int intervalSeconds();

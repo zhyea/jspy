@@ -1,6 +1,5 @@
 package org.chobit.jspy.jobs;
 
-import org.chobit.jspy.JSpyConfig;
 import org.chobit.jspy.core.info.Compilation;
 import org.chobit.jspy.core.info.Runtime;
 import org.chobit.jspy.core.model.Item;
@@ -10,10 +9,6 @@ import java.util.List;
 
 public final class RuntimeJob extends AbstractOneOffJob {
 
-
-    public RuntimeJob(JSpyConfig config) {
-        super(config);
-    }
 
     @Override
     String name() {

@@ -35,8 +35,8 @@ public final class JSpyClient {
     private void start0() {
         try {
             TimeUnit.SECONDS.sleep(startDelayedSeconds);
-            startQuartzJob();
             startOneOffJob();
+            startQuartzJob();
         } catch (Exception e) {
             throw new JSpyException(e);
         }
