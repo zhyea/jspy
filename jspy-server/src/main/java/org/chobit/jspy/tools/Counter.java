@@ -15,7 +15,7 @@ public class Counter {
     /**
      * 计算一个数据集的浮动区间
      * <p>
-     * 取数据集排序后，25%~75%这个区间内的数据的差值作为浮动区间
+     * 取数据集排序后，20%~80%这个区间内的数据的差值作为浮动区间
      */
     public double computeFloatingRange() {
         Double[] arr = new Double[values.size()];

@@ -13,6 +13,8 @@ function loadDateRangePicker(attachEle, callback) {
         timePicker12Hour: true, //是否使用12小时制来显示时间
         ranges: {
             '最近1小时': ['hours', 1],
+            '最近3小时': ['hours', 3],
+            '最近6小时': ['hours', 6],
             '最近12小时': ['hours', 12],
             '最近24小时': ['hours', 24],
             '最近3日': ['days', 3]

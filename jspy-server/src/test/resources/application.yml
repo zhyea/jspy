@@ -7,7 +7,10 @@ spring:
     active: dev
   thymeleaf:
     cache: false
-
+  cache:
+    type: CAFFEINE
+    caffeine:
+      spec: initialCapacity=10240,maximumSize=102400,expireAfterAccess=10m
 
 mybatis:
   configuration:
@@ -20,3 +23,4 @@ jspy:
 
 custom:
   data-reserve-dates: 30
+  shrink-start-dates: 3

@@ -1,7 +1,6 @@
 package org.chobit.jspy.service;
 
 
-import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.Histogram;
 import org.chobit.jspy.model.MethodHistogram;
@@ -13,6 +12,8 @@ import org.chobit.jspy.service.mapper.MethodMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,9 +24,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static org.chobit.jspy.constants.HistogramType.METHOD;
-import static org.chobit.jspy.tools.CacheBuilder.build;
 
 @Service
+@CacheConfig(cacheNames = "method")
 public class MethodService {
 
     @Autowired
@@ -34,8 +35,6 @@ public class MethodService {
     private MethodMapper methodMapper;
     @Autowired
     private AssembleQueryService aqService;
-
-    private LoadingCache<String, List<MethodEntity>> methodNames = build(this::findMethods0);
 
 
     /**
@@ -56,14 +55,8 @@ public class MethodService {
     /**
      * 获取所有Method对象
      */
+    @Cacheable(key = "'findMethods:' + #appCode")
     public List<MethodEntity> findMethods(String appCode) {
-        return methodNames.get(appCode);
-    }
-
-    /**
-     * 查找方法信息
-     */
-    private List<MethodEntity> findMethods0(String appCode) {
         return methodMapper.findByAppCode(appCode);
     }
 

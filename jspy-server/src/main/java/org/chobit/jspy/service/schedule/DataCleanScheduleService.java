@@ -23,6 +23,8 @@ public class DataCleanScheduleService {
     private HistogramService histogramService;
     @Autowired
     private MethodService methodService;
+    @Autowired
+    private MetricTargetService metricTargetService;
 
 
     public void clean() {
@@ -33,6 +35,7 @@ public class DataCleanScheduleService {
         threadService.delete();
         histogramService.delete();
         methodService.delete();
+        metricTargetService.delete();
     }
 
 }

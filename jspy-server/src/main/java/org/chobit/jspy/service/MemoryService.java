@@ -1,7 +1,7 @@
 package org.chobit.jspy.service;
 
-import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.chobit.jspy.constants.MemoryNames;
+import org.chobit.jspy.constants.MetricTarget;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.core.model.MemoryInfo;
 import org.chobit.jspy.core.model.MemoryPool;
@@ -18,12 +18,12 @@ import org.springframework.stereotype.Service;
 import java.lang.management.MemoryType;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.lang.management.MemoryType.HEAP;
 import static java.lang.management.MemoryType.NON_HEAP;
-import static org.chobit.jspy.tools.CacheBuilder.build;
+import static org.chobit.jspy.constants.MetricTarget.MEM_HEAP;
+import static org.chobit.jspy.constants.MetricTarget.MEM_NON_HEAP;
 
 @Service
 @CacheConfig(cacheNames = "mem")
@@ -34,49 +34,31 @@ public class MemoryService {
 
     @Autowired
     private MemoryStatMapper memMapper;
-
     @Autowired
     private AssembleQueryService aqService;
-
-
-    private LoadingCache<String, Set<String>> heapPoolNames = build(this::findHeapPoolNames);
-
-    private LoadingCache<String, Set<String>> nonHeapPoolNames = build(this::findNonHeapPoolNames);
+    @Autowired
+    private MetricTargetService metricTargetService;
 
 
     /**
      * 查询内存类型名称
      */
     public List<String> getMemTypeNames() {
-        return Arrays.stream(MemoryType.values()).map(Enum::name).collect(Collectors.toList());
+        return Arrays.stream(MemoryType.values()).map(MemoryNames::nameOf).collect(Collectors.toList());
     }
 
     /**
      * 获取堆 内存池名称
      */
-    public Set<String> getHeapPoolNames(String appCode) {
-        return heapPoolNames.get(appCode);
+    public List<String> getHeapPoolNames(String appCode) {
+        return metricTargetService.findNames(appCode, MEM_HEAP);
     }
 
     /**
      * 获取非堆内存池名称
      */
-    public Set<String> getNonHeapPoolNames(String appCode) {
-        return nonHeapPoolNames.get(appCode);
-    }
-
-    /**
-     * 获取堆 内存池名称
-     */
-    private Set<String> findHeapPoolNames(String appCode) {
-        return memMapper.findHeapPoolNames(appCode);
-    }
-
-    /**
-     * 获取非堆内存池名称
-     */
-    private Set<String> findNonHeapPoolNames(String appCode) {
-        return memMapper.findNonHeapPoolNames(appCode);
+    public List<String> getNonHeapPoolNames(String appCode) {
+        return metricTargetService.findNames(appCode, MEM_NON_HEAP);
     }
 
 
@@ -178,8 +160,11 @@ public class MemoryService {
                 pool.getMemoryManagerNames(),
                 eventTime,
                 false);
-    }
 
+        MetricTarget target = pool.getType() == HEAP ? MEM_HEAP : MEM_NON_HEAP;
+
+        metricTargetService.insert(appCode, target, pool.getName());
+    }
 
 
     /**

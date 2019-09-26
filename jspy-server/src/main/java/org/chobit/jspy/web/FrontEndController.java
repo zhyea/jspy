@@ -3,7 +3,6 @@ package org.chobit.jspy.web;
 import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.core.model.Item;
 import org.chobit.jspy.service.*;
-import org.chobit.jspy.service.common.PreheatService;
 import org.chobit.jspy.service.entity.App;
 import org.chobit.jspy.service.entity.MethodEntity;
 import org.chobit.jspy.utils.Args;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import javax.servlet.http.HttpSession;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/")
@@ -36,8 +34,6 @@ public class FrontEndController {
     private SysInfoService sysService;
     @Autowired
     private ClassLoadingService classLoadingService;
-    @Autowired
-    private PreheatService preheatService;
 
 
     /**
@@ -58,7 +54,6 @@ public class FrontEndController {
         return "classes";
     }
 
-
     /**
      * 跳转到线程数据页
      */
@@ -66,7 +61,6 @@ public class FrontEndController {
     public String thread() {
         return "thread";
     }
-
 
     /**
      * 跳转到方法数据页
@@ -96,8 +90,8 @@ public class FrontEndController {
     public String memory(@SessionAttribute("appCode") String appCode,
                          ModelMap model) {
         List<String> memTypeNames = memoryService.getMemTypeNames();
-        Set<String> heapPoolNames = memoryService.getHeapPoolNames(appCode);
-        Set<String> nonHeapPoolNames = memoryService.getNonHeapPoolNames(appCode);
+        List<String> heapPoolNames = memoryService.getHeapPoolNames(appCode);
+        List<String> nonHeapPoolNames = memoryService.getNonHeapPoolNames(appCode);
 
         model.addAttribute("memTypeNames", memTypeNames);
         model.addAttribute("heapPoolNames", heapPoolNames);
@@ -150,8 +144,6 @@ public class FrontEndController {
 
         List<Item> details = sysService.getLatestSysInfo(appCode);
         model.addAttribute("sysInfo", details);
-
-        preheatService.preheat(appCode);
 
         return "app-home";
     }

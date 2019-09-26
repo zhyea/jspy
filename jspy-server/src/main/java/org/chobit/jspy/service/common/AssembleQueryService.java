@@ -44,6 +44,14 @@ public class AssembleQueryService {
     }
 
 
+    public void shrink(String tableName,
+                       String[] queryColumns,
+                       String[] nonMetricColumns,
+                       String idColumn) {
+        List<LowerCaseKeyMap> dataSet =  null;//findForChart()
+    }
+
+
     /**
      * 查询报表数据
      */
@@ -53,7 +61,7 @@ public class AssembleQueryService {
                                               ChartParam param,
                                               String... columns) {
         List<LowerCaseKeyMap> r = queryMapper.findForChart(tableName, appCode, param, targetColumn, columns);
-        if (param.getEndTime().getTime() - param.getStartTime().getTime() > TimeUnit.HOURS.toMillis(3)) {
+        if (param.getEndTime().getTime() - param.getStartTime().getTime() > TimeUnit.HOURS.toMillis(2)) {
             return shrinkService.shrink(r);
         }
         return r;
@@ -67,7 +75,6 @@ public class AssembleQueryService {
                                               String appCode,
                                               ChartParam param,
                                               String... columns) {
-
         return findForChart(tableName, null, appCode, param, columns);
     }
 

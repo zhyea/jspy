@@ -1,6 +1,6 @@
 package org.chobit.jspy.service;
 
-import com.github.benmanes.caffeine.cache.LoadingCache;
+import org.chobit.jspy.constants.MetricTarget;
 import org.chobit.jspy.core.model.GcRecord;
 import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.GcOverview;
@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.chobit.jspy.constants.HistogramType.GC;
-import static org.chobit.jspy.tools.CacheBuilder.build;
 
 @Service
 @CacheConfig(cacheNames = "gc")
@@ -33,11 +32,12 @@ public class GcService {
     private HistogramService histogramService;
     @Autowired
     private AssembleQueryService aqService;
+    @Autowired
+    private MetricTargetService metricTargetService;
 
 
     private static final String TABLE_NAME = "gc_stat";
 
-    private LoadingCache<String, List<String>> gcNames = build(this::findGcNames0);
 
     /**
      * 分页查询GC数据
@@ -60,11 +60,7 @@ public class GcService {
      * 获取GC类型名称
      */
     public List<String> findGcNames(String appCode) {
-        return gcNames.get(appCode);
-    }
-
-    private List<String> findGcNames0(String appCode) {
-        return histogramService.findNames(appCode, GC);
+        return metricTargetService.findNames(appCode, MetricTarget.GC);
     }
 
 
@@ -81,6 +77,10 @@ public class GcService {
 
 
     private boolean insertGcHistogram(String appCode, String ip, Histogram histogram) {
+        if (null == histogram) {
+            return false;
+        }
+        metricTargetService.insert(appCode, MetricTarget.GC, histogram.getName());
         return histogramService.insert(appCode, ip, histogram, GC);
     }
 

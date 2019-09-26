@@ -236,3 +236,19 @@ create table if not exists cpu_usage
 
 create index if not exists idx_q_cpu on cpu_usage (app_code, event_time);
 
+
+create table if not exists metric_target_name
+(
+    id          int auto_increment primary key,
+
+    app_code    varchar(32),
+
+    target      varchar(32),
+    `name`      varchar(64),
+
+    deleted     tinyint            default 0,
+    insert_time datetime           default current_date,
+    op_time     timestamp not null default current_timestamp on update current_timestamp
+);
+
+create index if not exists idx_metric_target on metric_target_name (app_code, target);

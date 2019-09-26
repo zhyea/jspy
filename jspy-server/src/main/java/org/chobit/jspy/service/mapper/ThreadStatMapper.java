@@ -1,7 +1,6 @@
 package org.chobit.jspy.service.mapper;
 
 import org.apache.ibatis.annotations.*;
-import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.service.entity.ThreadStat;
 
 import java.util.Date;
@@ -10,7 +9,6 @@ import java.util.Date;
 public interface ThreadStatMapper {
 
 
-    @JSpyWatcher
     @Insert({"insert into thread_stat (app_code, ip, current, peak, total_started, daemon, event_time)",
             "values",
             "(#{appCode}, #{ip}, #{current}, #{peak}, #{totalStarted}, #{daemon}, #{eventTime})"})

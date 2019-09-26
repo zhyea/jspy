@@ -6,7 +6,11 @@ spring:
   profiles:
     active: prod
   thymeleaf:
-    cache: false
+    cache: true
+  cache:
+    type: CAFFEINE
+    caffeine:
+      spec: initialCapacity=10240,maximumSize=102400,expireAfterAccess=10m
 
 server:
   port: 8190
@@ -29,3 +33,4 @@ jspy:
 
 custom:
   data-reserve-dates: 30
+  shrink-start-dates: 3

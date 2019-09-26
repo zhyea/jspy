@@ -10,7 +10,8 @@ public class CustomConfigTest extends TestBase {
     private CustomConfig config;
 
     @Test
-    public void valueOf(){
+    public void valueOf() {
         System.out.println(config.getDataReserveDates());
+        System.out.println(config.getShrinkStartDates());
     }
 }
