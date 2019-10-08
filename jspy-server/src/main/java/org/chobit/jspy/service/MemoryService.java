@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.management.MemoryType;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,8 @@ public class MemoryService {
     private AssembleQueryService aqService;
     @Autowired
     private MetricTargetService metricTargetService;
+    @Autowired
+    private AppService appService;
 
 
     /**
@@ -172,6 +175,37 @@ public class MemoryService {
      */
     public int delete() {
         return aqService.delete(TABLE_NAME);
+    }
+
+
+    /**
+     * 执行数据缩减
+     */
+    public void shrink() {
+        List<String> appCodes = appService.findAllAppCodes();
+        for (String code : appCodes) {
+            shrink(code);
+        }
+    }
+
+
+    /**
+     * 执行每个应用的数据缩减处理
+     *
+     * @param appCode 应用码
+     */
+    private void shrink(String appCode) {
+        List<String> targetNames = new LinkedList<>();
+        targetNames.addAll(getMemTypeNames());
+        targetNames.addAll(getHeapPoolNames(appCode));
+        targetNames.addAll(getNonHeapPoolNames(appCode));
+
+        String[] metricColumns = new String[]{"init", "used", "committed", "max"};
+
+        for (String name : targetNames) {
+            aqService.shrink(TABLE_NAME, appCode, "`name`", name, metricColumns, true, 0);
+            aqService.shrink(TABLE_NAME, appCode, "`name`", name, metricColumns, true, 1);
+        }
     }
 
 }

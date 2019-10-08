@@ -8,15 +8,14 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static org.chobit.jspy.constants.Constants.DEFAULT_ID_COLUMN;
+import static org.chobit.jspy.constants.Constants.DEFAULT_TIME_COLUMN;
+
 @Service
 public class DataShrinkService {
 
 
     private static final int INTERVAL_MINUTES = 15;
-
-    private static final String DEFAULT_TIME_COLUMN = "event_time";
-
-    private static final String DEFAULT_ID_COLUMN = "id";
 
 
     /**
@@ -37,8 +36,8 @@ public class DataShrinkService {
      * @param nonMetricColumns 非指标字段名称
      * @return 计算出的要删除的ID
      */
-    public Set<Integer> computeIdsToDel(List<LowerCaseKeyMap> src,
-                                        String[] nonMetricColumns) {
+    Set<Integer> computeIdsToDel(List<LowerCaseKeyMap> src,
+                                 String[] nonMetricColumns) {
         return computeIdsToDel(src, nonMetricColumns, DEFAULT_ID_COLUMN);
     }
 
@@ -50,9 +49,9 @@ public class DataShrinkService {
      * @param idColumn         ID字段名称
      * @return 计算出的要删除的ID
      */
-    public Set<Integer> computeIdsToDel(List<LowerCaseKeyMap> src,
-                                        String[] nonMetricColumns,
-                                        String idColumn) {
+    private Set<Integer> computeIdsToDel(List<LowerCaseKeyMap> src,
+                                         String[] nonMetricColumns,
+                                         String idColumn) {
         // 计算缩水后留下来的记录
         List<LowerCaseKeyMap> reserved = shrink0(src, nonMetricColumns);
         // 移除保留的记录即是要删除的记录

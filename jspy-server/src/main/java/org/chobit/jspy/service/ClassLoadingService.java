@@ -87,4 +87,11 @@ public class ClassLoadingService {
         return aqService.delete(TABLE_NAME);
     }
 
+    /**
+     * 数据缩减
+     */
+    public void shrink() {
+        aqService.shrink(TABLE_NAME, new String[]{"total_loaded", "current_loaded", "unloaded"});
+    }
+
 }

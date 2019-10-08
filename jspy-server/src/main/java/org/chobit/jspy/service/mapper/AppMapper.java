@@ -22,6 +22,10 @@ public interface AppMapper {
     List<App> findAll();
 
 
+    @Select("select app_code from app where deleted=0")
+    List<String> findAllAppCodes();
+
+
     @Select("select * from app where deleted=0 and id=#{id}")
     App get(@Param("id") int id);
 

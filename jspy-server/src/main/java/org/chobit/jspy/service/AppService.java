@@ -37,6 +37,12 @@ public class AppService {
     }
 
 
+    //TODO 添加缓存
+    public List<String> findAllAppCodes() {
+        return appMapper.findAllAppCodes();
+    }
+
+
     public boolean logicDelete(int id) {
         return appMapper.logicDelete(id);
     }

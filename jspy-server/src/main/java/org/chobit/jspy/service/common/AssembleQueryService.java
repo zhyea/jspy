@@ -3,16 +3,22 @@ package org.chobit.jspy.service.common;
 import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.model.page.PageResult;
+import org.chobit.jspy.service.AppService;
 import org.chobit.jspy.service.mapper.AssembleQueryMapper;
 import org.chobit.jspy.spring.CustomConfig;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
+import org.chobit.jspy.utils.Arrays;
 import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static org.chobit.jspy.constants.Constants.DEFAULT_ID_COLUMN;
+import static org.chobit.jspy.constants.Constants.DEFAULT_TIME_COLUMN;
 
 /**
  * 管理各种组装查询能力
@@ -26,6 +32,8 @@ public class AssembleQueryService {
     private AssembleQueryMapper queryMapper;
     @Autowired
     private DataShrinkService shrinkService;
+    @Autowired
+    private AppService appService;
 
     /**
      * 删除记录
@@ -33,7 +41,7 @@ public class AssembleQueryService {
     public int delete(String tableName, String dateColumn) {
         long time = SysTime.millis() - TimeUnit.DAYS.toMillis(config.getDataReserveDates());
         Date date = new Date(time);
-        return queryMapper.delete(tableName, dateColumn, date);
+        return queryMapper.deleteByDate(tableName, dateColumn, date);
     }
 
     /**
@@ -43,12 +51,11 @@ public class AssembleQueryService {
         return delete(tableName, "event_time");
     }
 
-
-    public void shrink(String tableName,
-                       String[] queryColumns,
-                       String[] nonMetricColumns,
-                       String idColumn) {
-        List<LowerCaseKeyMap> dataSet =  null;//findForChart()
+    /**
+     * 删除记录
+     */
+    public int delete(String tableName, Iterable<Integer> ids) {
+        return queryMapper.deleteByIds(tableName, ids);
     }
 
 
@@ -96,6 +103,70 @@ public class AssembleQueryService {
         List<LowerCaseKeyMap> rows = queryMapper.findInPage(tableName, appCode, page, searchColumns, resultColumns);
         long total = queryMapper.countInPage(tableName, appCode, page, searchColumns);
         return new PageResult<>(total, rows);
+    }
+
+
+    /**
+     * 表数据缩减处理
+     *
+     * @param tableName     表名
+     * @param metricColumns 报表数据中的非指标字段
+     */
+    public void shrink(String tableName,
+                       String[] metricColumns) {
+        List<String> appCodes = appService.findAllAppCodes();
+        for (String appCode : appCodes) {
+            shrink(tableName, null, null, appCode, metricColumns, false, 0);
+        }
+    }
+
+
+    /**
+     * 表数据缩减处理
+     *
+     * @param tableName     表名
+     * @param appCode       应用码
+     * @param targetColumn  报表搜索的目标字段
+     * @param targetName    搜索的目标名称
+     * @param metricColumns 报表数据中的非指标字段
+     * @param usePeak       是否存在峰值查询
+     * @param isPeak        当前查询是否是峰值查询
+     */
+    public void shrink(String tableName,
+                       String appCode,
+                       String targetColumn,
+                       String targetName,
+                       String[] metricColumns,
+                       boolean usePeak,
+                       int isPeak) {
+        String[] nonMetricColumns = new String[]{DEFAULT_TIME_COLUMN, DEFAULT_ID_COLUMN};
+        String[] columns = Arrays.merge(nonMetricColumns, metricColumns);
+        ChartParam param = buildChartParam(targetName, usePeak, isPeak);
+        List<LowerCaseKeyMap> data = findForChart(tableName, targetColumn, appCode, param, columns);
+        Set<Integer> ids = shrinkService.computeIdsToDel(data, nonMetricColumns);
+        delete(tableName, ids);
+    }
+
+
+    /**
+     * 构建报表查询参数，数据缩减使用
+     *
+     * @param targetName 报表目标名称
+     * @param usePeak    是否存在峰值查询
+     * @param isPeak     是否查询峰值
+     * @return 报表参数对象
+     */
+    private ChartParam buildChartParam(String targetName, boolean usePeak, int isPeak) {
+        long endTime = SysTime.millis() - TimeUnit.DAYS.toMillis(config.getShrinkStartDates());
+        long startTime = endTime - TimeUnit.DAYS.toMillis(1);
+
+        ChartParam param = new ChartParam();
+        param.setStartTime(new Date(startTime));
+        param.setEndTime(new Date(endTime));
+        param.setTarget(targetName);
+        param.setUsePeak(usePeak);
+        param.setIsPeak(isPeak);
+        return param;
     }
 
 

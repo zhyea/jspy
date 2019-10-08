@@ -44,8 +44,18 @@ public interface AssembleQueryMapper {
 
 
     @Delete("delete from ${table} where ${dateColumn} <= #{date}")
-    int delete(@Param("table") String tableName,
-               @Param("dateColumn") String dateColumn,
-               @Param("date") Date date);
+    int deleteByDate(@Param("table") String tableName,
+                     @Param("dateColumn") String dateColumn,
+                     @Param("date") Date date);
+
+
+    @Delete({"<script>",
+            "delete from ${table} where id in",
+            "<foreach collection='ids' item='item' separator=','>",
+            "#{item}",
+            "</foreach>",
+            "</script>"})
+    int deleteByIds(@Param("table") String tableName,
+                    @Param("ids") Iterable<Integer> ids);
 
 }

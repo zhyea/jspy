@@ -101,4 +101,12 @@ public class ThreadService {
         return aqService.delete(TABLE_NAME);
     }
 
+
+    /**
+     * 数据缩减
+     */
+    public void shrink() {
+        aqService.shrink(TABLE_NAME, new String[]{"current", "peak", "total_started", "daemon"});
+    }
+
 }
