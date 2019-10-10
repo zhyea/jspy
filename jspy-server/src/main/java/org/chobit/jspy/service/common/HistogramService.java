@@ -84,7 +84,7 @@ public class HistogramService {
      * 删除早期数据
      */
     public int delete() {
-        return aqService.delete(TABLE_NAME);
+        return aqService.deleteByDate(TABLE_NAME);
     }
 
 }

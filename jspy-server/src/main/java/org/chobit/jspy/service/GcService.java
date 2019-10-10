@@ -60,7 +60,7 @@ public class GcService {
      * 获取GC类型名称
      */
     public List<String> findGcNames(String appCode) {
-        return metricTargetService.findNames(appCode, MetricTarget.GC);
+        return aqService.findMetricTargetNames(appCode, MetricTarget.GC);
     }
 
 
@@ -102,7 +102,7 @@ public class GcService {
      * 删除记录
      */
     public int delete() {
-        return aqService.delete(TABLE_NAME);
+        return aqService.deleteByDate(TABLE_NAME);
     }
 
 }

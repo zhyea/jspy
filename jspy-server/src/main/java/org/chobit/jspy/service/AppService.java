@@ -5,6 +5,8 @@ import org.chobit.jspy.core.annotation.JSpyWatcher;
 import org.chobit.jspy.service.entity.App;
 import org.chobit.jspy.service.mapper.AppMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 import static org.chobit.jspy.utils.ShortCode.gen;
 
 @Service
+@CacheConfig(cacheNames = "app")
 public class AppService {
 
 
@@ -37,7 +40,7 @@ public class AppService {
     }
 
 
-    //TODO 添加缓存
+    @Cacheable(key = "'all-app-codes'")
     public List<String> findAllAppCodes() {
         return appMapper.findAllAppCodes();
     }

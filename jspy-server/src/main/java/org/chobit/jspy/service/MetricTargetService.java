@@ -5,14 +5,11 @@ import org.chobit.jspy.service.common.AssembleQueryService;
 import org.chobit.jspy.service.entity.MetricTargetName;
 import org.chobit.jspy.service.mapper.MetricTargetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@CacheConfig(cacheNames = "metricTarget")
 public class MetricTargetService {
 
     @Autowired
@@ -21,7 +18,7 @@ public class MetricTargetService {
     private AssembleQueryService aqService;
 
     public void insert(String appCode, MetricTarget target, String name) {
-        List<String> existsNames = findNames(appCode, target);
+        List<String> existsNames = aqService.findMetricTargetNames(appCode, target);
         if (null != existsNames && existsNames.contains(name)) {
             return;
         }
@@ -32,15 +29,9 @@ public class MetricTargetService {
         mapper.insert(mtn);
     }
 
-    @Cacheable(key = "'findNames:' + #appCode + '-' + #target")
-    public List<String> findNames(String appCode, MetricTarget target) {
-        System.out.println("---------------------------------------------------");
-        return mapper.findNames(appCode, target);
-    }
 
-
-    public int delete(){
-        return aqService.delete("metric_target_name", "op_time");
+    public int delete() {
+        return aqService.deleteByDate("metric_target_name", "op_time");
     }
 
 }

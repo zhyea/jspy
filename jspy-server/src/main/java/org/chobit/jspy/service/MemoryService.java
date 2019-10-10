@@ -12,7 +12,6 @@ import org.chobit.jspy.service.entity.MemoryStat;
 import org.chobit.jspy.service.mapper.MemoryStatMapper;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.lang.management.MemoryType;
@@ -27,7 +26,6 @@ import static org.chobit.jspy.constants.MetricTarget.MEM_HEAP;
 import static org.chobit.jspy.constants.MetricTarget.MEM_NON_HEAP;
 
 @Service
-@CacheConfig(cacheNames = "mem")
 public class MemoryService {
 
 
@@ -54,14 +52,14 @@ public class MemoryService {
      * 获取堆 内存池名称
      */
     public List<String> getHeapPoolNames(String appCode) {
-        return metricTargetService.findNames(appCode, MEM_HEAP);
+        return aqService.findMetricTargetNames(appCode, MEM_HEAP);
     }
 
     /**
      * 获取非堆内存池名称
      */
     public List<String> getNonHeapPoolNames(String appCode) {
-        return metricTargetService.findNames(appCode, MEM_NON_HEAP);
+        return aqService.findMetricTargetNames(appCode, MEM_NON_HEAP);
     }
 
 
@@ -174,7 +172,7 @@ public class MemoryService {
      * 删除记录
      */
     public int delete() {
-        return aqService.delete(TABLE_NAME);
+        return aqService.deleteByDate(TABLE_NAME);
     }
 
 

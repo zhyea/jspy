@@ -51,7 +51,7 @@ public interface AssembleQueryMapper {
 
     @Delete({"<script>",
             "delete from ${table} where id in",
-            "<foreach collection='ids' item='item' separator=','>",
+            "<foreach collection='ids' item='item' separator=',' open='(' close=')'>",
             "#{item}",
             "</foreach>",
             "</script>"})

@@ -1,17 +1,22 @@
 package org.chobit.jspy.service.common;
 
+import org.chobit.jspy.constants.MetricTarget;
 import org.chobit.jspy.model.ChartParam;
 import org.chobit.jspy.model.page.Page;
 import org.chobit.jspy.model.page.PageResult;
 import org.chobit.jspy.service.AppService;
 import org.chobit.jspy.service.mapper.AssembleQueryMapper;
+import org.chobit.jspy.service.mapper.MetricTargetMapper;
 import org.chobit.jspy.spring.CustomConfig;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.Arrays;
 import org.chobit.jspy.utils.SysTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -21,9 +26,10 @@ import static org.chobit.jspy.constants.Constants.DEFAULT_ID_COLUMN;
 import static org.chobit.jspy.constants.Constants.DEFAULT_TIME_COLUMN;
 
 /**
- * 管理各种组装查询能力
+ * 管理各种组装查询能力，提供一些可重用的方法
  */
 @Service
+@CacheConfig(cacheNames = "assembleQuery")
 public class AssembleQueryService {
 
     @Autowired
@@ -34,11 +40,19 @@ public class AssembleQueryService {
     private DataShrinkService shrinkService;
     @Autowired
     private AppService appService;
+    @Autowired
+    private MetricTargetMapper metricTargetMapper;
+
+
+    @Cacheable(key = "'findNames:' + #appCode + '-' + #target")
+    public List<String> findMetricTargetNames(String appCode, MetricTarget target) {
+        return metricTargetMapper.findNames(appCode, target);
+    }
 
     /**
      * 删除记录
      */
-    public int delete(String tableName, String dateColumn) {
+    public int deleteByDate(String tableName, String dateColumn) {
         long time = SysTime.millis() - TimeUnit.DAYS.toMillis(config.getDataReserveDates());
         Date date = new Date(time);
         return queryMapper.deleteByDate(tableName, dateColumn, date);
@@ -47,14 +61,17 @@ public class AssembleQueryService {
     /**
      * 删除记录
      */
-    public int delete(String tableName) {
-        return delete(tableName, "event_time");
+    public int deleteByDate(String tableName) {
+        return deleteByDate(tableName, "event_time");
     }
 
     /**
      * 删除记录
      */
-    public int delete(String tableName, Iterable<Integer> ids) {
+    public int deleteByIds(String tableName, Collection<Integer> ids) {
+        if (ids.isEmpty()) {
+            return 0;
+        }
         return queryMapper.deleteByIds(tableName, ids);
     }
 
@@ -144,7 +161,7 @@ public class AssembleQueryService {
         ChartParam param = buildChartParam(targetName, usePeak, isPeak);
         List<LowerCaseKeyMap> data = findForChart(tableName, targetColumn, appCode, param, columns);
         Set<Integer> ids = shrinkService.computeIdsToDel(data, nonMetricColumns);
-        delete(tableName, ids);
+        deleteByIds(tableName, ids);
     }
 
 
@@ -158,7 +175,7 @@ public class AssembleQueryService {
      */
     private ChartParam buildChartParam(String targetName, boolean usePeak, int isPeak) {
         long endTime = SysTime.millis() - TimeUnit.DAYS.toMillis(config.getShrinkStartDates());
-        long startTime = endTime - TimeUnit.DAYS.toMillis(1);
+        long startTime = endTime - TimeUnit.HOURS.toMillis(1);
 
         ChartParam param = new ChartParam();
         param.setStartTime(new Date(startTime));

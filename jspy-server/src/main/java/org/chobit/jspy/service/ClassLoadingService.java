@@ -84,7 +84,7 @@ public class ClassLoadingService {
      * 删除记录
      */
     public int delete() {
-        return aqService.delete(TABLE_NAME);
+        return aqService.deleteByDate(TABLE_NAME);
     }
 
     /**

@@ -113,7 +113,7 @@ public class MethodService {
 
 
     public int delete() {
-        return aqService.delete("method", "op_time");
+        return aqService.deleteByDate("method", "op_time");
     }
 
 }
