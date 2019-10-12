@@ -28,7 +28,7 @@ public class ScheduleConfig {
     }
 
 
-    @Scheduled(cron = "0 0 0/1 * * ?")
+    //@Scheduled(cron = "0 0 0/1 * * ?")
     public void shrink() {
         logger.info("------------>> executing data shrink job");
         dataShrinkService.shrink();

@@ -11,6 +11,8 @@ import org.chobit.jspy.spring.CustomConfig;
 import org.chobit.jspy.tools.LowerCaseKeyMap;
 import org.chobit.jspy.utils.Arrays;
 import org.chobit.jspy.utils.SysTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,6 +33,8 @@ import static org.chobit.jspy.constants.Constants.DEFAULT_TIME_COLUMN;
 @Service
 @CacheConfig(cacheNames = "assembleQuery")
 public class AssembleQueryService {
+
+    private static Logger logger = LoggerFactory.getLogger(AssembleQueryService.class);
 
     @Autowired
     private CustomConfig config;
@@ -72,7 +76,11 @@ public class AssembleQueryService {
         if (ids.isEmpty()) {
             return 0;
         }
-        return queryMapper.deleteByIds(tableName, ids);
+        logger.info("{} records will be deleted.", ids.size());
+        System.out.println("---------->> " + ids.size() + " records will be deleted.");
+        int t = queryMapper.deleteByIds(tableName, ids);
+        System.out.println("---------->> " + t + " records has been deleted.");
+        return t;
     }
 
 
@@ -159,7 +167,7 @@ public class AssembleQueryService {
         String[] nonMetricColumns = new String[]{DEFAULT_TIME_COLUMN, DEFAULT_ID_COLUMN};
         String[] columns = Arrays.merge(nonMetricColumns, metricColumns);
         ChartParam param = buildChartParam(targetName, usePeak, isPeak);
-        List<LowerCaseKeyMap> data = findForChart(tableName, targetColumn, appCode, param, columns);
+        List<LowerCaseKeyMap> data = queryMapper.findForChart(tableName, appCode, param, targetColumn, columns);
         Set<Integer> ids = shrinkService.computeIdsToDel(data, nonMetricColumns);
         deleteByIds(tableName, ids);
     }

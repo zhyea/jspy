@@ -106,39 +106,59 @@ public class DataShrinkService {
     private List<LowerCaseKeyMap> shrink1(List<LowerCaseKeyMap> seg, String[] nonMetricColumns) {
 
         List<LowerCaseKeyMap> result = new LinkedList<>();
-        //进行比较的标尺
-        LowerCaseKeyMap ruler = null;
         //计算出的这段数据的浮动区间
         Map<String, Double> floatingRanges = computeFloatingRange(seg, nonMetricColumns);
-        //是否保留
-        boolean reserve = false;
+        //收集报表指标
+        Set<String> metrics = metricKeys(seg.get(0), nonMetricColumns);
 
-        for (LowerCaseKeyMap m : seg) {
-            if (null == ruler) {
-                ruler = m;
-                result.add(m);
-                continue;
-            }
-            Set<String> keys = metricKeys(m, nonMetricColumns);
-            for (String k : keys) {
-                double r = ruler.getDouble(k);
-                double v = m.getDouble(k);
-                double f = floatingRanges.get(k);
-                // 当浮动区间小于当前数据和标尺数据之差时，该数据可以保留
-                if (f < Math.abs(v - r)) {
-                    reserve = true;
-                    break;
-                }
-            }
-
-            if (reserve) {
-                ruler = m;
-                result.add(m);
-            }
-
-            reserve = false;
+        for (String m : metrics) {
+            List<LowerCaseKeyMap> sorted = seg.stream()
+                    .sorted((e1, e2) -> (e1.getDouble(m) > e2.getDouble(m)) ? 1 : 0)
+                    .collect(Collectors.toList());
+            double f = floatingRanges.get(m);
+            shrink2(sorted, m, f, result);
         }
+
+        result.sort((e1, e2) -> e1.getTime(DEFAULT_TIME_COLUMN) > e2.getTime(DEFAULT_TIME_COLUMN) ? 1 : 0);
+
         return result;
+    }
+
+
+    /**
+     * 对数据进行缩减
+     * <p>
+     * 策略是从数据集两端按浮动区间对其进行缩减操作
+     *
+     * @param sortedList    排序后的数据集
+     * @param metric        指标
+     * @param floatingRange 浮动区间
+     * @param result        结果集存储对象
+     */
+    private void shrink2(List<LowerCaseKeyMap> sortedList,
+                         String metric,
+                         double floatingRange,
+                         List<LowerCaseKeyMap> result) {
+        if (sortedList.size() <= 0) {
+            return;
+        }
+        int size = sortedList.size();
+        // 将当前数据集的第一个值（当前最大/最小值）置入结果集
+        LowerCaseKeyMap ruler = sortedList.get(0);
+        if (!result.contains(ruler)) {
+            result.add(ruler);
+        }
+        // 迭代数据，开始按浮动区间进行缩减
+        double r = ruler.getDouble(metric);
+        for (int i = 1; i < size; i++) {
+            double v = sortedList.get(i).getDouble(metric);
+            if (floatingRange < Math.abs(v - r)) {
+                List<LowerCaseKeyMap> sub = sortedList.subList(i, size - 1);
+                // 将排序后的数据集反转，从另一端重新开始缩减
+                Collections.reverse(sub);
+                shrink2(sub, metric, floatingRange, result);
+            }
+        }
     }
 
 

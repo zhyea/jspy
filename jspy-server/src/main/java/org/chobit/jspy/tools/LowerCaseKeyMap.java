@@ -188,6 +188,9 @@ public class LowerCaseKeyMap<V> implements Map<String, V>, Serializable, Cloneab
         if (get(key) instanceof Long) {
             return (Integer) get(key);
         }
-        throw new NumberFormatException();
+        if (get(key) instanceof Integer) {
+            return (Integer) get(key);
+        }
+        throw new IllegalArgumentException();
     }
 }

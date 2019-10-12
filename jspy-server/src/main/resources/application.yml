@@ -33,4 +33,4 @@ jspy:
 
 custom:
   data-reserve-dates: 30
-  shrink-start-dates: 3
+  shrink-start-dates: 1
