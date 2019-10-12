@@ -113,13 +113,13 @@ public class DataShrinkService {
 
         for (String m : metrics) {
             List<LowerCaseKeyMap> sorted = seg.stream()
-                    .sorted((e1, e2) -> (e1.getDouble(m) > e2.getDouble(m)) ? 1 : 0)
+                    .sorted((e1, e2) -> Double.valueOf(e1.getDouble(m) - e2.getDouble(m)).intValue())
                     .collect(Collectors.toList());
             double f = floatingRanges.get(m);
             shrink2(sorted, m, f, result);
         }
 
-        result.sort((e1, e2) -> e1.getTime(DEFAULT_TIME_COLUMN) > e2.getTime(DEFAULT_TIME_COLUMN) ? 1 : 0);
+        result.sort((e1, e2) -> Double.valueOf(e2.getTime(DEFAULT_TIME_COLUMN) - e1.getTime(DEFAULT_TIME_COLUMN)).intValue());
 
         return result;
     }
