@@ -20,7 +20,7 @@ public class ScheduleConfig {
     @Autowired
     private DataShrinkScheduleService dataShrinkService;
 
-    @Scheduled(cron = "0 0 2 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void clean() {
         logger.info("------------>> executing data clean job");
         dataCleanService.clean();
@@ -28,7 +28,7 @@ public class ScheduleConfig {
     }
 
 
-    //@Scheduled(cron = "0 0 0/1 * * ?")
+    @Scheduled(cron = "0 0 2 * * ?")
     public void shrink() {
         logger.info("------------>> executing data shrink job");
         dataShrinkService.shrink();

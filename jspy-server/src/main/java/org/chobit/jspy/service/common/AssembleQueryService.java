@@ -183,7 +183,8 @@ public class AssembleQueryService {
      */
     private ChartParam buildChartParam(String targetName, boolean usePeak, int isPeak) {
         long endTime = SysTime.millis() - TimeUnit.DAYS.toMillis(config.getShrinkStartDates());
-        long startTime = endTime - TimeUnit.HOURS.toMillis(1);
+        // 这里可以确保大部分数据会至少经过config.getShrinkStartDates()次shrink
+        long startTime = endTime - TimeUnit.DAYS.toMillis(1);
 
         ChartParam param = new ChartParam();
         param.setStartTime(new Date(startTime));
