@@ -74,13 +74,15 @@ public class DataShrinkService {
 
         long minTime = 0;
         List<LowerCaseKeyMap> seg = new LinkedList<>();
-        for (LowerCaseKeyMap m : src) {
+        int size = src.size();
+        for (int i = 0; i < size; i++) {
+            LowerCaseKeyMap m = src.get(i);
             long time = m.getTime(DEFAULT_TIME_COLUMN);
             if (minTime == 0) {
                 minTime = time;
             }
             // 按时间截取数据
-            if (time < minTime + TimeUnit.MINUTES.toMillis(INTERVAL_MINUTES)) {
+            if (time < minTime + TimeUnit.MINUTES.toMillis(INTERVAL_MINUTES) && i < size - 1) {
                 seg.add(m);
             } else {
                 // 如截取的数据集规模不大于平均每分钟一条则不需要处理
@@ -119,7 +121,7 @@ public class DataShrinkService {
             shrink2(sorted, m, f, result);
         }
 
-        result.sort((e1, e2) -> Double.valueOf(e2.getTime(DEFAULT_TIME_COLUMN) - e1.getTime(DEFAULT_TIME_COLUMN)).intValue());
+        result.sort((e1, e2) -> Double.valueOf(e1.getTime(DEFAULT_TIME_COLUMN) - e2.getTime(DEFAULT_TIME_COLUMN)).intValue());
 
         return result;
     }
@@ -142,21 +144,31 @@ public class DataShrinkService {
         if (sortedList.size() <= 0) {
             return;
         }
-        int size = sortedList.size();
-        // 将当前数据集的第一个值（当前最大/最小值）置入结果集
-        LowerCaseKeyMap ruler = sortedList.get(0);
-        if (!result.contains(ruler)) {
-            result.add(ruler);
-        }
-        // 迭代数据，开始按浮动区间进行缩减
-        double r = ruler.getDouble(metric);
-        for (int i = 1; i < size; i++) {
-            double v = sortedList.get(i).getDouble(metric);
-            if (floatingRange < Math.abs(v - r)) {
-                List<LowerCaseKeyMap> sub = sortedList.subList(i, size - 1);
-                // 将排序后的数据集反转，从另一端重新开始缩减
-                Collections.reverse(sub);
-                shrink2(sub, metric, floatingRange, result);
+
+        List<LowerCaseKeyMap> tmpList = sortedList;
+        OUT:
+        while (!tmpList.isEmpty()) {
+            LowerCaseKeyMap ruler = tmpList.get(0);
+            if (!result.contains(ruler)) {
+                result.add(ruler);
+            }
+            int size = tmpList.size();
+            // 迭代数据，开始按浮动区间进行缩减
+            double r = ruler.getDouble(metric);
+            for (int i = 1; i < size; i++) {
+                double v = tmpList.get(i).getDouble(metric);
+                if (floatingRange < Math.abs(v - r)) {
+                    if (i == size - 1) {
+                        break OUT;
+                    }
+                    tmpList = tmpList.subList(i, size - 1);
+                    // 将排序后的数据集反转，从另一端重新开始缩减
+                    Collections.reverse(tmpList);
+                    break;
+                }
+            }
+            if (size == tmpList.size()) {
+                break;
             }
         }
     }
