@@ -1,6 +1,8 @@
 # Summary  
 
-JSPY是一个Java应用性能监控分析工具(APM)，适用于企业内部使用。更多详情请参考[WIKI](https://github.com/zhyea/jspy/wiki)。
+JSPY是一个Java应用性能监控分析工具(APM)，适用于企业内部使用。   
+
+更多详情及**使用文档**请参考[WIKI](https://github.com/zhyea/jspy/wiki)。
 
 # License
 
