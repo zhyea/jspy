@@ -33,9 +33,9 @@ public class ThreadInfo {
 
     private long blockedCount;
 
-    public ThreadInfo() {
+    private String stackInfo;
 
-    }
+    public ThreadInfo() {}
 
 
     public ThreadInfo(java.lang.management.ThreadInfo info) {
@@ -51,6 +51,7 @@ public class ThreadInfo {
         this.waitedTime = info.getWaitedTime();
         this.blockedCount = info.getBlockedCount();
         this.blockedTime = info.getBlockedTime();
+        this.stackInfo = info.toString();
     }
 
 
@@ -164,5 +165,13 @@ public class ThreadInfo {
 
     public void setBlockedCount(long blockedCount) {
         this.blockedCount = blockedCount;
+    }
+
+    public String getStackInfo() {
+        return stackInfo;
+    }
+
+    public void setStackInfo(String stackInfo) {
+        this.stackInfo = stackInfo;
     }
 }

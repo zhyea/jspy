@@ -1,27 +1,23 @@
 package org.chobit.jspy.jobs;
 
 import org.chobit.jspy.JSpyConfig;
-import org.chobit.jspy.core.model.ThreadInfo;
 import org.chobit.jspy.model.ThreadCount;
 import org.chobit.jspy.model.ThreadOverview;
 import org.chobit.jspy.utils.SysTime;
 
-import java.util.List;
-
 import static org.chobit.jspy.core.gauge.Threads.*;
-import static org.chobit.jspy.core.gauge.ThreadsGaugeManager.allThreads;
 
-public final class ThreadsJob extends AbstractQuartzJob {
+public final class ThreadCountJob extends AbstractQuartzJob {
 
 
-    public ThreadsJob(JSpyConfig config) {
+    public ThreadCountJob(JSpyConfig config) {
         super(config);
     }
 
 
     @Override
     String name() {
-        return "threads";
+        return "threadCount";
     }
 
     @Override
@@ -40,8 +36,6 @@ public final class ThreadsJob extends AbstractQuartzJob {
 
         long time = SysTime.millis();
 
-        List<ThreadInfo> threads = allThreads();
-
-        messagePack().addThread(new ThreadOverview(time, count, threads));
+        messagePack().addThread(new ThreadOverview(time, count, null));
     }
 }

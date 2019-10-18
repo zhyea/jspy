@@ -5,7 +5,8 @@ import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 public abstract class ThreadsGaugeManager {
 
@@ -50,8 +51,8 @@ public abstract class ThreadsGaugeManager {
             org.chobit.jspy.core.model.ThreadInfo t0
                     = new org.chobit.jspy.core.model.ThreadInfo(t);
 
-            long cpuTime = TimeUnit.NANOSECONDS.toMillis(mxBean.getThreadCpuTime(t0.getId()));
-            long userTime = TimeUnit.NANOSECONDS.toMillis(mxBean.getThreadUserTime(t0.getId()));
+            long cpuTime = NANOSECONDS.toMillis(mxBean.getThreadCpuTime(t0.getId()));
+            long userTime = NANOSECONDS.toMillis(mxBean.getThreadUserTime(t0.getId()));
 
             t0.setCpuTime(cpuTime);
             t0.setUserTime(userTime);

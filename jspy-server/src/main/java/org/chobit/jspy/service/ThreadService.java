@@ -31,14 +31,16 @@ public class ThreadService {
     @Autowired
     private AssembleQueryService aqService;
 
-    private Map<String, List<ThreadInfo>> allThreads = new ConcurrentHashMap<>(16);
+    private Map<String, ThreadOverview> allThreads = new ConcurrentHashMap<>(16);
 
 
     @JSpyWatcher
     public int insert(String appCode, String ip, ThreadOverview overview) {
         ThreadCount count = overview.getThreadCount();
 
-        this.allThreads.put(appCode, overview.getThreads());
+        if (null == overview.getThreadCount()) {
+            this.allThreads.put(appCode, overview);
+        }
 
         if (null == count) {
             return -1;
@@ -55,7 +57,8 @@ public class ThreadService {
 
 
     public List<ThreadInfo> allThreads(String appCode) {
-        return this.allThreads.get(appCode);
+        ThreadOverview overview = this.allThreads.get(appCode);
+        return null == overview ? null : overview.getThreads();
     }
 
 

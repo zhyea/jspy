@@ -1,17 +1,18 @@
 package org.chobit.jspy.core;
 
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
+import org.chobit.jspy.core.gauge.ThreadsGaugeManager;
+import org.chobit.jspy.core.model.ThreadInfo;
+
+import java.util.List;
 
 public class MBeanTest {
 
     public static void main(String[] args) throws InterruptedException {
-
-        OperatingSystemMXBean bean = ManagementFactory.getOperatingSystemMXBean();
-
-        for(int i=0; i<1000; i++){
-            bean.getSystemLoadAverage();
+        List<ThreadInfo> threads = ThreadsGaugeManager.allThreads();
+        for (ThreadInfo ti : threads) {
+            System.out.println("----------------------------------------------------------------");
+            System.out.println(ti.getStackInfo());
         }
     }
 

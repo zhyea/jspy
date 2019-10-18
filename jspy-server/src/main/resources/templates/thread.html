@@ -11,7 +11,8 @@
         <div class="form-inline row toolbar">
             <div class="input-group col-lg-10 col-md-10">
                 <!--时间选择-->
-                <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px" readonly/>
+                <input type="text" id="date_picker" class="form-control" placeholder="选择日期范围" minlength="270px"
+                       readonly/>
                 <span class="input-group-addon"><i class="fa fa-calendar fa-lg"></i></span>
                 <input type="hidden" id="startTimeThread" value=""/>
                 <input type="hidden" id="endTimeThread" value=""/>
@@ -35,6 +36,8 @@
                data-sort-name="id"
                data-sort-order="asc"
                data-smart-display=true
+               data-detail-view=true
+               data-detail-formatter="detailFormatter"
                data-mobile-responsive=true
                data-search=true
                data-method="post"
@@ -47,17 +50,30 @@
                 <th data-sortable=true data-field="id" data-halign="center">ID</th>
                 <th data-sortable=true data-field="state">State</th>
                 <th data-sortable=true data-field="name">Name</th>
-                <th data-sortable=true data-field="cpuTime" data-formatter="formatLong" data-align="right" data-visible="false">CPU Time</th>
-                <th data-sortable=true data-field="userTime" data-formatter="formatLong" data-align="right" data-visible="false">UserTime</th>
-                <th data-sortable=true data-field="lockName"  data-visible="false">LockName</th>
+                <th data-sortable=true data-field="cpuTime" data-formatter="formatLong" data-align="right"
+                    data-visible="false">CPU Time
+                </th>
+                <th data-sortable=true data-field="userTime" data-formatter="formatLong" data-align="right"
+                    data-visible="false">UserTime
+                </th>
+                <th data-sortable=true data-field="lockName" data-visible="false">LockName</th>
                 <th data-sortable=true data-field="lockOwnerId" data-visible="false">LockOwnerId</th>
                 <th data-sortable=true data-field="lockOwnerName" data-visible="false">LockOwnerName</th>
                 <th data-sortable=true data-field="suspended" data-visible="false">Suspended</th>
                 <th data-sortable=true data-field="inNative" data-visible="false">InNative</th>
-                <th data-sortable=true data-field="waitedTime" data-formatter="formatLong" data-align="right" >WaitedTime</th>
-                <th data-sortable=true data-field="waitedCount" data-formatter="formatLong" data-align="right">WaitedCount</th>
-                <th data-sortable=true data-field="blockedTime" data-formatter="formatLong" data-align="right" data-visible="false">BlockedTime</th>
-                <th data-sortable=true data-field="blockedCount" data-formatter="formatLong" data-align="right">BlockedCount</th>
+                <th data-sortable=true data-field="waitedTime" data-formatter="formatLong" data-align="right">
+                    WaitedTime
+                </th>
+                <th data-sortable=true data-field="waitedCount" data-formatter="formatLong" data-align="right">
+                    WaitedCount
+                </th>
+                <th data-sortable=true data-field="blockedTime" data-formatter="formatLong" data-align="right"
+                    data-visible="false">BlockedTime
+                </th>
+                <th data-sortable=true data-field="blockedCount" data-formatter="formatLong" data-align="right">
+                    BlockedCount
+                </th>
+                <th data-sortable=true data-field="stackInfo" data-visible="false">StackInfo</th>
             </tr>
             </thead>
         </table>
@@ -89,6 +105,18 @@
         $("#endTimeThread").val(end.valueOf());
         refreshChart();
     });
+
+    function detailFormatter(index, row) {
+        let html = []
+        $.each(row, function (key, value) {
+            if (key === 'stackInfo') {
+                html.push('<p><b>' + key + ':</b> <pre>' + value + '</pre></pre>')
+            } else {
+                html.push('<p><b>' + key + ':</b> ' + value + '</p>')
+            }
+        });
+        return html.join('')
+    }
 </script>
 
 </body>
