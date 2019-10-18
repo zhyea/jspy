@@ -1,7 +1,9 @@
 
 # Summary  
 
-<img src="https://github.com/zhyea/jspy/blob/master/doc/imgs/spy.png" width="72px" height="81px" alt="JSPY" >
+<a href="https://github.com/zhyea/jspy/wiki">
+   <img src="https://github.com/zhyea/jspy/blob/master/doc/imgs/spy.png" width="72px" height="81px" alt="JSPY" >
+</a>
 
 JSPY是一个Java应用性能监控分析工具(APM)，适用于企业内部使用。   
 
