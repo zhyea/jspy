@@ -15,6 +15,7 @@ public class JSpyAgent {
 
     public static void premain(String options, Instrumentation ins) {
 
+        // 启动JSpyClient，开始搜集数据
         Client.build().start();
 
         // 配置会对含有JSpyWatcher注解的类进行aop
