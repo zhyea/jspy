@@ -60,7 +60,7 @@ public class WatcherInterceptor {
         String name = methodIds.get(key);
         if (null == name) {
             JSpyWatcher w = method.getAnnotation(JSpyWatcher.class);
-            name = isBlank(w.value()) ? w.name() : "";
+            name = w.value();
             if (isBlank(name)) {
                 name = key;
             }

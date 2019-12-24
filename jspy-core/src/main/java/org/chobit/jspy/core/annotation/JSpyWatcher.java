@@ -12,11 +12,6 @@ public @interface JSpyWatcher {
     /**
      * name of method
      */
-    String name() default "";
-
-    /**
-     * name of method
-     */
     String value() default "";
 
 }
