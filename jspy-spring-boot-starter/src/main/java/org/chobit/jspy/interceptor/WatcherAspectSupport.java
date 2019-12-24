@@ -11,7 +11,7 @@ import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Method;
 
-import static org.chobit.jspy.core.support.JSpyWatcherCollector.createIfNon;
+import static org.chobit.jspy.core.support.JSpyWatcherCollector.build;
 import static org.chobit.jspy.core.utils.Strings.isBlank;
 import static org.chobit.jspy.core.utils.Strings.isNotBlank;
 
@@ -26,7 +26,7 @@ public abstract class WatcherAspectSupport implements BeanFactoryAware, Initiali
     private JSpyWatcherCollector collector;
 
     public WatcherAspectSupport(WatcherConfig config) {
-        collector = createIfNon(config.getHistogramPeriod(), config.getExpectNumMethods());
+        collector = build(config.getHistogramPeriod(), config.getExpectNumMethods());
     }
 
     @Override

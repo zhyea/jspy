@@ -134,4 +134,7 @@ public final class JSpyConfig {
     public void setExpectNumOfWatchedMethods(int expectNumOfWatchedMethods) {
         this.expectNumOfWatchedMethods = expectNumOfWatchedMethods;
     }
+
+    JSpyConfig() {
+    }
 }

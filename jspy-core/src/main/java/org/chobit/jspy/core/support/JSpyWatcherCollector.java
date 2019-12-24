@@ -102,10 +102,15 @@ public final class JSpyWatcherCollector {
     /**
      * 如果JVM中不存在JSpyWatcherCollector实例，则创建一个；如已存在，则直接返回
      */
-    public static JSpyWatcherCollector createIfNon(int histogramPeriod, int expectNumOfMethods) {
+    public static JSpyWatcherCollector build(int histogramPeriod, int expectNumOfMethods) {
         return builder.histogramPeriod(histogramPeriod)
                 .expectMethods(expectNumOfMethods)
                 .build();
+    }
+
+
+    public static JSpyWatcherCollector build(){
+        return builder.build();
     }
 
 
@@ -126,7 +131,9 @@ public final class JSpyWatcherCollector {
         private int expectMethods = 32;
 
         public Builder histogramPeriod(int periodInSeconds) {
-            this.period = periodInSeconds;
+            if (periodInSeconds > 0) {
+                this.period = periodInSeconds;
+            }
             return this;
         }
 

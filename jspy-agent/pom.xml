@@ -16,7 +16,6 @@
     <packaging>jar</packaging>
 
     <properties>
-        <asm.version>6.0</asm.version>
     </properties>
 
     <dependencies>
@@ -25,19 +24,9 @@
             <artifactId>jspy-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-            <version>${asm.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm-util</artifactId>
-            <version>${asm.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm-commons</artifactId>
-            <version>${asm.version}</version>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>1.10.6</version>
         </dependency>
     </dependencies>
 

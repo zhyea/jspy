@@ -44,4 +44,4 @@ JSPY依赖了如下项目：
     * eCharts
 
 * JSP-AGENT  
-    * asm
+    * ByteBuddy
