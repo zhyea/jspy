@@ -10,6 +10,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ * 方法运行数据收集类
+ * <p>
+ * 不建议用户直接调用，容易发生StackOverflowError
+ */
 public final class JSpyWatcherCollector {
 
     private final long collectPeriodSeconds;
@@ -109,7 +115,7 @@ public final class JSpyWatcherCollector {
     }
 
 
-    public static JSpyWatcherCollector build(){
+    public static JSpyWatcherCollector build() {
         return builder.build();
     }
 

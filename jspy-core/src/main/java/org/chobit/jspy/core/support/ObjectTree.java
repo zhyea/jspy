@@ -151,6 +151,6 @@ public class ObjectTree {
 
 
     private ObjectTree() {
-        throw new UnsupportedOperationException("private constructor, cannot be called.");
+        throw new UnsupportedOperationException("Private constructor, cannot be accessed.");
     }
 }

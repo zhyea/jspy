@@ -16,7 +16,11 @@ public class JSpyAgent {
     public static void premain(String options, Instrumentation ins) {
 
         // 启动JSpyClient，开始搜集数据
-        Client.build().start();
+        JSpyClient client = Client.build(options);
+        client.start();
+
+        // 配置shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> client.shutdown(true)));
 
         // 配置会对含有JSpyWatcher注解的类进行aop
         new AgentBuilder.Default()

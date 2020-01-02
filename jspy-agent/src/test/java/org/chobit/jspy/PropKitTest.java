@@ -1,4 +1,4 @@
-package org.chobit.jspy.tools;
+package org.chobit.jspy;
 
 import org.junit.Assert;
 import org.junit.Test;

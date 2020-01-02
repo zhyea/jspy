@@ -1,9 +1,7 @@
 package org.chobit.jspy;
 
 
-import org.chobit.jspy.tools.PropKit;
-
-import static org.chobit.jspy.tools.PropKit.*;
+import static org.chobit.jspy.PropKit.*;
 
 
 /**
@@ -11,19 +9,34 @@ import static org.chobit.jspy.tools.PropKit.*;
  */
 abstract class Client {
 
+    private static boolean loadConfigSuccess = true;
+
     static {
-        PropKit.load("/jspy.properties");
+        try {
+            PropKit.load("/jspy.properties");
+        } catch (Exception e) {
+            loadConfigSuccess = false;
+        }
     }
 
     private Client() {
-        throw new UnsupportedOperationException("private constructor, cannot be called.");
+        throw new UnsupportedOperationException("Private constructor, cannot be accessed.");
     }
 
-    static JSpyClient build() {
+    static JSpyClient build(String option) {
+
+        CommandLineArgs commandLineArgs = ArgsParser.parse(option);
 
         String appCode = getProp("appCode");
         String serverHost = getProp("serverHost");
         int serverPort = getInt("serverPort");
+
+        if (!loadConfigSuccess) {
+            appCode = commandLineArgs.getOptionValue("c");
+            serverHost = commandLineArgs.getOptionValue("h");
+            serverPort = Integer.parseInt(commandLineArgs.getOptionValue("p"));
+        }
+
         boolean useSSL = getBoolean("useSSL");
         int startDelayedSeconds = getInt("startDelayedSeconds");
         int memoryCollectIntervalSeconds = getInt("memoryCollectIntervalSeconds");
