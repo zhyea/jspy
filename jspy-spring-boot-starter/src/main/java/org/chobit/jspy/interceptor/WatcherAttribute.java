@@ -5,7 +5,7 @@ public class WatcherAttribute {
 
     private String name;
 
-    private String methodIdentity;
+    private String methodId;
 
     public WatcherAttribute(String name) {
         this.name = name;
@@ -19,11 +19,11 @@ public class WatcherAttribute {
         this.name = name;
     }
 
-    public String getMethodIdentity() {
-        return methodIdentity;
+    public String getMethodId() {
+        return methodId;
     }
 
-    public void setMethodIdentity(String methodIdentity) {
-        this.methodIdentity = methodIdentity;
+    public void setMethodId(String methodId) {
+        this.methodId = methodId;
     }
 }

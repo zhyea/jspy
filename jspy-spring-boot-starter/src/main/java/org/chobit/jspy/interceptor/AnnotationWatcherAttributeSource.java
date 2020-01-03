@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.chobit.jspy.core.utils.Strings.isBlank;
-
 public class AnnotationWatcherAttributeSource implements WatcherAttributeSource {
 
 
@@ -38,7 +36,7 @@ public class AnnotationWatcherAttributeSource implements WatcherAttributeSource 
             }
 
             String methodId = ClassUtils.getQualifiedMethodName(method, targetClass);
-            attr.setMethodIdentity(methodId);
+            attr.setMethodId(methodId);
 
             attrCache.put(cacheKey, Optional.of(attr));
             return attr;
@@ -83,13 +81,9 @@ public class AnnotationWatcherAttributeSource implements WatcherAttributeSource 
     }
 
     private WatcherAttribute parseWatcherAttribute(AnnotationAttributes attributes) {
-        String name = attributes.getString("name");
-        if (isBlank(name)) {
-            name = attributes.getString("value");
-        }
-
-        WatcherAttribute attr = new WatcherAttribute(name);
-        attr.setMethodIdentity(attributes.getString("value"));
+        String methodId = attributes.getString("value");
+        WatcherAttribute attr = new WatcherAttribute(methodId);
+        attr.setMethodId(methodId);
         return attr;
     }
 

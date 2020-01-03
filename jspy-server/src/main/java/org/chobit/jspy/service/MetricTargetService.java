@@ -17,7 +17,7 @@ public class MetricTargetService {
     @Autowired
     private AssembleQueryService aqService;
 
-    public void insert(String appCode, MetricTarget target, String name) {
+    public synchronized void insert(String appCode, MetricTarget target, String name) {
         List<String> existsNames = aqService.findMetricTargetNames(appCode, target);
         if (null != existsNames && existsNames.contains(name)) {
             return;

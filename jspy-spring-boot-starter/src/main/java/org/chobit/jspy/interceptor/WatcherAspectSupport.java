@@ -82,7 +82,7 @@ public abstract class WatcherAspectSupport implements BeanFactoryAware, Initiali
         if (isNotBlank(attr.getName())) {
             return attr.getName();
         }
-        String methodIdentity = attr.getMethodIdentity();
+        String methodIdentity = attr.getMethodId();
         if (isBlank(methodIdentity)) {
             methodIdentity = ClassUtils.getQualifiedMethodName(method, targetClass);
         }
